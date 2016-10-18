@@ -1,0 +1,174 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Фон окна -->
+    <SolidColorBrush x:Key="Background" Color="#171717" />
+
+    <!-- Текст -->
+    <SolidColorBrush x:Key="Foreground" Color="#bbb" />
+
+    <!-- Рамка фокуса кнопки -->
+    <SolidColorBrush x:Key="ButtonFocusStroke" Color="#60ffffff" />
+
+    <!-- Наведение курсора -->
+    <SolidColorBrush x:Key="Highlight" Color="#11ffffff" />
+
+    <!-- Нажатая кнопка -->
+    <SolidColorBrush x:Key="PressedButton" Color="#77000000" />
+
+    <!-- Рамка кнопки панели инструментов -->
+    <SolidColorBrush x:Key="ToolBarButton" Color="#ff094965" />
+
+    <!-- Фон TreeView -->
+    <SolidColorBrush x:Key="BackgroundTreeView" Color="#222222" />
+
+    <!-- Неактивный фон -->
+    <SolidColorBrush x:Key="BackgroundDisabled" Color="#1a1a1a" />
+
+    <!-- Неактивный текст -->
+    <SolidColorBrush x:Key="ForegroundDisabled" Color="#444444" />
+
+    <!-- Рамка меню -->
+    <SolidColorBrush x:Key="BorderMenu" Color="#888" />
+
+    <!-- Курсор ввода -->
+    <SolidColorBrush x:Key="TextCursor" Color="#888" />
+
+    <!-- Фон, поделенный пополам -->
+    <LinearGradientBrush x:Key="DoubleBackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#555555" Offset="0" />
+        <GradientStop Color="#555555" Offset="0.45" />
+        <GradientStop Color="#222222" Offset="0.45" />
+        <GradientStop Color="#0a0a0a" Offset="0.8" />
+        <GradientStop Color="#0a0a0a" Offset="0.81" />
+        <GradientStop Color="#000000" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Рамка -->
+    <LinearGradientBrush x:Key="Border" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#99ffffff" Offset="0.0"/>
+                <GradientStop Color="#11ffffff" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Фон кнопки -->
+    <LinearGradientBrush x:Key="BackgroundButton" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#444444" Offset="0"/>
+                <GradientStop Color="#202020" Offset="0.5"/>
+                <GradientStop Color="#1c1c1c" Offset="0.51"/>
+                <GradientStop Color="#090909" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Текст кнопки -->
+    <LinearGradientBrush x:Key="ForegroundButton" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#cccccc" Offset="0.0"/>
+                <GradientStop Color="#888888" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Рамка кнопки -->
+    <LinearGradientBrush x:Key="BorderButton" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#777" Offset="0.0"/>
+                <GradientStop Color="#000" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Фон текстового поля -->
+    <LinearGradientBrush x:Key="BackgroundTextBox" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#0d0d0d" Offset="0.0"/>
+                <GradientStop Color="#0a0a0a" Offset="0.7"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Рамка для текстового поля -->
+    <LinearGradientBrush x:Key="BorderTextBox" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#151515" Offset="0.0"/>
+                <GradientStop Color="#333" Offset="0.7"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Текст для текстового поля -->
+    <LinearGradientBrush x:Key="ForegroundTextBox" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#aaa" Offset="0.0"/>
+                <GradientStop Color="#aaa" Offset="0.7"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Фон для элементов управления -->
+    <LinearGradientBrush x:Key="BackgroundControls" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#444444" Offset="0.0"/>
+                <GradientStop Color="#050505" Offset="0.7"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Рамка панели -->
+    <LinearGradientBrush x:Key="BorderGroupBox" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#aaa" Offset="0.0"/>
+                <GradientStop Color="#222" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!-- Фон вертикального бегунка прокрутки -->
+    <LinearGradientBrush x:Key="BackgroundVerticalScroll" StartPoint="0,1">
+        <GradientStop Color="#aaa" Offset="0" />
+        <GradientStop Color="#111" Offset="0.5" />
+        <GradientStop Color="#555" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Фон вертикального бегунка прокрутки -->
+    <LinearGradientBrush x:Key="BackgroundHorizontalScroll" StartPoint="1,0">
+        <GradientStop Color="#aaa" Offset="0" />
+        <GradientStop Color="#111" Offset="0.5" />
+        <GradientStop Color="#555" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Наведение курсора для дерева -->
+    <LinearGradientBrush x:Key="HighlightTree" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#205AaE" Offset="0"/>
+                <GradientStop Color="#205AaE" Offset="0.5"/>
+                <GradientStop Color="#0D3E84" Offset="0.51"/>
+                <GradientStop Color="#0D3E84" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BackgroundGreenButton" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#0F4705" Offset="0"/>
+                <GradientStop Color="#1F5715" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+</ResourceDictionary>

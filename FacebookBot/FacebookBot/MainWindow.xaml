@@ -1,0 +1,490 @@
+﻿<Window x:Class="FacebookBot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:res="clr-namespace:FacebookBot.Resources"
+        Style="{StaticResource WindowStyled}" Title="FacebookBot 1.1" Height="683" Width="1366" Icon="icon.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing" WindowState="Maximized">
+    <Window.Resources>
+        <ContextMenu x:Key="trayMenu">
+            <MenuItem Header="Скрыть" Click="ShowHideMainWindow" />
+            <Separator />
+            <MenuItem Header="Выход" Click="MenuExitClick" />
+        </ContextMenu>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="1" Height="30" BorderBrush="#000" BorderThickness="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#222222" Offset="0.0"/>
+                            <GradientStop Color="#111111" Offset="1.0"/>
+                        </GradientStopCollection>
+                    </GradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Style="{StaticResource ToolBar}" Margin="10,0,10,0" Name="playButton" Click="playButton_Click">
+                        <Image Source="Images/start.png"></Image>
+                    </Button>
+                    <Button Style="{StaticResource ToolBar}" Margin="10,0,10,0" Name="pauseButton" Visibility="Collapsed" Click="pauseButton_Click">
+                        <Image Source="Images/stop.png"></Image>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource ToolBar}" Margin="0,0,10,0" Name="import" Click="import_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Импорт аккаунтов</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource ToolBar}" Margin="0,0,10,0" Name="export" Click="export_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Экспорт аккаунтов</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource ToolBar}" Margin="0,0,10,0" Name="logblacklistButton" Click="logblacklistButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Лог ЧС</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource GreenButton}" Grid.Row="1" Name="save" FontSize="12" Click="save_Click">Сохранить настройки</Button>
+                    <Button Style="{StaticResource ToolBar}" Margin="0,0,10,0" Name="clearLogButton" Click="clearLogButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Очистить лог</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource ToolBar}" Margin="0,0,10,0" Name="settingsButton" Click="settingsButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Images/settings.png"></Image>
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Настройки</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource ToolBar}" Margin="0,0,10,0" Name="exitButton" Click="exitButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Images/exit.png"></Image>
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Выход</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="2">
+            <TabItem Header="Аккаунты">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="80" Padding="0" Name="addAccount" HorizontalAlignment="Left" Click="addAccount_Click">Добавить</Button>
+                        <TextBlock Margin="5 0 20 0">Для всех</TextBlock>
+                        <CheckBox Name="disableAll" VerticalAlignment="Center" Tag="Disabled" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Откл.</TextBlock>
+                        <CheckBox Name="passiveAll" VerticalAlignment="Center" Tag="Passive" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Пасс.</TextBlock>
+                        <CheckBox Name="requestAll" VerticalAlignment="Center" Tag="IsRequest" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Заяв.</TextBlock>
+                        <CheckBox Name="groupAll" VerticalAlignment="Center" Tag="IsGroup" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Гр.</TextBlock>
+                        <CheckBox Name="messageAll" VerticalAlignment="Center" Tag="IsMessage" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Сооб.</TextBlock>
+                        <CheckBox Name="likeAll" VerticalAlignment="Center" Tag="IsLike" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Лайки</TextBlock>
+                        <CheckBox Name="commentAll" VerticalAlignment="Center" Tag="IsComment" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Комм.</TextBlock>
+                        <CheckBox Name="winkingAll" VerticalAlignment="Center" Tag="IsWinking" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Подм.</TextBlock>
+                        <CheckBox Name="removeAll" VerticalAlignment="Center" Tag="IsRemove" Checked="disableAll_Checked" Unchecked="disableAll_Checked"></CheckBox>
+                        <TextBlock Margin="5 0 20 0">Уд.</TextBlock>
+                        <TextBlock>Мин. друзей:</TextBlock>
+                        <TextBox Name="minFriendsAll" Width="100" TextChanged="minFriendsAll_TextChanged"></TextBox>
+                    </StackPanel>
+                    <DataGrid Grid.Row="6" Grid.ColumnSpan="7" Name="accountsList" CanUserDeleteRows="False" RowEditEnding="accountsList_RowEditEnding">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Path=Login}" Header="Логин"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Pass}" Header="Пароль"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=IP}" Header="IP"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Port}" Header="Порт"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=LoginProxy}" Header="Логин прокси"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=PassProxy}" Header="Пароль прокси"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Friends}" Header="Друзей"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Requests}" Header="Заявок"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=NewMessages}" Header="Сообщений"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Откл.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=Disabled, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Пасс.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=Passive, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Заяв.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsRequest, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Гр..">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsGroup, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Сооб.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsMessage, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Лайки">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsLike, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Комм.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsComment, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Подм.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsWinking, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Уд.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsRemove, Mode=TwoWay}" HorizontalAlignment="Center" Tag="{Binding Path=Login}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Удалить">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="remove" HorizontalAlignment="Center" Tag="{Binding Path=Login}" FontWeight="Bold" Margin="0" Padding="0" FontSize="16" Height="20" Width="20" Click="remove_Click">X</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding Path=LimitFriends}" Header="Мин. друзей"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=Status}" Header="Статус"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Основные настройки">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Паузы" FontSize="14">
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0">Пауза перед принятием заявки в друзья, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                                    <TextBox Name="confirm1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="confirm2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="1">Пауза перед запросом сообщений, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                                    <TextBox Name="msgsReq1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="msgsReq2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="2">Пауза перед отправкой сообщения, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                    <TextBox Name="send1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="send2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="3">Пауза перед удалением друга, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+                                    <TextBox Name="remove1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="remove2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="4">Пауза перед лайком фото, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+                                    <TextBox Name="like1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="like2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="5">Пауза перед комментарием поста, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
+                                    <TextBox Name="comment1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="comment2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="6">Пауза перед первым добавлением в группу, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
+                                    <TextBox Name="groupBefore1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="groupBefore2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="7">Пауза между добавлениями в группу, сек</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
+                                    <TextBox Name="groupBetween1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="groupBetween2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="8">Пауза перед добавлением в группу в пассивном режиме, мин</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
+                                    <TextBox Name="passiveGroup1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="passiveGroup2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="9">Пауза после действий в доп. опциях, мин</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="9" Orientation="Horizontal">
+                                    <TextBox Name="passiveAdd1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="passiveAdd2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="10">Блокировка аккаунта, ч</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="10" Orientation="Horizontal">
+                                    <TextBox Name="block1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="block2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="11">Период таймера добавления в группы, ч</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="11" Orientation="Horizontal">
+                                    <TextBox Name="timerGroup1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="timerGroup2" Width="50"></TextBox>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Лимиты" FontSize="14">
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0">Количество принятия заявок в час</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                                    <TextBox Name="limitConfirm1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitConfirm2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="1">Количество принятия заявок в день</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                                    <TextBox Name="limitConfirmDay1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitConfirmDay2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="2">Количество добавлений в группу в час</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                    <TextBox Name="limitGroup1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitGroup2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="3">Количество добавлений в группу в день</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+                                    <TextBox Name="limitGroupDay1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitGroupDay2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="4">Количество добавлений в сообщество в час</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+                                    <TextBox Name="limitCommunity1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitCommunity2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="5">Количество добавлений в сообщество в день</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
+                                    <TextBox Name="limitCommunityDay1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitCommunityDay2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="6">Количество начинаемых диалогов в час</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
+                                    <TextBox Name="limitDialog1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitDialog2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="7">Количество начинаемых диалогов в день</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
+                                    <TextBox Name="limitDialogDay1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="limitDialogDay2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="8">Количество фото для лайков</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
+                                    <TextBox Name="likeCount1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="likeCount2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="9">Количество постов</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="9" Orientation="Horizontal">
+                                    <TextBox Name="commentCount1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="commentCount2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="10">Количество принятий заявок за один заход</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="10" Orientation="Horizontal">
+                                    <TextBox Name="confirmCount1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="confirmCount2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="11">Количество пометок новых сообщений за один заход</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="11" Orientation="Horizontal">
+                                    <TextBox Name="msgsCount1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="msgsCount2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="12">Количество фото для отправки</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="12" Orientation="Horizontal">
+                                    <TextBox Name="sendPhotoCount1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="sendPhotoCount2" Width="50"></TextBox>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="13">Количество человек на добавление в группу за раз</TextBlock>
+                                <StackPanel Grid.Column="1" Grid.Row="13" Orientation="Horizontal">
+                                    <TextBox Name="groupOneTime1" Width="50"></TextBox>
+                                    <TextBlock>--</TextBlock>
+                                    <TextBox Name="groupOneTime2" Width="50"></TextBox>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Сообщения">
+                <ScrollViewer>
+                    <Grid Name="messagesGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="70"></RowDefinition>
+                            <RowDefinition Height="70"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap">Пауза перед ответом на входящее сообщение, сек</TextBlock>
+                        <TextBlock Grid.Row="2" TextWrapping="Wrap">Пауза перед ответом без входящего сообщения, мин</TextBlock>
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Center">start</TextBlock>
+                        <TextBlock Grid.Column="2" HorizontalAlignment="Center">Ответ на сообщ. 1</TextBlock>
+                        <TextBlock Grid.Column="3" HorizontalAlignment="Center">Ответ на сообщ. 2</TextBlock>
+                        <TextBlock Grid.Column="4" HorizontalAlignment="Center">Ответ на сообщ. 3</TextBlock>
+                        <TextBlock Grid.Column="5" HorizontalAlignment="Center">Ответ на сообщ. 4</TextBlock>
+                        <TextBlock Grid.Column="6" HorizontalAlignment="Center">Ответ на сообщ. 5</TextBlock>
+                        <TextBlock Grid.Column="7" HorizontalAlignment="Center">final</TextBlock>
+                        <TextBlock Grid.Column="8" HorizontalAlignment="Center">Комменты к постам</TextBlock>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Сообщества">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="2">Группы</TextBlock>
+                    <TextBlock Grid.Column="3">Сообщества</TextBlock>
+                    <TextBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="10" TextWrapping="Wrap" AcceptsReturn="True" Name="groupsText"></TextBox>
+                    <TextBox Grid.Column="3" Grid.Row="1" Grid.RowSpan="10" TextWrapping="Wrap" AcceptsReturn="True" Name="communityText"></TextBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Height="2" Background="#555"></GridSplitter>
+        <TextBox Grid.Row="4" Name="log" TextWrapping="Wrap" AcceptsReturn="True" FontSize="12" IsReadOnly="True" KeyUp="log_KeyUp"></TextBox>
+        <StatusBar Grid.Row="5">
+            <TextBlock>Последнее обновление:</TextBlock>
+            <TextBlock Name="lastUpdate"></TextBlock>
+        </StatusBar>
+    </Grid>
+</Window>

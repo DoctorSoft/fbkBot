@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="FacebookBot.Resources.WindowStyled">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Shared.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="WindowStyled" TargetType="{x:Type Window}">
+        <Setter Property="Background" Value="{StaticResource Background}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource Foreground}"></Setter>
+		<Setter Property="FontSize" Value="13"></Setter>
+    </Style>
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{StaticResource Foreground}" />
+    </Style>
+    <Style x:Key="varStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="#34D800" />
+    </Style>
+    <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="#E32B2B" />
+    </Style>
+
+</ResourceDictionary>
