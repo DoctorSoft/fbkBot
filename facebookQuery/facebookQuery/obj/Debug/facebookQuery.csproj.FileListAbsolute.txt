@@ -1,0 +1,6 @@
+D:\Project\Mosquito\facebookQuery\facebookQuery\bin\Debug\facebookQuery.exe.config
+D:\Project\Mosquito\facebookQuery\facebookQuery\bin\Debug\facebookQuery.exe
+D:\Project\Mosquito\facebookQuery\facebookQuery\bin\Debug\facebookQuery.pdb
+D:\Project\Mosquito\facebookQuery\facebookQuery\obj\Debug\facebookQuery.csprojResolveAssemblyReference.cache
+D:\Project\Mosquito\facebookQuery\facebookQuery\obj\Debug\facebookQuery.exe
+D:\Project\Mosquito\facebookQuery\facebookQuery\obj\Debug\facebookQuery.pdb
