@@ -11,6 +11,7 @@ namespace facebookQuery
             var rnd = new Random();
 
             var accountId = "100013726390504";
+            var interlocutor = "5233296";
             var body = "How i you??";
             var masssageId = "61946105663696201" + rnd.Next(10, 99);
 
@@ -26,10 +27,10 @@ namespace facebookQuery
                 "&has_attachment=false" +
                 "&message_id=" + masssageId +
                 "&offline_threading_id=" + masssageId +
-                "&other_user_fbid=223500233" +
+                "&other_user_fbid=" + interlocutor +
                 "&source=source:titan:web" +
                 "&signature_id=6f66bfb5" +
-                "&specific_to_list[0]=fbid:223500233" +
+                "&specific_to_list[0]=fbid:" + interlocutor +
                 "&specific_to_list[1]=fbid:" + accountId +
                 "&timestamp=1476818665788" +
                 "&ui_push_phase=V3" +
