@@ -10,7 +10,7 @@ namespace DataBase.Migrations
     {
         public DataBaseConfiguration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             MigrationsDirectory = @"Migrations";
         }
 
@@ -49,7 +49,10 @@ namespace DataBase.Migrations
                 }
             };
 
+            context.Cookies.RemoveRange(context.Cookies);
             context.Cookies.AddRange(cookiesList);
+
+            context.Accounts.RemoveRange(context.Accounts);
             context.Accounts.AddRange(accountsList);
         }
     }

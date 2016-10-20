@@ -20,6 +20,7 @@ namespace DataBase.Context
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
