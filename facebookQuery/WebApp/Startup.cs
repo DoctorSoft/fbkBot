@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using Jobs;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(WebApp.Startup))]
@@ -9,6 +10,7 @@ namespace WebApp
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            HangfireBootstrapper.RegistreJobs(app);
         }
     }
 }
