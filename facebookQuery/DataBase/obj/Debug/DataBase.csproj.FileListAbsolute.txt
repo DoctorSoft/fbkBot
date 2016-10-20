@@ -1,0 +1,10 @@
+D:\Project\fbkBot\facebookQuery\DataBase\bin\Debug\DataBase.dll
+D:\Project\fbkBot\facebookQuery\DataBase\bin\Debug\DataBase.pdb
+D:\Project\fbkBot\facebookQuery\DataBase\obj\Debug\DataBase.csprojResolveAssemblyReference.cache
+D:\Project\fbkBot\facebookQuery\DataBase\obj\Debug\DataBase.dll
+D:\Project\fbkBot\facebookQuery\DataBase\obj\Debug\DataBase.pdb
+D:\Project\fbkBot\facebookQuery\DataBase\bin\Debug\DataBase.dll.config
+D:\Project\fbkBot\facebookQuery\DataBase\bin\Debug\EntityFramework.dll
+D:\Project\fbkBot\facebookQuery\DataBase\bin\Debug\EntityFramework.SqlServer.dll
+D:\Project\fbkBot\facebookQuery\DataBase\bin\Debug\EntityFramework.xml
+D:\Project\fbkBot\facebookQuery\DataBase\bin\Debug\EntityFramework.SqlServer.xml

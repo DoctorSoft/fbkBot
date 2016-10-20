@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "facebookQuery", "facebookQuery\facebookQuery.csproj", "{51F53A9C-3EC9-4745-9A52-90C6123EE45E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookApp", "facebookQuery\FacebookApp.csproj", "{51F53A9C-3EC9-4745-9A52-90C6123EE45E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBase", "DataBase\DataBase.csproj", "{F3EDA670-D963-42D7-845E-555C12DB1DBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{51F53A9C-3EC9-4745-9A52-90C6123EE45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51F53A9C-3EC9-4745-9A52-90C6123EE45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51F53A9C-3EC9-4745-9A52-90C6123EE45E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3EDA670-D963-42D7-845E-555C12DB1DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EDA670-D963-42D7-845E-555C12DB1DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EDA670-D963-42D7-845E-555C12DB1DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EDA670-D963-42D7-845E-555C12DB1DBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

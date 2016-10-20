@@ -1,0 +1,25 @@
+﻿using System.Data.Entity;
+using DataBase.Configurations;
+using DataBase.Models;
+
+namespace DataBase.Context
+{
+    public class DataBaseContext : DbContext
+    {
+        public DataBaseContext()
+            :base("DefaultConnection")
+        {
+
+        }
+        
+        public DbSet<AccountDbModel> Accounts { get; set; }
+
+        public DbSet<CookiesDbModel> Cookies { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Configurations.Add(new AccountConfiguration());
+            modelBuilder.Configurations.Add(new CookiesConfiguration());
+        }
+    }
+}

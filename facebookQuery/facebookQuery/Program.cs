@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace facebookQuery
+namespace FacebookApp
 {
     internal class Program
     {
@@ -34,6 +34,7 @@ namespace facebookQuery
                 "&specific_to_list[1]=fbid:" + accountId +
                 "&timestamp=1476818665788" +
                 "&ui_push_phase=V3" +
+                
                 "&__user=" + accountId +
                 "&__a=1" +
                 "&__dyn=aihoFeyfyGmagngDxyG8EigmzFEbFbGA8Ay8Z9LFwxBxCbzEeAq2i5U4e2CEaUgxebkwy8wGFeex2uVWxeUWq264EK14DBwJKq4GCzEkxvDAzUO5u5o5S9ADBy8K48hxGbwYDx2r_xLggKm7U9eiax6ew" +
