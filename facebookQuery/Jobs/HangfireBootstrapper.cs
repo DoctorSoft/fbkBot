@@ -12,6 +12,8 @@ namespace Jobs
 
             app.UseHangfireDashboard("/dashboard");
             app.UseHangfireServer();
+
+            JobsBootstrapper.SetUpJobs();
         }
     }
 }

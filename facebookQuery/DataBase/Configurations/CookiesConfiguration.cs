@@ -11,7 +11,6 @@ namespace DataBase.Configurations
             ToTable("Cookies");
 
             HasKey(model => model.Id);
-            Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(model => model.Locale);
             Property(model => model.Av);
@@ -28,6 +27,8 @@ namespace DataBase.Configurations
             Property(model => model.Act);
             Property(model => model.Wd);
             Property(model => model.Presence);
+
+            HasRequired(it => it.Account).WithOptional(model => model.Cookies);
         }
     }
 }

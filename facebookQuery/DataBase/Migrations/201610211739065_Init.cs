@@ -13,7 +13,6 @@ namespace DataBase.Migrations
                     {
                         Id = c.Long(nullable: false, identity: true),
                         PageUrl = c.String(),
-                        CookieId = c.Long(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -21,8 +20,7 @@ namespace DataBase.Migrations
                 "dbo.Cookies",
                 c => new
                     {
-                        Id = c.Long(nullable: false, identity: true),
-                        AccountId = c.Long(),
+                        Id = c.Long(nullable: false),
                         Locale = c.String(),
                         Av = c.String(),
                         Datr = c.String(),
@@ -38,18 +36,17 @@ namespace DataBase.Migrations
                         Act = c.String(),
                         Wd = c.String(),
                         Presence = c.String(),
-                        Account_Id = c.Long(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Accounts", t => t.Account_Id)
-                .Index(t => t.Account_Id);
+                .ForeignKey("dbo.Accounts", t => t.Id)
+                .Index(t => t.Id);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Cookies", "Account_Id", "dbo.Accounts");
-            DropIndex("dbo.Cookies", new[] { "Account_Id" });
+            DropForeignKey("dbo.Cookies", "Id", "dbo.Accounts");
+            DropIndex("dbo.Cookies", new[] { "Id" });
             DropTable("dbo.Cookies");
             DropTable("dbo.Accounts");
         }

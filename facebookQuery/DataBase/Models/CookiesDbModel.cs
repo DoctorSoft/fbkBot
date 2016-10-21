@@ -20,8 +20,6 @@
 
         public long Id { get; set; }
 
-        public long? AccountId { get; set; }
-
         public AccountDbModel Account { get; set; }
 
         public string Locale

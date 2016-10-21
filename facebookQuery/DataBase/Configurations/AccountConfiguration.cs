@@ -14,7 +14,7 @@ namespace DataBase.Configurations
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(model => model.PageUrl);
-            HasOptional(it => it.Cookies).WithOptionalPrincipal(m=>m.Account);
+            HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
         }
     }
 }
