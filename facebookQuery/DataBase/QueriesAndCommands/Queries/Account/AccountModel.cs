@@ -1,4 +1,6 @@
-﻿namespace DataBase.QueriesAndCommands.Queries.Account
+﻿using System.Net;
+
+namespace DataBase.QueriesAndCommands.Queries.Account
 {
     public class AccountModel
     {
@@ -6,6 +8,6 @@
 
         public string PageUrl { get; set; }
 
-        public long CookieId { get; set; }
+        public CookieModel Cookie { get; set; }
     }
 }

@@ -201,7 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -214,6 +213,10 @@
     <ProjectReference Include="..\Jobs\Jobs.csproj">
       <Project>{DA5E57AC-C85D-4738-9CA5-BDD1CA482F23}</Project>
       <Name>Jobs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{d6cdd9a2-389b-4cf5-8888-abd4d6905719}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
