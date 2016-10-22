@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201610220940080_AddUrlParametersTable.Designer.cs">
       <DependentUpon>201610220940080_AddUrlParametersTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610221054064_FixUrlParameters.cs" />
+    <Compile Include="Migrations\201610221054064_FixUrlParameters.Designer.cs">
+      <DependentUpon>201610221054064_FixUrlParameters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -103,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610220940080_AddUrlParametersTable.resx">
       <DependentUpon>201610220940080_AddUrlParametersTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610221054064_FixUrlParameters.resx">
+      <DependentUpon>201610221054064_FixUrlParameters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
