@@ -10,7 +10,7 @@ namespace Jobs
             
         }
 
-        [AutomaticRetry(Attempts = 0)]
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void FailedJob()
         {
             try
@@ -26,8 +26,8 @@ namespace Jobs
 
         public static void SetUpJobs()
         {
-            RecurringJob.AddOrUpdate("Test Job", () => Run(), Cron.Minutely);
-            RecurringJob.AddOrUpdate("Failed Job", () => FailedJob(), Cron.Minutely);
+            RecurringJob.AddOrUpdate("Test Job", () => Run(), Cron.Hourly);
+            RecurringJob.AddOrUpdate("Failed Job", () => FailedJob(), Cron.Daily);
         }
     }
 }

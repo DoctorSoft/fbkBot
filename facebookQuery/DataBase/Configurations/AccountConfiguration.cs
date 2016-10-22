@@ -15,6 +15,7 @@ namespace DataBase.Configurations
 
             Property(model => model.PageUrl);
             HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
+            HasMany(model => model.Messages).WithRequired(it => it.Account).HasForeignKey(model => model.AccountId);
         }
     }
 }

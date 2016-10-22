@@ -2,9 +2,18 @@
     ViewBag.Title = "Home Page";
 }
 
+@model List<Services.ViewModels.HomeModels.AccountViewModel>
+
 <div class="jumbotron">
 </div>
 
 <div class="row">
-    Start Page
+    <div class="list-group">
+        @foreach (var account in @Model)
+        {
+            <a href="#" class="list-group-item active">
+                @account.PageUrl
+            </a>
+        }
+    </div>
 </div>
