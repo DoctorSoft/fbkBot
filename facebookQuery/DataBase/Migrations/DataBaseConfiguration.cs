@@ -2,8 +2,11 @@
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web.Script.Serialization;
+using DataBase.Constants;
 using DataBase.Context;
 using DataBase.Models;
+using DataBase.QueriesAndCommands.Queries.UrlParameters;
 
 namespace DataBase.Migrations
 {
@@ -60,6 +63,49 @@ namespace DataBase.Migrations
             };
 
             context.Cookies.AddRange(cookieList);
+
+            var parameters = new SendMessageUrlParametersModel()
+            {
+                Client = "mercury",
+                ActionType = "ma-type:user-generated-message",
+                Body="",
+                EphemeralTtlMode = "0",
+                HasAttachment = "false",
+                MessageId = "",
+                OtherUserFbid = "",
+                Source = "source:titan:web",
+                SignatureId = "6f66bfb5", 
+                SpecificToListOne = "",
+                SpecificToListTwo = "",
+                Timestamp = "1476818665788",
+                UiPushPhase="V3",
+                
+                UserId = "",
+                A = "1",
+                Dyn = "aihoFeyfyGmagngDxyG8EigmzFEbFbGA8Ay8Z9LFwxBxCbzEeAq2i5U4e2CEaUgxebkwy8wGFeex2uVWxeUWq264EK14DBwJKq4GCzEkxvDAzUO5u5o5S9ADBy8K48hxGbwYDx2r_xLggKm7U9eiax6ew",
+                Af = "-1",
+                Req = "x",
+                Be = "-1",
+                Pc = "PHASED:DEFAULT",
+                FbDtsg = "AQHXI-PMhJk_:AQEgGrp3bo1j",
+                Ttstamp = "2658172887345807710474107955865816910371114112519811149106",
+                Rev = "2631735",
+                SrpT = "1476897375"
+            };
+
+            var js = new JavaScriptSerializer();
+            var json = js.Serialize(parameters);
+
+            var urlParametersList = new List<UrlParametersDbModel>()
+            {
+                new UrlParametersDbModel
+                {
+                    CodeParameters = (int)NamesUrlParameter.SendMessage,
+                    ParametersSet = json
+                }
+            };
+
+            context.UrlParameters.AddRange(urlParametersList);
 
             context.SaveChanges();
         }

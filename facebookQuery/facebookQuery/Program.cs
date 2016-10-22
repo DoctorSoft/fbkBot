@@ -12,7 +12,7 @@ namespace FacebookApp
 
             var accountId = "100013726390504";
             var interlocutor = "5233296";
-            var body = "How i you??";
+            var body = "Hello!";
             var masssageId = "61946105663696201" + rnd.Next(10, 99);
 
 
