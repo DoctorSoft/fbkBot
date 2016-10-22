@@ -17,12 +17,10 @@ namespace DataBase.Migrations
 
         protected override void Seed(DataBaseContext context)
         {
-            if (System.Diagnostics.Debugger.IsAttached == false)
+            /*if (System.Diagnostics.Debugger.IsAttached == false)
             {
-
                 System.Diagnostics.Debugger.Launch();
-
-            }
+            }*/
 
             var accountsList = new List<AccountDbModel>()
             {

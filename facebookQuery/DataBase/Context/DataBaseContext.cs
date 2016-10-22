@@ -16,10 +16,13 @@ namespace DataBase.Context
 
         public DbSet<CookiesDbModel> Cookies { get; set; }
 
+        public DbSet<MessageDbModel> Messages { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
+            modelBuilder.Configurations.Add(new MessageConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }
