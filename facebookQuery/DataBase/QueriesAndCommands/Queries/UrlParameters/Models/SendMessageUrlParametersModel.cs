@@ -1,4 +1,4 @@
-﻿namespace DataBase.QueriesAndCommands.Queries.UrlParameters
+﻿namespace DataBase.QueriesAndCommands.Queries.UrlParameters.Models
 {
     public class SendMessageUrlParametersModel : GeneralUrlParametersModel
     {

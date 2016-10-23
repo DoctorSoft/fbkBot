@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.Account
 {

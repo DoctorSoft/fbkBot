@@ -1,4 +1,4 @@
-﻿namespace DataBase.QueriesAndCommands.Queries.Account
+﻿namespace DataBase.QueriesAndCommands.Queries.Account.Models
 {
     public class CookieModel
     {

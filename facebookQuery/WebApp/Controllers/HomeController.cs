@@ -19,6 +19,7 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             var accounts = homeService.GetAccounts();
+            homeService.SendMessage();
             return View(accounts);
         }
     }

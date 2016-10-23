@@ -1,6 +1,6 @@
-﻿namespace DataBase.QueriesAndCommands.Queries.UrlParameters
+﻿namespace DataBase.QueriesAndCommands.Queries.UrlParameters.Models
 {
-    public class GeneralUrlParametersModel
+    public class GeneralUrlParametersModel: IUrlParameters
     {
         public string  UserId { get; set; }
 

@@ -3,4 +3,3 @@ D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\FacebookApp.exe
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\FacebookApp.pdb
 D:\Project\fbkBot\facebookQuery\facebookQuery\obj\Debug\FacebookApp.exe
 D:\Project\fbkBot\facebookQuery\facebookQuery\obj\Debug\FacebookApp.pdb
-D:\Project\fbkBot\facebookQuery\facebookQuery\obj\Debug\FacebookApp.csprojResolveAssemblyReference.cache

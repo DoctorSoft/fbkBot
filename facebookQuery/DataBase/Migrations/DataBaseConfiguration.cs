@@ -7,6 +7,7 @@ using DataBase.Constants;
 using DataBase.Context;
 using DataBase.Models;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
 
 namespace DataBase.Migrations
 {

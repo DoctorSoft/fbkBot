@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Services.ViewModels.HomeModels;
 
 namespace Services.Services
@@ -21,6 +23,17 @@ namespace Services.Services
                 Id = model.Id,
                 PageUrl = model.PageUrl
             }).ToList();
-        } 
+        }
+
+        public void SendMessage()
+        {
+            var parameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+            {
+                NameUrlParameter = NamesUrlParameter.SendMessage
+            });
+        }
+
     }
 }
+
+
