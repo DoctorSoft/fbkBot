@@ -14,6 +14,7 @@ namespace DataBase.Configurations
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(model => model.PageUrl);
+            Property(model => model.UserId);
             HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
             HasMany(model => model.Messages).WithRequired(it => it.Account).HasForeignKey(model => model.AccountId);
         }

@@ -32,6 +32,7 @@ namespace DataBase.Migrations
                 {
                     Id = 1,
                     PageUrl = "https://www.facebook.com/profile.php?id=100013726390504",
+                    UserId = 100013726390504
                 }
             };
 
@@ -71,9 +72,10 @@ namespace DataBase.Migrations
                 EphemeralTtlMode = "0",
                 HasAttachment = "false",
                 MessageId = "",
+                OfflineThreadingId = "",
                 OtherUserFbid = "",
                 Source = "source:titan:web",
-                SignatureId = "6f66bfb5", 
+                SignatureId = "6f66bfb5",
                 SpecificToListOne = "",
                 SpecificToListTwo = "",
                 Timestamp = "1476818665788",

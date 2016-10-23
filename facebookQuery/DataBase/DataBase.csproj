@@ -72,6 +72,14 @@
     <Compile Include="Migrations\201610221054064_FixUrlParameters.Designer.cs">
       <DependentUpon>201610221054064_FixUrlParameters.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610230947508_AddFieldAccountId.cs" />
+    <Compile Include="Migrations\201610230947508_AddFieldAccountId.Designer.cs">
+      <DependentUpon>201610230947508_AddFieldAccountId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610231012299_ChangeAccountFields.cs" />
+    <Compile Include="Migrations\201610231012299_ChangeAccountFields.Designer.cs">
+      <DependentUpon>201610231012299_ChangeAccountFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -113,6 +121,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610221054064_FixUrlParameters.resx">
       <DependentUpon>201610221054064_FixUrlParameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610230947508_AddFieldAccountId.resx">
+      <DependentUpon>201610230947508_AddFieldAccountId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610231012299_ChangeAccountFields.resx">
+      <DependentUpon>201610231012299_ChangeAccountFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

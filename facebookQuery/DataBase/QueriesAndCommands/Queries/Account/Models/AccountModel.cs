@@ -6,6 +6,8 @@
 
         public string PageUrl { get; set; }
 
+        public long UserId { get; set; }
+
         public CookieModel Cookie { get; set; }
     }
 }

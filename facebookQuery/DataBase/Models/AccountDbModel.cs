@@ -8,6 +8,8 @@ namespace DataBase.Models
 
         public string PageUrl { get; set; }
 
+        public long UserId { get; set; }
+
         public CookiesDbModel Cookies { get; set; }
 
         public ICollection<MessageDbModel> Messages { get; set; } 
