@@ -12,8 +12,8 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
-using Engines.Engines.GetAccountStatusEngine;
 using Engines.Engines.GetNewCookiesEngine;
+using Engines.Engines.GetNewNoticesEngine;
 using RequestsHelpers;
 using Services.ViewModels.HomeModels;
 
@@ -57,13 +57,13 @@ namespace Services.Services
             return true;
         }
 
-        public GetAccountStatusResponseModel GetAccountStatus(long accountId)
+        public GetNewNoticesResponseModel GetNewNotices(long accountId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = accountId
             });
-            var statusModel = new GetAccountStatusEngine().Execute(new GetAccountStatusModel()
+            var statusModel = new GetNewNoticesEngine().Execute(new GetNewNoticesModel()
             {
                 ResponsePage = RequestsHelper.Get(Urls.HomePage.GetDiscription(), account.Cookie.CookieString) 
             });

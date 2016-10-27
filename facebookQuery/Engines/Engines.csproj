@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\AbstractEngine.cs" />
-    <Compile Include="Engines\GetAccountStatusEngine\GetAccountStatusEngine.cs" />
-    <Compile Include="Engines\GetAccountStatusEngine\GetAccountStatusModel.cs" />
-    <Compile Include="Engines\GetAccountStatusEngine\GetAccountStatusResponseModel.cs" />
+    <Compile Include="Engines\GetNewNoticesEngine\GetNewNoticesEngine.cs" />
+    <Compile Include="Engines\GetNewNoticesEngine\GetNewNoticesModel.cs" />
+    <Compile Include="Engines\GetNewNoticesEngine\GetAccountStatusResponseModel.cs" />
     <Compile Include="Engines\IEngine.cs" />
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesEngine.cs" />
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesModel.cs" />

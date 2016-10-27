@@ -1,6 +1,6 @@
-﻿namespace Engines.Engines.GetAccountStatusEngine
+﻿namespace Engines.Engines.GetNewNoticesEngine
 {
-    public class GetAccountStatusResponseModel
+    public class GetNewNoticesResponseModel
     {
         public string NumberNewFriends { get; set; }
 

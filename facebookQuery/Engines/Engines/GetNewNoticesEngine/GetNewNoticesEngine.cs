@@ -1,16 +1,16 @@
 ﻿using RequestsHelpers;
 
-namespace Engines.Engines.GetAccountStatusEngine
+namespace Engines.Engines.GetNewNoticesEngine
 {
-    public class GetAccountStatusEngine : AbstractEngine<GetAccountStatusModel, GetAccountStatusResponseModel>
+    public class GetNewNoticesEngine : AbstractEngine<GetNewNoticesModel, GetNewNoticesResponseModel>
     {
-        protected override GetAccountStatusResponseModel ExecuteEngine(GetAccountStatusModel model)
+        protected override GetNewNoticesResponseModel ExecuteEngine(GetNewNoticesModel model)
         {
             var newFriends = ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "requestsCountValue");
             var newMessages = ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "mercurymessagesCountValue");
             var newNotices = ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "notificationsCountValue");
 
-            return new GetAccountStatusResponseModel()
+            return new GetNewNoticesResponseModel()
             {
                 NumberNewFriends = newFriends,
                 NumberNewMessages = newMessages,
