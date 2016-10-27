@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace RequestsHelper
+namespace RequestsHelpers
 {
     public static class RequestsHelper
     {

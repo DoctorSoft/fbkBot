@@ -7,8 +7,8 @@
     <ProjectGuid>{3CB46211-A7DA-4884-88F0-15E801D2F0B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RequestsHelper</RootNamespace>
-    <AssemblyName>RequestsHelper</AssemblyName>
+    <RootNamespace>RequestsHelpers</RootNamespace>
+    <AssemblyName>RequestsHelpers</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParseResponsePageHelper.cs" />
     <Compile Include="RequestsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

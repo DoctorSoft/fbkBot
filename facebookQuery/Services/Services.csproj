@@ -66,9 +66,9 @@
       <Project>{FBB7EBB2-3FB4-4A19-95C8-BA69794E8C44}</Project>
       <Name>Engines</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RequestsHelper\RequestsHelper.csproj">
+    <ProjectReference Include="..\RequestsHelper\RequestsHelpers.csproj">
       <Project>{3CB46211-A7DA-4884-88F0-15E801D2F0B7}</Project>
-      <Name>RequestsHelper</Name>
+      <Name>RequestsHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

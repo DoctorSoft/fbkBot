@@ -14,6 +14,7 @@ using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
 using Engines.Engines.GetAccountStatusEngine;
 using Engines.Engines.GetNewCookiesEngine;
+using RequestsHelpers;
 using Services.ViewModels.HomeModels;
 
 namespace Services.Services
@@ -64,7 +65,7 @@ namespace Services.Services
             });
             var statusModel = new GetAccountStatusEngine().Execute(new GetAccountStatusModel()
             {
-                ResponsePage = RequestsHelper.RequestsHelper.Get(Urls.HomePage.GetDiscription(), account.Cookie.CookieString) 
+                ResponsePage = RequestsHelper.Get(Urls.HomePage.GetDiscription(), account.Cookie.CookieString) 
             });
 
             return statusModel;
