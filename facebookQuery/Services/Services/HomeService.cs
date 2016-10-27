@@ -28,7 +28,10 @@ namespace Services.Services
             return accounts.Select(model => new AccountViewModel
             {
                 Id = model.Id,
-                PageUrl = model.PageUrl
+                PageUrl = model.PageUrl,
+                Login = model.Login,
+                Password = model.Password,
+                UserId = model.UserId
             }).ToList();
         }
 

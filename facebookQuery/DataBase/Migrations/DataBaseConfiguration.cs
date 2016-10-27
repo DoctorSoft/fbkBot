@@ -32,6 +32,8 @@ namespace DataBase.Migrations
                 new AccountDbModel()
                 {
                     Id = 1,
+                    Login = "ms.nastasia.1983@mail.ru",
+                    Password = "Ntvyjnf123",
                     PageUrl = "https://www.facebook.com/profile.php?id=100013726390504",
                     UserId = 100013726390504,
                     Cookies = new CookiesDbModel()

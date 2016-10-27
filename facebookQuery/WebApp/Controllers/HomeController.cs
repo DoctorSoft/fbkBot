@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Services.Services;
 
 namespace WebApp.Controllers
@@ -14,9 +15,11 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            homeService.RefreshCookies(100013726390504, "ms.nastasia.1983@mail.ru", "Ntvyjnf123");
             //homeService.SendMessage(100013726390504, 5233296, "Hello");
             var accounts = homeService.GetAccounts();
+            var currentAccount = accounts.FirstOrDefault();
+
+            homeService.RefreshCookies(currentAccount.UserId,currentAccount.Login, currentAccount.Password);
             return View(accounts);
         }
     }

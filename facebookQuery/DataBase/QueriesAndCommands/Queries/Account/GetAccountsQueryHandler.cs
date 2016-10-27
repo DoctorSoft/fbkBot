@@ -25,6 +25,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                     .Select(model => new AccountModel
                     {
                         Id = model.Id,
+                        Login = model.Login,
+                        Password = model.Password,
                         PageUrl = model.PageUrl,
                         UserId = model.UserId,
                         Cookie = new CookieModel

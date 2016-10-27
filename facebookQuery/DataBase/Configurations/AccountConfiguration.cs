@@ -13,6 +13,8 @@ namespace DataBase.Configurations
             HasKey(model => model.Id);
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            Property(model => model.Login);
+            Property(model => model.Password);
             Property(model => model.PageUrl);
             Property(model => model.UserId);
             HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
