@@ -9,6 +9,7 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
+using Engines.Engines.GetNewCookiesEngine;
 using Services.ViewModels.HomeModels;
 
 namespace Services.Services
@@ -28,6 +29,17 @@ namespace Services.Services
                 Id = model.Id,
                 PageUrl = model.PageUrl
             }).ToList();
+        }
+
+
+        public bool RefreshCookies(string login, string password)
+        {
+            new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
+            {
+                Login = login,
+                Password = password
+            });
+            return true;
         }
 
         public void SendMessage(long senderId, long recipientId, string messageText)
@@ -53,6 +65,7 @@ namespace Services.Services
             urlParameters.SpecificToListOne = recipientId.ToString("G");
             urlParameters.SpecificToListTwo = senderId.ToString("G");
             urlParameters.UserId = senderId.ToString("G");
+            urlParameters.Timestamp = Helper.DateTimeToJavaTimeStamp(DateTime.UtcNow).ToString();
 
             var coockies = CreateCookieString(account.Cookie);
             var parameters = CreateParametersString(urlParameters);
@@ -67,25 +80,6 @@ namespace Services.Services
             wb.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36";
 
             wb.UploadString(url, parameters);
-        }
-
-        private static string CreateCookieString(CookieModel model)
-        {
-            return model.Locale + ";" +
-                model.Av + ";" +
-                model.Datr + ";" +
-                model.Sb + ";" +
-                model.CUser + ";" +
-                model.Xs + ";" +
-                model.Fr + ";" +
-                model.Csm + ";" +
-                model.S +";" +
-                model.Pl +";" +
-                model.Lu +";" +
-                model.P +";" +
-                model.Act + ";" +
-                model.Wd +";" +
-                model.Presence + ";";
         }
 
         private static string CreateParametersString(SendMessageUrlParametersModel model)
