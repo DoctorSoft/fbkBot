@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -32,7 +33,12 @@ namespace DataBase.Migrations
                 {
                     Id = 1,
                     PageUrl = "https://www.facebook.com/profile.php?id=100013726390504",
-                    UserId = 100013726390504
+                    UserId = 100013726390504,
+                    Cookies = new CookiesDbModel()
+                    {
+                        CookiesString = "",
+                        CreateDate = DateTime.Now
+                    }
                 }
             };
 

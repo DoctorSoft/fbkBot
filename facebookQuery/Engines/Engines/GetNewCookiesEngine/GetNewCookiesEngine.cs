@@ -29,6 +29,8 @@ namespace Engines.Engines.GetNewCookiesEngine
             var cookies = driver.Manage().Cookies;
             var cookiesResult = cookies.AllCookies.Aggregate("", (current, cookie) => current + (cookie.Name + "=" + cookie.Value + ";"));
 
+            driver.Close();
+
             return new GetNewCookiesResponse
             {
                 CookiesString = cookiesResult

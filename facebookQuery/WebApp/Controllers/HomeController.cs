@@ -14,7 +14,8 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            homeService.SendMessage(100013726390504, 5233296, "Hello");
+            homeService.RefreshCookies(100013726390504, "ms.nastasia.1983@mail.ru", "Ntvyjnf123");
+            //homeService.SendMessage(100013726390504, 5233296, "Hello");
             var accounts = homeService.GetAccounts();
             return View(accounts);
         }

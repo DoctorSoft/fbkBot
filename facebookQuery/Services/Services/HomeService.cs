@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Script.Serialization;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
@@ -32,14 +33,19 @@ namespace Services.Services
         }
 
 
-        public bool RefreshCookies(string login, string password)
+        public bool RefreshCookies(long accountId, string login, string password)
         {
-            new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
+            var newCookie = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
             {
                 Login = login,
                 Password = password
-            });
+            }).CookiesString;
 
+            new UpdateCookiesHandler(new DataBaseContext()).Handle(new UpdateCookiesCommand()
+            {
+                AccountId = accountId,
+                NewCookieString = newCookie
+            });
 
             return true;
         }
