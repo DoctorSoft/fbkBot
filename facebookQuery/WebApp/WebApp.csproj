@@ -210,6 +210,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Engines\Engines.csproj">
+      <Project>{FBB7EBB2-3FB4-4A19-95C8-BA69794E8C44}</Project>
+      <Name>Engines</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jobs\Jobs.csproj">
       <Project>{DA5E57AC-C85D-4738-9CA5-BDD1CA482F23}</Project>
       <Name>Jobs</Name>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
+using Constants;
+using Constants.EnumExtension;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
@@ -10,6 +12,7 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
+using Engines.Engines.GetAccountStatusEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using Services.ViewModels.HomeModels;
 
@@ -51,6 +54,20 @@ namespace Services.Services
             });
 
             return true;
+        }
+
+        public GetAccountStatusResponseModel GetAccountStatus(long accountId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+            var statusModel = new GetAccountStatusEngine().Execute(new GetAccountStatusModel()
+            {
+                ResponsePage = RequestsHelper.RequestsHelper.Get(Urls.HomePage.GetDiscription(), account.Cookie.CookieString) 
+            });
+
+            return statusModel;
         }
 
         public void SendMessage(long senderId, long recipientId, string messageText)

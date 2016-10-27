@@ -19,6 +19,8 @@ namespace WebApp.Controllers
             var accounts = homeService.GetAccounts();
             var currentAccount = accounts.FirstOrDefault();
 
+            var status = homeService.GetAccountStatus(currentAccount.UserId);
+
             homeService.RefreshCookies(currentAccount.UserId,currentAccount.Login, currentAccount.Password);
             return View(accounts);
         }

@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\AbstractEngine.cs" />
+    <Compile Include="Engines\GetAccountStatusEngine\GetAccountStatusEngine.cs" />
+    <Compile Include="Engines\GetAccountStatusEngine\GetAccountStatusModel.cs" />
+    <Compile Include="Engines\GetAccountStatusEngine\GetAccountStatusResponseModel.cs" />
     <Compile Include="Engines\IEngine.cs" />
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesEngine.cs" />
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesModel.cs" />
@@ -57,6 +60,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,3 +12,5 @@ facebookQuery/Services/bin/
 facebookQuery/Services/obj/
 facebookQuery/facebookQuery/obj
 facebookQuery/Engines/bin/
+facebookQuery/RequestsHelper/obj/
+facebookQuery/Constants/obj/
