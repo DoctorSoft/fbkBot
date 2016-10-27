@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Engines</RootNamespace>
     <AssemblyName>Engines</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,7 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -54,13 +64,23 @@
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesResponse.cs" />
     <Compile Include="Engines\SendMessageEngine\SendMessageEngine.cs" />
     <Compile Include="Engines\SendMessageEngine\SendMessageModel.cs" />
+    <Compile Include="Engines\SendMessageEngine\SendMessageResponseModel.cs" />
     <Compile Include="Engines\VoidModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataBase\DataBase.csproj">
+      <Project>{f3eda670-d963-42d7-845e-555c12db1dbc}</Project>
+      <Name>DataBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RequestsHelper\RequestsHelpers.csproj">
       <Project>{3CB46211-A7DA-4884-88F0-15E801D2F0B7}</Project>
       <Name>RequestsHelpers</Name>

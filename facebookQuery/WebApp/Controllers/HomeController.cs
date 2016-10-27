@@ -15,13 +15,13 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            //homeService.SendMessage(100013726390504, 5233296, "Hello");
             var accounts = homeService.GetAccounts();
             var currentAccount = accounts.FirstOrDefault();
 
+            homeService.RefreshCookies(currentAccount.UserId, currentAccount.Login, currentAccount.Password);
+            //homeService.SendMessage(100013726390504, 100002115472896, "Hello");
             var status = homeService.GetNewNotices(currentAccount.UserId);
 
-            homeService.RefreshCookies(currentAccount.UserId,currentAccount.Login, currentAccount.Password);
             return View(accounts);
         }
     }

@@ -21,12 +21,9 @@ namespace DataBase.QueriesAndCommands.Queries.UrlParameters
             var urlParametersDbModel = context.UrlParameters.FirstOrDefault(model => model.CodeParameters == (int)query.NameUrlParameter);
             if (urlParametersDbModel == null) return null;
             var json = urlParametersDbModel.ParametersSet;
-            if (query.NameUrlParameter == NamesUrlParameter.SendMessage)
-            {
-                var serializer = new JavaScriptSerializer();
-                return serializer.Deserialize<SendMessageUrlParametersModel>(json);
-            }
-            return null;
+            if (query.NameUrlParameter != NamesUrlParameter.SendMessage) return null;
+            var serializer = new JavaScriptSerializer();
+            return serializer.Deserialize<SendMessageUrlParametersModel>(json);
         }
     }
 }

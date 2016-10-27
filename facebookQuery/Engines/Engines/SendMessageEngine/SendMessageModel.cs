@@ -4,8 +4,10 @@
     {
         public long AccountId { get; set; }
 
-        public long InterlocutorId { get; set; }
+        public long FriendId { get; set; }
 
         public string Message { get; set; }
+
+        public string Cookie { get; set; }
     }
 }
