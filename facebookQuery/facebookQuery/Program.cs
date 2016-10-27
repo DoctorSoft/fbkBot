@@ -32,6 +32,8 @@ namespace FacebookApp
 
             var cookies = driver.Manage().Cookies;
 
+            //get
+
             var data = new NameValueCollection();
             var userId = cookies.GetCookieNamed("c_user").Value;
             data.Add("client", "web_messenger");

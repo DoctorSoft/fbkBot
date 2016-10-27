@@ -39,6 +39,8 @@ namespace Services.Services
                 Login = login,
                 Password = password
             });
+
+
             return true;
         }
 
@@ -65,14 +67,14 @@ namespace Services.Services
             urlParameters.SpecificToListOne = recipientId.ToString("G");
             urlParameters.SpecificToListTwo = senderId.ToString("G");
             urlParameters.UserId = senderId.ToString("G");
-            urlParameters.Timestamp = Helper.DateTimeToJavaTimeStamp(DateTime.UtcNow).ToString();
+            //urlParameters.Timestamp = Helper.DateTimeToJavaTimeStamp(DateTime.UtcNow).ToString();
 
-            var coockies = CreateCookieString(account.Cookie);
+            //var coockies = CreateCookieString(account.Cookie);
             var parameters = CreateParametersString(urlParameters);
 
             var url = "https://www.facebook.com/messaging/send/?dpr=1";
             var wb = new WebClient();
-            wb.Headers.Add(HttpRequestHeader.Cookie, coockies);
+           // wb.Headers.Add(HttpRequestHeader.Cookie, coockies);
             wb.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
             wb.Headers[HttpRequestHeader.Accept] = "*/*";
             //wb.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate, br";

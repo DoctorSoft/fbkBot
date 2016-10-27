@@ -7,13 +7,13 @@ namespace DataBase.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class FixUrlParameters : IMigrationMetadata
+    public sealed partial class AddDataCreateField : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FixUrlParameters));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDataCreateField));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610221054064_FixUrlParameters"; }
+            get { return "201610271720442_AddDataCreateField"; }
         }
         
         string IMigrationMetadata.Source

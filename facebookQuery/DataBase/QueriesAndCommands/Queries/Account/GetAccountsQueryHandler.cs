@@ -29,21 +29,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         UserId = model.UserId,
                         Cookie = new CookieModel
                         {
-                            Act = model.Cookies.Act,
-                            Av = model.Cookies.Av,
-                            CUser = model.Cookies.CUser,
-                            Csm = model.Cookies.Csm,
-                            Datr = model.Cookies.Datr,
-                            Fr = model.Cookies.Fr,
-                            Locale = model.Cookies.Locale,
-                            Lu = model.Cookies.Lu,
-                            P = model.Cookies.P,
-                            Pl = model.Cookies.Pl,
-                            Presence = model.Cookies.Presence,
-                            S = model.Cookies.S,
-                            Sb = model.Cookies.Sb,
-                            Wd = model.Cookies.Wd,
-                            Xs = model.Cookies.Xs
+                            CookieString = model.Cookies.CookiesString
                         }
                     })
                     .ToList();

@@ -58,6 +58,10 @@
       <Project>{f3eda670-d963-42d7-845e-555c12db1dbc}</Project>
       <Name>DataBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Engines\Engines.csproj">
+      <Project>{FBB7EBB2-3FB4-4A19-95C8-BA69794E8C44}</Project>
+      <Name>Engines</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

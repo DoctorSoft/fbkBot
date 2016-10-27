@@ -56,29 +56,13 @@
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
     <Compile Include="Context\DataBaseContext.cs" />
-    <Compile Include="Migrations\201610211739065_Init.cs" />
-    <Compile Include="Migrations\201610211739065_Init.Designer.cs">
-      <DependentUpon>201610211739065_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201610271719086_Init.cs" />
+    <Compile Include="Migrations\201610271719086_Init.Designer.cs">
+      <DependentUpon>201610271719086_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610220829362_AddMessagesTable.cs" />
-    <Compile Include="Migrations\201610220829362_AddMessagesTable.Designer.cs">
-      <DependentUpon>201610220829362_AddMessagesTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610220940080_AddUrlParametersTable.cs" />
-    <Compile Include="Migrations\201610220940080_AddUrlParametersTable.Designer.cs">
-      <DependentUpon>201610220940080_AddUrlParametersTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610221054064_FixUrlParameters.cs" />
-    <Compile Include="Migrations\201610221054064_FixUrlParameters.Designer.cs">
-      <DependentUpon>201610221054064_FixUrlParameters.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610230947508_AddFieldAccountId.cs" />
-    <Compile Include="Migrations\201610230947508_AddFieldAccountId.Designer.cs">
-      <DependentUpon>201610230947508_AddFieldAccountId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610231012299_ChangeAccountFields.cs" />
-    <Compile Include="Migrations\201610231012299_ChangeAccountFields.Designer.cs">
-      <DependentUpon>201610231012299_ChangeAccountFields.cs</DependentUpon>
+    <Compile Include="Migrations\201610271720442_AddDataCreateField.cs" />
+    <Compile Include="Migrations\201610271720442_AddDataCreateField.Designer.cs">
+      <DependentUpon>201610271720442_AddDataCreateField.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
@@ -110,23 +94,11 @@
     <Folder Include="QueriesAndCommands\Commands\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610211739065_Init.resx">
-      <DependentUpon>201610211739065_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610271719086_Init.resx">
+      <DependentUpon>201610271719086_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610220829362_AddMessagesTable.resx">
-      <DependentUpon>201610220829362_AddMessagesTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610220940080_AddUrlParametersTable.resx">
-      <DependentUpon>201610220940080_AddUrlParametersTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610221054064_FixUrlParameters.resx">
-      <DependentUpon>201610221054064_FixUrlParameters.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610230947508_AddFieldAccountId.resx">
-      <DependentUpon>201610230947508_AddFieldAccountId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610231012299_ChangeAccountFields.resx">
-      <DependentUpon>201610231012299_ChangeAccountFields.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610271720442_AddDataCreateField.resx">
+      <DependentUpon>201610271720442_AddDataCreateField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
