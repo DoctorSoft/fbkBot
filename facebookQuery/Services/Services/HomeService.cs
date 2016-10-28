@@ -5,6 +5,7 @@ using Constants.EnumExtension;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
 using Engines.Engines.SendMessageEngine;
@@ -63,6 +64,23 @@ namespace Services.Services
             });
 
             return statusModel;
+        }
+
+        public AccountActionModel GetAccountByUserId(long userId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = userId
+            });
+
+            return new AccountActionModel
+            {
+                Id = account.Id,
+                Login = account.Login,
+                Password = account.Password,
+                UserId = account.UserId,
+                PageUrl = account.PageUrl
+            };
         }
 
         public void SendMessage(long senderId, long friendId, string messageText)

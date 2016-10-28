@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@model Services.ViewModels.HomeModels.AccountActionModel
+
+<h2>Account Page</h2>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Account info</h2> 
+    </div>
+    <div class="panel-footer">
+        Login: @Model.Login <br />
+        HomeUrl: @Model.PageUrl <br />
+        UserId: @Model.UserId <br />  
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Message count</h2>
+    </div>
+    <div class="panel-footer">
+        Number New Friends: @Model.NumberNewFriends <br />
+        Number New Messages: @Model.NumberNewMessages <br />
+        Number New Notifications: @Model.NumberNewNotifications <br />
+    </div>
+</div>

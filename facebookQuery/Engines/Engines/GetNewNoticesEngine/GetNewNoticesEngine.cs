@@ -6,9 +6,9 @@ namespace Engines.Engines.GetNewNoticesEngine
     {
         protected override GetNewNoticesResponseModel ExecuteEngine(GetNewNoticesModel model)
         {
-            var newFriends = ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "requestsCountValue");
-            var newMessages = ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "mercurymessagesCountValue");
-            var newNotices = ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "notificationsCountValue");
+            var newFriends = int.Parse(ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "requestsCountValue"));
+            var newMessages = int.Parse(ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "mercurymessagesCountValue"));
+            var newNotices = int.Parse(ParseResponsePageHelper.GetSpanValueById(model.ResponsePage, "notificationsCountValue"));
 
             return new GetNewNoticesResponseModel()
             {

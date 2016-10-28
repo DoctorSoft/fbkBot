@@ -8,3 +8,4 @@ D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebGrease.dll
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\Newtonsoft.Json.xml
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebDriver.dll
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebDriver.xml
+D:\Project\fbkBot\facebookQuery\facebookQuery\obj\Debug\FacebookApp.csprojResolveAssemblyReference.cache

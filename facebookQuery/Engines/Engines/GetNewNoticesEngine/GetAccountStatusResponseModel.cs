@@ -2,10 +2,10 @@
 {
     public class GetNewNoticesResponseModel
     {
-        public string NumberNewFriends { get; set; }
+        public int NumberNewFriends { get; set; }
 
-        public string NumberNewMessages{ get; set; }
+        public int NumberNewMessages { get; set; }
 
-        public string NumberNewNotifications { get; set; }
+        public int NumberNewNotifications { get; set; }
     }
 }
