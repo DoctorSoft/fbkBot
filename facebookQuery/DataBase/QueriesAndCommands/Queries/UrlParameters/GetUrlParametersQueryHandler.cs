@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
+using Constants.UrlUnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.UrlParameters
 {
-    public class GetUrlParametersQueryHandler: IQueryHandler<GetUrlParametersQuery, IUrlParameters>
+    public class GetUrlParametersQueryHandler : IQueryHandler<GetUrlParametersQuery, List<KeyValue<int, string>>>
     {
         private readonly DataBaseContext context;
 
@@ -16,14 +18,15 @@ namespace DataBase.QueriesAndCommands.Queries.UrlParameters
             this.context = context;
         }
 
-        public IUrlParameters Handle(GetUrlParametersQuery query)
+        public List<KeyValue<int, string>> Handle(GetUrlParametersQuery query)
         {
             var urlParametersDbModel = context.UrlParameters.FirstOrDefault(model => model.CodeParameters == (int)query.NameUrlParameter);
             if (urlParametersDbModel == null) return null;
             var json = urlParametersDbModel.ParametersSet;
             if (query.NameUrlParameter != NamesUrlParameter.SendMessage) return null;
             var serializer = new JavaScriptSerializer();
-            return serializer.Deserialize<SendMessageUrlParametersModel>(json);
+            var answer = serializer.Deserialize<List<KeyValue<int, string>>>(json);
+            return answer;
         }
     }
 }

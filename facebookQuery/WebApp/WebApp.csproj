@@ -211,7 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engines\Engines.csproj">
-      <Project>{FBB7EBB2-3FB4-4A19-95C8-BA69794E8C44}</Project>
+      <Project>{fbb7ebb2-3fb4-4a19-95c8-ba69794e8c44}</Project>
       <Name>Engines</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jobs\Jobs.csproj">

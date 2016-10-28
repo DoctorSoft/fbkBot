@@ -1,104 +1,55 @@
 ﻿namespace DataBase.QueriesAndCommands.Queries.UrlParameters.Models
 {
-    public class SendMessageUrlParametersModel : GeneralUrlParametersModel
+    public class SendMessageUrlParametersModel
     {
-        private string _client;
-        private string _actionType;
-        private string _body;
-        private string _ephemeralTtlMode;
-        private string _hasAttachment;
-        private string _messageId;
-        private string _offlineThreadingId;
-        private string _otherUserFbid;
-        private string _source;
-        private string _signatureId;
-        private string _specificToListOne;
-        private string _specificToListTwo;
-        private string _timestamp;
-        private string _uiPushPhase;
+        public string Client { get; set; }
 
-        public string Client
-        {
-            get { return "client=" + _client; }
-            set { _client = value; }
-        }
+        public string ActionType { get; set; }
 
-        public string ActionType
-        {
-            get { return "action_type=" + _actionType; } 
-            set { _actionType = value; }
-        }
+        public string Body { get; set; }
 
-        public string Body
-        {
-            get { return "body=" + _body; } 
-            set { _body = value; }
-        }
+        public string EphemeralTtlMode { get; set; }
 
-        public string EphemeralTtlMode
-        {
-            get { return "ephemeral_ttl_mode=" + _ephemeralTtlMode; } 
-            set { _ephemeralTtlMode = value; }
-        }
+        public string HasAttachment { get; set; }
 
-        public string HasAttachment
-        {
-            get { return "has_attachment=" + _hasAttachment; } 
-            set { _hasAttachment = value; }
-        }
+        public string MessageId { get; set; }
 
-        public string MessageId
-        {
-            get { return "message_id=" + _messageId; } 
-            set {  _messageId = value; }
-        }
+        public string OfflineThreadingId{ get; set; }
 
-        public string OfflineThreadingId
-        {
-            get { return "offline_threading_id=" + _offlineThreadingId; }
-            set { _offlineThreadingId = value; } 
-        }
+        public string OtherUserFbid{ get; set; }
 
-        public string OtherUserFbid
-        {
-            get { return "other_user_fbid=" + _otherUserFbid; }
-            set { _otherUserFbid = value; }
-        }
+        public string Source{ get; set; }
 
-        public string Source
-        {
-            get { return "source=" + _source; }
-            set { _source = value; }
-        }
+        public string SignatureId { get; set; }
 
-        public string SignatureId
-        {
-            get { return "signature_id=" + _signatureId; }
-            set { _signatureId = value; }
-        }
+        public string SpecificToListOne { get; set; }
 
-        public string SpecificToListOne
-        {
-            get { return "specific_to_list[0]=" + _specificToListOne; }
-            set { _specificToListOne = value; }
-        }
+        public string SpecificToListTwo { get; set; }
 
-        public string SpecificToListTwo
-        {
-            get { return "specific_to_list[1]=" + _specificToListTwo; }
-            set { _specificToListTwo = value; }
-        }
+        public string Timestamp { get; set; }
 
-        public string Timestamp
-        {
-            get { return "timestamp=" + _timestamp; }
-            set { _timestamp = value; }
-        }
+        public string UiPushPhase { get; set; }
 
-        public string UiPushPhase
-        {
-            get { return "ui_push_phase=" + _uiPushPhase; }
-            set { _uiPushPhase = value; }
-        }
+        public string UserId { get; set; }
+
+        public string A { get; set; }
+
+        public string Dyn { get; set; }
+
+        public string Af { get; set; }
+
+        public string Req { get; set; }
+
+        public string Be { get; set; }
+
+        public string Pc { get; set; }
+
+        public string FbDtsg { get; set; }
+
+        public string Ttstamp { get; set; }
+
+        public string Rev { get; set; }
+
+        public string SrpT { get; set; }
     }
 }

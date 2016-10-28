@@ -89,8 +89,7 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\UrlParameters\Models\GeneralUrlParametersModel.cs" />
-    <Compile Include="QueriesAndCommands\Queries\UrlParameters\Models\IUrlParameters.cs" />
+    <Compile Include="QueriesAndCommands\Queries\UrlParameters\KeyValue.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\Models\SendMessageUrlParametersModel.cs" />
     <Compile Include="QueriesAndCommands\VoidCommandResponse.cs" />
   </ItemGroup>
@@ -100,7 +99,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610271719086_Init.resx">
       <DependentUpon>201610271719086_Init.cs</DependentUpon>

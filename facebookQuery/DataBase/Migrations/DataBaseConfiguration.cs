@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web.Script.Serialization;
+using Constants.UrlUnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.Models;
@@ -25,7 +26,7 @@ namespace DataBase.Migrations
             /*if (System.Diagnostics.Debugger.IsAttached == false)
             {
                 System.Diagnostics.Debugger.Launch();
-            }*/
+            }
 
             var accountsList = new List<AccountDbModel>()
             {
@@ -45,39 +46,42 @@ namespace DataBase.Migrations
             };
 
             context.Accounts.AddRange(accountsList);
+            */
 
-            var parameters = new SendMessageUrlParametersModel()
-            {       
-                Client = "mercury",
-                ActionType = "ma-type%3Auser-generated-message",
-                Body="",
-                EphemeralTtlMode = "0",
-                HasAttachment = "false",
-                MessageId = "",
-                OfflineThreadingId = "",
-                OtherUserFbid = "",
-                Source = "source%3Achat%3Aweb",
-                SignatureId = "6ec32383",
-                SpecificToListOne = "",
-                SpecificToListTwo = "",
-                Timestamp = "1477233712253",
-                UiPushPhase="V3",
-                
-                UserId = "",
-                A = "1",
-                Dyn = "aihoFeyfyGmagngDxyG9giolzkqbxqbAKGiBAy8Z9LFwxBxvyui9wWhE98nwgUy22Ea-dhUKbkwy8xa5ZKex3BKuEjKeCxPG4GDg4ium4UpKq4GCzk58nVV8-cxnxm3i2y9ADBy8K48hxGbwBxqu49LZ1uJ12VqxOEqCV8F3qzE",
-                Af = "o",
-                Req = "co",
-                Be = "-1",
-                Pc = "PHASED%3ADEFAULT",
-                FbDtsg = "AQEX6WS-FFC3%3AAQFwo5hs9ISS",
-                Ttstamp = "2658169885487834570706751586581701191115310411557738383",
-                Rev = "2638327",
-                SrpT = "1477219353"
+            var parameters = new Dictionary<SendMessageEnum, string>
+            {
+                {SendMessageEnum.Client, "mercury"},
+                {SendMessageEnum.ActionType, "ma-type%3Auser-generated-message"},
+                {SendMessageEnum.Body, ""},
+                {SendMessageEnum.EphemeralTtlMode, "0"},
+                {SendMessageEnum.HasAttachment, "false"},
+                {SendMessageEnum.MessageId, ""},
+                {SendMessageEnum.OfflineThreadingId, ""},
+                {SendMessageEnum.OtherUserFbid, ""},
+                {SendMessageEnum.Source, "source%3Achat%3Aweb"},
+                {SendMessageEnum.SignatureId, "6ec32383"},
+                {SendMessageEnum.SpecificToListOne, ""},
+                {SendMessageEnum.SpecificToListTwo, ""},
+                {SendMessageEnum.Timestamp, "1477233712253"},
+                {SendMessageEnum.UiPushPhase, "V3"},
+                {SendMessageEnum.UserId, ""},
+                {SendMessageEnum.A, "1"},
+                {
+                    SendMessageEnum.Dyn,
+                    "aihoFeyfyGmagngDxyG9giolzkqbxqbAKGiBAy8Z9LFwxBxvyui9wWhE98nwgUy22Ea-dhUKbkwy8xa5ZKex3BKuEjKeCxPG4GDg4ium4UpKq4GCzk58nVV8-cxnxm3i2y9ADBy8K48hxGbwBxqu49LZ1uJ12VqxOEqCV8F3qzE"
+                },
+                {SendMessageEnum.Af, "o"},
+                {SendMessageEnum.Req, "co"},
+                {SendMessageEnum.Be, "-1"},
+                {SendMessageEnum.Pc, "PHASED%3ADEFAULT"},
+                {SendMessageEnum.FbDtsg, "AQEX6WS-FFC3%3AAQFwo5hs9ISS"},
+                {SendMessageEnum.Ttstamp, "2658169885487834570706751586581701191115310411557738383"},
+                {SendMessageEnum.Rev, "2638327"},
+                {SendMessageEnum.SrpT, "1477219353"}
             };
 
             var js = new JavaScriptSerializer();
-            var json = js.Serialize(parameters);
+            var json = js.Serialize(parameters.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {

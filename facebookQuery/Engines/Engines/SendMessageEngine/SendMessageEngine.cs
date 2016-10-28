@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Constants;
 using Constants.EnumExtension;
+using Constants.UrlUnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
-using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
 using RequestsHelpers;
 
 namespace Engines.Engines.SendMessageEngine
@@ -16,22 +18,26 @@ namespace Engines.Engines.SendMessageEngine
             var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
             {
                 NameUrlParameter = NamesUrlParameter.SendMessage
-            }) as SendMessageUrlParametersModel;
+            });
 
             if (urlParameters == null) return null;
             var messageId = GenerateMessageId();
 
-            urlParameters.Body = model.Message;
-            urlParameters.MessageId = messageId;
-            urlParameters.OfflineThreadingId = messageId;
-            urlParameters.OtherUserFbid = model.FriendId.ToString("G");
-            urlParameters.SpecificToListOne = model.FriendId.ToString("G");
-            urlParameters.SpecificToListTwo = model.AccountId.ToString("G");
-            urlParameters.UserId = model.AccountId.ToString("G");
-            //urlParameters.Timestamp = Helper.DateTimeToJavaTimeStamp(DateTime.UtcNow).ToString();
+            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
 
-            var parameters = CreateParametersString(urlParameters);
+            var parametersDictionary = urlParameters.ToDictionary(pair => (SendMessageEnum)pair.Key, pair => pair.Value);
 
+            parametersDictionary[SendMessageEnum.Body] = model.Message;
+            parametersDictionary[SendMessageEnum.MessageId] = messageId;
+            parametersDictionary[SendMessageEnum.OfflineThreadingId] = messageId;
+            parametersDictionary[SendMessageEnum.OtherUserFbid] = model.FriendId.ToString("G");
+            parametersDictionary[SendMessageEnum.SpecificToListOne] = model.FriendId.ToString("G");
+            parametersDictionary[SendMessageEnum.SpecificToListTwo] = model.AccountId.ToString("G");
+            parametersDictionary[SendMessageEnum.UserId] = model.AccountId.ToString("G");
+            parametersDictionary[SendMessageEnum.Timestamp] = DateTime.Now.Ticks.ToString();
+            parametersDictionary[SendMessageEnum.FbDtsg] = fbDtsg;
+
+            var parameters = CreateParametersString(parametersDictionary);
 
             var answer = RequestsHelper.Post(Urls.SendMessage.GetDiscription(), parameters, model.Cookie);
 
@@ -46,34 +52,18 @@ namespace Engines.Engines.SendMessageEngine
             return "6197512797493" + rand.Next(100000, 999999);
         }
 
-        private static string CreateParametersString(SendMessageUrlParametersModel model)
+        private static string CreateParametersString(Dictionary<SendMessageEnum, string> parameters)
         {
-            return model.Client + "&" +
-                   model.ActionType + "&" +
-                   "body=" +model.Body + "&" +
-                   model.EphemeralTtlMode + "&" +
-                   model.HasAttachment + "&" +
-                   "message_id" + model.MessageId + "&" +
-                   "offline_threading_id" + model.OfflineThreadingId + "&" +
-                   "other_user_fbid" + model.OtherUserFbid + "&" +
-                   model.Source + "&" +
-                   model.SignatureId + "&" +
-                   "specific_to_list[0]:fbid" + model.SpecificToListOne + "&" +
-                   "specific_to_list[1]:fbid" + model.SpecificToListTwo + "&" +
-                   model.Timestamp + "&" +
-                   model.UiPushPhase + "&" +
+            var result = "";
+            foreach (var parameter in parameters)
+            {
+                if (!string.IsNullOrEmpty(parameter.Value))
+                {
+                    result += "&" + parameter.Key.GetAttributeName() + parameter.Value;
+                }
+            }
 
-                   model.UserId + "&" +
-                   model.A + "&" +
-                   model.Dyn + "&" +
-                   model.Af + "&" +
-                   model.Req + "&" +
-                   model.Be + "&" +
-                   model.Pc + "&" +
-                   model.FbDtsg + "&" +
-                   model.Ttstamp + "&" +
-                   model.Rev + "&" +
-                   model.SrpT;
+            return result.Remove(0, 1);
         }
     }
 }
