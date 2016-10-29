@@ -24,6 +24,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                     Id = model.Id,
                     PageUrl = model.PageUrl,
                     UserId = model.UserId,
+                    Login = model.Login,
+                    Password = model.Password,
                     Cookie = new CookieModel
                     {
                        CookieString = model.Cookies.CookiesString

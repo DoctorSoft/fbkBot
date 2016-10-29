@@ -1,4 +1,7 @@
-﻿namespace Services.ViewModels.HomeModels
+﻿using System.Collections.Generic;
+using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
+
+namespace Services.ViewModels.HomeModels
 {
     public class AccountActionModel
     {
@@ -17,5 +20,7 @@
         public int NumberNewMessages { get; set; }
 
         public int NumberNewNotifications { get; set; }
+
+        public List<GetUnreadMessagesResponseModel> NewMessagesList { get; set; } 
     }
 }

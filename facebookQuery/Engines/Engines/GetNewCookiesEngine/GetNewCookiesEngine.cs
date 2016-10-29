@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.PhantomJS;
 
 namespace Engines.Engines.GetNewCookiesEngine
 {
@@ -8,7 +10,8 @@ namespace Engines.Engines.GetNewCookiesEngine
     {
         protected override GetNewCookiesResponse ExecuteEngine(GetNewCookiesModel model)
         {
-            var driver = new ChromeDriver();
+            string path = Directory.GetCurrentDirectory();
+            var driver = new PhantomJSDriver();
 
             driver.Navigate().GoToUrl("https://www.facebook.com/login.php?login_attempt=1&lwv=110");
 

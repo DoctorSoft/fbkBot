@@ -1,33 +1,19 @@
 ﻿using System;
+using System.Linq;
 using Hangfire;
+using Jobs.Jobs.MessageJobs;
+using Services.Services;
 
 namespace Jobs
 {
     public static class JobsBootstrapper
     {
-        public static void Run()
-        {
-            
-        }
-
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public static void FailedJob()
-        {
-//            try
-//            {
-//                throw new Exception("Fail job message");
-//            }
-//            catch (Exception exception)
-//            {
-//                RecurringJob.RemoveIfExists("Failed Job");
-//                throw exception;
-//            }
-        }
-
         public static void SetUpJobs()
         {
-            RecurringJob.AddOrUpdate("Test Job", () => Run(), Cron.Hourly);
-            //RecurringJob.AddOrUpdate("Failed Job", () => FailedJob(), Cron.Daily);
+            var accounts = new HomeService().GetAccounts().Select(model => model.UserId).Take(2).ToList();
+
+            RecurringJob.AddOrUpdate(string.Format("Send Message Job (from {0} to {1})", accounts[0], accounts[1]), () => SendMessageJob.Run(accounts[0], accounts[1]), Cron.Minutely);
+            RecurringJob.AddOrUpdate(string.Format("Send Message Job (from {0} to {1})", accounts[1], accounts[0]), () => SendMessageJob.Run(accounts[1], accounts[0]), Cron.Minutely);
         }
     }
 }

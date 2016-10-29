@@ -8,22 +8,66 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <h2>Account info</h2> 
+        <h3>Account info</h3> 
     </div>
     <div class="panel-footer">
+        
         Login: @Model.Login <br />
         HomeUrl: @Model.PageUrl <br />
-        UserId: @Model.UserId <br />  
+        UserId: @Model.UserId <br />
+
+        <div class="panel-heading">
+            Count new friends <span class="badge">@Model.NumberNewFriends</span><br />
+        </div>
+        <div class="panel-heading">
+            Count new messages 
+            <span class="badge">
+                <a data-toggle="collapse" href="#collapse1">@Model.NumberNewMessages </a>
+            </span>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse">
+            <div class="panel panel-default">
+                <div class="panel-heading">New messages</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id friend
+                            </th>
+                            <th>
+                                Count unread messages
+                            </th>
+                            <th>
+                                Count all messages
+                            </th>
+                            <th>
+                                Last message
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var account in @Model.NewMessagesList)
+                    {
+                        <tr>
+                            <td>
+                                @account.FriendId
+                            </td>
+                            <td>
+                                @account.CountUnreadMessages
+                            </td>
+                            <td>
+                                @account.CountAllMessages
+                            </td>
+                            <td>
+                                @account.LastMessage
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="panel-heading">
+            Count new notifications <span class="badge">@Model.NumberNewNotifications</span><br />
+        </div>
     </div>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <h2>Message count</h2>
-    </div>
-    <div class="panel-footer">
-        Number New Friends: @Model.NumberNewFriends <br />
-        Number New Messages: @Model.NumberNewMessages <br />
-        Number New Notifications: @Model.NumberNewNotifications <br />
-    </div>
-</div>

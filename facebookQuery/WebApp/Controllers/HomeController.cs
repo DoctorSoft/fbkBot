@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using Services.Services;
 
@@ -16,9 +17,12 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             var accounts = homeService.GetAccounts();
-            var currentAccount = accounts.FirstOrDefault();
+            /*foreach (var accountViewModel in accounts)
+            {
+                homeService.RefreshCookies(accountViewModel.UserId, accountViewModel.Login, accountViewModel.Password);
+                Thread.Sleep(5000);
+            }*/
 
-            //homeService.RefreshCookies(currentAccount.UserId, currentAccount.Login, currentAccount.Password);
             return View(accounts);
         }
     }

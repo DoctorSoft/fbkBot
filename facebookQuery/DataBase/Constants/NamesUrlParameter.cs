@@ -2,6 +2,7 @@
 {
     public enum NamesUrlParameter
     {
-        SendMessage = 1
+        SendMessage = 1,
+        GetMessages = 2
     }
 }

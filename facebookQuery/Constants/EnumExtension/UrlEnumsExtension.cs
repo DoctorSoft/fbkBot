@@ -63,5 +63,32 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("messageEnum");
             }
         }
+
+        public static string GetAttributeName(this GetUnreadMessagesEnum messageEnum)
+        {
+            switch (messageEnum)
+            {
+                case GetUnreadMessagesEnum.Client:
+                    return "client=";
+                case GetUnreadMessagesEnum.InboxOffset:
+                    return "inbox[offset]=";
+                case GetUnreadMessagesEnum.InboxLimit:
+                    return "inbox[limit]=";
+                case GetUnreadMessagesEnum.InboxFilter:
+                    return "inbox[filter]="; 
+                case GetUnreadMessagesEnum.User:
+                    return "__user="; 
+                case GetUnreadMessagesEnum.A:
+                    return "__a=";
+                case GetUnreadMessagesEnum.Be:
+                    return "__be=";
+                case GetUnreadMessagesEnum.Pc:
+                    return "__pc=";
+                case GetUnreadMessagesEnum.FbDtsg:
+                    return "fb_dtsg="; 
+                default:
+                    throw new ArgumentOutOfRangeException("messageEnum");
+            }
+        }
     }
 }

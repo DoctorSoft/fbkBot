@@ -21,9 +21,8 @@ namespace WebApp.Controllers
             currentAccount.NumberNewFriends = status.NumberNewFriends;
             currentAccount.NumberNewMessages = status.NumberNewMessages;
             currentAccount.NumberNewNotifications = status.NumberNewNotifications;
-
-            //homeService.SendMessage(currentAccount.UserId, 100002115472896, "Hello");
-
+            currentAccount.NewMessagesList = homeService.GetUnreadMessages(currentAccount.UserId);
+            
             return View(currentAccount);
         }
     }

@@ -23,14 +23,14 @@ namespace DataBase.Migrations
 
         protected override void Seed(DataBaseContext context)
         {
-            /*if (System.Diagnostics.Debugger.IsAttached == false)
+            if (System.Diagnostics.Debugger.IsAttached == false)
             {
                 System.Diagnostics.Debugger.Launch();
             }
 
             var accountsList = new List<AccountDbModel>()
             {
-                new AccountDbModel()
+                /*new AccountDbModel()
                 {
                     Id = 1,
                     Login = "ms.nastasia.1983@mail.ru",
@@ -42,12 +42,26 @@ namespace DataBase.Migrations
                         CookiesString = "",
                         CreateDate = DateTime.Now
                     }
-                }
+                },*/
+                new AccountDbModel()
+                {
+                    Id = 1,
+                    Login = "petya-pervyy-1999@mail.ru",
+                    Password = "nWE#w(Qb",
+                    PageUrl = "https://www.facebook.com/profile.php?id=100013532889680",
+                    UserId = 100013532889680,
+                    Cookies = new CookiesDbModel()
+                    {
+                        CookiesString = "",
+                        CreateDate = DateTime.Now
+                    }
+                },
             };
 
+            
             context.Accounts.AddRange(accountsList);
-            */
 
+            /*
             var parameters = new Dictionary<SendMessageEnum, string>
             {
                 {SendMessageEnum.Client, "mercury"},
@@ -79,21 +93,34 @@ namespace DataBase.Migrations
                 {SendMessageEnum.Rev, "2638327"},
                 {SendMessageEnum.SrpT, "1477219353"}
             };
+           
+            var parametersUnread = new Dictionary<GetUnreadMessagesEnum, string>
+            {
+                {GetUnreadMessagesEnum.Client, "web_messenger"},
+                {GetUnreadMessagesEnum.InboxOffset, "0"},
+                {GetUnreadMessagesEnum.InboxFilter, "unread"},
+                {GetUnreadMessagesEnum.InboxLimit, "1000"},
+                {GetUnreadMessagesEnum.User, ""},
+                {GetUnreadMessagesEnum.A, "1"},
+                {GetUnreadMessagesEnum.Be, "-1"},
+                {GetUnreadMessagesEnum.Pc, "PHASED:DEFAULT"},
+                {GetUnreadMessagesEnum.FbDtsg, ""}
+            };
 
             var js = new JavaScriptSerializer();
-            var json = js.Serialize(parameters.Select(pair => pair).ToList());
+            var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.SendMessage,
-                    ParametersSet = json
+                    CodeParameters = (int)NamesUrlParameter.GetMessages,
+                    ParametersSet = jsonUnread
                 }
             };
 
             context.UrlParameters.AddRange(urlParametersList);
-
+             */
             context.SaveChanges();
         }
     }

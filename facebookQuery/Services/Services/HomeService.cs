@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Constants;
 using Constants.EnumExtension;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
+using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
 using Engines.Engines.SendMessageEngine;
@@ -66,6 +67,19 @@ namespace Services.Services
             return statusModel;
         }
 
+        public List<GetUnreadMessagesResponseModel> GetUnreadMessages(long accountId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+            return new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
+            {
+                AccountId = account.UserId,
+                Cookie = account.Cookie.CookieString
+            });
+        }
+
         public AccountActionModel GetAccountByUserId(long userId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
@@ -83,8 +97,15 @@ namespace Services.Services
             };
         }
 
-        public void SendMessage(long senderId, long friendId, string messageText)
+        public void SendMessage(long senderId, long friendId)
         {
+            var rnd = new Random();
+            var mockMessageList = new List<string>()
+            {
+                "Hello", "Hi", "How are u?", "What's up?", "What are you up to?", "Nice to meet you" 
+            };
+            var messageText = mockMessageList[rnd.Next(mockMessageList.Count)];
+
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = senderId
