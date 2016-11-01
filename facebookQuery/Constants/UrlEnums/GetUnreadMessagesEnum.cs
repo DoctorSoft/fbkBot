@@ -1,4 +1,4 @@
-﻿namespace Constants.UrlUnums
+﻿namespace Constants.UrlEnums
 {
     public enum GetUnreadMessagesEnum
     {

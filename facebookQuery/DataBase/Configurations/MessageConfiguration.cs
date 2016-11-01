@@ -16,8 +16,12 @@ namespace DataBase.Configurations
             Property(model => model.ImportancyFactor);
             Property(model => model.IsStopped);
             Property(model => model.Message);
+            Property(model => model.IsEmergencyText);
+            Property(model => model.MessageRegime);
+            Property(model => model.StartTime);
+            Property(model => model.EndTime);
 
-            HasRequired(it => it.Account).WithMany(model => model.Messages).HasForeignKey(model => model.AccountId);
+            HasOptional(it => it.Account).WithMany(model => model.Messages).HasForeignKey(model => model.AccountId);
         }
     }
 }

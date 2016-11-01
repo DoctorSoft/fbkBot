@@ -1,5 +1,5 @@
 ﻿using System;
-using Constants.UrlUnums;
+using Constants.UrlEnums;
 
 namespace Constants.EnumExtension
 {

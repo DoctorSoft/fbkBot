@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201610271855194_AddLoginAndPasswordFields.Designer.cs">
       <DependentUpon>201610271855194_AddLoginAndPasswordFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611010430500_AddMessageFields.cs" />
+    <Compile Include="Migrations\201611010430500_AddMessageFields.Designer.cs">
+      <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -114,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610271855194_AddLoginAndPasswordFields.resx">
       <DependentUpon>201610271855194_AddLoginAndPasswordFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611010430500_AddMessageFields.resx">
+      <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

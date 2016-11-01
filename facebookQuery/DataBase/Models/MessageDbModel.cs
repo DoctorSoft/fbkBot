@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Constants.MessageEnums;
 
 namespace DataBase.Models
 {
@@ -12,7 +14,17 @@ namespace DataBase.Models
 
         public bool IsStopped { get; set; }
 
-        public long AccountId { get; set; }
+        public long? AccountId { get; set; }
+
+        public MessageRegime MessageRegime { get; set; }
+
+        public TimeSpan? StartTime { get; set; }
+
+        public TimeSpan? EndTime { get; set; }
+
+        public int OrderNumber { get; set; }
+
+        public bool IsEmergencyText { get; set; }
 
         public AccountDbModel Account { get; set; } 
     }
