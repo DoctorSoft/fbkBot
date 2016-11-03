@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using Services.ViewModels.OptionsModel;
 
 namespace WebApp.Controllers
 {
@@ -9,5 +11,10 @@ namespace WebApp.Controllers
         {
             return View();
         }
-    }
+
+        public ActionResult AddNewMessage(MessageViewModel model)
+        {
+            return RedirectToAction("Index");
+        }
+     }
 }

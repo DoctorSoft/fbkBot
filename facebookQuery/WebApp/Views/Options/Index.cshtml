@@ -1,15 +1,48 @@
-﻿
+﻿@using Services.ViewModels.OptionsModel
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Options</h2>
 
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () { // will trigger when the document is ready
+           $('.datepicker').datepicker(); //Initialise any date pickers
+        });
+    </script>
+}
+
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Message options</h3>
+        <h3 class="panel-title">Default message options</h3>
     </div>
     <div class="panel-body">
-        Panel content
+        <h3>Add new message</h3>
+
+        @using (Html.BeginForm("AddNewMessage", "Options", FormMethod.Post))
+        {
+            var model = new MessageViewModel();
+            <div class="form-group input-group-sm">
+                Text: @Html.TextAreaFor(o => model.Text, new {@class = "form-control"})
+            </div>
+            <div class="form-group input-group-sm"> 
+                Time from: @Html.TextBoxFor(o => model.TimeFrom, new { @class = "form-control datepicker" })
+            </div>
+            <div class="form-group input-group-sm">
+                Time to: @Html.TextBoxFor(o => model.TimeTo, new { @class = "form-control datepicker" })
+            </div>
+            <div class="form-group input-group-sm">
+                After stop words: @Html.CheckBoxFor(o => model.IsEmergencyMessage, new {@class = "form-control"})
+            </div>
+            <div class="form-group input-group-sm">
+                Number of message: @Html.TextBoxFor(o => model.MessageNumber, new {@class = "form-control"})
+            </div>
+
+            <div class="">
+                <input type="submit" class="btn btn-success"/>
+            </div>
+        }
     </div>
 </div>
