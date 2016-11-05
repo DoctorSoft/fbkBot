@@ -9,3 +9,14 @@ D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\Newtonsoft.Json.xml
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebDriver.dll
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebDriver.xml
 D:\Project\fbkBot\facebookQuery\facebookQuery\obj\Debug\FacebookApp.csprojResolveAssemblyReference.cache
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\FacebookApp.exe.config
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\FacebookApp.exe
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\FacebookApp.pdb
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\Newtonsoft.Json.dll
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\WebDriver.dll
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\WebGrease.dll
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\Newtonsoft.Json.xml
+D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\WebDriver.xml
+D:\!!Facebook\facebookQuery\facebookQuery\obj\Debug\FacebookApp.csprojResolveAssemblyReference.cache
+D:\!!Facebook\facebookQuery\facebookQuery\obj\Debug\FacebookApp.exe
+D:\!!Facebook\facebookQuery\facebookQuery\obj\Debug\FacebookApp.pdb

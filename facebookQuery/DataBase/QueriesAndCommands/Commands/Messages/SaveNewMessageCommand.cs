@@ -1,15 +1,15 @@
 ﻿using System;
 using Constants.MessageEnums;
 
-namespace Services.ViewModels.OptionsModel
+namespace DataBase.QueriesAndCommands.Commands.Messages
 {
-    public class MessageViewModel
+    public class SaveNewMessageCommand : IVoidCommand
     {
         public string Message { get; set; }
 
         public long? AccountId { get; set; }
 
-        public bool IsBotFirst { get; set; }
+        public MessageRegime MessageRegime { get; set; }
 
         public TimeSpan? StartTime { get; set; }
 

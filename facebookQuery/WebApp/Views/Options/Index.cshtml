@@ -7,11 +7,22 @@
 
 @section scripts
 {
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="../../Content/clockpicker.js"></script>
+    <script src="../../Content/bootstrap-clockpicker.js"></script>
+    <script src="../../Content/jquery-clockpicker.js"></script>
+
+    <link href="../../Content/clockpicker.css" rel="stylesheet"></link>
+    <link href="../../Content/bootstrap-clockpicker.css" rel="stylesheet"></link>
     <script type="text/javascript">
-        $(function () { // will trigger when the document is ready
-           $('.datepicker').datepicker(); //Initialise any date pickers
+        $(function() { 
+            $('.datepicker').clockpicker({
+                donetext: 'Done',
+            }); 
         });
     </script>
+
 }
 
 <div class="panel panel-default">
@@ -25,19 +36,25 @@
         {
             var model = new MessageViewModel();
             <div class="form-group input-group-sm">
-                Text: @Html.TextAreaFor(o => model.Text, new {@class = "form-control"})
+                Text: @Html.TextAreaFor(o => model.Message, new {@class = "form-control"})
             </div>
             <div class="form-group input-group-sm"> 
-                Time from: @Html.TextBoxFor(o => model.TimeFrom, new { @class = "form-control datepicker" })
+                Time from: @Html.TextBoxFor(o => model.StartTime, new { @class = "form-control datepicker" })
             </div>
             <div class="form-group input-group-sm">
-                Time to: @Html.TextBoxFor(o => model.TimeTo, new { @class = "form-control datepicker" })
+                Time to: @Html.TextBoxFor(o => model.EndTime, new { @class = "form-control datepicker" })
             </div>
             <div class="form-group input-group-sm">
-                After stop words: @Html.CheckBoxFor(o => model.IsEmergencyMessage, new {@class = "form-control"})
+                After stop words: @Html.CheckBoxFor(o => model.IsEmergencyText, new {@class = "form-control"})
             </div>
             <div class="form-group input-group-sm">
-                Number of message: @Html.TextBoxFor(o => model.MessageNumber, new {@class = "form-control"})
+                Number of message: @Html.TextBoxFor(o => model.OrderNumber, new {@class = "form-control"})
+            </div>
+            <div class="form-group input-group-sm">
+                Importancy factor: @Html.TextBoxFor(o => model.ImportancyFactor, new {@class = "form-control"})
+            </div>
+            <div class="form-group input-group-sm">
+                Message regime: @Html.CheckBoxFor(o => model.IsBotFirst, new { @class = "form-control" })
             </div>
 
             <div class="">
