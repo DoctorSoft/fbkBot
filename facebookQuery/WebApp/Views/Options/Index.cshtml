@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Options</h2>
+@model MessageListModel
 
 @section scripts
 {
@@ -16,16 +16,18 @@
     <link href="../../Content/clockpicker.css" rel="stylesheet"></link>
     <link href="../../Content/bootstrap-clockpicker.css" rel="stylesheet"></link>
     <script type="text/javascript">
-        $(function() { 
+        $(function () {
             $('.datepicker').clockpicker({
                 donetext: 'Done',
-            }); 
+            });
         });
     </script>
 
 }
 
-<div class="panel panel-default">
+<h2>Message options</h2>
+
+<div class="panel panel-default left-add-message-panel">
     <div class="panel-heading">
         <h3 class="panel-title">Default message options</h3>
     </div>
@@ -36,30 +38,61 @@
         {
             var model = new MessageViewModel();
             <div class="form-group input-group-sm">
-                Text: @Html.TextAreaFor(o => model.Message, new {@class = "form-control"})
+                Text: @Html.TextAreaFor(o => model.Message, new { @class = "form-control" })
             </div>
-            <div class="form-group input-group-sm"> 
+            <div class="form-group input-group-sm">
                 Time from: @Html.TextBoxFor(o => model.StartTime, new { @class = "form-control datepicker" })
             </div>
             <div class="form-group input-group-sm">
                 Time to: @Html.TextBoxFor(o => model.EndTime, new { @class = "form-control datepicker" })
             </div>
             <div class="form-group input-group-sm">
-                After stop words: @Html.CheckBoxFor(o => model.IsEmergencyText, new {@class = "form-control"})
+                After stop words: @Html.CheckBoxFor(o => model.IsEmergencyText, new { @class = "form-control" })
             </div>
             <div class="form-group input-group-sm">
-                Number of message: @Html.TextBoxFor(o => model.OrderNumber, new {@class = "form-control"})
+                Number of message: @Html.TextBoxFor(o => model.OrderNumber, new { @class = "form-control" })
             </div>
             <div class="form-group input-group-sm">
-                Importancy factor: @Html.TextBoxFor(o => model.ImportancyFactor, new {@class = "form-control"})
+                Importancy factor: @Html.TextBoxFor(o => model.ImportancyFactor, new { @class = "form-control" })
             </div>
             <div class="form-group input-group-sm">
-                Message regime: @Html.CheckBoxFor(o => model.IsBotFirst, new { @class = "form-control" })
+                Bot starts talk first: @Html.CheckBoxFor(o => model.IsBotFirst, new { @class = "form-control" })
             </div>
 
             <div class="">
-                <input type="submit" class="btn btn-success"/>
+                <input type="submit" class="btn btn-success" />
             </div>
         }
+    </div>
+</div>
+
+<div class="panel-group right-add-message-panel" id="accordion">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">List of messages</h3>
+    </div>
+    <div class="panel-body">
+
+        @foreach (var message in @Model.Messages)
+        {
+            if (!string.IsNullOrWhiteSpace(message.Message))
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href='@("#collapse" + @message.Id)'>
+                                @message.Message
+                            </a>
+                        </h4>
+                    </div>
+                    <div id='@("collapse" + @message.Id)' class="panel-collapse collapse">
+                        <div class="panel-body">
+                            Start time: @message.StartTime - End time: @message.EndTime
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
     </div>
 </div>

@@ -93,6 +93,9 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\Models\MessageModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\KeyValue.cs" />

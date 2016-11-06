@@ -17,7 +17,8 @@ namespace WebApp.Controllers
         // GET: Option
         public ActionResult Index()
         {
-            return View();
+            var result = messageSettingService.GetMessagesList(null);
+            return View(result);
         }
 
         public ActionResult AddNewMessage(MessageViewModel model)

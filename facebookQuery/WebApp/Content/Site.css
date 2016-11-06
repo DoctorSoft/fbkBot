@@ -23,3 +23,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.left-add-message-panel {
+    width: 40% !important;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.right-add-message-panel {
+    width: 40% !important;
+    display: inline-block;
+    vertical-align: top;
+}
