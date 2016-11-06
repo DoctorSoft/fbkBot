@@ -29,10 +29,39 @@ textarea {
     width: 40% !important;
     display: inline-block;
     vertical-align: top;
+    min-width: 300px;
 }
 
 .right-add-message-panel {
     width: 40% !important;
     display: inline-block;
     vertical-align: top;
+    min-width: 300px;
+}
+
+.dark-blue-label {
+    color: darkblue;
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+.remove-message {
+    float: right;
+}
+
+.remove-message a {
+    color: red!important;
+}
+
+.remove-message a:hover {
+    color: darkred!important;
+}
+
+.right-text {
+    text-align: right
+}
+
+.message-emergency-warning {
+    color: red!important;
+    padding-top: 15px;
 }

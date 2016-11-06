@@ -80,6 +80,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\ICommand.cs" />

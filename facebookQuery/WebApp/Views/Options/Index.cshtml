@@ -32,7 +32,7 @@
         <h3 class="panel-title">Default message options</h3>
     </div>
     <div class="panel-body">
-        <h3>Add new message</h3>
+        <h4>Add new message</h4>
 
         @using (Html.BeginForm("AddNewMessage", "Options", FormMethod.Post))
         {
@@ -73,24 +73,83 @@
     </div>
     <div class="panel-body">
 
-        @foreach (var message in @Model.Messages)
-        {
-            if (!string.IsNullOrWhiteSpace(message.Message))
+        @{
+            <h4 class="dark-blue-label">If bot starts talking first</h4>
+
+    var previousNumber = int.MinValue;
+            foreach (var message in @Model.Messages.Where(model => model.IsBotFirst))
             {
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href='@("#collapse" + @message.Id)'>
-                                @message.Message
-                            </a>
-                        </h4>
-                    </div>
-                    <div id='@("collapse" + @message.Id)' class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Start time: @message.StartTime - End time: @message.EndTime
+                if (!string.IsNullOrWhiteSpace(message.Message))
+                {
+                    if (message.OrderNumber != previousNumber)
+                    {
+                        <div class="right-text">
+                            <h5> Number of message: <strong>@message.OrderNumber</strong> </h5>
+                        </div>
+                        previousNumber = message.OrderNumber;
+                    }
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href='@("#collapse" + @message.Id)'>
+                                    @(message.OrderNumber). @message.Message
+                                </a>
+                                <span class="remove-message">
+                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id})"><i class="fa fa-close" aria-hidden="true"></i></a>
+                                </span>
+                            </h4>
+                        </div>
+                        <div id='@("collapse" + @message.Id)' class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Start time: @message.StartTime - End time: @message.EndTime
+                                @if (message.IsEmergencyText)
+                                {
+                                    <div class="message-emergency-warning"><i class="fa fa-info-circle"></i> It is message after catching stop word</div>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+            }
+
+            <h4 class="dark-blue-label">If bot starts talking second</h4>
+
+            previousNumber = int.MinValue;
+            foreach (var message in @Model.Messages.Where(model => !model.IsBotFirst))
+            {
+                if (!string.IsNullOrWhiteSpace(message.Message))
+                {
+                    if (message.OrderNumber != previousNumber)
+                    {
+                        <div class="right-text">
+                            <h5> Number of message: <strong>@message.OrderNumber</strong> </h5>
+                        </div>
+                        previousNumber = message.OrderNumber;
+                    }
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href='@("#collapse" + @message.Id)'>
+                                    @(message.OrderNumber). @message.Message
+                                </a>
+                                <span class="remove-message">
+                                    <a href="@Url.Action("RemoveMessage", "Options", new {messageId = message.Id})"><i class="fa fa-close" aria-hidden="true"></i></a>
+                                </span>
+                            </h4>
+                        </div>
+                        <div id='@("collapse" + @message.Id)' class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Start time: @message.StartTime - End time: @message.EndTime <br/>
+                                @if (message.IsEmergencyText)
+                                {
+                                    <div class="message-emergency-warning"><i class="fa fa-info-circle"></i> It is message after catching stop word</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
             }
         }
 

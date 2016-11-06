@@ -26,5 +26,11 @@ namespace WebApp.Controllers
             messageSettingService.SaveNewMessage(model);
             return RedirectToAction("Index");
         }
+
+        public ActionResult RemoveMessage(long messageId)
+        {
+            messageSettingService.RemoveMessage(messageId);
+            return RedirectToAction("Index");
+        }
      }
 }

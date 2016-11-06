@@ -11,6 +11,11 @@ namespace Services.Services
     {
         public void SaveNewMessage(MessageViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.Message))
+            {
+                return;
+            }
+
             new SaveNewMessageCommandHandler(new DataBaseContext()).Handle(new SaveNewMessageCommand
             {
                 AccountId = model.AccountId,
@@ -47,6 +52,14 @@ namespace Services.Services
             };
 
             return result;
+        }
+
+        public void RemoveMessage(long messageId)
+        {
+            new RemoveMessageCommandHandler(new DataBaseContext()).Handle(new RemoveMessageCommand
+            {
+                MessageId = messageId
+            });
         }
     }
 }
