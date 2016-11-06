@@ -17,6 +17,11 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             var accounts = homeService.GetAccounts();
+
+            var currentAccount = accounts.FirstOrDefault();
+
+            //homeService.GetСorrespondenceByFriendId(currentAccount.UserId, 100013726390504);
+
             /*foreach (var accountViewModel in accounts)
             {
                 homeService.RefreshCookies(accountViewModel.UserId, accountViewModel.Login, accountViewModel.Password);

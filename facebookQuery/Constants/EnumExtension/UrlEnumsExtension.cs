@@ -90,5 +90,36 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("messageEnum");
             }
         }
+
+        public static string GetAttributeName(this GetCorrespondenceEnum messageEnum)
+        {
+            switch (messageEnum)
+            {
+                case GetCorrespondenceEnum.User:
+                    return "__user=";
+                case GetCorrespondenceEnum.A:
+                    return "__a=";
+                case GetCorrespondenceEnum.Dyn:
+                    return "__dyn=";
+                case GetCorrespondenceEnum.Af:
+                    return "__af=";
+                case GetCorrespondenceEnum.Req:
+                    return "__req=";
+                case GetCorrespondenceEnum.Be:
+                    return "__be=";
+                case GetCorrespondenceEnum.Pc:
+                    return "__pc=";
+                case GetCorrespondenceEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case GetCorrespondenceEnum.Ttstamp:
+                    return "ttstamp=";
+                case GetCorrespondenceEnum.Rev:
+                    return "__rev=";
+                case GetCorrespondenceEnum.SrpT:
+                    return "__srp_t=";
+                default:
+                    throw new ArgumentOutOfRangeException("messageEnum", messageEnum, null);
+            }
+        }
     }
 }

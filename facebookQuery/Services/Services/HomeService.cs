@@ -7,6 +7,7 @@ using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
+using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
 using Engines.Engines.SendMessageEngine;
@@ -65,6 +66,20 @@ namespace Services.Services
             });
 
             return statusModel;
+        }
+
+        public void GetСorrespondenceByFriendId(long accountId, long friendId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+            var statusModel = new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
+            {
+                Cookie = account.Cookie.CookieString,
+                AccountId = accountId,
+                FriendId = friendId
+            });
         }
 
         public List<GetUnreadMessagesResponseModel> GetUnreadMessages(long accountId)

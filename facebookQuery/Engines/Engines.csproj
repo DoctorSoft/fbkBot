@@ -60,9 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\AbstractEngine.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesResponseModel.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdModel.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdResponseModel.cs" />
     <Compile Include="Engines\GetNewNoticesEngine\GetNewNoticesEngine.cs" />
     <Compile Include="Engines\GetNewNoticesEngine\GetNewNoticesModel.cs" />
     <Compile Include="Engines\GetNewNoticesEngine\GetAccountStatusResponseModel.cs" />

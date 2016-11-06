@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web.Script.Serialization;
+using Constants.UrlEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.Models;
@@ -41,7 +42,7 @@ namespace DataBase.Migrations
                         CookiesString = "",
                         CreateDate = DateTime.Now
                     }
-                },*/
+                },
                 new AccountDbModel()
                 {
                     Id = 1,
@@ -54,7 +55,7 @@ namespace DataBase.Migrations
                         CookiesString = "",
                         CreateDate = DateTime.Now
                     }
-                },
+                },*/
             };
 
             
@@ -105,21 +106,37 @@ namespace DataBase.Migrations
                 {GetUnreadMessagesEnum.Pc, "PHASED:DEFAULT"},
                 {GetUnreadMessagesEnum.FbDtsg, ""}
             };
+            */
+
+            var parametersCorrespondence = new Dictionary<GetCorrespondenceEnum, string>
+            {
+                {GetCorrespondenceEnum.User, ""},
+                {GetCorrespondenceEnum.A, "1"},
+                {GetCorrespondenceEnum.Dyn, "7AmajEzUGByAZ112u6aEyx91qeCwKAKGhVoyfirWo8popyUW3F6wAxu13wFG2K48jyR88y8aGjzEgDKuEjKeCwxxaagpwGDwPKq4GCzEkxvDAzUO5u5o5S9ADBy8K48hxGbwYDx2r_gqQ59ovwAV8G4oWfx2m"},
+                {GetCorrespondenceEnum.Af, "o"},
+                {GetCorrespondenceEnum.Req, "11"},
+                {GetCorrespondenceEnum.Be, "-1"},
+                {GetCorrespondenceEnum.Pc, "PHASED:DEFAULT"},
+                {GetCorrespondenceEnum.FbDtsg, ""},
+                {GetCorrespondenceEnum.Ttstamp, ""},
+                {GetCorrespondenceEnum.Rev, "2665999"},
+                {GetCorrespondenceEnum.SrpT, "1478456336"}
+            };
 
             var js = new JavaScriptSerializer();
-            var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
+            var jsonUnread = js.Serialize(parametersCorrespondence.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.GetMessages,
+                    CodeParameters = (int)NamesUrlParameter.GetCorrespondence,
                     ParametersSet = jsonUnread
                 }
             };
 
             context.UrlParameters.AddRange(urlParametersList);
-             */
+             
             context.SaveChanges();
         }
     }
