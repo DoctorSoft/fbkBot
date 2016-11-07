@@ -37,6 +37,9 @@
         @using (Html.BeginForm("AddNewMessage", "Options", FormMethod.Post))
         {
             var model = new MessageViewModel();
+
+            @Html.HiddenFor(listModel => listModel.AccountId);
+
             <div class="form-group input-group-sm">
                 Text: @Html.TextAreaFor(o => model.Message, new { @class = "form-control" })
             </div>
@@ -69,14 +72,29 @@
 <div class="panel-group right-add-message-panel" id="accordion">
 
     <div class="panel-heading">
-        <h3 class="panel-title">List of messages</h3>
+        <div class="message-list-tittle">
+            <h3 class="panel-title">List of messages</h3>
+        </div>
+        @if (Model.AccountId != null)
+        {
+            <div class="dropdown set-defaul-message">
+                <button class="btn btn-default dropdown-toggle" type="button" id="settingsDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-cogs"></i>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="settingsDropdownMenu">
+                    <li><a href="#" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa fa-cubes"></i> Set default settings</a></li>
+                </ul>
+            </div>
+        }
     </div>
     <div class="panel-body">
 
         @{
             <h4 class="dark-blue-label">If bot starts talking first</h4>
 
-    var previousNumber = int.MinValue;
+            var previousNumber = int.MinValue;
+
             foreach (var message in @Model.Messages.Where(model => model.IsBotFirst))
             {
                 if (!string.IsNullOrWhiteSpace(message.Message))
@@ -96,16 +114,27 @@
                                     @(message.OrderNumber). @message.Message
                                 </a>
                                 <span class="remove-message">
-                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id})"><i class="fa fa-close" aria-hidden="true"></i></a>
+                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id, accountId = Model.AccountId })"><i class="fa fa-close" aria-hidden="true"></i></a>
                                 </span>
                             </h4>
                         </div>
                         <div id='@("collapse" + @message.Id)' class="panel-collapse collapse">
                             <div class="panel-body">
-                                Start time: @message.StartTime - End time: @message.EndTime
-                                @if (message.IsEmergencyText)
+                                @if ((message.StartTime == null || message.EndTime == null) && !message.IsEmergencyText)
                                 {
-                                    <div class="message-emergency-warning"><i class="fa fa-info-circle"></i> It is message after catching stop word</div>
+                                    <div> No special conditions </div>
+                                }
+                                else
+                                {
+                                    if (message.StartTime != null && message.EndTime != null)
+                                    {
+                                        <div>Start time: @message.StartTime - End time: @message.EndTime</div>
+                                    }
+                                    if (message.IsEmergencyText)
+                                    {
+                                        <div class="message-emergency-warning"><i class="fa fa-info-circle"></i> It is message after catching stop word
+                                        </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -116,6 +145,7 @@
             <h4 class="dark-blue-label">If bot starts talking second</h4>
 
             previousNumber = int.MinValue;
+
             foreach (var message in @Model.Messages.Where(model => !model.IsBotFirst))
             {
                 if (!string.IsNullOrWhiteSpace(message.Message))
@@ -135,13 +165,13 @@
                                     @(message.OrderNumber). @message.Message
                                 </a>
                                 <span class="remove-message">
-                                    <a href="@Url.Action("RemoveMessage", "Options", new {messageId = message.Id})"><i class="fa fa-close" aria-hidden="true"></i></a>
+                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id, accountId = Model.AccountId })"><i class="fa fa-close" aria-hidden="true"></i></a>
                                 </span>
                             </h4>
                         </div>
                         <div id='@("collapse" + @message.Id)' class="panel-collapse collapse">
                             <div class="panel-body">
-                                Start time: @message.StartTime - End time: @message.EndTime <br/>
+                                Start time: @message.StartTime - End time: @message.EndTime <br />
                                 @if (message.IsEmergencyText)
                                 {
                                     <div class="message-emergency-warning"><i class="fa fa-info-circle"></i> It is message after catching stop word</div>
@@ -153,5 +183,27 @@
             }
         }
 
+    </div>
+</div>
+
+@*Modal to set default settings*@
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-question-circle green-question"></i> Do you really want to set default messages</h4>
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-warning green-question warning-message"></i> All other messages would be removed.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="@Url.Action("SetDefaultMessages", "Options", new { accountId = Model.AccountId })" class="btn btn-primary">OK</a>
+            </div>
+        </div>
     </div>
 </div>

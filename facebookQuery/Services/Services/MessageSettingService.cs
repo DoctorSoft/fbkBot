@@ -16,6 +16,27 @@ namespace Services.Services
                 return;
             }
 
+            if (model.StartTime == model.EndTime || model.StartTime == null || model.EndTime == null)
+            {
+                model.StartTime = null;
+                model.EndTime = null;
+            }
+
+            if (model.OrderNumber < 1)
+            {
+                model.OrderNumber = 1;
+            }
+
+            if (model.ImportancyFactor < 1)
+            {
+                model.ImportancyFactor = 1;
+            }
+
+            if (model.ImportancyFactor > 100)
+            {
+                model.ImportancyFactor = 100;
+            }
+
             new SaveNewMessageCommandHandler(new DataBaseContext()).Handle(new SaveNewMessageCommand
             {
                 AccountId = model.AccountId,
@@ -48,7 +69,8 @@ namespace Services.Services
                     ImportancyFactor = model.ImportancyFactor,
                     IsBotFirst = model.MessageRegime == MessageRegime.BotFirstMessage,
                     Id = model.Id
-                }).ToList()
+                }).ToList(),
+                AccountId = accountId
             };
 
             return result;
@@ -59,6 +81,14 @@ namespace Services.Services
             new RemoveMessageCommandHandler(new DataBaseContext()).Handle(new RemoveMessageCommand
             {
                 MessageId = messageId
+            });
+        }
+
+        public void SetDefaulMessages(long accountId)
+        {
+            new SetDefaulMessagesCommandHandler(new DataBaseContext()).Handle(new SetDefaulMessagesCommand
+            {
+                AccountId = accountId
             });
         }
     }

@@ -15,22 +15,28 @@ namespace WebApp.Controllers
         }
 
         // GET: Option
-        public ActionResult Index()
+        public ActionResult Index(long? accountId)
         {
-            var result = messageSettingService.GetMessagesList(null);
+            var result = messageSettingService.GetMessagesList(accountId);
             return View(result);
         }
 
         public ActionResult AddNewMessage(MessageViewModel model)
         {
             messageSettingService.SaveNewMessage(model);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { accountId = model.AccountId });
         }
 
-        public ActionResult RemoveMessage(long messageId)
+        public ActionResult RemoveMessage(long messageId, long? accountId)
         {
             messageSettingService.RemoveMessage(messageId);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { accountId });
+        }
+
+        public ActionResult SetDefaultMessages(long accountId)
+        {
+            messageSettingService.SetDefaulMessages(accountId);
+            return RedirectToAction("Index", new { accountId });
         }
      }
 }

@@ -45,7 +45,7 @@ textarea {
     padding-bottom: 10px;
 }
 
-.remove-message {
+.remove-message, .set-defaul-message {
     float: right;
 }
 
@@ -64,4 +64,16 @@ textarea {
 .message-emergency-warning {
     color: red!important;
     padding-top: 15px;
+}
+
+.message-list-tittle {
+    display: inline-block;
+}
+
+.green-question {
+    color: green;
+}
+
+.warning-message {
+    color: red!important;
 }
