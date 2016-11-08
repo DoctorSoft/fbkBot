@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="Configurations\AccountConfiguration.cs" />
     <Compile Include="Configurations\CookiesConfiguration.cs" />
+    <Compile Include="Configurations\FriendConfiguration.cs" />
+    <Compile Include="Configurations\FriendMessageConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
@@ -84,10 +86,16 @@
     <Compile Include="Migrations\201611010430500_AddMessageFields.Designer.cs">
       <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611082050535_AddFriendMessagesTable.cs" />
+    <Compile Include="Migrations\201611082050535_AddFriendMessagesTable.Designer.cs">
+      <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
+    <Compile Include="Models\FriendDbModel.cs" />
     <Compile Include="Models\MessageDbModel.cs" />
+    <Compile Include="Models\FriendMessageDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
@@ -142,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611010430500_AddMessageFields.resx">
       <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611082050535_AddFriendMessagesTable.resx">
+      <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
