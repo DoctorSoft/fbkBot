@@ -4,7 +4,7 @@ using DataBase.Models;
 
 namespace DataBase.Configurations
 {
-    public class AccountConfiguration:EntityTypeConfiguration<AccountDbModel>
+    public class AccountConfiguration : EntityTypeConfiguration<AccountDbModel>
     {
         public AccountConfiguration()
         {
@@ -20,6 +20,7 @@ namespace DataBase.Configurations
 
             HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
             HasMany(model => model.Messages).WithOptional(it => it.Account).HasForeignKey(model => model.AccountId);
+            HasMany(model => model.Friends).WithRequired(it => it.AccountWithFriend).HasForeignKey(model => model.AccountId);
         }
     }
 }

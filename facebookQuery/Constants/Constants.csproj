@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="EnumExtension\EnumExtension.cs" />
     <Compile Include="EnumExtension\UrlEnumsExtension.cs" />
+    <Compile Include="MessageEnums\MessageDirection.cs" />
     <Compile Include="MessageEnums\MessageRegime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UrlEnums\GetFriendsEnum.cs" />
