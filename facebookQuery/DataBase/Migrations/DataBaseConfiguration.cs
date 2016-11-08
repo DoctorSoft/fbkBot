@@ -106,7 +106,6 @@ namespace DataBase.Migrations
                 {GetUnreadMessagesEnum.Pc, "PHASED:DEFAULT"},
                 {GetUnreadMessagesEnum.FbDtsg, ""}
             };
-            */
 
             var parametersCorrespondence = new Dictionary<GetCorrespondenceEnum, string>
             {
@@ -122,15 +121,22 @@ namespace DataBase.Migrations
                 {GetCorrespondenceEnum.Rev, "2665999"},
                 {GetCorrespondenceEnum.SrpT, "1478456336"}
             };
+            
+            */
+            var parametersFriends = new Dictionary<GetFriendsEnum, string>
+            {
+                {GetFriendsEnum.Id, ""},
+                {GetFriendsEnum.Sk, "friends"}
+            };
 
             var js = new JavaScriptSerializer();
-            var jsonUnread = js.Serialize(parametersCorrespondence.Select(pair => pair).ToList());
+            var jsonUnread = js.Serialize(parametersFriends.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.GetCorrespondence,
+                    CodeParameters = (int)NamesUrlParameter.GetFriends,
                     ParametersSet = jsonUnread
                 }
             };

@@ -121,5 +121,18 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("messageEnum", messageEnum, null);
             }
         }
+
+        public static string GetAttributeName(this GetFriendsEnum messageEnum)
+        {
+            switch (messageEnum)
+            {
+                case GetFriendsEnum.Id:
+                    return "id=";
+                case GetFriendsEnum.Sk:
+                    return "sk=";
+                default:
+                    throw new ArgumentOutOfRangeException("messageEnum");
+            }
+        }
     }
 }

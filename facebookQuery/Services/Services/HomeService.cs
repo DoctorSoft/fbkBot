@@ -6,6 +6,7 @@ using Constants.EnumExtension;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
+using Engines.Engines.GetFriendsEngine;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
 using Engines.Engines.GetNewCookiesEngine;
@@ -79,6 +80,19 @@ namespace Services.Services
                 Cookie = account.Cookie.CookieString,
                 AccountId = accountId,
                 FriendId = friendId
+            });
+        }
+
+        public void GetFriends(long accountId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+            var friends = new GetFriendsEngine().Execute(new GetFriendsModel()
+            {
+                Cookie = account.Cookie.CookieString,
+                AccountId = accountId
             });
         }
 

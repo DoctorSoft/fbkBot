@@ -20,7 +20,7 @@ namespace WebApp.Controllers
 
             var currentAccount = accounts.FirstOrDefault();
 
-            //homeService.GetСorrespondenceByFriendId(currentAccount.UserId, 100013726390504);
+            homeService.GetFriends(currentAccount.UserId);
 
             /*foreach (var accountViewModel in accounts)
             {

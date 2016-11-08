@@ -34,7 +34,7 @@ namespace Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Post(Urls.GetСorrespondenceByFrienId.GetDiscription() + "&user_id" + model.FriendId, parameters, model.Cookie).Remove(0, 9);
+            var stringResponse = RequestsHelper.Post(Urls.GetСorrespondenceByFriendId.GetDiscription() + "&user_id" + model.FriendId, parameters, model.Cookie).Remove(0, 9);
 
             var data = (JObject)JsonConvert.DeserializeObject(stringResponse);
             var threads = data["payload"]["threads"];

@@ -60,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\AbstractEngine.cs" />
+    <Compile Include="Engines\GetFriendsEngine\GetFriendsEngine.cs" />
+    <Compile Include="Engines\GetFriendsEngine\GetFriendsModel.cs" />
+    <Compile Include="Engines\GetFriendsEngine\GetFriendsResponseModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesModel.cs" />
