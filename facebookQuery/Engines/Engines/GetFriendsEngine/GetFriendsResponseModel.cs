@@ -2,5 +2,6 @@
 {
     public class GetFriendsResponseModel
     {
+        public string FriendId { get; set; }
     }
 }

@@ -83,13 +83,13 @@ namespace Services.Services
             });
         }
 
-        public void GetFriends(long accountId)
+        public List<string> GetFriends(long accountId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = accountId
             });
-            var friends = new GetFriendsEngine().Execute(new GetFriendsModel()
+            return new GetFriendsEngine().Execute(new GetFriendsModel()
             {
                 Cookie = account.Cookie.CookieString,
                 AccountId = accountId

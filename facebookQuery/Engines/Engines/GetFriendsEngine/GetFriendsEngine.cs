@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Constants;
 using Constants.EnumExtension;
@@ -8,16 +7,13 @@ using Constants.UrlEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
-using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsEngine
 {
-    public class GetFriendsEngine: AbstractEngine<GetFriendsModel, List<GetFriendsResponseModel>>
+    public class GetFriendsEngine: AbstractEngine<GetFriendsModel, List<string>>
     {
-        protected override List<GetFriendsResponseModel> ExecuteEngine(GetFriendsModel model)
+        protected override List<string> ExecuteEngine(GetFriendsModel model)
         {
             var friendsList = new List<GetFriendsResponseModel>();
 
@@ -41,8 +37,10 @@ namespace Engines.Engines.GetFriendsEngine
             return GetFriendsData(stringResponse);
         }
 
-        public static List<GetFriendsResponseModel> GetFriendsData(string pageRequest)
+        public static List<string> GetFriendsData(string pageRequest)
         {
+            var friendsList = new List<string>();
+
             var regex = new Regex("id:\"*[^\")]*\",name:\"*[^\")]*\",firstName:\"*[^\")]*\"");
             if (!regex.IsMatch(pageRequest)) return null;
             var collection = regex.Matches(pageRequest);
@@ -50,14 +48,14 @@ namespace Engines.Engines.GetFriendsEngine
             foreach (var friend in collection)
             {
                 var a = friend.ToString().Remove(0, 4);
-                var s = a.IndexOf(",name)");
-                var t = a.Length;
                 
-                var id = a.Remove(a.IndexOf("\",name)"), a.Length);
-            }
-            
+                var id = a.Remove(a.IndexOf("\",name"), a.Length-a.IndexOf("\",name"));
 
-            return null;
+                friendsList.Add(id);
+            }
+
+
+            return friendsList;
         }
 
         private static string CreateParametersString(Dictionary<GetFriendsEnum, string> parameters)
