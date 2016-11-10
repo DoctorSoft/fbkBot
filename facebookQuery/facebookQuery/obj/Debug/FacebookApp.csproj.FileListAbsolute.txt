@@ -8,7 +8,6 @@ D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebGrease.dll
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\Newtonsoft.Json.xml
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebDriver.dll
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\WebDriver.xml
-D:\Project\fbkBot\facebookQuery\facebookQuery\obj\Debug\FacebookApp.csprojResolveAssemblyReference.cache
 D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\FacebookApp.exe.config
 D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\FacebookApp.exe
 D:\!!Facebook\facebookQuery\facebookQuery\bin\Debug\FacebookApp.pdb
@@ -35,3 +34,7 @@ D:\work\Facebook\facebookQuery\facebookQuery\bin\Debug\EntityFramework.SqlServer
 D:\work\Facebook\facebookQuery\facebookQuery\bin\Debug\EntityFramework.xml
 D:\work\Facebook\facebookQuery\facebookQuery\bin\Debug\EntityFramework.SqlServer.xml
 D:\work\Facebook\facebookQuery\facebookQuery\obj\Debug\FacebookApp.csprojResolveAssemblyReference.cache
+D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.dll
+D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.SqlServer.dll
+D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.xml
+D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.SqlServer.xml

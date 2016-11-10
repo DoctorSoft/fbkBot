@@ -99,7 +99,7 @@ namespace Services.Services
 
             new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
             {
-                AccountId = account.UserId,
+                AccountId = account.Id,
                 Friends = friends
             });
 

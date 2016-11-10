@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using DataBase.Context;
 using DataBase.Models;
@@ -19,23 +20,55 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriends
         {
             var friendsList = new List<FriendDbModel>();
 
-            var friendsInDb = context.Friends.Where(model=>model.AccountId == command.AccountId).Select(model => new FriendDbModel
+            if (context.Friends.Any())
             {
-                AccountId = model.AccountId,
-                FriendId = model.FriendId,
-                AccountWithFriend = model.AccountWithFriend,
-                FriendMessages = model.FriendMessages,
-                FriendName = model.FriendName
-            });
+                var friendsInDb = context.Friends.Where(model => model.AccountId == command.AccountId).Select(model => new 
+                {
+                    model.AccountId, 
+                    model.FriendId, 
+                    model.AccountWithFriend, 
+                    model.FriendMessages, 
+                    model.FriendName, 
+                    model.DeleteFromFriends, 
+                    model.Id
+                }).AsEnumerable().Select(model => new FriendDbModel
+                {
+                    AccountId = model.AccountId,
+                    FriendId = model.FriendId,
+                    AccountWithFriend = model.AccountWithFriend,
+                    FriendMessages = model.FriendMessages,
+                    FriendName = model.FriendName,
+                    DeleteFromFriends = model.DeleteFromFriends,
+                    Id = model.Id
+                }).ToList();
 
-            if (friendsInDb.Count() != 0)
-            {
-                friendsList.AddRange(from friend in friendsInDb
-                    where command.Friends.All(model => model.FriendId != friend.FriendId)
-                    select new FriendDbModel
+                foreach (var friendDbModel in friendsInDb)
+                {
+                    if (!command.Friends.Any(model=> model.FriendId.Equals(friendDbModel.FriendId)))
                     {
-                        AccountId = command.AccountId, FriendId = friend.FriendId, FriendName = friend.FriendName, DeleteFromFriends = true
-                    });
+                        var deletingFriend = context.Friends
+                            .FirstOrDefault(model => model.AccountId == command.AccountId && model.FriendId == friendDbModel.FriendId && !model.DeleteFromFriends);
+
+                        if (deletingFriend != null)
+                        {
+                            deletingFriend.DeleteFromFriends = true;
+                            context.SaveChanges();
+                        }
+                    }
+                }
+                
+                foreach (var friend in command.Friends)
+                {
+                    if (!friendsInDb.Any(model => model.FriendId.Equals(friend.FriendId)))
+                    {
+                        friendsList.Add(new FriendDbModel()
+                        {
+                            AccountId = command.AccountId,
+                            FriendId = friend.FriendId,
+                            FriendName = friend.FriendName, 
+                        });
+                    }
+                }
             }
             else
             {
