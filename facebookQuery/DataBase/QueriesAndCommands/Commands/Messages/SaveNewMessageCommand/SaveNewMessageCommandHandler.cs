@@ -1,7 +1,7 @@
 ﻿using DataBase.Context;
 using DataBase.Models;
 
-namespace DataBase.QueriesAndCommands.Commands.Messages
+namespace DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand
 {
     public class SaveNewMessageCommandHandler : ICommandHandler<SaveNewMessageCommand, VoidCommandResponse>
     {
@@ -12,7 +12,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages
             this.context = context;
         }
 
-        public VoidCommandResponse Handle(SaveNewMessageCommand command)
+        public VoidCommandResponse Handle(Messages.SaveNewMessageCommand.SaveNewMessageCommand command)
         {
             var model = new MessageDbModel
             {

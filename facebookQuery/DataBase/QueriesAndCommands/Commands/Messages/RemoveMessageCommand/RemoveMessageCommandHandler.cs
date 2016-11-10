@@ -2,7 +2,7 @@
 using DataBase.Context;
 using DataBase.Models;
 
-namespace DataBase.QueriesAndCommands.Commands.Messages
+namespace DataBase.QueriesAndCommands.Commands.Messages.RemoveMessageCommand
 {
     public class RemoveMessageCommandHandler : ICommandHandler<RemoveMessageCommand, VoidCommandResponse>
     {
@@ -13,7 +13,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages
             this.context = context;
         }
 
-        public VoidCommandResponse Handle(RemoveMessageCommand command)
+        public VoidCommandResponse Handle(Messages.RemoveMessageCommand.RemoveMessageCommand command)
         {
             var messageToDelete = context.Set<MessageDbModel>().FirstOrDefault(model => model.Id == command.MessageId);
 

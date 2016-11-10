@@ -4,7 +4,7 @@ using DataBase.Models;
 using EntityFramework.BulkInsert.Extensions;
 using EntityFramework.Extensions;
 
-namespace DataBase.QueriesAndCommands.Commands.Messages
+namespace DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand
 {
     public class SetDefaulMessagesCommandHandler : ICommandHandler<SetDefaulMessagesCommand, VoidCommandResponse>
     {
@@ -15,7 +15,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages
             this.context = context;
         }
 
-        public VoidCommandResponse Handle(SetDefaulMessagesCommand command)
+        public VoidCommandResponse Handle(Messages.SetDefaulMessagesCommand.SetDefaulMessagesCommand command)
         {
             context.Set<MessageDbModel>().Where(model => model.AccountId == command.AccountId).Delete();
 

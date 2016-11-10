@@ -10,6 +10,8 @@ namespace DataBase.Models
 
         public string FriendName { get; set; }
 
+        public bool DeleteFromFriends { get; set; }
+
         public AccountDbModel AccountWithFriend { get; set; }
 
         public long AccountId { get; set; }

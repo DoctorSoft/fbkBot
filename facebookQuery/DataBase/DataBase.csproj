@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Engines">
+      <HintPath>..\WebApp\Bin\Engines.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -51,6 +54,7 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.Web.PageInspector.Loader, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -90,6 +94,10 @@
     <Compile Include="Migrations\201611082050535_AddFriendMessagesTable.Designer.cs">
       <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.cs" />
+    <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.Designer.cs">
+      <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -100,12 +108,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriends\SaveUserFriendsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriends\SaveUserFriendsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand\SaveNewMessageCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand\SaveNewMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\ICommand.cs" />
     <Compile Include="QueriesAndCommands\ICommandHandler.cs" />
     <Compile Include="QueriesAndCommands\IQuery.cs" />
@@ -153,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611082050535_AddFriendMessagesTable.resx">
       <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611101806098_AddDeleteFromFriendsField.resx">
+      <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

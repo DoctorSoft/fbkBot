@@ -1,4 +1,4 @@
-﻿namespace DataBase.QueriesAndCommands.Commands.Messages
+﻿namespace DataBase.QueriesAndCommands.Commands.Messages.RemoveMessageCommand
 {
     public class RemoveMessageCommand : IVoidCommand
     {

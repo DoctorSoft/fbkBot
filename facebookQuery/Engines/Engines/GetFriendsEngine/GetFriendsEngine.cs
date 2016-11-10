@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
@@ -11,9 +14,9 @@ using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsEngine
 {
-    public class GetFriendsEngine: AbstractEngine<GetFriendsModel, List<string>>
+    public class GetFriendsEngine : AbstractEngine<GetFriendsModel, List<GetFriendsResponseModel>>
     {
-        protected override List<string> ExecuteEngine(GetFriendsModel model)
+        protected override List<GetFriendsResponseModel> ExecuteEngine(GetFriendsModel model)
         {
             var friendsList = new List<GetFriendsResponseModel>();
 
@@ -37,9 +40,9 @@ namespace Engines.Engines.GetFriendsEngine
             return GetFriendsData(stringResponse);
         }
 
-        public static List<string> GetFriendsData(string pageRequest)
+        public static List<GetFriendsResponseModel> GetFriendsData(string pageRequest)
         {
-            var friendsList = new List<string>();
+            var friendsList = new List<GetFriendsResponseModel>();
 
             var regex = new Regex("id:\"*[^\")]*\",name:\"*[^\")]*\",firstName:\"*[^\")]*\"");
             if (!regex.IsMatch(pageRequest)) return null;
@@ -48,14 +51,27 @@ namespace Engines.Engines.GetFriendsEngine
             foreach (var friend in collection)
             {
                 var a = friend.ToString().Remove(0, 4);
-                
-                var id = a.Remove(a.IndexOf("\",name"), a.Length-a.IndexOf("\",name"));
+                var idRegex = new Regex("id:\"*[^\")]*\"");
+                var id = idRegex.Match(friend.ToString()).ToString().Remove(0,4);
 
-                friendsList.Add(id);
+                var nameRegex = new Regex("name:\"*[^\")]*\"");
+                var name = nameRegex.Match(friend.ToString()).ToString().Remove(0, 6);
+
+                friendsList.Add(new GetFriendsResponseModel()
+                {
+                    FriendId = id.Remove(id.Length-1),
+                    FriendName = ConvertToUTF8(name.Remove(name.Length - 1))
+                });
             }
 
 
             return friendsList;
+        }
+        private static string ConvertToUTF8(string source)
+        {
+            var utfBytes = Encoding.UTF8.GetBytes(source);
+            var koi8RBytes = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1251"), utfBytes);
+            return Encoding.GetEncoding("utf-8").GetString(koi8RBytes);
         }
 
         private static string CreateParametersString(Dictionary<GetFriendsEnum, string> parameters)

@@ -122,7 +122,6 @@ namespace DataBase.Migrations
                 {GetCorrespondenceEnum.SrpT, "1478456336"}
             };
             
-            */
             var parametersFriends = new Dictionary<GetFriendsEnum, string>
             {
                 {GetFriendsEnum.Id, ""},
@@ -144,6 +143,7 @@ namespace DataBase.Migrations
             context.UrlParameters.AddRange(urlParametersList);
              
             context.SaveChanges();
+            */
         }
     }
 }
