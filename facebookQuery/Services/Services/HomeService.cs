@@ -84,7 +84,7 @@ namespace Services.Services
             });
         }
 
-        public List<GetFriendsResponseModel> GetFriends(long accountId)
+        public void GetFriends(long accountId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
@@ -102,8 +102,6 @@ namespace Services.Services
                 AccountId = account.Id,
                 Friends = friends
             });
-
-            return friends;
         }
 
         public List<GetUnreadMessagesResponseModel> GetUnreadMessages(long accountId)

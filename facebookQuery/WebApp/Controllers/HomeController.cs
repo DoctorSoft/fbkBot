@@ -19,9 +19,7 @@ namespace WebApp.Controllers
             var accounts = homeService.GetAccounts();
 
             var currentAccount = accounts.FirstOrDefault();
-
-            var friendsId = homeService.GetFriends(currentAccount.UserId);
-
+            
             /*foreach (var accountViewModel in accounts)
             {
                 homeService.RefreshCookies(accountViewModel.UserId, accountViewModel.Login, accountViewModel.Password);
