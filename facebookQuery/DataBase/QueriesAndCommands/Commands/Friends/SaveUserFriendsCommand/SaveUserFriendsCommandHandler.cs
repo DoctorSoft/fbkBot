@@ -1,12 +1,9 @@
-﻿
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DataBase.Context;
 using DataBase.Models;
-using EntityFramework.Extensions;
 
-namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriends
+namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 {
     public class SaveUserFriendsCommandHandler : ICommandHandler<SaveUserFriendsCommand, VoidCommandResponse>
     {

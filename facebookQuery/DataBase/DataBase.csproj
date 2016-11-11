@@ -108,12 +108,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriends\SaveUserFriendsCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriends\SaveUserFriendsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand\SaveNewMessageCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand\SaveNewMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\SaveUnreadMessagesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\SaveUnreadMessagesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\ICommand.cs" />

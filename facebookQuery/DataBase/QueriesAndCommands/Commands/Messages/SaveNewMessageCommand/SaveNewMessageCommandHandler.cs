@@ -12,7 +12,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand
             this.context = context;
         }
 
-        public VoidCommandResponse Handle(Messages.SaveNewMessageCommand.SaveNewMessageCommand command)
+        public VoidCommandResponse Handle(SaveNewMessageCommand command)
         {
             var model = new MessageDbModel
             {

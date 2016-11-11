@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Engines.Engines.GetFriendsEngine;
 
-namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriends
+namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 {
     public class SaveUserFriendsCommand : IVoidCommand
     {
