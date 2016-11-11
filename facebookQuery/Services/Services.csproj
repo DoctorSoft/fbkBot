@@ -55,8 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
+    <Compile Include="ViewModels\FriendsModels\FriendListViewModel.cs" />
+    <Compile Include="ViewModels\FriendsModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountActionModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\OptionsModel\MessageListItemModel.cs" />

@@ -72,5 +72,6 @@
 </div>
 
 <div>
-    @Html.ActionLink("Options", "Index", "Options", new { accountId = @Model.Id }, new { @class = "btn btn-primary" })
+    <a href="@Url.Action("Index", "Options", new {accountId = @Model.Id})" class="btn btn-primary"> <i class="fa fa-cogs"></i> Options </a>
+    <a href="@Url.Action("Index", "Friends", new {accountId = @Model.Id})" class="btn btn-primary"> <i class="fa fa-users"></i> Friends </a>
 </div>

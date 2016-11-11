@@ -36,6 +36,11 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId &&
                                                                      model.FriendId.Equals(friendId));
 
+                if (friend == null)
+                {
+                    break;
+                }
+
                 friend.FriendMessages = new Collection<FriendMessageDbModel>()
                 {
                     new FriendMessageDbModel()
@@ -46,9 +51,9 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                         MessageDateTime = now
                     }
                 };
-
-                context.SaveChanges();
             }
+
+            context.SaveChanges();
             return new VoidCommandResponse();
         }
     }
