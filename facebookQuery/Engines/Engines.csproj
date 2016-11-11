@@ -64,10 +64,13 @@
     <Compile Include="Engines\GetFriendsEngine\GetFriendsEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsResponseModel.cs" />
-    <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesResponseModel.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdEngine.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetMessages\GetMessagesEngine.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetMessages\GetMessagesModel.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetMessages\GetMessagesResponseModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdResponseModel.cs" />
     <Compile Include="Engines\GetNewNoticesEngine\GetNewNoticesEngine.cs" />

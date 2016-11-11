@@ -5,6 +5,7 @@
         SendMessage = 1,
         GetMessages = 2,
         GetCorrespondence = 3,
-        GetFriends = 4
+        GetFriends = 4,
+        GetUnreadMessages = 5
     }
 }

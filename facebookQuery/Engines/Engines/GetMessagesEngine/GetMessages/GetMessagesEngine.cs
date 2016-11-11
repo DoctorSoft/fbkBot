@@ -10,27 +10,27 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RequestsHelpers;
 
-namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
+namespace Engines.Engines.GetMessagesEngine.GetMessages
 {
-    public class GetUnreadMessagesEngine : AbstractEngine<GetUnreadMessagesModel, List<GetUnreadMessagesResponseModel>>
+    public class GetMessagesEngine : AbstractEngine<GetMessagesModel, List<GetMessagesResponseModel>>
     {
-        protected override List<GetUnreadMessagesResponseModel> ExecuteEngine(GetUnreadMessagesModel model)
+        protected override List<GetMessagesResponseModel> ExecuteEngine(GetMessagesModel model)
         {
-            var messagesList = new List<GetUnreadMessagesResponseModel>();
+            var messagesList = new List<GetMessagesResponseModel>();
 
             var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
             {
-                NameUrlParameter = NamesUrlParameter.GetUnreadMessages
+                NameUrlParameter = NamesUrlParameter.GetMessages
             });
 
             if (urlParameters == null) return null;
 
             var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
 
-            var parametersDictionary = urlParameters.ToDictionary(pair => (GetUnreadMessagesEnum)pair.Key, pair => pair.Value);
+            var parametersDictionary = urlParameters.ToDictionary(pair => (GetMessagesEnum)pair.Key, pair => pair.Value);
 
-            parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString("G");
-            parametersDictionary[GetUnreadMessagesEnum.FbDtsg] = fbDtsg;
+            parametersDictionary[GetMessagesEnum.User] = model.AccountId.ToString();
+            parametersDictionary[GetMessagesEnum.FbDtsg] = fbDtsg;
 
             var parameters = CreateParametersString(parametersDictionary);
 
@@ -41,7 +41,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             foreach (var thread in threads)
             {
-                messagesList.Add(new GetUnreadMessagesResponseModel()
+                messagesList.Add(new GetMessagesResponseModel()
                 {
                     FriendId = thread["thread_fbid"].Value<long>(),
                     CountAllMessages = thread["message_count"].Value<int>(),
@@ -54,7 +54,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
             return messagesList;
         }
 
-        private static string CreateParametersString(Dictionary<GetUnreadMessagesEnum, string> parameters)
+        private static string CreateParametersString(Dictionary<GetMessagesEnum, string> parameters)
         {
             var result = "";
             foreach (var parameter in parameters)

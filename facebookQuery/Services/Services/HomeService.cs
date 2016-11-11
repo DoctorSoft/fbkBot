@@ -8,6 +8,7 @@ using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriends;
 using DataBase.QueriesAndCommands.Queries.Account;
 using Engines.Engines.GetFriendsEngine;
+using Engines.Engines.GetMessagesEngine.GetMessages;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
 using Engines.Engines.GetNewCookiesEngine;
@@ -111,6 +112,19 @@ namespace Services.Services
                 UserId = accountId
             });
             return new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
+            {
+                AccountId = account.UserId,
+                Cookie = account.Cookie.CookieString
+            });
+        }
+
+        public List<GetMessagesResponseModel> GetAllMessages(long accountId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+            return new GetMessagesEngine().Execute(new GetMessagesModel()
             {
                 AccountId = account.UserId,
                 Cookie = account.Cookie.CookieString

@@ -38,3 +38,4 @@ D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.dll
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.SqlServer.dll
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.xml
 D:\Project\fbkBot\facebookQuery\facebookQuery\bin\Debug\EntityFramework.SqlServer.xml
+D:\Project\fbkBot\facebookQuery\facebookQuery\obj\Debug\FacebookApp.csprojResolveAssemblyReference.cache
