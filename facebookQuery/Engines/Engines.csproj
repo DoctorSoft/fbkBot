@@ -63,10 +63,8 @@
     <Compile Include="Engines\AbstractEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsModel.cs" />
-    <Compile Include="Engines\GetFriendsEngine\GetFriendsResponseModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesModel.cs" />
-    <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesResponseModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetMessages\GetMessagesEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetMessages\GetMessagesModel.cs" />
@@ -91,6 +89,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonModels\CommonModels.csproj">
+      <Project>{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}</Project>
+      <Name>CommonModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
       <Name>Constants</Name>

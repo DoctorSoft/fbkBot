@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Engines.Engines.GetFriendsEngine;
+using CommonModels;
 
 namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 {

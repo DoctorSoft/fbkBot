@@ -27,6 +27,8 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
             if (!command.UnreadMessages.Any()) return new VoidCommandResponse();
 
+            var now = DateTime.Now;
+
             foreach (var unreadMessageInformation in command.UnreadMessages)
             {
                 var friendId = unreadMessageInformation.FriendId.ToString();
@@ -40,7 +42,8 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                     {
                         FriendId = unreadMessageInformation.FriendId,
                         MessageDirection = MessageDirection.FromFriend,
-                        Message = unreadMessageInformation.LastMessage
+                        Message = unreadMessageInformation.LastMessage,
+                        MessageDateTime = now
                     }
                 };
 

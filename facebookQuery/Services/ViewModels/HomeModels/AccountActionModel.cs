@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CommonModels;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 
 namespace Services.ViewModels.HomeModels

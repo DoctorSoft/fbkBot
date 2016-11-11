@@ -1,4 +1,4 @@
-﻿namespace Engines.Engines.GetFriendsEngine
+﻿namespace CommonModels
 {
     public class GetFriendsResponseModel
     {

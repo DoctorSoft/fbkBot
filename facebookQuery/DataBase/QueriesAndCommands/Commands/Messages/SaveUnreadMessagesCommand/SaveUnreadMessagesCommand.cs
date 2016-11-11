@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
+using CommonModels;
 
 namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand
 {
