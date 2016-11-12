@@ -16,6 +16,8 @@ namespace DataBase.Models
 
         public CookiesDbModel Cookies { get; set; }
 
-        public ICollection<MessageDbModel> Messages { get; set; } 
+        public ICollection<MessageDbModel> Messages { get; set; }
+
+        public ICollection<FriendDbModel> Friends { get; set; } 
     }
 }

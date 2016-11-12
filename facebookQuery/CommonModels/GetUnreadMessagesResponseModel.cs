@@ -1,4 +1,4 @@
-﻿namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
+﻿namespace CommonModels
 {
     public class GetUnreadMessagesResponseModel
     {

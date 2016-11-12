@@ -25,7 +25,8 @@ namespace WebApp
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/font-awesome-4.7.0/css/font-awesome.min.css"));
         }
     }
 }

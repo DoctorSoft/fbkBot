@@ -19,6 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.Message
         {
             var results = context.Set<MessageDbModel>()
                 .Where(model => model.AccountId == query.AccountId)
+                .OrderBy(model => model.OrderNumber)
                 .Select(model => new MessageModel
                 {
                     Message = model.Message,

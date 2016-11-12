@@ -55,8 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
+    <Compile Include="ViewModels\FriendsModels\FriendListViewModel.cs" />
+    <Compile Include="ViewModels\FriendsModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountActionModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\OptionsModel\MessageListItemModel.cs" />
@@ -64,6 +67,10 @@
     <Compile Include="ViewModels\OptionsModel\MessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonModels\CommonModels.csproj">
+      <Project>{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}</Project>
+      <Name>CommonModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
       <Name>Constants</Name>

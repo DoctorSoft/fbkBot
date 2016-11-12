@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CommonModels;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
@@ -20,7 +21,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
             {
-                NameUrlParameter = NamesUrlParameter.GetMessages
+                NameUrlParameter = NamesUrlParameter.GetUnreadMessages
             });
 
             if (urlParameters == null) return null;
@@ -29,7 +30,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             var parametersDictionary = urlParameters.ToDictionary(pair => (GetUnreadMessagesEnum)pair.Key, pair => pair.Value);
 
-            parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString();
+            parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString("G");
             parametersDictionary[GetUnreadMessagesEnum.FbDtsg] = fbDtsg;
 
             var parameters = CreateParametersString(parametersDictionary);

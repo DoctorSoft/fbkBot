@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestsHelpers", "Requests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Constants.csproj", "{4AEE6581-5166-4756-97BC-A0535AAFBD38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonModels", "CommonModels\CommonModels.csproj", "{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{4AEE6581-5166-4756-97BC-A0535AAFBD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEE6581-5166-4756-97BC-A0535AAFBD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEE6581-5166-4756-97BC-A0535AAFBD38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

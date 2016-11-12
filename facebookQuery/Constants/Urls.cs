@@ -11,6 +11,8 @@ namespace Constants
         [Description("https://www.facebook.com/ajax/mercury/threadlist_info.php?dpr=1")]
         NewMessages,
         [Description("https://www.facebook.com/rtc/callability/?dpr=1")]
-        GetСorrespondenceByFrienId
+        GetСorrespondenceByFriendId,
+        [Description("https://www.facebook.com/profile.php")]
+        GetFriends
     }
 }

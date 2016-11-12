@@ -19,14 +19,8 @@ namespace WebApp.Controllers
             var accounts = homeService.GetAccounts();
 
             var currentAccount = accounts.FirstOrDefault();
-
-            //homeService.GetСorrespondenceByFriendId(currentAccount.UserId, 100013726390504);
-
-            /*foreach (var accountViewModel in accounts)
-            {
-                homeService.RefreshCookies(accountViewModel.UserId, accountViewModel.Login, accountViewModel.Password);
-                Thread.Sleep(5000);
-            }*/
+            
+            homeService.GetUnreadMessages(currentAccount.UserId);
 
             return View(accounts);
         }

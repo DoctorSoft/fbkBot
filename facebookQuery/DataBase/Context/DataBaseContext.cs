@@ -20,12 +20,18 @@ namespace DataBase.Context
 
         public DbSet<UrlParametersDbModel> UrlParameters { get; set; }
 
+        public DbSet<FriendDbModel> Friends { get; set; }
+
+        public DbSet<FriendMessageDbModel> FriendMessages { get; set; } 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
             modelBuilder.Configurations.Add(new UrlParametersConfiguration());
+            modelBuilder.Configurations.Add(new FriendConfiguration());
+            modelBuilder.Configurations.Add(new FriendMessageConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

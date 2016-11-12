@@ -1,7 +1,7 @@
 ﻿using DataBase.Context;
 using DataBase.Models;
 
-namespace DataBase.QueriesAndCommands.Commands.Messages
+namespace DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand
 {
     public class SaveNewMessageCommandHandler : ICommandHandler<SaveNewMessageCommand, VoidCommandResponse>
     {

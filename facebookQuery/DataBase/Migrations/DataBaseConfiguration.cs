@@ -94,6 +94,7 @@ namespace DataBase.Migrations
                 {SendMessageEnum.SrpT, "1477219353"}
             };
            
+             */
             var parametersUnread = new Dictionary<GetUnreadMessagesEnum, string>
             {
                 {GetUnreadMessagesEnum.Client, "web_messenger"},
@@ -106,8 +107,8 @@ namespace DataBase.Migrations
                 {GetUnreadMessagesEnum.Pc, "PHASED:DEFAULT"},
                 {GetUnreadMessagesEnum.FbDtsg, ""}
             };
-            */
 
+            /*
             var parametersCorrespondence = new Dictionary<GetCorrespondenceEnum, string>
             {
                 {GetCorrespondenceEnum.User, ""},
@@ -122,15 +123,20 @@ namespace DataBase.Migrations
                 {GetCorrespondenceEnum.Rev, "2665999"},
                 {GetCorrespondenceEnum.SrpT, "1478456336"}
             };
-
+            
+            var parametersFriends = new Dictionary<GetFriendsEnum, string>
+            {
+                {GetFriendsEnum.Id, ""},
+                {GetFriendsEnum.Sk, "friends"}
+            };
             var js = new JavaScriptSerializer();
-            var jsonUnread = js.Serialize(parametersCorrespondence.Select(pair => pair).ToList());
+            var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.GetCorrespondence,
+                    CodeParameters = (int)NamesUrlParameter.GetUnreadMessages,
                     ParametersSet = jsonUnread
                 }
             };
@@ -138,6 +144,8 @@ namespace DataBase.Migrations
             context.UrlParameters.AddRange(urlParametersList);
              
             context.SaveChanges();
+            
+            */
         }
     }
 }

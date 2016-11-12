@@ -1,7 +1,7 @@
 ﻿using System;
 using Constants.MessageEnums;
 
-namespace DataBase.QueriesAndCommands.Commands.Messages
+namespace DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand
 {
     public class SaveNewMessageCommand : IVoidCommand
     {

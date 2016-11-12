@@ -35,10 +35,23 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net45\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.0.0.7, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.0.0.7\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.Web.PageInspector.Loader, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -52,6 +65,8 @@
   <ItemGroup>
     <Compile Include="Configurations\AccountConfiguration.cs" />
     <Compile Include="Configurations\CookiesConfiguration.cs" />
+    <Compile Include="Configurations\FriendConfiguration.cs" />
+    <Compile Include="Configurations\FriendMessageConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
@@ -72,16 +87,34 @@
     <Compile Include="Migrations\201611010430500_AddMessageFields.Designer.cs">
       <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611082050535_AddFriendMessagesTable.cs" />
+    <Compile Include="Migrations\201611082050535_AddFriendMessagesTable.Designer.cs">
+      <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.cs" />
+    <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.Designer.cs">
+      <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
+    <Compile Include="Models\FriendDbModel.cs" />
     <Compile Include="Models\MessageDbModel.cs" />
+    <Compile Include="Models\FriendMessageDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand\SaveNewMessageCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand\SaveNewMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\SaveUnreadMessagesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\SaveUnreadMessagesCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\ICommand.cs" />
     <Compile Include="QueriesAndCommands\ICommandHandler.cs" />
     <Compile Include="QueriesAndCommands\IQuery.cs" />
@@ -94,6 +127,8 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\MessageModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQuery.cs" />
@@ -109,6 +144,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonModels\CommonModels.csproj">
+      <Project>{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}</Project>
+      <Name>CommonModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
       <Name>Constants</Name>
@@ -126,6 +165,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611010430500_AddMessageFields.resx">
       <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611082050535_AddFriendMessagesTable.resx">
+      <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611101806098_AddDeleteFromFriendsField.resx">
+      <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
