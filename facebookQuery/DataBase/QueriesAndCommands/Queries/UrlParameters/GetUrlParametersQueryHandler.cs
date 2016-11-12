@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
-using DataBase.Constants;
+using Constants;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.UrlParameters
 {

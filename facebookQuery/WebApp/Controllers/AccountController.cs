@@ -6,10 +6,12 @@ namespace WebApp.Controllers
     public class AccountController : Controller
     {
         private readonly HomeService homeService;
+        private readonly FacebookMessagesService facebookMessagesService;
 
         public AccountController()
         {
             this.homeService = new HomeService();
+            this.facebookMessagesService = new FacebookMessagesService();
         }
         // GET: Account
         public ActionResult Index(long accountId)
@@ -21,7 +23,8 @@ namespace WebApp.Controllers
             currentAccount.NumberNewFriends = status.NumberNewFriends;
             currentAccount.NumberNewMessages = status.NumberNewMessages;
             currentAccount.NumberNewNotifications = status.NumberNewNotifications;
-            currentAccount.NewMessagesList = homeService.GetUnreadMessages(currentAccount.UserId);
+
+            currentAccount.NewMessagesList = facebookMessagesService.GetUnreadMessages(currentAccount.UserId);
             
             return View(currentAccount);
         }

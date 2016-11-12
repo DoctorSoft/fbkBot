@@ -133,7 +133,6 @@
     <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\UrlParameters\KeyValue.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\Models\SendMessageUrlParametersModel.cs" />
     <Compile Include="QueriesAndCommands\VoidCommandResponse.cs" />
   </ItemGroup>

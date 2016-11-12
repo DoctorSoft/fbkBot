@@ -8,10 +8,14 @@ namespace WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly HomeService homeService;
+        private readonly FriendsService friendsService;
+        private readonly FacebookMessagesService facebookMessagesService;
 
         public HomeController()
         {
             this.homeService = new HomeService();
+            this.friendsService = new FriendsService();
+            this.facebookMessagesService = new FacebookMessagesService();
         }
 
         public ActionResult Index()
@@ -19,8 +23,9 @@ namespace WebApp.Controllers
             var accounts = homeService.GetAccounts();
 
             var currentAccount = accounts.FirstOrDefault();
-            
-            homeService.GetUnreadMessages(currentAccount.UserId);
+
+            friendsService.GetFriendsOfFacebook(currentAccount.UserId);
+            facebookMessagesService.GetUnreadMessages(currentAccount.UserId);
 
             return View(accounts);
         }

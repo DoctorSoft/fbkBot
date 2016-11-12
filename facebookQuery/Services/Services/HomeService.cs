@@ -4,12 +4,12 @@ using System.Linq;
 using CommonModels;
 using Constants;
 using Constants.EnumExtension;
+using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
-using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand;
 using DataBase.QueriesAndCommands.Queries.Account;
-using Engines.Engines.GetFriendsEngine;
+using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.GetMessagesEngine.GetMessages;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
@@ -73,74 +73,6 @@ namespace Services.Services
             return statusModel;
         }
 
-        public void GetСorrespondenceByFriendId(long accountId, long friendId)
-        {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = accountId
-            });
-            var statusModel = new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
-            {
-                Cookie = account.Cookie.CookieString,
-                AccountId = accountId,
-                FriendId = friendId
-            });
-        }
-
-        public void GetFriends(long accountId)
-        {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = accountId
-            });
-
-            var friends = new GetFriendsEngine().Execute(new GetFriendsModel()
-            {
-                Cookie = account.Cookie.CookieString,
-                AccountId = accountId
-            });
-
-            new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
-            {
-                AccountId = account.Id,
-                Friends = friends
-            });
-        }
-
-        public List<GetUnreadMessagesResponseModel> GetUnreadMessages(long accountId)
-        {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = accountId
-            });
-            var unreadMessages = new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
-            {
-                AccountId = account.UserId,
-                Cookie = account.Cookie.CookieString
-            });
-
-            new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
-            {
-                AccountId = accountId,
-                UnreadMessages = unreadMessages
-            });
-
-            return unreadMessages;
-        }
-
-        public List<GetMessagesResponseModel> GetAllMessages(long accountId)
-        {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = accountId
-            });
-            return new GetMessagesEngine().Execute(new GetMessagesModel()
-            {
-                AccountId = account.UserId,
-                Cookie = account.Cookie.CookieString
-            });
-        }
-
         public AccountActionModel GetAccountByUserId(long userId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
@@ -172,12 +104,18 @@ namespace Services.Services
                 UserId = senderId
             });
 
+            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+            {
+                NameUrlParameter = NamesUrlParameter.SendMessage
+            }); 
+
             new SendMessageEngine().Execute(new SendMessageModel
             {
                 AccountId = account.UserId,
                 Cookie = account.Cookie.CookieString,
                 FriendId = friendId,
-                Message = messageText
+                Message = messageText,
+                UrlParameters = urlParameters
             });
         }
     }

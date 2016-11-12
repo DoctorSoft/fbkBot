@@ -41,16 +41,16 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 
                 foreach (var friendDbModel in friendsInDb)
                 {
-                    if (!command.Friends.Any(model=> model.FriendId.Equals(friendDbModel.FriendId)))
+                    if (command.Friends.Any(model => model.FriendId.Equals(friendDbModel.FriendId))) continue;
                     {
                         var deletingFriend = context.Friends
-                            .FirstOrDefault(model => model.AccountId == command.AccountId && model.FriendId == friendDbModel.FriendId && !model.DeleteFromFriends);
+                            .FirstOrDefault(model => model.AccountId == command.AccountId 
+                                && model.FriendId == friendDbModel.FriendId 
+                                && !model.DeleteFromFriends);
 
-                        if (deletingFriend != null)
-                        {
-                            deletingFriend.DeleteFromFriends = true;
-                            context.SaveChanges();
-                        }
+                        if (deletingFriend == null) continue;
+                        deletingFriend.DeleteFromFriends = true;
+                        context.SaveChanges();
                     }
                 }
                 

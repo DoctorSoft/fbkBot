@@ -3,9 +3,6 @@ using System.Linq;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
-using DataBase.Constants;
-using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RequestsHelpers;
@@ -18,16 +15,11 @@ namespace Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId
         {
             var messagesList = new List<GetСorrespondenceByFriendIdResponseModel>();
 
-            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.GetCorrespondence
-            });
-
-            if (urlParameters == null) return null;
+            if (model.UrlParameters == null) return null;
 
             var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
 
-            var parametersDictionary = urlParameters.ToDictionary(pair => (GetCorrespondenceEnum)pair.Key, pair => pair.Value);
+            var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetCorrespondenceEnum)pair.Key, pair => pair.Value);
 
             parametersDictionary[GetCorrespondenceEnum.User] = model.AccountId.ToString();
             parametersDictionary[GetCorrespondenceEnum.FbDtsg] = fbDtsg;

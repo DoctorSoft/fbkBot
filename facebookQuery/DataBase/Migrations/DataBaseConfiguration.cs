@@ -94,7 +94,7 @@ namespace DataBase.Migrations
                 {SendMessageEnum.SrpT, "1477219353"}
             };
            
-             */
+             
             var parametersUnread = new Dictionary<GetUnreadMessagesEnum, string>
             {
                 {GetUnreadMessagesEnum.Client, "web_messenger"},
@@ -106,8 +106,25 @@ namespace DataBase.Migrations
                 {GetUnreadMessagesEnum.Be, "-1"},
                 {GetUnreadMessagesEnum.Pc, "PHASED:DEFAULT"},
                 {GetUnreadMessagesEnum.FbDtsg, ""}
-            };
+            };*/
 
+            var parametersChangeStatus = new Dictionary<ChangeStatusForMesagesEnum, string>
+            {
+                {ChangeStatusForMesagesEnum.Ids, "true"},
+                {ChangeStatusForMesagesEnum.WatermarkTimestamp, "1478978697039"},
+                {ChangeStatusForMesagesEnum.TitanOriginatedThreadId, "<1477224498510:0-6b8c830d75d829c1@mail.projektitan.com>"},
+                {ChangeStatusForMesagesEnum.ShouldSendReadReceipt, "true"},
+                {ChangeStatusForMesagesEnum.CommerceLastMessageType, "non_ad"},
+                {ChangeStatusForMesagesEnum.User, ""},
+                {ChangeStatusForMesagesEnum.A, "1"},
+                {ChangeStatusForMesagesEnum.Dyn, "7AmajEzUGByAZ112u6aEyx91qdhEK5EKiWFaim8zQC-C26m6oDAyoeAq2i5U4e2CEaUZ1ebkwy8wGFeex3BKuEjKeCwxxaagpwGDBwJKq4GCzEkxvDAzUO5u5o5S9ADBy8K48hxGbwYDx2r_gqQ59ovG27AyEWEWfx2maw"},
+                {ChangeStatusForMesagesEnum.Af, "o"},
+                {ChangeStatusForMesagesEnum.Req, "2g"},
+                {ChangeStatusForMesagesEnum.Be, "-1"},
+                {ChangeStatusForMesagesEnum.Pc, "PHASED:DEFAULT"},
+                {ChangeStatusForMesagesEnum.Rev, "2679734"},
+                {ChangeStatusForMesagesEnum.FbDtsg, ""}
+            };
             /*
             var parametersCorrespondence = new Dictionary<GetCorrespondenceEnum, string>
             {
@@ -129,14 +146,16 @@ namespace DataBase.Migrations
                 {GetFriendsEnum.Id, ""},
                 {GetFriendsEnum.Sk, "friends"}
             };
+             * */
+
             var js = new JavaScriptSerializer();
-            var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
+            var jsonUnread = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.GetUnreadMessages,
+                    CodeParameters = (int)NamesUrlParameter.ChangeMessageStatus,
                     ParametersSet = jsonUnread
                 }
             };
@@ -145,7 +164,6 @@ namespace DataBase.Migrations
              
             context.SaveChanges();
             
-            */
         }
     }
 }

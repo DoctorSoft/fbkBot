@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using Constants;
 
-namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
+namespace Engines.Engines.GetMessagesEngine.ChangeMessageStatus
 {
-    public class GetUnreadMessagesModel
+    public class ChangeMessageStatusModel
     {
         public long AccountId { get; set; }
+
+        public long FriendId { get; set; }
 
         public string Cookie { get; set; }
 

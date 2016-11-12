@@ -8,7 +8,7 @@ namespace Jobs.Jobs.FriendJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(long userId)
         {
-            new HomeService().GetFriends(userId);
+            new FriendsService().GetFriendsOfFacebook(userId);
         }
     }
 }

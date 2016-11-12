@@ -6,6 +6,7 @@
         GetMessages = 2,
         GetCorrespondence = 3,
         GetFriends = 4,
-        GetUnreadMessages = 5
+        GetUnreadMessages = 5,
+        ChangeMessageStatus = 6
     }
 }

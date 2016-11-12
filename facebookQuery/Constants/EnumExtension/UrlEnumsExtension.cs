@@ -159,5 +159,44 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("messageEnum");
             }
         }
+
+        public static string GetAttributeName(this ChangeStatusForMesagesEnum changeStatusEnum)
+        {
+            switch (changeStatusEnum)
+            {
+                case ChangeStatusForMesagesEnum.Ids:
+                    return "ids[";
+                case ChangeStatusForMesagesEnum.WatermarkTimestamp:
+                    return "watermarkTimestamp=";
+                case ChangeStatusForMesagesEnum.TitanOriginatedThreadId:
+                    return "titanOriginatedThreadId=";
+                case ChangeStatusForMesagesEnum.ShouldSendReadReceipt:
+                    return "shouldSendReadReceipt=";
+                case ChangeStatusForMesagesEnum.CommerceLastMessageType:
+                    return "commerce_last_message_type=";
+                case ChangeStatusForMesagesEnum.User:
+                    return "__user=";
+                case ChangeStatusForMesagesEnum.A:
+                    return "__a=";
+                case ChangeStatusForMesagesEnum.Dyn:
+                    return "__dyn=";
+                case ChangeStatusForMesagesEnum.Af:
+                    return "__af=";
+                case ChangeStatusForMesagesEnum.Req:
+                    return "__req=";
+                case ChangeStatusForMesagesEnum.Be:
+                    return "__be=";
+                case ChangeStatusForMesagesEnum.Pc:
+                    return "__pc=";
+                case ChangeStatusForMesagesEnum.Rev:
+                    return "__rev=";
+                case ChangeStatusForMesagesEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case ChangeStatusForMesagesEnum.Ttstamp:
+                    return "ttstamp=";
+                default:
+                    throw new ArgumentOutOfRangeException("changeStatusEnum", changeStatusEnum, null);
+            }
+        }
     }
 }

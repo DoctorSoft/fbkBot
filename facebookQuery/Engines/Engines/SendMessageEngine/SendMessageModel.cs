@@ -1,4 +1,7 @@
-﻿namespace Engines.Engines.SendMessageEngine
+﻿using System.Collections.Generic;
+using Constants;
+
+namespace Engines.Engines.SendMessageEngine
 {
     public class SendMessageModel
     {
@@ -9,5 +12,7 @@
         public string Message { get; set; }
 
         public string Cookie { get; set; }
+
+        public List<KeyValue<int, string>> UrlParameters { get; set; }
     }
 }

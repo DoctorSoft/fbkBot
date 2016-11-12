@@ -4,9 +4,6 @@ using System.Linq;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
-using DataBase.Constants;
-using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using RequestsHelpers;
 
 namespace Engines.Engines.SendMessageEngine
@@ -14,18 +11,13 @@ namespace Engines.Engines.SendMessageEngine
     public class SendMessageEngine : AbstractEngine<SendMessageModel, SendMessageResponseModel>
     {
         protected override SendMessageResponseModel ExecuteEngine(SendMessageModel model)
-        {
-            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.SendMessage
-            });
-
-            if (urlParameters == null) return null;
+       {
+            if (model.UrlParameters == null) return null;
             var messageId = GenerateMessageId();
 
             var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
 
-            var parametersDictionary = urlParameters.ToDictionary(pair => (SendMessageEnum)pair.Key, pair => pair.Value);
+            var parametersDictionary = model.UrlParameters.ToDictionary(pair => (SendMessageEnum)pair.Key, pair => pair.Value);
 
             parametersDictionary[SendMessageEnum.Body] = model.Message;
             parametersDictionary[SendMessageEnum.MessageId] = messageId;

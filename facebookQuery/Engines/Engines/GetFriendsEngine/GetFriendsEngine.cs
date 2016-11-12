@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using CommonModels;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
-using DataBase.Constants;
-using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsEngine
@@ -21,16 +16,11 @@ namespace Engines.Engines.GetFriendsEngine
         {
             var friendsList = new List<GetFriendsResponseModel>();
 
-            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.GetFriends
-            });
-
-            if (urlParameters == null) return null;
+            if (model.UrlParameters == null) return null;
 
             var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
 
-            var parametersDictionary = urlParameters.ToDictionary(pair => (GetFriendsEnum)pair.Key, pair => pair.Value);
+            var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetFriendsEnum)pair.Key, pair => pair.Value);
 
             parametersDictionary[GetFriendsEnum.Id] = model.AccountId.ToString("G");
 

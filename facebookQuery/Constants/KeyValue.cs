@@ -1,4 +1,4 @@
-﻿namespace DataBase.QueriesAndCommands.Queries.UrlParameters
+﻿namespace Constants
 {
     public class KeyValue<TKey, TValue>
     {

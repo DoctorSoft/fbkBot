@@ -63,6 +63,8 @@
     <Compile Include="Engines\AbstractEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsModel.cs" />
+    <Compile Include="Engines\GetMessagesEngine\ChangeMessageStatus\ChangeMessageStatusEngine.cs" />
+    <Compile Include="Engines\GetMessagesEngine\ChangeMessageStatus\ChangeMessageStatusModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetСorrespondenceByFriendId\GetСorrespondenceByFriendIdEngine.cs" />
@@ -96,10 +98,6 @@
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
       <Name>Constants</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataBase\DataBase.csproj">
-      <Project>{f3eda670-d963-42d7-845e-555c12db1dbc}</Project>
-      <Name>DataBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\RequestsHelper\RequestsHelpers.csproj">
       <Project>{3CB46211-A7DA-4884-88F0-15E801D2F0B7}</Project>

@@ -13,6 +13,8 @@ namespace Constants
         [Description("https://www.facebook.com/rtc/callability/?dpr=1")]
         GetСorrespondenceByFriendId,
         [Description("https://www.facebook.com/profile.php")]
-        GetFriends
+        GetFriends,
+        [Description("https://www.facebook.com/ajax/mercury/change_read_status.php?dpr=1")]
+        ChangeReadStatus
     }
 }
