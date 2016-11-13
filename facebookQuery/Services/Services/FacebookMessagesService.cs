@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using CommonModels;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand;
@@ -10,6 +10,7 @@ using Engines.Engines.GetMessagesEngine.ChangeMessageStatus;
 using Engines.Engines.GetMessagesEngine.GetMessages;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
+using Services.ViewModels.MessagesModels;
 
 namespace Services.Services
 {
@@ -27,7 +28,7 @@ namespace Services.Services
                 NameUrlParameter = NamesUrlParameter.GetCorrespondence
             });
 
-            var statusModel = new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
+            new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
             {
                 Cookie = account.Cookie.CookieString,
                 AccountId = accountId,
@@ -83,8 +84,7 @@ namespace Services.Services
 
         }
 
-        //TEMP
-        public List<GetUnreadMessagesResponseModel> GetUnreadMessages_Temp(long accountId)
+        public UnreadMessagesListViewModel GetUnreadMessagesFromAccountPage(long accountId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
@@ -97,12 +97,24 @@ namespace Services.Services
                     NameUrlParameter = NamesUrlParameter.GetUnreadMessages
                 });
 
-            return new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
+            var unreadMessagesList =  new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
             {
                 AccountId = account.UserId,
                 Cookie = account.Cookie.CookieString,
                 UrlParameters = getUnreadMessagesUrlParameters
             });
+
+            return new UnreadMessagesListViewModel()
+            {
+                UnreadMessages = unreadMessagesList.Select(model=> new UnreadMessageModel
+                {
+                    LastMessage = model.LastMessage,
+                    UnreadMessage = model.UnreadMessage,
+                    CountAllMessages = model.CountAllMessages,
+                    CountUnreadMessages = model.CountUnreadMessages,
+                    FacebookFriendId = model.FriendId
+                }).ToList()
+            };
         }
 
 

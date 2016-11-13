@@ -66,6 +66,8 @@
     <Compile Include="ViewModels\FriendsModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountActionModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\MessagesModels\UnreadMessageModel.cs" />
+    <Compile Include="ViewModels\MessagesModels\UnreadMessagesListViewModel.cs" />
     <Compile Include="ViewModels\OptionsModel\MessageListItemModel.cs" />
     <Compile Include="ViewModels\OptionsModel\MessageListModel.cs" />
     <Compile Include="ViewModels\OptionsModel\MessageViewModel.cs" />
@@ -96,9 +98,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\MessagesModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

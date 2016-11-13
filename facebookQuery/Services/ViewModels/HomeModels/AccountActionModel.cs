@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using CommonModels;
-using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
+﻿using Services.ViewModels.MessagesModels;
 
 namespace Services.ViewModels.HomeModels
 {
@@ -22,6 +20,6 @@ namespace Services.ViewModels.HomeModels
 
         public int NumberNewNotifications { get; set; }
 
-        public List<GetUnreadMessagesResponseModel> NewMessagesList { get; set; } 
+        public UnreadMessagesListViewModel NewMessagesList { get; set; } 
     }
 }

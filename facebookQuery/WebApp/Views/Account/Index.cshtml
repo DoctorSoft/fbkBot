@@ -45,11 +45,11 @@
                             </th>
                         </tr>
                     </thead>
-                    @foreach (var account in @Model.NewMessagesList)
+                    @foreach (var account in @Model.NewMessagesList.UnreadMessages)
                     {
                         <tr>
                             <td>
-                                @account.FriendId
+                                @account.FacebookFriendId
                             </td>
                             <td>
                                 @account.CountUnreadMessages
