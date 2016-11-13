@@ -24,7 +24,7 @@ namespace WebApp.Controllers
             currentAccount.NumberNewMessages = status.NumberNewMessages;
             currentAccount.NumberNewNotifications = status.NumberNewNotifications;
 
-            currentAccount.NewMessagesList = facebookMessagesService.GetUnreadMessages(currentAccount.UserId);
+            currentAccount.NewMessagesList = facebookMessagesService.GetUnreadMessages_Temp(currentAccount.UserId);
             
             return View(currentAccount);
         }

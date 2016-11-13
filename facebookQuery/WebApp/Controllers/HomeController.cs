@@ -21,12 +21,7 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             var accounts = homeService.GetAccounts();
-
-            var currentAccount = accounts.FirstOrDefault();
-
-            friendsService.GetFriendsOfFacebook(currentAccount.UserId);
-            facebookMessagesService.GetUnreadMessages(currentAccount.UserId);
-
+            
             return View(accounts);
         }
     }
