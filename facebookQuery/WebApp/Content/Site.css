@@ -77,3 +77,20 @@ textarea {
 .warning-message {
     color: red!important;
 }
+
+.inline-half {
+    display: inline;
+    min-width: 50%;
+}
+
+.inline-half-text-left {
+    display: inline-block;
+    min-width: 50%;
+    text-align: left
+}
+
+.inline-half-text-right {
+    display: inline-block;
+    min-width: 45%;
+    text-align: right
+}

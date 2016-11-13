@@ -5,7 +5,7 @@ using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
 {
-    public class GetFriendsByAccountQueryHandler : IQueryHandler<GetFriendsByAccountQuery, List<GetFriendsResponseModel>>
+    public class GetFriendsByAccountQueryHandler : IQueryHandler<GetFriendsByAccountQuery, List<FriendData>>
     {
         private readonly DataBaseContext context;
 
@@ -14,14 +14,16 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
             this.context = context;
         }
 
-        public List<GetFriendsResponseModel> Handle(GetFriendsByAccountQuery query)
+        public List<FriendData> Handle(GetFriendsByAccountQuery query)
         {
             var result = context.Friends
                 .Where(model => model.AccountId == query.AccountId)
-                .Select(model => new GetFriendsResponseModel
+                .Select(model => new FriendData
                 {
                     FriendId = model.FriendId,
-                    FriendName = model.FriendName
+                    FriendName = model.FriendName,
+                    Deleted = model.DeleteFromFriends,
+                    Id = model.Id
                 }).ToList();
 
             return result;

@@ -127,6 +127,10 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\MessageModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\FriendMessages\FriendMessageData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\FriendData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQuery.cs" />

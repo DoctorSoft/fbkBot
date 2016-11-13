@@ -158,6 +158,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FriendMessagesController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
@@ -252,6 +253,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Options\Index.cshtml" />
     <Content Include="Views\Friends\Index.cshtml" />
+    <Content Include="Views\FriendMessages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

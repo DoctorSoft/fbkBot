@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@model Services.ViewModels.FriendMessagesModels.FriendMessageList
+
+<h2>Messages</h2>
+
+@foreach (var message in Model.FriendMessages)
+{
+    <div class="alert alert-info">
+        <strong>@message.MessageDateTime </strong><br/>
+        @message.Message <br/>
+    </div>
+}

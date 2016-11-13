@@ -11,8 +11,13 @@
     <div class="panel-footer">
         @foreach (var friend in @Model.Friends)
         {
-            <div>
-                @friend.Name
+            <div class='@(!friend.Deleted ? "alert alert-info" : "alert alert-danger")'>
+                <div class="inline-half-text-left">
+                    @friend.Name
+                </div>
+                <div class="inline-half-text-right">
+                    <a class="btn btn-primary" href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i> Messages</a>
+                </div>
             </div>
         }
     </div>

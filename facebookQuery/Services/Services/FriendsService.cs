@@ -26,7 +26,9 @@ namespace Services.Services
                 Friends = friends.Select(model => new FriendViewModel
                 {
                     FriendId = model.FriendId,
-                    Name = model.FriendName
+                    Name = model.FriendName,
+                    Deleted = model.Deleted,
+                    Id = model.Id
                 }).ToList()
             };
 
@@ -58,7 +60,7 @@ namespace Services.Services
                 Friends = friends.Select(model => new FriendViewModel
                 {
                     FriendId = model.FriendId,
-                    Name = model.FriendName
+                    Name = model.FriendName,
                 }).ToList()
             });
         }
