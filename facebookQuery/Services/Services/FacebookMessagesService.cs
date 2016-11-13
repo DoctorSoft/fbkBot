@@ -56,6 +56,12 @@ namespace Services.Services
                 UrlParameters = getUnreadMessagesUrlParameters
             });
 
+            new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
+            {
+                AccountId = account.Id,
+                UnreadMessages = unreadMessages
+            });
+
             var changeMessageStatusUrlParameters =
                 new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                 {

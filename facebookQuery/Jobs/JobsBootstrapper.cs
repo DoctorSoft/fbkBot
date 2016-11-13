@@ -13,9 +13,9 @@ namespace Jobs
         {
             //todo: uncomment it back
             
-            var account = new HomeService().GetAccounts().Select(model => model.UserId).FirstOrDefault();
+            var account = new HomeService().GetAccounts().Select(model => model.UserId).LastOrDefault();
 
-            //RecurringJob.AddOrUpdate(string.Format("Refresh friends list for accountId = {0} )", account), () => RefreshFriendsJob.Run(account), "* 0/1 * * *");
+            RecurringJob.AddOrUpdate(string.Format("Refresh friends list for accountId = {0} )", account), () => RefreshFriendsJob.Run(account), "* 0/1 * * *");
 
             //RecurringJob.AddOrUpdate(string.Format("Receive unread messages for accountId = {0} )", account), () => GetUnreadMessagesJob.Run(account), "* 0/1 * * *");
             

@@ -19,7 +19,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
         public VoidCommandResponse Handle(SaveUnreadMessagesCommand command)
         {
             var accountId = new long();
-            var firstAccount = context.Accounts.FirstOrDefault(model => model.UserId == command.AccountId);
+            var firstAccount = context.Accounts.FirstOrDefault(model => model.Id == command.AccountId);
             if (firstAccount != null)
             {
                 accountId = firstAccount.Id;
