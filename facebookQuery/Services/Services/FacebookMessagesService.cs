@@ -36,17 +36,18 @@ namespace Services.Services
             });
         }
 
-        public List<GetUnreadMessagesResponseModel> GetUnreadMessages(long accountId)
+        public void GetUnreadMessages(long accountId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = accountId
             });
 
-            var getUnreadMessagesUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.GetUnreadMessages
-            });
+            var getUnreadMessagesUrlParameters =
+                new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.GetUnreadMessages
+                });
 
             var unreadMessages = new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
             {
@@ -55,10 +56,11 @@ namespace Services.Services
                 UrlParameters = getUnreadMessagesUrlParameters
             });
 
-            var changeMessageStatusUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
-            });
+            var changeMessageStatusUrlParameters =
+                new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
+                });
 
             foreach (var unreadMessage in unreadMessages)
             {
@@ -73,14 +75,30 @@ namespace Services.Services
                 Thread.Sleep(2000);
             }
 
-            new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
+        }
+
+        //TEMP
+        public List<GetUnreadMessagesResponseModel> GetUnreadMessages_Temp(long accountId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
-                AccountId = accountId,
-                UnreadMessages = unreadMessages
+                UserId = accountId
             });
 
-            return unreadMessages;
+            var getUnreadMessagesUrlParameters =
+                new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.GetUnreadMessages
+                });
+
+            return new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
+            {
+                AccountId = account.UserId,
+                Cookie = account.Cookie.CookieString,
+                UrlParameters = getUnreadMessagesUrlParameters
+            });
         }
+
 
         public List<GetMessagesResponseModel> GetAllMessages(long accountId)
         {
