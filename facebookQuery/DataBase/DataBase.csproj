@@ -68,6 +68,7 @@
     <Compile Include="Configurations\FriendConfiguration.cs" />
     <Compile Include="Configurations\FriendMessageConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
+    <Compile Include="Configurations\MessageGroupConfiguration.cs" />
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
     <Compile Include="Context\DataBaseContext.cs" />
@@ -95,18 +96,29 @@
     <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.Designer.cs">
       <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611161907490_AddMessageGroupTable.cs" />
+    <Compile Include="Migrations\201611161907490_AddMessageGroupTable.Designer.cs">
+      <DependentUpon>201611161907490_AddMessageGroupTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
     <Compile Include="Models\FriendDbModel.cs" />
     <Compile Include="Models\MessageDbModel.cs" />
     <Compile Include="Models\FriendMessageDbModel.cs" />
+    <Compile Include="Models\MessageGroupDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\RemoveGroupCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\RemoveGroupCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\UpdateGroupCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\UpdateGroupCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveNewMessageCommand\SaveNewMessageCommand.cs" />
@@ -133,6 +145,9 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\FriendData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GroupData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\GetMessageModelQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQuery.cs" />
@@ -174,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611101806098_AddDeleteFromFriendsField.resx">
       <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611161907490_AddMessageGroupTable.resx">
+      <DependentUpon>201611161907490_AddMessageGroupTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

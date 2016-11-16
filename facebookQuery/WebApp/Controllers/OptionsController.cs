@@ -15,9 +15,9 @@ namespace WebApp.Controllers
         }
 
         // GET: Option
-        public ActionResult Index(long? accountId)
+        public ActionResult Index(long? accountId, long? groupId)
         {
-            var result = messageSettingService.GetMessagesList(accountId);
+            var result = messageSettingService.GetMessagesList(accountId, groupId);
             return View(result);
         }
 

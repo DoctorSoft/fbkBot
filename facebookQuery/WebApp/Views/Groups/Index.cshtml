@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts
+{
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+
+    @foreach (var group in @Model.Groups)
+    {
+        <script type="text/javascript">
+            
+            $.fn.editable.defaults.success = function(data) {
+                document.reload();
+            }
+
+            $('#@("group" + group.Id)').editable({
+                type: 'text',
+                pk: 1,
+                name: 'name',
+                url: '@Url.Action("UpdateGroup", "Groups", new {groupId = group.Id})',
+                title: 'Enter Group'
+            });
+        </script>
+    }
+}
+@model Services.ViewModels.GroupModels.GroupList
+
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3 class="alert-info alert">Groups</h3>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("AddGroup", "Groups", FormMethod.Post))
+        {
+            <div class="input-group-section">
+                <input name="Name" id="name" placeholder="New group" class="form-control" />
+            </div>
+            <div class="submit-section">
+                <input type="submit" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        @foreach (var group in @Model.Groups)
+        {
+            <div class="alert alert-info">
+                <div class="inline-half-text-left">
+                    <a id="@("group" + group.Id)">@group.Name</a>
+                </div>
+                <div class="inline-half-text-right">
+                    <div class="remove-message">
+                        <a href="@Url.Action("RemoveGroup", "Groups", new { groupId = group.Id })"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+

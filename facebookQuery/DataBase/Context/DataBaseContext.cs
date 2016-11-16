@@ -22,7 +22,9 @@ namespace DataBase.Context
 
         public DbSet<FriendDbModel> Friends { get; set; }
 
-        public DbSet<FriendMessageDbModel> FriendMessages { get; set; } 
+        public DbSet<FriendMessageDbModel> FriendMessages { get; set; }
+
+        public DbSet<MessageGroupDbModel> MessageGroups { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
