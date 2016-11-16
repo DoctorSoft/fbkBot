@@ -16,6 +16,8 @@ namespace DataBase.Models
 
         public long? AccountId { get; set; }
 
+        public long? MessageGroupId { get; set; }
+
         public MessageRegime MessageRegime { get; set; }
 
         public TimeSpan? StartTime { get; set; }
@@ -26,6 +28,8 @@ namespace DataBase.Models
 
         public bool IsEmergencyText { get; set; }
 
-        public AccountDbModel Account { get; set; } 
+        public AccountDbModel Account { get; set; }
+
+        public MessageGroupDbModel MessageGroup { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace DataBase.QueriesAndCommands.Queries.Message
         public List<MessageModel> Handle(GetMessageModelQuery query)
         {
             var results = context.Set<MessageDbModel>()
-                .Where(model => model.AccountId == query.AccountId)
+                .Where(model => model.AccountId == query.AccountId && model.MessageGroupId == query.GroupId)
                 .OrderBy(model => model.OrderNumber)
                 .Select(model => new MessageModel
                 {

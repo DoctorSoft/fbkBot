@@ -94,3 +94,12 @@ textarea {
     min-width: 45%;
     text-align: right
 }
+
+.submit-section {
+    display: inline-block;
+    padding-left: 15px;
+}
+
+.input-group-section {
+    display: inline-block
+}

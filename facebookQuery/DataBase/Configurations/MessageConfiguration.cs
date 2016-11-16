@@ -22,6 +22,7 @@ namespace DataBase.Configurations
             Property(model => model.EndTime);
 
             HasOptional(it => it.Account).WithMany(model => model.Messages).HasForeignKey(model => model.AccountId);
+            HasOptional(it => it.MessageGroup).WithMany(model => model.Messages).HasForeignKey(model => model.MessageGroupId);
         }
     }
 }

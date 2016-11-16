@@ -160,6 +160,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FriendMessagesController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -254,6 +255,7 @@
     <Content Include="Views\Options\Index.cshtml" />
     <Content Include="Views\Friends\Index.cshtml" />
     <Content Include="Views\FriendMessages\Index.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

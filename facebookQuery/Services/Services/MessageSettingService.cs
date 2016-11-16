@@ -52,11 +52,12 @@ namespace Services.Services
             });
         }
 
-        public MessageListModel GetMessagesList(long? accountId)
+        public MessageListModel GetMessagesList(long? accountId, long? groupId)
         {
             var messages = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery
             {
-                AccountId = accountId
+                AccountId = accountId,
+                GroupId = groupId
             });
 
             var result = new MessageListModel
@@ -72,7 +73,8 @@ namespace Services.Services
                     IsBotFirst = model.MessageRegime == MessageRegime.BotFirstMessage,
                     Id = model.Id
                 }).ToList(),
-                AccountId = accountId
+                AccountId = accountId,
+                GroupId = groupId
             };
 
             return result;
