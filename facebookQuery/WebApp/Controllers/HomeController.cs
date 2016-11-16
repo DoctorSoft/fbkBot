@@ -21,7 +21,7 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             var accounts = homeService.GetAccounts();
-            //facebookMessagesService.GetСorrespondenceByFriendId(accounts.FirstOrDefault().Id, 100013532889680);
+            //facebookMessagesService.GetСorrespondenceByFriendId(accounts.FirstOrDefault().UserId, 25522568);
             
             return View(accounts);
         }

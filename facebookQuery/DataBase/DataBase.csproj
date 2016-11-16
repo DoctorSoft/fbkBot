@@ -95,6 +95,10 @@
     <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.Designer.cs">
       <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611162107361_Fix.cs" />
+    <Compile Include="Migrations\201611162107361_Fix.Designer.cs">
+      <DependentUpon>201611162107361_Fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -174,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611101806098_AddDeleteFromFriendsField.resx">
       <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611162107361_Fix.resx">
+      <DependentUpon>201611162107361_Fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
