@@ -275,7 +275,7 @@
       <Name>Engines</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jobs\Jobs.csproj">
-      <Project>{DA5E57AC-C85D-4738-9CA5-BDD1CA482F23}</Project>
+      <Project>{da5e57ac-c85d-4738-9ca5-bdd1ca482f23}</Project>
       <Name>Jobs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">

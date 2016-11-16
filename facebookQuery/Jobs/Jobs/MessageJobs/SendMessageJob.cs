@@ -8,7 +8,7 @@ namespace Jobs.Jobs.MessageJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(long userId, long receiverId)
         {
-            new HomeService().SendMessage(userId, receiverId);
+            new FacebookMessagesService().SendMessage(userId, receiverId);
         }
     }
 }

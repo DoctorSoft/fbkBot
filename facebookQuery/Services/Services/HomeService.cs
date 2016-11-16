@@ -85,34 +85,6 @@ namespace Services.Services
             };
         }
 
-        public void SendMessage(long senderId, long friendId)
-        {
-            var rnd = new Random();
-            var mockMessageList = new List<string>()
-            {
-                "Hello", "Hi", "How are u?", "What's up?", "What are you up to?", "Nice to meet you" 
-            };
-            var messageText = mockMessageList[rnd.Next(mockMessageList.Count)];
-
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = senderId
-            });
-
-            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.SendMessage
-            }); 
-
-            new SendMessageEngine().Execute(new SendMessageModel
-            {
-                AccountId = account.UserId,
-                Cookie = account.Cookie.CookieString,
-                FriendId = friendId,
-                Message = messageText,
-                UrlParameters = urlParameters
-            });
-        }
     }
 }
 

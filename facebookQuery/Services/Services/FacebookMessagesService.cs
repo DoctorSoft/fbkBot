@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using DataBase.Constants;
@@ -10,12 +11,42 @@ using Engines.Engines.GetMessagesEngine.ChangeMessageStatus;
 using Engines.Engines.GetMessagesEngine.GetMessages;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
+using Engines.Engines.SendMessageEngine;
 using Services.ViewModels.MessagesModels;
 
 namespace Services.Services
 {
     public class FacebookMessagesService
     {
+        public void SendMessage(long senderId, long friendId)
+        {
+            var rnd = new Random();
+            var mockMessageList = new List<string>()
+            {
+                "Hello", "Hi", "How are u?", "What's up?", "What are you up to?", "Nice to meet you" 
+            };
+            var messageText = mockMessageList[rnd.Next(mockMessageList.Count)];
+
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = senderId
+            });
+
+            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+            {
+                NameUrlParameter = NamesUrlParameter.SendMessage
+            });
+
+            new SendMessageEngine().Execute(new SendMessageModel
+            {
+                AccountId = account.UserId,
+                Cookie = account.Cookie.CookieString,
+                FriendId = friendId,
+                Message = messageText,
+                UrlParameters = urlParameters
+            });
+        }
+
         public void GetСorrespondenceByFriendId(long accountId, long friendId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
@@ -28,7 +59,7 @@ namespace Services.Services
                 NameUrlParameter = NamesUrlParameter.GetCorrespondence
             });
 
-            new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
+            var correspondence = new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
             {
                 Cookie = account.Cookie.CookieString,
                 AccountId = accountId,
