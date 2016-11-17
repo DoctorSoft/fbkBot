@@ -10,7 +10,7 @@ namespace Constants
         SendMessage,
         [Description("https://www.facebook.com/ajax/mercury/threadlist_info.php?dpr=1")]
         NewMessages,
-        [Description("https://www.facebook.com/rtc/callability/?dpr=1")]
+        [Description("https://www.facebook.com/rtc/callability/")]
         GetСorrespondenceByFriendId,
         [Description("https://www.facebook.com/profile.php")]
         GetFriends,
