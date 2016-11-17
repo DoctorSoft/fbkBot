@@ -12,17 +12,24 @@
     @foreach (var group in @Model.Groups)
     {
         <script type="text/javascript">
-            
-            $.fn.editable.defaults.success = function(data) {
-                document.reload();
-            }
 
             $('#@("group" + group.Id)').editable({
                 type: 'text',
-                pk: 1,
-                name: 'name',
-                url: '@Url.Action("UpdateGroup", "Groups", new {groupId = group.Id})',
-                title: 'Enter Group'
+                pk: function() {
+                    return $('#@("group" + group.Id)').text();
+                },
+                //url: '@Url.Action("UpdateGroup", "Groups", new {groupId = group.Id})',
+                title: 'Enter Group',
+                success: function () {
+                    setTimeout(function () {
+                        var address = '@Url.Action("UpdateGroup", "Groups", new { groupId = @group.Id })';
+                        var name = $('#@("group" + group.Id)').text();
+
+                        address = address + "&name=" + name;
+
+                        window.location.href = address;
+                    }, 250);
+                }
             });
         </script>
     }

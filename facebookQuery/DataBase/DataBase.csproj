@@ -100,6 +100,10 @@
     <Compile Include="Migrations\201611161907490_AddMessageGroupTable.Designer.cs">
       <DependentUpon>201611161907490_AddMessageGroupTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611162120424_AddMessageGroupTable1.cs" />
+    <Compile Include="Migrations\201611162120424_AddMessageGroupTable1.Designer.cs">
+      <DependentUpon>201611162120424_AddMessageGroupTable1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -192,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611161907490_AddMessageGroupTable.resx">
       <DependentUpon>201611161907490_AddMessageGroupTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611162120424_AddMessageGroupTable1.resx">
+      <DependentUpon>201611162120424_AddMessageGroupTable1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
