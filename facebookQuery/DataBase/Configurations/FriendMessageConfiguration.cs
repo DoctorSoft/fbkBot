@@ -14,7 +14,8 @@ namespace DataBase.Configurations
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(model => model.Message);
-            Property(model => model.MessageDateTime);
+            Property(model => model.LastReadMessageDateTime);
+            Property(model => model.LastUnreadMessageDateTime);
             Property(model => model.MessageDirection);
 
             HasRequired(it => it.Friend).WithMany(model => model.FriendMessages).HasForeignKey(model => model.FriendId);

@@ -125,7 +125,6 @@ namespace DataBase.Migrations
                 {ChangeStatusForMesagesEnum.Rev, "2679734"},
                 {ChangeStatusForMesagesEnum.FbDtsg, ""}
             };
-            /*
             var parametersCorrespondence = new Dictionary<GetCorrespondenceEnum, string>
             {
                 {GetCorrespondenceEnum.User, ""},
@@ -136,11 +135,12 @@ namespace DataBase.Migrations
                 {GetCorrespondenceEnum.Be, "-1"},
                 {GetCorrespondenceEnum.Pc, "PHASED:DEFAULT"},
                 {GetCorrespondenceEnum.FbDtsg, ""},
-                {GetCorrespondenceEnum.Ttstamp, ""},
+                {GetCorrespondenceEnum.Ttstamp, "265817071514881107105122895158658172108984971659910282121"},
                 {GetCorrespondenceEnum.Rev, "2665999"},
-                {GetCorrespondenceEnum.SrpT, "1478456336"}
+                {GetCorrespondenceEnum.SrpT, ""}
             };
-            
+
+            /*
             var parametersFriends = new Dictionary<GetFriendsEnum, string>
             {
                 {GetFriendsEnum.Id, ""},
@@ -150,6 +150,7 @@ namespace DataBase.Migrations
 
             var js = new JavaScriptSerializer();
             var jsonUnread = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
+            var jsonCorrespondence = js.Serialize(parametersCorrespondence.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
@@ -157,7 +158,12 @@ namespace DataBase.Migrations
                 {
                     CodeParameters = (int)NamesUrlParameter.ChangeMessageStatus,
                     ParametersSet = jsonUnread
-                }
+                },
+                new UrlParametersDbModel
+                {
+                    CodeParameters = (int)NamesUrlParameter.GetCorrespondence,
+                    ParametersSet = jsonCorrespondence
+                },
             };
 
             context.UrlParameters.AddRange(urlParametersList);

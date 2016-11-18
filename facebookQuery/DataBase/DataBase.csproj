@@ -104,6 +104,10 @@
     <Compile Include="Migrations\201611162120424_AddMessageGroupTable1.Designer.cs">
       <DependentUpon>201611162120424_AddMessageGroupTable1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611181614582_AddDateTimeFriendMessages.cs" />
+    <Compile Include="Migrations\201611181614582_AddDateTimeFriendMessages.Designer.cs">
+      <DependentUpon>201611181614582_AddDateTimeFriendMessages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -199,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611162120424_AddMessageGroupTable1.resx">
       <DependentUpon>201611162120424_AddMessageGroupTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611181614582_AddDateTimeFriendMessages.resx">
+      <DependentUpon>201611181614582_AddDateTimeFriendMessages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

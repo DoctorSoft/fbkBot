@@ -17,12 +17,12 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
         {
             var friendsData = context
                 .FriendMessages
-                .OrderByDescending(model => model.MessageDateTime)
+                .OrderByDescending(model => model.LastUnreadMessageDateTime)
                 .Select(model => new FriendMessageData
                 {
                     Message = model.Message,
                     Id = model.Id,
-                    MessageDateTime = model.MessageDateTime,
+                    MessageDateTime = model.LastUnreadMessageDateTime,
                     FriendId = model.FriendId,
                     MessageDirection = model.MessageDirection,
                 }).ToList();

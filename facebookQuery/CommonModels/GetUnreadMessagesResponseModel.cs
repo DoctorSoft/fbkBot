@@ -1,4 +1,6 @@
-﻿namespace CommonModels
+﻿using System;
+
+namespace CommonModels
 {
     public class GetUnreadMessagesResponseModel
     {
@@ -11,5 +13,9 @@
         public string LastMessage { get; set; }
 
         public bool UnreadMessage { get; set; }
+
+        public DateTime LastReadMessageDateTime { get; set; }
+
+        public DateTime LastUnreadMessageDateTime { get; set; }
     }
 }

@@ -9,7 +9,9 @@ namespace DataBase.Models
 
         public string Message { get; set; }
 
-        public DateTime MessageDateTime { get; set; }
+        public DateTime LastReadMessageDateTime { get; set; }
+
+        public DateTime LastUnreadMessageDateTime { get; set; }
 
         public FriendDbModel Friend { get; set; }
 

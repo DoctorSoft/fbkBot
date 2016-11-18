@@ -48,7 +48,8 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                         FriendId = unreadMessageInformation.FriendId,
                         MessageDirection = MessageDirection.FromFriend,
                         Message = unreadMessageInformation.LastMessage,
-                        MessageDateTime = now
+                        LastReadMessageDateTime = unreadMessageInformation.LastReadMessageDateTime,
+                        LastUnreadMessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime
                     }
                 };
             }
