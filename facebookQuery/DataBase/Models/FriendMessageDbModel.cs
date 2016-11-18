@@ -13,6 +13,8 @@ namespace DataBase.Models
 
         public DateTime LastUnreadMessageDateTime { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public FriendDbModel Friend { get; set; }
 
         public MessageDirection MessageDirection { get; set; }
