@@ -13,29 +13,29 @@ namespace WebApp.Controllers
         }
 
         // GET: Groups
-        /*public ActionResult Index()
+        public ActionResult Index()
         {
-            var groups = stopWordsService.GetGroups();
-            return View(groups);
+            var stopWords = stopWordsService.GetStopWords();
+            return View(stopWords);
         }
 
         [HttpPost]
         public ActionResult AddStopWord(string name)
         {
-            stopWordsService.AddNewGroup(name);
-            return RedirectToAction("Index", "Groups");
+            stopWordsService.AddNewStopWord(name);
+            return RedirectToAction("Index", "StopWords");
         }
 
-        public ActionResult RemoveStopWord(long groupId)
+        public ActionResult RemoveStopWord(long stopWordId)
         {
-            stopWordsService.RemoveGroup(groupId);
-            return RedirectToAction("Index", "Groups");
+            stopWordsService.RemoveStopWord(stopWordId);
+            return RedirectToAction("Index", "StopWords");
         }
 
-        public ActionResult UpdateGroup(long groupId, string name)
+        public ActionResult UpdateStopWord(long stopWordId, string name)
         {
-            stopWordsService.UpdateGroup(groupId, name);
-            return RedirectToAction("Index", "Groups");
-        }*/
+            stopWordsService.UpdateStopWord(stopWordId, name);
+            return RedirectToAction("Index", "StopWords");
+        }
     }
 }
