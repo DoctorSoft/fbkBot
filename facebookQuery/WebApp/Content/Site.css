@@ -103,3 +103,8 @@ textarea {
 .input-group-section {
     display: inline-block
 }
+
+.inline-actions {
+    display: inline-block;
+    padding-left: 10px;
+}

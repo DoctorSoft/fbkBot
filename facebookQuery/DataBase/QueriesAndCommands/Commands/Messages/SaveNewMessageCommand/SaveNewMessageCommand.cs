@@ -9,6 +9,8 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand
 
         public long? AccountId { get; set; }
 
+        public long? GroupId { get; set; }
+
         public MessageRegime MessageRegime { get; set; }
 
         public TimeSpan? StartTime { get; set; }

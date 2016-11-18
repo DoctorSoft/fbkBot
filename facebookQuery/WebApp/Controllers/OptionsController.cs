@@ -24,18 +24,24 @@ namespace WebApp.Controllers
         public ActionResult AddNewMessage(MessageViewModel model)
         {
             messageSettingService.SaveNewMessage(model);
-            return RedirectToAction("Index", new { accountId = model.AccountId });
+            return RedirectToAction("Index", new { accountId = model.AccountId, groupId = model.GroupId });
         }
 
-        public ActionResult RemoveMessage(long messageId, long? accountId)
+        public ActionResult RemoveMessage(long messageId, long? accountId, long? groupId)
         {
             messageSettingService.RemoveMessage(messageId);
-            return RedirectToAction("Index", new { accountId });
+            return RedirectToAction("Index", new { accountId, groupId });
         }
 
         public ActionResult SetDefaultMessages(long accountId)
         {
             messageSettingService.SetDefaulMessages(accountId);
+            return RedirectToAction("Index", new { accountId });
+        }
+
+        public ActionResult SetGroupMessages(long accountId, long groupId)
+        {
+            messageSettingService.SetGroupMessages(accountId, groupId);
             return RedirectToAction("Index", new { accountId });
         }
      }

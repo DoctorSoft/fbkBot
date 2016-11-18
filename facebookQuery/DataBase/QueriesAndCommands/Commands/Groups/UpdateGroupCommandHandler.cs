@@ -17,7 +17,7 @@ namespace DataBase.QueriesAndCommands.Commands.Groups
         public VoidCommandResponse Handle(UpdateGroupCommand command)
         {
             var updatingGroup = context.MessageGroups.FirstOrDefault(model => model.Id == command.Id);
-
+ 
             if (context.MessageGroups.Any(model => model.Name.ToUpper() == command.Name.ToUpper() && model.Id != command.Id))
             {
                 return new VoidCommandResponse();

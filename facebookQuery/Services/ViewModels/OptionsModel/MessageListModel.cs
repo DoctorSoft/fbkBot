@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Services.ViewModels.GroupModels;
 
 namespace Services.ViewModels.OptionsModel
 {
@@ -9,5 +10,7 @@ namespace Services.ViewModels.OptionsModel
         public long? AccountId { get; set; }
 
         public long? GroupId { get; set; }
+
+        public GroupList GroupList { get; set; }
     }
 }

@@ -9,6 +9,8 @@ namespace Services.ViewModels.OptionsModel
 
         public long? AccountId { get; set; }
 
+        public long? GroupId { get; set; }
+
         public bool IsBotFirst { get; set; }
 
         public TimeSpan? StartTime { get; set; }

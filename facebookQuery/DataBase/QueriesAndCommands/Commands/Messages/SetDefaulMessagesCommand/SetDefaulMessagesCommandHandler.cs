@@ -20,7 +20,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand
             context.Set<MessageDbModel>().Where(model => model.AccountId == command.AccountId).Delete();
 
             var messagesToCopy = context.Set<MessageDbModel>()
-                .Where(model => model.AccountId == null)
+                .Where(model => model.AccountId == null && command.GroupId == model.MessageGroupId)
                 .ToList()
                 .Select(model => new MessageDbModel
                 {

@@ -18,7 +18,6 @@
                 pk: function() {
                     return $('#@("group" + group.Id)').text();
                 },
-                //url: '@Url.Action("UpdateGroup", "Groups", new {groupId = group.Id})',
                 title: 'Enter Group',
                 success: function () {
                     setTimeout(function () {
@@ -56,7 +55,12 @@
         {
             <div class="alert alert-info">
                 <div class="inline-half-text-left">
-                    <a id="@("group" + group.Id)">@group.Name</a>
+                    <div class="message-list-tittle">
+                        <a id="@("group" + group.Id)">@group.Name</a>
+                    </div>
+                    <div class="inline-actions">
+                        <a href="@Url.Action("Index", "Options", new {groupId = group.Id})"><i class="fa fa-envelope"></i></a>
+                    </div>
                 </div>
                 <div class="inline-half-text-right">
                     <div class="remove-message">

@@ -4,7 +4,9 @@ using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Messages.RemoveMessageCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand;
+using DataBase.QueriesAndCommands.Queries.Groups;
 using DataBase.QueriesAndCommands.Queries.Message;
+using Services.ViewModels.GroupModels;
 using Services.ViewModels.OptionsModel;
 
 namespace Services.Services
@@ -42,6 +44,7 @@ namespace Services.Services
             new SaveNewMessageCommandHandler(new DataBaseContext()).Handle(new SaveNewMessageCommand
             {
                 AccountId = model.AccountId,
+                GroupId = model.GroupId,
                 OrderNumber = model.OrderNumber,
                 EndTime = model.EndTime,
                 StartTime = model.StartTime,
@@ -60,6 +63,14 @@ namespace Services.Services
                 GroupId = groupId
             });
 
+            var groups = new GetGroupsQueryHandler(new DataBaseContext())
+                .Handle(new GetGroupsQuery())
+                .Select(data => new Group
+                {
+                    Id = data.Id,
+                    Name = data.Name
+                }).ToList();
+
             var result = new MessageListModel
             {
                 Messages = messages.Select(model => new MessageListItemModel
@@ -74,7 +85,11 @@ namespace Services.Services
                     Id = model.Id
                 }).ToList(),
                 AccountId = accountId,
-                GroupId = groupId
+                GroupId = groupId,
+                GroupList = new GroupList
+                {
+                    Groups = groups
+                }
             };
 
             return result;
@@ -92,7 +107,17 @@ namespace Services.Services
         {
             new SetDefaulMessagesCommandHandler(new DataBaseContext()).Handle(new SetDefaulMessagesCommand
             {
-                AccountId = accountId
+                AccountId = accountId,
+                GroupId = null
+            });
+        }
+
+        public void SetGroupMessages(long accountId, long groupId)
+        {
+            new SetDefaulMessagesCommandHandler(new DataBaseContext()).Handle(new SetDefaulMessagesCommand
+            {
+                AccountId = accountId,
+                GroupId = groupId
             });
         }
     }

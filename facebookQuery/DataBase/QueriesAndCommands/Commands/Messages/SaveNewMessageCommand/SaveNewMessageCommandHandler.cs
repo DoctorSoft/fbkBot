@@ -17,6 +17,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand
             var model = new MessageDbModel
             {
                 AccountId = command.AccountId,
+                MessageGroupId = command.GroupId,
                 IsStopped = false,
                 EndTime = command.EndTime,
                 ImportancyFactor = command.ImportancyFactor,
