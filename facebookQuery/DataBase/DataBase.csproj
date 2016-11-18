@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201611181939291_AddLinkAndStopWordTables.Designer.cs">
       <DependentUpon>201611181939291_AddLinkAndStopWordTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611182033080_AddOrderNumberField.cs" />
+    <Compile Include="Migrations\201611182033080_AddOrderNumberField.Designer.cs">
+      <DependentUpon>201611182033080_AddOrderNumberField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -226,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611181939291_AddLinkAndStopWordTables.resx">
       <DependentUpon>201611181939291_AddLinkAndStopWordTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611182033080_AddOrderNumberField.resx">
+      <DependentUpon>201611182033080_AddOrderNumberField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

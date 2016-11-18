@@ -25,17 +25,31 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 accountId = firstAccount.Id;
             }
 
-            if (!command.UnreadMessages.Any()) return new VoidCommandResponse();
-
-            var now = DateTime.Now;
+            if (!command.UnreadMessages.Any())
+            {
+                return new VoidCommandResponse();
+            }
 
             foreach (var unreadMessageInformation in command.UnreadMessages)
             {
-                var friendId = unreadMessageInformation.FriendId.ToString();
+                var orderNumberMessage = 0;
+                var friendId = unreadMessageInformation.FriendId;
 
                 var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId &&
-                                                                     model.FriendId.Equals(friendId));
+                                                                     model.FriendId.Equals(friendId.ToString()));
 
+                if (context.FriendMessages.Any())
+                {
+                    var friendsMessagesInDb = context.FriendMessages.Where(model => model.FriendId == friend.Id).Select(model => new
+                    {
+                        model.OrderNumber
+                    }).AsEnumerable().Select(model => new FriendMessageDbModel()
+                    {
+                        OrderNumber = model.OrderNumber
+                    }).ToList();
+
+                    orderNumberMessage = friendsMessagesInDb.OrderByDescending(model => model.OrderNumber).FirstOrDefault().OrderNumber;
+                }
                 if (friend == null)
                 {
                     break;
@@ -49,7 +63,8 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                         MessageDirection = MessageDirection.FromFriend,
                         Message = unreadMessageInformation.LastMessage,
                         LastReadMessageDateTime = unreadMessageInformation.LastReadMessageDateTime,
-                        LastUnreadMessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime
+                        LastUnreadMessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                        OrderNumber = orderNumberMessage + 1
                     }
                 };
             }
