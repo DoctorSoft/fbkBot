@@ -26,6 +26,10 @@ namespace DataBase.Context
 
         public DbSet<MessageGroupDbModel> MessageGroups { get; set; }
 
+        public DbSet<StopWordDbModel> StopWords { get; set; }
+
+        public DbSet<LinkDbModel> Links { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
@@ -34,6 +38,8 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new UrlParametersConfiguration());
             modelBuilder.Configurations.Add(new FriendConfiguration());
             modelBuilder.Configurations.Add(new FriendMessageConfiguration());
+            modelBuilder.Configurations.Add(new LinkConfiguration());
+            modelBuilder.Configurations.Add(new StopWordConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -67,8 +67,10 @@
     <Compile Include="Configurations\CookiesConfiguration.cs" />
     <Compile Include="Configurations\FriendConfiguration.cs" />
     <Compile Include="Configurations\FriendMessageConfiguration.cs" />
+    <Compile Include="Configurations\LinkConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\MessageGroupConfiguration.cs" />
+    <Compile Include="Configurations\StopWordConfiguration.cs" />
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
     <Compile Include="Context\DataBaseContext.cs" />
@@ -108,13 +110,19 @@
     <Compile Include="Migrations\201611181614582_AddDateTimeFriendMessages.Designer.cs">
       <DependentUpon>201611181614582_AddDateTimeFriendMessages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611181939291_AddLinkAndStopWordTables.cs" />
+    <Compile Include="Migrations\201611181939291_AddLinkAndStopWordTables.Designer.cs">
+      <DependentUpon>201611181939291_AddLinkAndStopWordTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
     <Compile Include="Models\FriendDbModel.cs" />
+    <Compile Include="Models\LinkDbModel.cs" />
     <Compile Include="Models\MessageDbModel.cs" />
     <Compile Include="Models\FriendMessageDbModel.cs" />
     <Compile Include="Models\MessageGroupDbModel.cs" />
+    <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
@@ -206,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611181614582_AddDateTimeFriendMessages.resx">
       <DependentUpon>201611181614582_AddDateTimeFriendMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611181939291_AddLinkAndStopWordTables.resx">
+      <DependentUpon>201611181939291_AddLinkAndStopWordTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

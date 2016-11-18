@@ -162,7 +162,9 @@
     <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LinksController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
+    <Compile Include="Controllers\StopWordsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -256,6 +258,8 @@
     <Content Include="Views\Friends\Index.cshtml" />
     <Content Include="Views\FriendMessages\Index.cshtml" />
     <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\StopWords\Index.cshtml" />
+    <Content Include="Views\Links\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
