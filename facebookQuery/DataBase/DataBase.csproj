@@ -147,6 +147,12 @@
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\SaveUnreadMessagesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SetDefaulMessagesCommand\SetDefaulMessagesCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Links\AddNewLinkCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Links\AddNewLinkCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Links\RemoveLinkCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Links\RemoveLinkCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Links\UpdateLinkCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Links\UpdateLinkCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\RemoveStopWordCommand.cs" />
@@ -171,6 +177,9 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\FriendData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Links\LinkData.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\StopWordData.cs" />

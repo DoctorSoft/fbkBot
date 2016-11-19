@@ -60,6 +60,7 @@
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\FacebookMessagesService.cs" />
+    <Compile Include="Services\LinksService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
     <Compile Include="Services\StopWordsService.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessage.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="ViewModels\OptionsModel\MessageListItemModel.cs" />
     <Compile Include="ViewModels\OptionsModel\MessageListModel.cs" />
     <Compile Include="ViewModels\OptionsModel\MessageViewModel.cs" />
+    <Compile Include="ViewModels\LinksModels\LinkWord.cs" />
+    <Compile Include="ViewModels\LinksModels\LinkList.cs" />
     <Compile Include="ViewModels\StopWordsModels\StopWord.cs" />
     <Compile Include="ViewModels\StopWordsModels\StopWordList.cs" />
   </ItemGroup>

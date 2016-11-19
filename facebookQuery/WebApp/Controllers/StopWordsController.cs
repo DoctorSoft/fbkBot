@@ -12,7 +12,7 @@ namespace WebApp.Controllers
             this.stopWordsService = new StopWordsService();
         }
 
-        // GET: Groups
+        // GET: StopWords
         public ActionResult Index()
         {
             var stopWords = stopWordsService.GetStopWords();
