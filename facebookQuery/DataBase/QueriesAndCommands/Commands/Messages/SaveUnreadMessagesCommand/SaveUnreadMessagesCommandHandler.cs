@@ -35,6 +35,10 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId &&
                                                                      model.FriendId.Equals(friendId.ToString()));
 
+                if (friend.IsBlocked > 0)
+                {
+                    continue;
+                }
                 var isDuplicate = context.FriendMessages.Where(model => model.FriendId.Equals(friend.Id))
                     .Any(model => model.LastReadMessageDateTime.Equals(unreadMessageInformation.LastReadMessageDateTime));
 

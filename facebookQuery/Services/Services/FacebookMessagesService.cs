@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Constants.FriendsEnums;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
@@ -34,6 +37,12 @@ namespace Services.Services
                 AccountId = senderId,
                 FriendId = friendId
             }).OrderByDescending(data => data.OrderNumber).FirstOrDefault();
+
+            var messageData = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
+            {
+                AccountId = account.Id
+            }).OrderByDescending(data => data.OrderNumber).FirstOrDefault();
+            
             if (friendMessageData != null)
             {
                 var orderNumber = friendMessageData.OrderNumber;
@@ -46,21 +55,33 @@ namespace Services.Services
                 {
                     message = messageModel.Message;
                 }
+
+                var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.SendMessage
+                });
+
+                new SendMessageEngine().Execute(new SendMessageModel
+                {
+                    AccountId = account.UserId,
+                    Cookie = account.Cookie.CookieString,
+                    FriendId = friendId,
+                    Message = message,
+                    UrlParameters = urlParameters
+                });
+
+                if (orderNumber >= messageData.OrderNumber)
+                {
+                    new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
+                    {
+                        AccountId = account.Id,
+                        FriendId = friendMessageData.FriendId,
+                        BlockedCause = FriendBlockedStatus.CorrespondenceEnd
+                    });
+                }
             }
 
-            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.SendMessage
-            });
 
-            new SendMessageEngine().Execute(new SendMessageModel
-            {
-                AccountId = account.UserId,
-                Cookie = account.Cookie.CookieString,
-                FriendId = friendId,
-                Message = message,
-                UrlParameters = urlParameters
-            });
         }
 
         public void GetСorrespondenceByFriendId(long accountId, long friendId)

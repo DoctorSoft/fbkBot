@@ -181,6 +181,8 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\FriendData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\LinkData.cs" />
