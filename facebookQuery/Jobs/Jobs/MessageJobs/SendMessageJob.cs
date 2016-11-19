@@ -6,9 +6,9 @@ namespace Jobs.Jobs.MessageJobs
     public static class SendMessageJob
     {
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public static void Run(long userId, long receiverId)
+        public static void Run(long userId)
         {
-            new FacebookMessagesService().SendMessage(userId, receiverId);
+            new FacebookMessagesService().SendMessageCore(userId);
         }
     }
 }

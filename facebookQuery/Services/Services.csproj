@@ -65,6 +65,8 @@
     <Compile Include="Services\StopWordsService.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessage.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessageList.cs" />
+    <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageModel.cs" />
+    <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageList.cs" />
     <Compile Include="ViewModels\FriendsModels\FriendListViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\GroupModels\Group.cs" />

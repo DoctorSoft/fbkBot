@@ -17,7 +17,9 @@ using Engines.Engines.GetMessagesEngine.GetMessages;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
 using Engines.Engines.SendMessageEngine;
+using Services.ViewModels.FriendMessagesModels;
 using Services.ViewModels.MessagesModels;
+using UnreadMessageModel = Services.ViewModels.MessagesModels.UnreadMessageModel;
 
 namespace Services.Services
 {
@@ -105,7 +107,17 @@ namespace Services.Services
             });
         }
 
-        public void GetUnreadMessages(long accountId)
+        public void SendMessageCore(long accountId)
+        {
+            var unreadMessagesList = GetUnreadMessages(accountId).UnreadMessages;
+            if (unreadMessagesList == null) return;
+            foreach (var unreadMessage in unreadMessagesList)
+            {
+                SendMessage(accountId, unreadMessage.FriendId);
+            }
+        }
+
+        public UnreadFriendMessageList GetUnreadMessages(long accountId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
@@ -150,6 +162,19 @@ namespace Services.Services
                 Thread.Sleep(2000);
             }
 
+            return new UnreadFriendMessageList()
+            {
+                UnreadMessages = unreadMessages.Select(model => new UnreadFriendMessageModel
+                {
+                    FriendId = model.FriendId,
+                    UnreadMessage = model.UnreadMessage,
+                    LastMessage = model.LastMessage,
+                    CountAllMessages = model.CountAllMessages,
+                    CountUnreadMessages = model.CountUnreadMessages,
+                    LastReadMessageDateTime = model.LastReadMessageDateTime,
+                    LastUnreadMessageDateTime = model.LastUnreadMessageDateTime
+                }).ToList()
+            };
         }
 
         public UnreadMessagesListViewModel GetUnreadMessagesFromAccountPage(long accountId)
