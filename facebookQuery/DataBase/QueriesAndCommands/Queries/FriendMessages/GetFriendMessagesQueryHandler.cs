@@ -24,6 +24,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     Id = model.Id,
                     MessageDateTime = model.LastUnreadMessageDateTime,
                     FriendId = model.FriendId,
+                    OrderNumber = model.OrderNumber,
                     MessageDirection = model.MessageDirection,
                 }).ToList();
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Constants.MessageEnums;
 using DataBase.Context;
@@ -32,41 +30,44 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
             foreach (var unreadMessageInformation in command.UnreadMessages)
             {
-                var orderNumberMessage = 0;
                 var friendId = unreadMessageInformation.FriendId;
 
                 var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId &&
                                                                      model.FriendId.Equals(friendId.ToString()));
 
-                if (context.FriendMessages.Any())
-                {
-                    var friendsMessagesInDb = context.FriendMessages.Where(model => model.FriendId == friend.Id).Select(model => new
-                    {
-                        model.OrderNumber
-                    }).AsEnumerable().Select(model => new FriendMessageDbModel()
-                    {
-                        OrderNumber = model.OrderNumber
-                    }).ToList();
+                var isDuplicate = context.FriendMessages.Where(model => model.FriendId.Equals(friend.Id))
+                    .Any(model => model.LastReadMessageDateTime.Equals(unreadMessageInformation.LastReadMessageDateTime));
 
-                    orderNumberMessage = friendsMessagesInDb.OrderByDescending(model => model.OrderNumber).FirstOrDefault().OrderNumber;
-                }
-                if (friend == null)
+                if (context.FriendMessages.Any() && !isDuplicate)
                 {
-                    break;
-                }
+                    var friendsMessagesInDb =
+                        context.FriendMessages.Where(model => model.FriendId == friend.Id).Select(model => new
+                        {
+                            model.OrderNumber
+                        }).AsEnumerable().Select(model => new FriendMessageDbModel()
+                        {
+                            OrderNumber = model.OrderNumber
+                        }).ToList();
 
-                friend.FriendMessages = new Collection<FriendMessageDbModel>()
-                {
-                    new FriendMessageDbModel()
+                    var orderNumberMessage = friendsMessagesInDb.OrderByDescending(model => model.OrderNumber).FirstOrDefault().OrderNumber;
+                    if (friend == null)
                     {
-                        FriendId = unreadMessageInformation.FriendId,
-                        MessageDirection = MessageDirection.FromFriend,
-                        Message = unreadMessageInformation.LastMessage,
-                        LastReadMessageDateTime = unreadMessageInformation.LastReadMessageDateTime,
-                        LastUnreadMessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                        OrderNumber = orderNumberMessage + 1
+                        break;
                     }
-                };
+
+                    friend.FriendMessages = new Collection<FriendMessageDbModel>()
+                    {
+                        new FriendMessageDbModel
+                        {
+                            FriendId = unreadMessageInformation.FriendId,
+                            MessageDirection = MessageDirection.FromFriend,
+                            Message = unreadMessageInformation.LastMessage,
+                            LastReadMessageDateTime = unreadMessageInformation.LastReadMessageDateTime,
+                            LastUnreadMessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                            OrderNumber = orderNumberMessage + 1
+                        }
+                    };
+                }
             }
 
             context.SaveChanges();

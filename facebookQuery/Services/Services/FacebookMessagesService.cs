@@ -6,6 +6,8 @@ using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.FriendMessages;
+using DataBase.QueriesAndCommands.Queries.Message;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.GetMessagesEngine.ChangeMessageStatus;
 using Engines.Engines.GetMessagesEngine.GetMessages;
@@ -20,17 +22,31 @@ namespace Services.Services
     {
         public void SendMessage(long senderId, long friendId)
         {
-            var rnd = new Random();
-            var mockMessageList = new List<string>()
-            {
-                "Hello", "Hi", "How are u?", "What's up?", "What are you up to?", "Nice to meet you" 
-            };
-            var messageText = mockMessageList[rnd.Next(mockMessageList.Count)];
+            var message = "";
 
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = senderId
             });
+
+            var friendMessageData = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
+            {
+                AccountId = senderId,
+                FriendId = friendId
+            }).OrderByDescending(data => data.OrderNumber).FirstOrDefault();
+            if (friendMessageData != null)
+            {
+                var orderNumber = friendMessageData.OrderNumber;
+
+                var messageModel = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
+                {
+                    AccountId = account.Id
+                }).FirstOrDefault(model => model.OrderNumber == orderNumber);
+                if (messageModel != null)
+                {
+                    message = messageModel.Message;
+                }
+            }
 
             var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
             {
@@ -42,7 +58,7 @@ namespace Services.Services
                 AccountId = account.UserId,
                 Cookie = account.Cookie.CookieString,
                 FriendId = friendId,
-                Message = messageText,
+                Message = message,
                 UrlParameters = urlParameters
             });
         }

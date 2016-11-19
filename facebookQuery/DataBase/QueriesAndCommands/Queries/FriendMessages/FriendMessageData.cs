@@ -12,6 +12,8 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 
         public DateTime MessageDateTime { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public MessageDirection MessageDirection { get; set; }
 
         public long FriendId { get; set; }
