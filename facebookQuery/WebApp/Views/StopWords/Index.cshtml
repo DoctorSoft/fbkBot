@@ -8,20 +8,20 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 
-    @foreach (var group in @Model.Groups)
+    @foreach (var stopWord in @Model.StopWords)
     {
         <script type="text/javascript">
 
-            $('#@("group" + group.Id)').editable({
+            $('#@("stopWord" + stopWord.Id)').editable({
                 type: 'text',
                 pk: function() {
-                    return $('#@("group" + group.Id)').text();
+                    return $('#@("stopWord" + stopWord.Id)').text();
                 },
-                title: 'Enter Group',
+                title: 'Enter Stop Word',
                 success: function () {
                     setTimeout(function () {
-                        var address = '@Url.Action("UpdateGroup", "Groups", new { groupId = @group.Id })';
-                        var name = $('#@("group" + group.Id)').text();
+                        var address = '@Url.Action("UpdateStopWord", "StopWords", new { stopWordId = @stopWord.Id })';
+                        var name = $('#@("stopWord" + stopWord.Id)').text();
 
                         address = address + "&name=" + name;
 
@@ -32,17 +32,17 @@
         </script>
     }
 }
-@model Services.ViewModels.GroupModels.GroupList
+@model Services.ViewModels.StopWordsModels.StopWordList
 
 <div class="panel panel-default">
     <div class="page-header">
-        <h3 class="alert-info alert">Groups</h3>
+        <h3 class="alert-info alert">Stop words</h3>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm("AddGroup", "Groups", FormMethod.Post))
+        @using (Html.BeginForm("AddStopWord", "StopWords", FormMethod.Post))
         {
             <div class="input-group-section">
-                <input name="Name" id="name" placeholder="New group" class="form-control" />
+                <input name="Name" id="name" placeholder="New stop word" class="form-control" />
             </div>
             <div class="submit-section">
                 <input type="submit" class="btn btn-primary" />
@@ -50,20 +50,17 @@
         }
     </div>
     <div class="panel-footer">
-        @foreach (var group in @Model.Groups)
+        @foreach (var stopWord in @Model.StopWords)
         {
             <div class="alert alert-info">
                 <div class="inline-half-text-left">
                     <div class="message-list-tittle">
-                        <a id="@("group" + group.Id)">@group.Name</a>
-                    </div>
-                    <div class="inline-actions">
-                        <a href="@Url.Action("Index", "Options", new {groupId = group.Id})"><i class="fa fa-envelope"></i></a>
+                        <a id="@("stopWord" + stopWord.Id)">@stopWord.Name</a>
                     </div>
                 </div>
                 <div class="inline-half-text-right">
                     <div class="remove-message">
-                        <a href="@Url.Action("RemoveGroup", "Groups", new { groupId = group.Id })"><i class="fa fa-close"></i></a>
+                        <a href="@Url.Action("RemoveStopWord", "StopWords", new { stopWordId = stopWord.Id })"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
             </div>
