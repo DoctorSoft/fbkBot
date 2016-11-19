@@ -15,6 +15,7 @@ namespace DataBase.Configurations
 
             Property(model => model.FriendName);
             Property(model => model.FriendId);
+            Property(model => model.IsBlocked);
 
             HasRequired(it => it.AccountWithFriend).WithMany(m => m.Friends).HasForeignKey(model => model.AccountId);
             HasMany(it => it.FriendMessages).WithRequired(model => model.Friend).HasForeignKey(model => model.FriendId);

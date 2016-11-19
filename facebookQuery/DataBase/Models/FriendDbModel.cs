@@ -16,6 +16,8 @@ namespace DataBase.Models
 
         public long AccountId { get; set; }
 
+        public int IsBlocked { get; set; }
+
         public ICollection<FriendMessageDbModel> FriendMessages { get; set; } 
     }
 }

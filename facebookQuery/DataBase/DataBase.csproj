@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201611182033080_AddOrderNumberField.Designer.cs">
       <DependentUpon>201611182033080_AddOrderNumberField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611191212028_AddIsBlockedField.cs" />
+    <Compile Include="Migrations\201611191212028_AddIsBlockedField.Designer.cs">
+      <DependentUpon>201611191212028_AddIsBlockedField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -242,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611182033080_AddOrderNumberField.resx">
       <DependentUpon>201611182033080_AddOrderNumberField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611191212028_AddIsBlockedField.resx">
+      <DependentUpon>201611191212028_AddIsBlockedField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
