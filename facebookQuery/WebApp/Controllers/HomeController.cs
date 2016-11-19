@@ -21,7 +21,7 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             var accounts = homeService.GetAccounts();
-            
+            facebookMessagesService.GetUnreadMessages(accounts.FirstOrDefault().UserId);
             return View(accounts);
         }
     }

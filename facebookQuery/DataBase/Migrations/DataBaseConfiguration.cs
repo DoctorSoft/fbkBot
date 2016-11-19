@@ -111,13 +111,13 @@ namespace DataBase.Migrations
             var parametersChangeStatus = new Dictionary<ChangeStatusForMesagesEnum, string>
             {
                 {ChangeStatusForMesagesEnum.Ids, "true"},
-                {ChangeStatusForMesagesEnum.WatermarkTimestamp, "1478978697039"},
-                {ChangeStatusForMesagesEnum.TitanOriginatedThreadId, "<1477224498510:0-6b8c830d75d829c1@mail.projektitan.com>"},
+                {ChangeStatusForMesagesEnum.WatermarkTimestamp, ""},
+                {ChangeStatusForMesagesEnum.TitanOriginatedThreadId, ""},
                 {ChangeStatusForMesagesEnum.ShouldSendReadReceipt, "true"},
                 {ChangeStatusForMesagesEnum.CommerceLastMessageType, "non_ad"},
                 {ChangeStatusForMesagesEnum.User, ""},
                 {ChangeStatusForMesagesEnum.A, "1"},
-                {ChangeStatusForMesagesEnum.Dyn, "7AmajEzUGByAZ112u6aEyx91qdhEK5EKiWFaim8zQC-C26m6oDAyoeAq2i5U4e2CEaUZ1ebkwy8wGFeex3BKuEjKeCwxxaagpwGDBwJKq4GCzEkxvDAzUO5u5o5S9ADBy8K48hxGbwYDx2r_gqQ59ovG27AyEWEWfx2maw"},
+                {ChangeStatusForMesagesEnum.Dyn, ""},
                 {ChangeStatusForMesagesEnum.Af, "o"},
                 {ChangeStatusForMesagesEnum.Req, "2g"},
                 {ChangeStatusForMesagesEnum.Be, "-1"},

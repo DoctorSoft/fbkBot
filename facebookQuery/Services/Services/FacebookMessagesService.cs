@@ -121,7 +121,7 @@ namespace Services.Services
                 new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
                 {
                     UrlParameters = changeMessageStatusUrlParameters,
-                    AccountId = account.Id,
+                    AccountId = account.UserId,
                     FriendId = unreadMessage.FriendId,
                     Cookie = account.Cookie.CookieString
                 });
