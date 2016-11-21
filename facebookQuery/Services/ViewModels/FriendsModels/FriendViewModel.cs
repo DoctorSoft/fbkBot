@@ -9,5 +9,7 @@
         public bool Deleted { get; set; }
 
         public long Id { get; set; }
+
+        public bool MessagesEnded { get; set; }
     }
 }

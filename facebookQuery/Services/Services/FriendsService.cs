@@ -28,7 +28,8 @@ namespace Services.Services
                     FriendId = model.FriendId,
                     Name = model.FriendName,
                     Deleted = model.Deleted,
-                    Id = model.Id
+                    Id = model.Id,
+                    MessagesEnded = model.MessagesEnded
                 }).ToList()
             };
 

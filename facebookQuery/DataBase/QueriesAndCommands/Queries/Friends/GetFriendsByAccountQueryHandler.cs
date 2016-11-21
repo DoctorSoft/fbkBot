@@ -23,7 +23,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     FriendId = model.FriendId,
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
-                    Id = model.Id
+                    Id = model.Id,
+                    MessagesEnded = model.IsBlocked > 0
                 }).ToList();
 
             return result;

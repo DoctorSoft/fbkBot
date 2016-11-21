@@ -9,5 +9,7 @@
         public string FriendName { get; set; }
 
         public bool Deleted { get; set; }
+
+        public bool MessagesEnded { get; set; }
     }
 }
