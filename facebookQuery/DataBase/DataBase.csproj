@@ -186,6 +186,8 @@
     <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\LinkData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Message\CalculateMessageTextQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Message\CalculateMessageTextQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\StopWordData.cs" />

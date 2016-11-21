@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Web;
+using DataBase.Context;
+using DataBase.QueriesAndCommands.Queries.Message;
 using OpenQA.Selenium.Chrome;
 
 namespace FacebookApp
@@ -12,6 +14,8 @@ namespace FacebookApp
     {
         private static void Main(string[] args)
         {
+            CheckPatternChanges();
+
             var driver = new ChromeDriver();
 
             driver.Navigate().GoToUrl("https://www.facebook.com/login.php?login_attempt=1&lwv=110");
@@ -65,6 +69,16 @@ namespace FacebookApp
                 .ToArray());
         }
 
+        private static void CheckPatternChanges()
+        {
+            var accountId = 4;
+            var pattern = "{Hi|Hello}, my name is {$MY_NAME|John}, please follow this link {$LINK|www.a.b|www.ololo.lo}!";
+            var result = new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
+            {
+                AccountId = accountId,
+                TextPattern = pattern
+            });
+        }
     }
 
 }
