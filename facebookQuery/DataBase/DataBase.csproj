@@ -184,8 +184,12 @@
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\FriendMessageData.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\FriendData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdAccountQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendQueryHandler.cs" />
