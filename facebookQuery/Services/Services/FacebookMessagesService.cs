@@ -7,6 +7,7 @@ using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand;
+using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
@@ -25,7 +26,7 @@ namespace Services.Services
 {
     public class FacebookMessagesService
     {
-        public void SendMessage(long senderId, long friendId)
+        public void SendMessageCore(long senderId, long friendId)
         {
             var message = "";
 
@@ -57,22 +58,29 @@ namespace Services.Services
                 {
                     message = messageModel.Message;
                 }
-
-                var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                {
-                    NameUrlParameter = NamesUrlParameter.SendMessage
-                });
-
+                
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
                     AccountId = account.UserId,
                     Cookie = account.Cookie.CookieString,
                     FriendId = friendId,
                     Message = message,
-                    UrlParameters = urlParameters
+                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                    {
+                        NameUrlParameter = NamesUrlParameter.SendMessage
+                    })
                 });
 
-                if (orderNumber >= messageData.OrderNumber)
+                new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
+                {
+                    AccountId = account.Id,
+                    FriendId = friendId,
+                    OrderNumber = orderNumber,
+                    Message = message,
+                    MessageDateTime = DateTime.Now
+                });
+
+                if (messageData != null && orderNumber >= messageData.OrderNumber)
                 {
                     new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
                     {
@@ -82,38 +90,14 @@ namespace Services.Services
                     });
                 }
             }
-
-
         }
 
-        public void GetСorrespondenceByFriendId(long accountId, long friendId)
-        {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = accountId
-            });
-
-            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.GetCorrespondence
-            });
-
-            var correspondence = new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
-            {
-                Cookie = account.Cookie.CookieString,
-                AccountId = accountId,
-                FriendId = friendId,
-                UrlParameters = urlParameters
-            });
-        }
-
-        public void SendMessageCore(long accountId)
+        public void SendMessage(long accountId)
         {
             var unreadMessagesList = GetUnreadMessages(accountId).UnreadMessages;
-            if (unreadMessagesList == null) return;
             foreach (var unreadMessage in unreadMessagesList)
             {
-                SendMessage(accountId, unreadMessage.FriendId);
+                SendMessageCore(accountId, unreadMessage.FriendId);
             }
         }
 
@@ -124,44 +108,40 @@ namespace Services.Services
                 UserId = accountId
             });
 
-            var getUnreadMessagesUrlParameters =
-                new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                {
-                    NameUrlParameter = NamesUrlParameter.GetUnreadMessages
-                });
-
             var unreadMessages = new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
             {
                 AccountId = account.UserId,
                 Cookie = account.Cookie.CookieString,
-                UrlParameters = getUnreadMessagesUrlParameters
+                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.GetUnreadMessages
+                })
             });
 
-            new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
+            if (unreadMessages.Count != 0)
             {
-                AccountId = account.Id,
-                UnreadMessages = unreadMessages
-            });
-
-            var changeMessageStatusUrlParameters =
-                new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
                 {
-                    NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
+                    AccountId = account.Id,
+                    UnreadMessages = unreadMessages
                 });
-
-            foreach (var unreadMessage in unreadMessages)
-            {
-                new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
+                
+                foreach (var unreadMessage in unreadMessages)
                 {
-                    UrlParameters = changeMessageStatusUrlParameters,
-                    AccountId = account.UserId,
-                    FriendId = unreadMessage.FriendId,
-                    Cookie = account.Cookie.CookieString
-                });
+                    new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
+                    {
+                        AccountId = account.UserId,
+                        FriendId = unreadMessage.FriendId,
+                        Cookie = account.Cookie.CookieString,
+                        UrlParameters =  new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
+                        }),
+                    });
 
-                Thread.Sleep(2000);
+                    Thread.Sleep(2000);
+                }
             }
-
             return new UnreadFriendMessageList()
             {
                 UnreadMessages = unreadMessages.Select(model => new UnreadFriendMessageModel
@@ -221,6 +201,27 @@ namespace Services.Services
             {
                 AccountId = account.UserId,
                 Cookie = account.Cookie.CookieString
+            });
+        }
+
+        public void GetСorrespondenceByFriendId(long accountId, long friendId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+            {
+                NameUrlParameter = NamesUrlParameter.GetCorrespondence
+            });
+
+            var correspondence = new GetСorrespondenceByFriendIdEngine().Execute(new GetСorrespondenceByFriendIdModel()
+            {
+                Cookie = account.Cookie.CookieString,
+                AccountId = accountId,
+                FriendId = friendId,
+                UrlParameters = urlParameters
             });
         }
     }

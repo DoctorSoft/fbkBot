@@ -9,7 +9,7 @@ namespace Services.ViewModels.FriendMessagesModels
 
         public string Message { get; set; }
 
-        public DateTime MessageDateTime { get; set; }
+        public DateTime? MessageDateTime { get; set; }
 
         public MessageDirection MessageDirection { get; set; }
     }

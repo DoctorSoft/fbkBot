@@ -10,7 +10,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 
         public string Message { get; set; }
 
-        public DateTime MessageDateTime { get; set; }
+        public DateTime? MessageDateTime { get; set; }
 
         public int OrderNumber { get; set; }
 

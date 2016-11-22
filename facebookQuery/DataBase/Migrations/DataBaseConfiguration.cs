@@ -106,7 +106,7 @@ namespace DataBase.Migrations
                 {GetUnreadMessagesEnum.Be, "-1"},
                 {GetUnreadMessagesEnum.Pc, "PHASED:DEFAULT"},
                 {GetUnreadMessagesEnum.FbDtsg, ""}
-            };*/
+            };
 
             var parametersChangeStatus = new Dictionary<ChangeStatusForMesagesEnum, string>
             {
@@ -146,7 +146,7 @@ namespace DataBase.Migrations
                 {GetFriendsEnum.Id, ""},
                 {GetFriendsEnum.Sk, "friends"}
             };
-             * */
+             *
 
             var js = new JavaScriptSerializer();
             var jsonUnread = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
@@ -168,8 +168,8 @@ namespace DataBase.Migrations
 
             context.UrlParameters.AddRange(urlParametersList);
              
-            context.SaveChanges();
-            
+            context.SaveChanges(); */
+
         }
     }
 }

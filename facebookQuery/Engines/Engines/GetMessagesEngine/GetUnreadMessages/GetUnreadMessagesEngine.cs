@@ -41,8 +41,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
                     CountAllMessages = thread["message_count"].Value<int>(),
                     CountUnreadMessages = thread["unread_count"].Value<int>(),
                     LastMessage = thread["snippet"].Value<string>(),
-                    LastReadMessageDateTime = GetDateTime(Convert.ToInt64(thread["last_message_timestamp"].Value<string>())),
-                    LastUnreadMessageDateTime = GetDateTime(Convert.ToInt64(thread["last_read_timestamp"].Value<string>())),
+                    LastUnreadMessageDateTime = GetDateTime(Convert.ToInt64(thread["last_message_timestamp"].Value<string>())),
                     UnreadMessage = thread["unread_count"].Value<int>() != 0
                 });
             }

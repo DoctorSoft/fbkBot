@@ -40,7 +40,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                     continue;
                 }
                 var isDuplicate = context.FriendMessages.Where(model => model.FriendId.Equals(friend.Id))
-                    .Any(model => model.LastReadMessageDateTime.Equals(unreadMessageInformation.LastReadMessageDateTime));
+                    .Any(model => model.MessageDateTime.Equals(unreadMessageInformation.LastReadMessageDateTime));
 
                 if (isDuplicate)
                 {
@@ -75,8 +75,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                         FriendId = unreadMessageInformation.FriendId,
                         MessageDirection = MessageDirection.FromFriend,
                         Message = unreadMessageInformation.LastMessage,
-                        LastReadMessageDateTime = unreadMessageInformation.LastReadMessageDateTime,
-                        LastUnreadMessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                        MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
                         OrderNumber = orderNumberMessage + 1
                     }
                 };
