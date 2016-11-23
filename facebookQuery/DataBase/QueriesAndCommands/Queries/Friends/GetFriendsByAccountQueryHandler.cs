@@ -17,10 +17,11 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
         public List<FriendData> Handle(GetFriendsByAccountQuery query)
         {
             var result = context.Friends
-                .Where(model => model.AccountId == query.AccountId)
+                .Where(model => model.FacebookId == query.AccountId)
                 .Select(model => new FriendData
                 {
-                    FriendId = model.FriendId,
+                    FacebookId = model.FacebookId,
+                    AccountId = model.AccountId,
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,

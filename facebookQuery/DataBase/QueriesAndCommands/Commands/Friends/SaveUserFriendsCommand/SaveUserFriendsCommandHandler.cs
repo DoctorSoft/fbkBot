@@ -21,8 +21,8 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
             {
                 var friendsInDb = context.Friends.Where(model => model.AccountId == command.AccountId).Select(model => new 
                 {
+                    model.FacebookId, 
                     model.AccountId, 
-                    model.FriendId, 
                     model.AccountWithFriend, 
                     model.FriendMessages, 
                     model.FriendName, 
@@ -30,8 +30,8 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                     model.Id
                 }).AsEnumerable().Select(model => new FriendDbModel
                 {
+                    FacebookId = model.FacebookId,
                     AccountId = model.AccountId,
-                    FriendId = model.FriendId,
                     AccountWithFriend = model.AccountWithFriend,
                     FriendMessages = model.FriendMessages,
                     FriendName = model.FriendName,
@@ -41,11 +41,11 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 
                 foreach (var friendDbModel in friendsInDb)
                 {
-                    if (command.Friends.Any(model => model.FriendId.Equals(friendDbModel.FriendId))) continue;
+                    if (command.Friends.Any(model => model.FriendFacebookId.Equals(friendDbModel.FacebookId))) continue;
                     {
                         var deletingFriend = context.Friends
                             .FirstOrDefault(model => model.AccountId == command.AccountId 
-                                && model.FriendId == friendDbModel.FriendId 
+                                && model.FacebookId == friendDbModel.FacebookId 
                                 && !model.DeleteFromFriends);
 
                         if (deletingFriend == null) continue;
@@ -56,12 +56,12 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                 
                 foreach (var friend in command.Friends)
                 {
-                    if (!friendsInDb.Any(model => model.FriendId.Equals(friend.FriendId)))
+                    if (!friendsInDb.Any(model => model.FacebookId.Equals(friend.FriendFacebookId)))
                     {
                         friendsList.Add(new FriendDbModel()
                         {
+                            FacebookId = friend.FriendFacebookId,
                             AccountId = command.AccountId,
-                            FriendId = friend.FriendId,
                             FriendName = friend.FriendName, 
                         });
                     }
@@ -71,8 +71,8 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
             {
                 friendsList.AddRange(command.Friends.Select(friend => new FriendDbModel
                 {
-                    AccountId = command.AccountId, 
-                    FriendId = friend.FriendId,
+                    AccountId = command.AccountId,
+                    FacebookId = friend.FriendFacebookId, 
                     FriendName = friend.FriendName,
                     DeleteFromFriends = false
                 }));

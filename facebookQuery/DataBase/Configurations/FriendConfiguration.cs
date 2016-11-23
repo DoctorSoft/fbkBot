@@ -14,7 +14,7 @@ namespace DataBase.Configurations
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(model => model.FriendName);
-            Property(model => model.FriendId);
+            Property(model => model.FacebookId);
             Property(model => model.IsBlocked);
 
             HasRequired(it => it.AccountWithFriend).WithMany(m => m.Friends).HasForeignKey(model => model.AccountId);

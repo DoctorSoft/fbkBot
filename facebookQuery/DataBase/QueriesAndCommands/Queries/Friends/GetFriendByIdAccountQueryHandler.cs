@@ -19,7 +19,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                 .Where(model => model.Id == query.FacebookId)
                 .Select(model => new FriendData
                 {
-                    FriendId = model.FriendId,
+                    FacebookId = model.FacebookId,
+                    AccountId = model.AccountId,
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,

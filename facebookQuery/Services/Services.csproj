@@ -54,12 +54,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\SendMessageCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FacebookMessagesService.cs" />
     <Compile Include="Services\FriendMessagesService.cs" />
     <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\HomeService.cs" />
-    <Compile Include="Services\FacebookMessagesService.cs" />
     <Compile Include="Services\LinksService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
     <Compile Include="Services\StopWordsService.cs" />

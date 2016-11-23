@@ -18,12 +18,12 @@ namespace DataBase.QueriesAndCommands.Queries.Account
         {
             var models = 
                 context.Accounts.Include(model => model.Cookies)
-                .Where(model => model.UserId == query.UserId)
+                .Where(model => model.FacebookId == query.UserId)
                 .Select(model => new AccountModel
                 {
                     Id = model.Id,
                     PageUrl = model.PageUrl,
-                    UserId = model.UserId,
+                    UserId = model.FacebookId,
                     Login = model.Login,
                     Password = model.Password,
                     Cookie = new CookieModel

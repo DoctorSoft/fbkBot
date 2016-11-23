@@ -16,28 +16,23 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
         }
         public VoidCommandResponse Handle(SaveSentMessageCommand command)
         {
-            var accountId = new long();
-            var firstAccount = context.Accounts.FirstOrDefault(model => model.Id == command.AccountId);
-            if (firstAccount != null)
-            {
-                accountId = firstAccount.Id;
-            }
-            
-            var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId && model.IsBlocked == false && model.FriendId.Equals(command.FriendId.ToString()));
+            var friend = context.Friends.FirstOrDefault(model => model.AccountId == command.AccountId && model.IsBlocked == false && model.FacebookId.Equals(command.FriendId));
 
-            friend.FriendMessages = new Collection<FriendMessageDbModel>()
+            if (friend!=null)
             {
-                new FriendMessageDbModel
+                friend.FriendMessages = new Collection<FriendMessageDbModel>()
                 {
-                    FriendId = command.FriendId,
-                    MessageDirection = MessageDirection.ToFriend,
-                    Message = command.Message,
-                    MessageDateTime = command.MessageDateTime,
-                    OrderNumber = command.OrderNumber
-                }
-            };
-
-            context.SaveChanges();
+                    new FriendMessageDbModel
+                    {
+                        FriendId = command.FriendId,
+                        MessageDirection = MessageDirection.ToFriend,
+                        Message = command.Message,
+                        MessageDateTime = command.MessageDateTime,
+                        OrderNumber = command.OrderNumber
+                    }
+                };
+                context.SaveChanges();
+            }
             return new VoidCommandResponse();
         }
     }

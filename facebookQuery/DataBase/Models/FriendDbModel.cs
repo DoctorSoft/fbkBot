@@ -6,18 +6,18 @@ namespace DataBase.Models
     {
         public long Id { get; set; }
 
-        public string FriendId { get; set; }
+        public long FacebookId { get; set; }
 
         public string FriendName { get; set; }
 
         public bool DeleteFromFriends { get; set; }
+        
+        public bool IsBlocked { get; set; }
+        
+        public long AccountId { get; set; }
 
         public AccountDbModel AccountWithFriend { get; set; }
 
-        public long AccountId { get; set; }
-
-        public bool IsBlocked { get; set; }
-
-        public ICollection<FriendMessageDbModel> FriendMessages { get; set; } 
+        public ICollection<FriendMessageDbModel> FriendMessages { get; set; }
     }
 }

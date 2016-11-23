@@ -8,7 +8,7 @@
 
         public string Password { get; set; }
         
-        public long UserId { get; set; }
+        public long FacebookId { get; set; }
 
         public string PageUrl { get; set; }
     }

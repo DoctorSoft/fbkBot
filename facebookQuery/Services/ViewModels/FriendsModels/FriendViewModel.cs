@@ -2,7 +2,7 @@
 {
     public class FriendViewModel
     {
-        public string FriendId { get; set; }
+        public long FacebookId { get; set; }
 
         public string Name { get; set; }
 

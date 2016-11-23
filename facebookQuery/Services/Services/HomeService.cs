@@ -32,7 +32,7 @@ namespace Services.Services
                 PageUrl = model.PageUrl,
                 Login = model.Login,
                 Password = model.Password,
-                UserId = model.UserId
+                FacebookId = model.UserId
             }).ToList();
         }
 

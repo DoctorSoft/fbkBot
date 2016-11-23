@@ -25,7 +25,7 @@ namespace Services.Services
                 AccountId = accountId,
                 Friends = friends.Select(model => new FriendViewModel
                 {
-                    FriendId = model.FriendId,
+                    FacebookId = model.FacebookId,
                     Name = model.FriendName,
                     Deleted = model.Deleted,
                     Id = model.Id,
@@ -60,7 +60,7 @@ namespace Services.Services
                 AccountId = account.Id,
                 Friends = friends.Select(model => new FriendViewModel
                 {
-                    FriendId = model.FriendId,
+                    FacebookId = model.FriendFacebookId,
                     Name = model.FriendName,
                 }).ToList()
             });
@@ -74,7 +74,7 @@ namespace Services.Services
                 AccountId = friendListViewModel.AccountId,
                 Friends = friendListViewModel.Friends.Select(model => new GetFriendsResponseModel()
                 {
-                    FriendId = model.FriendId,
+                    FriendFacebookId = model.FacebookId,
                     FriendName = model.Name
                 }).ToList()
             });

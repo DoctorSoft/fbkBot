@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,19 +15,15 @@ namespace Engines.Engines.GetFriendsEngine
     {
         protected override List<GetFriendsResponseModel> ExecuteEngine(GetFriendsModel model)
         {
-            var friendsList = new List<GetFriendsResponseModel>();
-
             if (model.UrlParameters == null) return null;
-
-            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
-
+            
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetFriendsEnum)pair.Key, pair => pair.Value);
 
             parametersDictionary[GetFriendsEnum.Id] = model.AccountId.ToString("G");
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Get(Urls.GetFriends.GetDiscription()+ parameters, model.Cookie).Remove(0, 9);
+            var stringResponse = RequestsHelper.Get(Urls.GetFriends.GetDiscription() + parameters, model.Cookie).Remove(0, 9);
 
             return GetFriendsData(stringResponse);
         }
@@ -50,7 +47,7 @@ namespace Engines.Engines.GetFriendsEngine
 
                 friendsList.Add(new GetFriendsResponseModel()
                 {
-                    FriendId = id.Remove(id.Length-1),
+                    FriendFacebookId = Convert.ToInt64(id.Remove(id.Length-1)),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1))
                 });
             }

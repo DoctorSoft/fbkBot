@@ -13,10 +13,11 @@ namespace DataBase.Configurations
             HasKey(model => model.Id);
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            Property(model => model.Name);
             Property(model => model.Login);
             Property(model => model.Password);
             Property(model => model.PageUrl);
-            Property(model => model.UserId);
+            Property(model => model.FacebookId);
 
             HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
             HasMany(model => model.Messages).WithOptional(it => it.Account).HasForeignKey(model => model.AccountId);

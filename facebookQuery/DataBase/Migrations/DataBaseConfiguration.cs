@@ -30,13 +30,14 @@ namespace DataBase.Migrations
 
             var accountsList = new List<AccountDbModel>()
             {
-                /*new AccountDbModel()
+                new AccountDbModel()
                 {
                     Id = 1,
                     Login = "ms.nastasia.1983@mail.ru",
                     Password = "Ntvyjnf123",
+                    Name = "Настя",
                     PageUrl = "https://www.facebook.com/profile.php?id=100013726390504",
-                    UserId = 100013726390504,
+                    FacebookId = 100013726390504,
                     Cookies = new CookiesDbModel()
                     {
                         CookiesString = "",
@@ -48,21 +49,22 @@ namespace DataBase.Migrations
                     Id = 1,
                     Login = "petya-pervyy-1999@mail.ru",
                     Password = "nWE#w(Qb",
+                    Name = "Петя",
                     PageUrl = "https://www.facebook.com/profile.php?id=100013532889680",
-                    UserId = 100013532889680,
+                    FacebookId = 100013532889680,
                     Cookies = new CookiesDbModel()
                     {
                         CookiesString = "",
                         CreateDate = DateTime.Now
                     }
-                },*/
+                },
             };
 
             
             context.Accounts.AddRange(accountsList);
 
-            /*
-            var parameters = new Dictionary<SendMessageEnum, string>
+            
+            var sendMessageParameters = new Dictionary<SendMessageEnum, string>
             {
                 {SendMessageEnum.Client, "mercury"},
                 {SendMessageEnum.ActionType, "ma-type%3Auser-generated-message"},
@@ -94,7 +96,6 @@ namespace DataBase.Migrations
                 {SendMessageEnum.SrpT, "1477219353"}
             };
            
-             
             var parametersUnread = new Dictionary<GetUnreadMessagesEnum, string>
             {
                 {GetUnreadMessagesEnum.Client, "web_messenger"},
@@ -125,7 +126,8 @@ namespace DataBase.Migrations
                 {ChangeStatusForMesagesEnum.Rev, "2679734"},
                 {ChangeStatusForMesagesEnum.FbDtsg, ""}
             };
-            var parametersCorrespondence = new Dictionary<GetCorrespondenceEnum, string>
+
+            /*var parametersCorrespondence = new Dictionary<GetCorrespondenceEnum, string>
             {
                 {GetCorrespondenceEnum.User, ""},
                 {GetCorrespondenceEnum.A, "1"},
@@ -138,37 +140,49 @@ namespace DataBase.Migrations
                 {GetCorrespondenceEnum.Ttstamp, "265817071514881107105122895158658172108984971659910282121"},
                 {GetCorrespondenceEnum.Rev, "2665999"},
                 {GetCorrespondenceEnum.SrpT, ""}
-            };
+            };*/
 
-            /*
+            
             var parametersFriends = new Dictionary<GetFriendsEnum, string>
             {
                 {GetFriendsEnum.Id, ""},
                 {GetFriendsEnum.Sk, "friends"}
             };
-             *
+            
 
             var js = new JavaScriptSerializer();
-            var jsonUnread = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
-            var jsonCorrespondence = js.Serialize(parametersCorrespondence.Select(pair => pair).ToList());
+            var jsonSendMessage = js.Serialize(sendMessageParameters.Select(pair => pair).ToList());
+            var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
+            var jsonChangeStatus = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
+            var jsonFriends = js.Serialize(parametersFriends.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.ChangeMessageStatus,
+                    CodeParameters = (int)NamesUrlParameter.SendMessage,
+                    ParametersSet = jsonSendMessage
+                },
+                new UrlParametersDbModel
+                {
+                    CodeParameters = (int)NamesUrlParameter.GetUnreadMessages,
                     ParametersSet = jsonUnread
                 },
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.GetCorrespondence,
-                    ParametersSet = jsonCorrespondence
+                    CodeParameters = (int)NamesUrlParameter.ChangeMessageStatus,
+                    ParametersSet = jsonChangeStatus
+                },
+                new UrlParametersDbModel
+                {
+                    CodeParameters = (int)NamesUrlParameter.GetFriends,
+                    ParametersSet = jsonFriends
                 },
             };
 
             context.UrlParameters.AddRange(urlParametersList);
              
-            context.SaveChanges(); */
+            context.SaveChanges(); 
 
         }
     }

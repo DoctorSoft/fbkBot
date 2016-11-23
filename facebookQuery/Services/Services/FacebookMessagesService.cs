@@ -2,142 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand;
-using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
 using DataBase.QueriesAndCommands.Queries.Friends;
-using DataBase.QueriesAndCommands.Queries.Message;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.GetMessagesEngine.ChangeMessageStatus;
 using Engines.Engines.GetMessagesEngine.GetMessages;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
-using Engines.Engines.SendMessageEngine;
+using Services.Core;
 using Services.ViewModels.FriendMessagesModels;
+using Services.ViewModels.HomeModels;
 using Services.ViewModels.MessagesModels;
 
 namespace Services.Services
 {
     public class FacebookMessagesService
     {
-        public void SendMessage(long accountId)
+        public void SendMessageToUnread(AccountViewModel account)
         {
-            var unreadMessagesList = GetUnreadMessages(accountId).UnreadMessages;
-
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var unreadMessagesList = GetUnreadMessages(account.FacebookId).UnreadMessages;
+                        
+            foreach (var unreadMessage in unreadMessagesList)
             {
-                UserId = accountId
-            });
+                new SendMessageCore().SendMessageToUnread(account.FacebookId, unreadMessage.FriendId);
+            }
+        }
 
+        public void SendMessageToUnanswered(AccountViewModel account)
+        {
             var unansweredMessagesList = new GetUnansweredMessagesQueryHandler(new DataBaseContext()).Handle(new GetUnansweredMessagesQuery()
             {
                 DelayTime = 2,
                 AccountId = account.Id
             });
 
-            foreach (var unreadMessage in unreadMessagesList)
-            {
-                SendMessageCore(accountId, unreadMessage.FriendId, false);
-            }
-
             foreach (var unansweredMessage in unansweredMessagesList)
             {
-
                 var friend = new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
                 {
                     FacebookId = unansweredMessage.FriendId
                 }).FirstOrDefault();
 
-                SendMessageCore(accountId, Convert.ToInt64(friend.FriendId), true);
-            }
-        }
-
-        public void SendMessageCore(long senderId, long friendId, bool isUnanswered)
-        {
-            var message = "";
-
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = senderId
-            });
-
-            var allMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
-            {
-                AccountId = senderId,
-                FriendId = friendId
-            });
-
-            var lastFriendMessages =
-            allMessages.Where(data => data.MessageDirection == MessageDirection.FromFriend)
-                .OrderByDescending(data => data.OrderNumber)
-                .FirstOrDefault();
-           
-            var lastBotMessages =
-            allMessages.Where(data => data.MessageDirection == MessageDirection.ToFriend)
-                .OrderByDescending(data => data.OrderNumber)
-                .FirstOrDefault();
-
-            var messageData = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
-            {
-                AccountId = account.Id
-            }).OrderByDescending(data => data.OrderNumber).FirstOrDefault();
-
-            if (lastFriendMessages != null)
-            {
-                int orderNumber;
-                if (isUnanswered)
-                {
-                    orderNumber = lastBotMessages.OrderNumber + 1;
-                }
-                else
-                {
-                    orderNumber = lastFriendMessages.OrderNumber;
-                }
-
-                var messageModel = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
-                {
-                    AccountId = account.Id
-                }).FirstOrDefault(model => model.OrderNumber == orderNumber);
-                if (messageModel != null)
-                {
-                    message = messageModel.Message;
-                }
-                
-                new SendMessageEngine().Execute(new SendMessageModel
-                {
-                    AccountId = account.UserId,
-                    Cookie = account.Cookie.CookieString,
-                    FriendId = friendId,
-                    Message = message,
-                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                    {
-                        NameUrlParameter = NamesUrlParameter.SendMessage
-                    })
-                });
-
-                new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
-                {
-                    AccountId = account.Id,
-                    FriendId = friendId,
-                    OrderNumber = orderNumber,
-                    Message = message,
-                    MessageDateTime = DateTime.Now
-                });
-
-                if (messageData != null && orderNumber >= messageData.OrderNumber)
-                {
-                    new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
-                    {
-                        AccountId = account.Id,
-                        FriendId = lastFriendMessages.FriendId,
-                        IsBlocked = true
-                    });
-                }
+                new SendMessageCore().SendMessageToUnanswered(account.FacebookId, Convert.ToInt64(friend.FacebookId));
             }
         }
 

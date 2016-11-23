@@ -16,13 +16,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
         }
         public VoidCommandResponse Handle(SaveUnreadMessagesCommand command)
         {
-            var accountId = new long();
-            var firstAccount = context.Accounts.FirstOrDefault(model => model.Id == command.AccountId);
-            if (firstAccount != null)
-            {
-                accountId = firstAccount.Id;
-            }
-
             if (!command.UnreadMessages.Any())
             {
                 return new VoidCommandResponse();
@@ -32,8 +25,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
             {
                 var friendId = unreadMessageInformation.FriendId;
 
-                var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId &&
-                                                                     model.FriendId.Equals(friendId.ToString()));
+                var friend = context.Friends.FirstOrDefault(model => model.AccountId == command.AccountId && model.FacebookId.Equals(friendId));
 
                 if (friend.IsBlocked)
                 {

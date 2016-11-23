@@ -74,61 +74,9 @@
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
     <Compile Include="Context\DataBaseContext.cs" />
-    <Compile Include="Migrations\201610271719086_Init.cs" />
-    <Compile Include="Migrations\201610271719086_Init.Designer.cs">
-      <DependentUpon>201610271719086_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610271720442_AddDataCreateField.cs" />
-    <Compile Include="Migrations\201610271720442_AddDataCreateField.Designer.cs">
-      <DependentUpon>201610271720442_AddDataCreateField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610271855194_AddLoginAndPasswordFields.cs" />
-    <Compile Include="Migrations\201610271855194_AddLoginAndPasswordFields.Designer.cs">
-      <DependentUpon>201610271855194_AddLoginAndPasswordFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611010430500_AddMessageFields.cs" />
-    <Compile Include="Migrations\201611010430500_AddMessageFields.Designer.cs">
-      <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611082050535_AddFriendMessagesTable.cs" />
-    <Compile Include="Migrations\201611082050535_AddFriendMessagesTable.Designer.cs">
-      <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.cs" />
-    <Compile Include="Migrations\201611101806098_AddDeleteFromFriendsField.Designer.cs">
-      <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611161907490_AddMessageGroupTable.cs" />
-    <Compile Include="Migrations\201611161907490_AddMessageGroupTable.Designer.cs">
-      <DependentUpon>201611161907490_AddMessageGroupTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611162120424_AddMessageGroupTable1.cs" />
-    <Compile Include="Migrations\201611162120424_AddMessageGroupTable1.Designer.cs">
-      <DependentUpon>201611162120424_AddMessageGroupTable1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611181614582_AddDateTimeFriendMessages.cs" />
-    <Compile Include="Migrations\201611181614582_AddDateTimeFriendMessages.Designer.cs">
-      <DependentUpon>201611181614582_AddDateTimeFriendMessages.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611181939291_AddLinkAndStopWordTables.cs" />
-    <Compile Include="Migrations\201611181939291_AddLinkAndStopWordTables.Designer.cs">
-      <DependentUpon>201611181939291_AddLinkAndStopWordTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611182033080_AddOrderNumberField.cs" />
-    <Compile Include="Migrations\201611182033080_AddOrderNumberField.Designer.cs">
-      <DependentUpon>201611182033080_AddOrderNumberField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611191212028_AddIsBlockedField.cs" />
-    <Compile Include="Migrations\201611191212028_AddIsBlockedField.Designer.cs">
-      <DependentUpon>201611191212028_AddIsBlockedField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611220943133_ChangedFriendsMessageTable.cs" />
-    <Compile Include="Migrations\201611220943133_ChangedFriendsMessageTable.Designer.cs">
-      <DependentUpon>201611220943133_ChangedFriendsMessageTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611231624517_ChangeBlockedFieldType.cs" />
-    <Compile Include="Migrations\201611231624517_ChangeBlockedFieldType.Designer.cs">
-      <DependentUpon>201611231624517_ChangeBlockedFieldType.cs</DependentUpon>
+    <Compile Include="Migrations\201611231957513_Init.cs" />
+    <Compile Include="Migrations\201611231957513_Init.Designer.cs">
+      <DependentUpon>201611231957513_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
@@ -232,47 +180,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610271719086_Init.resx">
-      <DependentUpon>201610271719086_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610271720442_AddDataCreateField.resx">
-      <DependentUpon>201610271720442_AddDataCreateField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610271855194_AddLoginAndPasswordFields.resx">
-      <DependentUpon>201610271855194_AddLoginAndPasswordFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611010430500_AddMessageFields.resx">
-      <DependentUpon>201611010430500_AddMessageFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611082050535_AddFriendMessagesTable.resx">
-      <DependentUpon>201611082050535_AddFriendMessagesTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611101806098_AddDeleteFromFriendsField.resx">
-      <DependentUpon>201611101806098_AddDeleteFromFriendsField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611161907490_AddMessageGroupTable.resx">
-      <DependentUpon>201611161907490_AddMessageGroupTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611162120424_AddMessageGroupTable1.resx">
-      <DependentUpon>201611162120424_AddMessageGroupTable1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611181614582_AddDateTimeFriendMessages.resx">
-      <DependentUpon>201611181614582_AddDateTimeFriendMessages.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611181939291_AddLinkAndStopWordTables.resx">
-      <DependentUpon>201611181939291_AddLinkAndStopWordTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611182033080_AddOrderNumberField.resx">
-      <DependentUpon>201611182033080_AddOrderNumberField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611191212028_AddIsBlockedField.resx">
-      <DependentUpon>201611191212028_AddIsBlockedField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611220943133_ChangedFriendsMessageTable.resx">
-      <DependentUpon>201611220943133_ChangedFriendsMessageTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611231624517_ChangeBlockedFieldType.resx">
-      <DependentUpon>201611231624517_ChangeBlockedFieldType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611231957513_Init.resx">
+      <DependentUpon>201611231957513_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,8 +3,10 @@
     public class FriendData
     {
         public long Id { get; set; }
+        
+        public long FacebookId { get; set; }
 
-        public string FriendId { get; set; }
+        public long AccountId { get; set; }
 
         public string FriendName { get; set; }
 

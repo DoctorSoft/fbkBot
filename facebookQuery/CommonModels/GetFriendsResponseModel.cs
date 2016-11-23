@@ -2,7 +2,7 @@
 {
     public class GetFriendsResponseModel
     {
-        public string FriendId { get; set; }
+        public long FriendFacebookId { get; set; }
 
         public string FriendName { get; set; }
     }

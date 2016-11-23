@@ -23,7 +23,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
             try
             {
                 if (!context.FriendMessages
-                    .Where(model => model.Friend.AccountId == query.AccountId && !model.Friend.IsBlocked)
+                    .Where(model => model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false)
                     .Any(model => model.MessageDirection == MessageDirection.ToFriend))
                 {
                     return unansweredMessages;
@@ -31,14 +31,14 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 
                 var lastBotMessageDateTime = context
                     .FriendMessages.Where(
-                        model => model.Friend.AccountId == query.AccountId && !model.Friend.IsBlocked)
+                        model => model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false)
                     .Where(model => model.MessageDirection == MessageDirection.ToFriend)
                     .OrderByDescending(model => model.MessageDateTime)
                     .FirstOrDefault().MessageDateTime;
 
                 var lastFriendMessage = context
                     .FriendMessages.Where(
-                        model => model.Friend.AccountId == query.AccountId && !model.Friend.IsBlocked)
+                        model => model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false)
                     .Where(model => model.MessageDirection == MessageDirection.FromFriend)
                     .OrderByDescending(model => model.MessageDateTime).FirstOrDefault();
 

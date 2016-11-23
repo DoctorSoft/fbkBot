@@ -15,7 +15,7 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand
         public VoidCommandResponse Handle(MarkBlockedFriendCommand command)
         {
             var friendModel = context.Friends.FirstOrDefault(
-                model => model.AccountId == command.AccountId && model.Id == command.FriendId);
+                model => model.FacebookId == command.AccountId && model.Id == command.FriendId);
             if (friendModel != null)
                 friendModel.IsBlocked = true;
             
