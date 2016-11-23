@@ -23,7 +23,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                 accountId = firstAccount.Id;
             }
             
-            var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId && model.IsBlocked == 0 && model.FriendId.Equals(command.FriendId.ToString()));
+            var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId && model.IsBlocked == false && model.FriendId.Equals(command.FriendId.ToString()));
 
             friend.FriendMessages = new Collection<FriendMessageDbModel>()
             {

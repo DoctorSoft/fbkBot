@@ -1,6 +1,4 @@
-﻿using Constants.FriendsEnums;
-
-namespace DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand
+﻿namespace DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand
 {
     public class MarkBlockedFriendCommand : IVoidCommand
     {
@@ -8,6 +6,6 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand
 
         public long AccountId { get; set; }
 
-        public FriendBlockedStatus BlockedCause { get; set; }
+        public bool IsBlocked { get; set; }
     }
 }

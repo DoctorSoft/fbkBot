@@ -126,6 +126,10 @@
     <Compile Include="Migrations\201611220943133_ChangedFriendsMessageTable.Designer.cs">
       <DependentUpon>201611220943133_ChangedFriendsMessageTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611231624517_ChangeBlockedFieldType.cs" />
+    <Compile Include="Migrations\201611231624517_ChangeBlockedFieldType.Designer.cs">
+      <DependentUpon>201611231624517_ChangeBlockedFieldType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -266,6 +270,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611220943133_ChangedFriendsMessageTable.resx">
       <DependentUpon>201611220943133_ChangedFriendsMessageTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611231624517_ChangeBlockedFieldType.resx">
+      <DependentUpon>201611231624517_ChangeBlockedFieldType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

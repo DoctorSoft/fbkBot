@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Constants.FriendsEnums;
 using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
@@ -77,10 +76,6 @@ namespace Services.Services
             allMessages.Where(data => data.MessageDirection == MessageDirection.FromFriend)
                 .OrderByDescending(data => data.OrderNumber)
                 .FirstOrDefault();
-
-            var countUnansweredBotMessages =
-                allMessages.Where(data => data.MessageDirection == MessageDirection.ToFriend)
-                .Count(data => data.MessageDateTime > lastFriendMessages.MessageDateTime);
            
             var lastBotMessages =
             allMessages.Where(data => data.MessageDirection == MessageDirection.ToFriend)
@@ -94,7 +89,7 @@ namespace Services.Services
 
             if (lastFriendMessages != null)
             {
-                var orderNumber = 0;
+                int orderNumber;
                 if (isUnanswered)
                 {
                     orderNumber = lastBotMessages.OrderNumber + 1;
@@ -140,7 +135,7 @@ namespace Services.Services
                     {
                         AccountId = account.Id,
                         FriendId = lastFriendMessages.FriendId,
-                        BlockedCause = FriendBlockedStatus.CorrespondenceEnd
+                        IsBlocked = true
                     });
                 }
             }

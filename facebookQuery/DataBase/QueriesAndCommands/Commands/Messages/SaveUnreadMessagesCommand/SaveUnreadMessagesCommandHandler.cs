@@ -35,7 +35,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 var friend = context.Friends.FirstOrDefault(model => model.AccountId == accountId &&
                                                                      model.FriendId.Equals(friendId.ToString()));
 
-                if (friend.IsBlocked > 0)
+                if (friend.IsBlocked)
                 {
                     continue;
                 }

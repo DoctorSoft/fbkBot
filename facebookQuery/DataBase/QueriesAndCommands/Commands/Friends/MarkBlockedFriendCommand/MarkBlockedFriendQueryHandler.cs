@@ -17,7 +17,7 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand
             var friendModel = context.Friends.FirstOrDefault(
                 model => model.AccountId == command.AccountId && model.Id == command.FriendId);
             if (friendModel != null)
-                friendModel.IsBlocked = (int)command.BlockedCause;
+                friendModel.IsBlocked = true;
             
             context.SaveChanges();
 
