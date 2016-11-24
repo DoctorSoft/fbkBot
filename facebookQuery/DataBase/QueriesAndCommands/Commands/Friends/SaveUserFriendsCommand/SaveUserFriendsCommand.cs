@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CommonModels;
+using DataBase.QueriesAndCommands.Queries.Friends;
 
 namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 {
@@ -7,6 +8,6 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
     {
         public long AccountId { get; set; }
 
-        public List<GetFriendsResponseModel> Friends { get; set; }
+        public List<FriendData> Friends { get; set; }
     }
 }

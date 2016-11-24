@@ -11,5 +11,7 @@
         public long FacebookId { get; set; }
 
         public string PageUrl { get; set; }
+
+        public string Cookie { get; set; }
     }
 }

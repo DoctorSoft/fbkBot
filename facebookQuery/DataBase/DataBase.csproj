@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201611231957513_Init.Designer.cs">
       <DependentUpon>201611231957513_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611241947257_AddedFriendDateField.cs" />
+    <Compile Include="Migrations\201611241947257_AddedFriendDateField.Designer.cs">
+      <DependentUpon>201611241947257_AddedFriendDateField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -182,6 +186,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611231957513_Init.resx">
       <DependentUpon>201611231957513_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611241947257_AddedFriendDateField.resx">
+      <DependentUpon>201611241947257_AddedFriendDateField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

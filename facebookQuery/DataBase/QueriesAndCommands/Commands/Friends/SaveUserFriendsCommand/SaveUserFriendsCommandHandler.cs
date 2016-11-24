@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataBase.Context;
 using DataBase.Models;
@@ -41,7 +42,7 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 
                 foreach (var friendDbModel in friendsInDb)
                 {
-                    if (command.Friends.Any(model => model.FriendFacebookId.Equals(friendDbModel.FacebookId))) continue;
+                    if (command.Friends.Any(model => model.FacebookId.Equals(friendDbModel.FacebookId))) continue;
                     {
                         var deletingFriend = context.Friends
                             .FirstOrDefault(model => model.AccountId == command.AccountId 
@@ -56,13 +57,14 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                 
                 foreach (var friend in command.Friends)
                 {
-                    if (!friendsInDb.Any(model => model.FacebookId.Equals(friend.FriendFacebookId)))
+                    if (!friendsInDb.Any(model => model.FacebookId.Equals(friend.FacebookId)))
                     {
                         friendsList.Add(new FriendDbModel()
                         {
-                            FacebookId = friend.FriendFacebookId,
+                            FacebookId = friend.FacebookId,
                             AccountId = command.AccountId,
-                            FriendName = friend.FriendName, 
+                            FriendName = friend.FriendName,
+                            AddedDateTime = DateTime.Now
                         });
                     }
                 }
@@ -72,9 +74,10 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                 friendsList.AddRange(command.Friends.Select(friend => new FriendDbModel
                 {
                     AccountId = command.AccountId,
-                    FacebookId = friend.FriendFacebookId, 
+                    FacebookId = friend.FacebookId, 
                     FriendName = friend.FriendName,
-                    DeleteFromFriends = false
+                    DeleteFromFriends = false,
+                    AddedDateTime = DateTime.Now
                 }));
             }
 

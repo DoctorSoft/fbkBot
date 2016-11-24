@@ -13,16 +13,16 @@ namespace Services.Services
 {
     public class FriendsService
     {
-        public FriendListViewModel GetFriendsByAccount(long accountId)
+        public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
         {
             var friends = new GetFriendsByAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountQuery
             {
-                AccountId = accountId
+                AccountId = accountFacebokId
             });
 
             var result = new FriendListViewModel
             {
-                AccountId = accountId,
+                AccountId = accountFacebokId,
                 Friends = friends.Select(model => new FriendViewModel
                 {
                     FacebookId = model.FacebookId,
@@ -36,11 +36,11 @@ namespace Services.Services
             return result;
         }
 
-        public void GetFriendsOfFacebook(long accountId)
+        public void GetFriendsOfFacebook(long accountFacebokId)
         {
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
-                UserId = accountId
+                UserId = accountFacebokId
             });
 
             var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
@@ -51,33 +51,20 @@ namespace Services.Services
             var friends = new GetFriendsEngine().Execute(new GetFriendsModel()
             {
                 Cookie = account.Cookie.CookieString,
-                AccountId = accountId,
+                AccountId = accountFacebokId,
                 UrlParameters = urlParameters
             });
-
-            SaveFriends(new FriendListViewModel
-            {
-                AccountId = account.Id,
-                Friends = friends.Select(model => new FriendViewModel
-                {
-                    FacebookId = model.FriendFacebookId,
-                    Name = model.FriendName,
-                }).ToList()
-            });
-        }
-
-        public void SaveFriends(FriendListViewModel friendListViewModel)
-        {
-
+                
             new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
             {
-                AccountId = friendListViewModel.AccountId,
-                Friends = friendListViewModel.Friends.Select(model => new GetFriendsResponseModel()
+                AccountId = account.Id,
+                Friends = friends.Select(model => new FriendData()
                 {
-                    FriendFacebookId = model.FacebookId,
-                    FriendName = model.Name
+                    FacebookId = model.FacebookId,
+                    FriendName = model.FriendName
                 }).ToList()
             });
         }
+
     }
 }

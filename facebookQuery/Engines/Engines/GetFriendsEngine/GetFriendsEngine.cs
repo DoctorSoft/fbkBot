@@ -47,7 +47,7 @@ namespace Engines.Engines.GetFriendsEngine
 
                 friendsList.Add(new GetFriendsResponseModel()
                 {
-                    FriendFacebookId = Convert.ToInt64(id.Remove(id.Length-1)),
+                    FacebookId = Convert.ToInt64(id.Remove(id.Length-1)),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1))
                 });
             }

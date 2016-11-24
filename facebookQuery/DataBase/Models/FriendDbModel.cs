@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataBase.Models
 {
@@ -13,8 +14,10 @@ namespace DataBase.Models
         public bool DeleteFromFriends { get; set; }
         
         public bool IsBlocked { get; set; }
-        
+
         public long AccountId { get; set; }
+
+        public DateTime AddedDateTime { get; set; }
 
         public AccountDbModel AccountWithFriend { get; set; }
 
