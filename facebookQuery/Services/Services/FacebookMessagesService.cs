@@ -50,6 +50,19 @@ namespace Services.Services
                 new SendMessageCore().SendMessageToUnanswered(account.FacebookId, Convert.ToInt64(friend.FacebookId));
             }
         }
+        public void SendMessageToNewFriends(AccountViewModel account)
+        {
+            var newFriends = new GetNewFriendsForDialogueQueryHandler(new DataBaseContext()).Handle(new GetNewFriendsForDialogueQuery()
+            {
+                DelayTime = 2,
+                AccountId = account.Id
+            });
+
+            foreach (var newFriend in newFriends)
+            {
+                new SendMessageCore().SendMessageToNewFriend(account.FacebookId, newFriend.FacebookId);
+            }
+        }
 
         public UnreadFriendMessageList GetUnreadMessages(long accountId)
         {

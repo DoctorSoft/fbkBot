@@ -140,6 +140,8 @@
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\FriendMessageData.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetNewFriendsForDialogueQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetNewFriendsForDialogueQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\FriendData.cs" />
