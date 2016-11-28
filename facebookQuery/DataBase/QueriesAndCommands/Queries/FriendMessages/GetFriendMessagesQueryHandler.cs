@@ -18,6 +18,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
             var friendsData = context
                 .FriendMessages
                 .OrderByDescending(model => model.MessageDateTime)
+                .Where(model => model.FriendId == query.FriendId && model.Friend.AccountId == query.AccountId)
                 .Select(model => new FriendMessageData
                 {
                     Message = model.Message,

@@ -16,33 +16,37 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
 
         public List<FriendData> Handle(GetNewFriendsForDialogueQuery query)
         {
-            var currentTime = DateTime.Now;
             var newFriends = new List<FriendData>();
             try
             {
-                var isAvailable =
-                    context.Friends.Any(model => model.AccountId == query.AccountId && model.IsBlocked == false);
-                if (!isAvailable)
+                var friends =
+                    context.Friends.Where(model => model.AccountId == query.AccountId && model.IsBlocked == false).ToList();
+                var allMessages =context.FriendMessages.Select(model => model);
+
+                if (!friends.Any())
                 {
                     return newFriends;
                 }
 
-                var friends = context
-                    .Friends.Where(
-                        model => model.AccountId == query.AccountId && model.IsBlocked == false)
-                    .OrderByDescending(model => model.AddedDateTime);
-
-                newFriends.AddRange(from friendDbModel in friends
-                    let lastAddedFriendDateTime = friends.FirstOrDefault(model => model.Id == friendDbModel.Id).AddedDateTime
-                    let differenceTime = currentTime - lastAddedFriendDateTime
-                    where differenceTime.Minutes >= query.DelayTime
-                    select new FriendData
+                foreach (var friendDbModel in friends)
+                {
+                    var messagesFound =
+                        allMessages.Any(model => model.FriendId == friendDbModel.Id);
+                    if (messagesFound)
                     {
-                        Id = friendDbModel.Id, 
-                        AccountId = friendDbModel.AccountId, 
-                        FacebookId = friendDbModel.FacebookId, 
-                        FriendName = friendDbModel.FriendName
-                    });
+                        continue;
+                    }
+                    if ((DateTime.Now - friendDbModel.AddedDateTime).Minutes > query.DelayTime)
+                    {
+                        newFriends.Add(new FriendData()
+                        {
+                            AccountId = friendDbModel.AccountId,
+                            FacebookId = friendDbModel.FacebookId,
+                            FriendName = friendDbModel.FriendName,
+                            Id = friendDbModel.Id
+                        });
+                    }
+                }
             }
             catch (Exception ex)
             {

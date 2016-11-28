@@ -3,8 +3,8 @@ using CommonModels;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
 {
-    public class GetFriendByIdAccountQuery : IQuery<List<FriendData>>
+    public class GetFriendByIdAccountQuery : IQuery<FriendData>
     {
-        public long FacebookId { get; set; }
+        public long AccountId { get; set; }
     }
 }

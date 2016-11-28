@@ -12,9 +12,10 @@ namespace Jobs
         public static void SetUpJobs()
         {
             //todo: uncomment it back
-            var account = new HomeService().GetAccounts().FirstOrDefault();
+            //var account = new HomeService().GetAccounts().FirstOrDefault();
 
-            RecurringJob.AddOrUpdate(string.Format("Refresh friends list for account = {0} )", account.Login), () => RefreshFriendsJob.Run(account.FacebookId), "* 0/1 * * *");
+            //RecurringJob.AddOrUpdate(string.Format("Refresh friends list for account = {0} )", account.Login), () => RefreshFriendsJob.Run(account.FacebookId), "* 0/1 * * *");
+            //RecurringJob.AddOrUpdate(string.Format("Sending letters to new friends from = {0} )", account.Login), () => SendMessageToNewFriendsJob.Run(account), Cron.Minutely);
 
             //RecurringJob.AddOrUpdate(string.Format("Receive unread messages for accountId = {0} )", account), () => GetUnreadMessagesJob.Run(account), "* 0/1 * * *");
             

@@ -10,6 +10,7 @@ using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
+using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.Message;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.SendMessageEngine;
@@ -27,10 +28,15 @@ namespace Services.Core
                 UserId = senderId
             });
 
+            var friend = new GetFriendByIdFacebookQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdFacebookQuery
+                {
+                    FacebookId = friendId
+                });
+
             var lastFriendMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
             {
-                AccountId = senderId,
-                FriendId = friendId
+                AccountId = account.Id,
+                FriendId = friend.Id
             }).Where(data => data.MessageDirection == MessageDirection.FromFriend)
                 .OrderByDescending(data => data.OrderNumber)
                 .FirstOrDefault();
@@ -107,11 +113,15 @@ namespace Services.Core
             {
                 UserId = senderId
             });
+            var friend = new GetFriendByIdFacebookQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdFacebookQuery
+            {
+                FacebookId = friendId
+            });
 
             var allMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
             {
-                AccountId = senderId,
-                FriendId = friendId
+                AccountId = account.Id,
+                FriendId = friend.Id
             });
 
             var lastFriendMessages =
@@ -188,76 +198,39 @@ namespace Services.Core
                 UserId = senderId
             });
 
-            var allMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
-            {
-                AccountId = senderId,
-                FriendId = friendId
-            });
-
-            var lastFriendMessages =
-            allMessages.Where(data => data.MessageDirection == MessageDirection.FromFriend)
-                .OrderByDescending(data => data.OrderNumber)
-                .FirstOrDefault();
-
-            var lastBotMessages =
-            allMessages.Where(data => data.MessageDirection == MessageDirection.ToFriend)
-                .OrderByDescending(data => data.OrderNumber)
-                .FirstOrDefault();
-
             var messageData = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
             {
                 AccountId = account.Id
-            }).Where(model => model.MessageRegime == MessageRegime.BotFirstMessage).ToList();
+            }).Where(model => model.MessageRegime == MessageRegime.BotFirstMessage && model.OrderNumber == 1).ToList();
 
-            var numberLastResponseMessage = 0;
-            var lastResponseMessageModel = messageData.OrderByDescending(data => data.OrderNumber).FirstOrDefault();
-            if (lastResponseMessageModel != null)
+            var messageModel = GetRandomMessage(messageData, 1);
+            if (messageModel != null)
             {
-                numberLastResponseMessage = lastResponseMessageModel.OrderNumber;
+                message = messageModel.Message;
             }
 
-            if (lastFriendMessages != null && lastBotMessages != null)
+            new SendMessageEngine().Execute(new SendMessageModel
             {
-                var orderNumber = lastBotMessages.OrderNumber + 1;
-
-                var messageModel = GetRandomMessage(messageData, orderNumber);
-                if (messageModel != null)
+                AccountId = account.UserId,
+                Cookie = account.Cookie.CookieString,
+                FriendId = friendId,
+                Message = message,
+                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                 {
-                    message = messageModel.Message;
-                }
+                    NameUrlParameter = NamesUrlParameter.SendMessage
+                })
+            });
 
-                new SendMessageEngine().Execute(new SendMessageModel
-                {
-                    AccountId = account.UserId,
-                    Cookie = account.Cookie.CookieString,
-                    FriendId = friendId,
-                    Message = message,
-                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                    {
-                        NameUrlParameter = NamesUrlParameter.SendMessage
-                    })
-                });
-
-                new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
-                {
-                    AccountId = account.Id,
-                    FriendId = friendId,
-                    OrderNumber = orderNumber,
-                    Message = message,
-                    MessageDateTime = DateTime.Now
-                });
-
-                if (messageData != null && orderNumber >= numberLastResponseMessage)
-                {
-                    new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
-                    {
-                        AccountId = account.Id,
-                        FriendId = lastFriendMessages.FriendId,
-                        IsBlocked = true
-                    });
-                }
-            }
+            new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
+            {
+                AccountId = account.Id,
+                FriendId = friendId,
+                OrderNumber = 1,
+                Message = message,
+                MessageDateTime = DateTime.Now
+            });
         }
+
 
         private MessageModel GetRandomMessage(IEnumerable<MessageModel> messages, int orderNumber)
         {
