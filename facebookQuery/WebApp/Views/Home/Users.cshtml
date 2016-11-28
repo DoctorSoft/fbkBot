@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+}
+
+@model List<Services.ViewModels.HomeModels.AccountViewModel>
+
+<div class="jumbotron">
+</div>
+
+<div class="row">
+    <div class="list-group">
+        @foreach (var account in @Model)
+        {
+            @Html.ActionLink(@account.Login, "Index", "Account", new { AccountId = account.FacebookId }, new { @class = "list-group-item active" })
+        }
+    </div>
+</div>
+

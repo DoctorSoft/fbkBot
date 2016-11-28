@@ -108,3 +108,14 @@ textarea {
     display: inline-block;
     padding-left: 10px;
 }
+
+.rectangle-button {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    text-align: center!important;
+    vertical-align: middle!important;
+    font-size: 30px;
+    white-space: normal;
+    padding-top: 20px;
+}

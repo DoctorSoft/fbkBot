@@ -2,23 +2,14 @@
     ViewBag.Title = "Home Page";
 }
 
-@model List<Services.ViewModels.HomeModels.AccountViewModel>
-
-<div class="jumbotron">
+<div class="page-header">
+    <h2>Welcome to control panel</h2>
+    <h4>Please choose one of the options</h4>
 </div>
-
-<div class="row">
-    <div class="list-group">
-        @foreach (var account in @Model)
-        {
-            @Html.ActionLink(@account.Login, "Index", "Account", new {AccountId = account.FacebookId}, new {@class = "list-group-item active"})
-        }
-    </div>
-</div>
-
-<div>
-    <a href="@Url.Action("Index", "Options")" class="btn btn-primary"> <i class="fa fa-cogs"></i> Options </a>
-    <a href="@Url.Action("Index", "Groups")" class="btn btn-primary"> <i class="fa fa-object-group"></i> Groups </a>
-    <a href="@Url.Action("Index", "StopWords")" class="btn btn-primary"> <i class="fa fa-stop-circle"></i> Stop-Words </a>
-    <a href="@Url.Action("Index", "Links")" class="btn btn-primary"> <i class="fa fa-link"></i> Links </a>
+<div class="body-content">
+    <a href="@Url.Action("Users", "Home")" class="btn btn-default rectangle-button"> <i class="fa fa-user"></i><br /> Users </a>
+    <a href="@Url.Action("Index", "Options")" class="btn btn-default rectangle-button"> <i class="fa fa-envelope"></i><br/> Message options </a>
+    <a href="@Url.Action("Index", "Groups")" class="btn btn-default rectangle-button"> <i class="fa fa-object-group"></i><br/> Groups </a>
+    <a href="@Url.Action("Index", "StopWords")" class="btn btn-default rectangle-button"> <i class="fa fa-stop-circle"></i><br/> Stop-Words </a>
+    <a href="@Url.Action("Index", "Links")" class="btn btn-default rectangle-button"> <i class="fa fa-link"></i><br/> Links </a>
 </div>

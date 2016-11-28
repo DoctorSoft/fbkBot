@@ -20,11 +20,14 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            var accounts = homeService.GetAccounts();
-
             //homeService.RefreshCookies(account.FacebookId, account.Login, account.Password);
             //friendsService.GetFriendsOfFacebook(account.FacebookId);
+            return View();
+        }
 
+        public ActionResult Users()
+        {
+            var accounts = homeService.GetAccounts();
             return View(accounts);
         }
     }
