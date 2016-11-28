@@ -123,3 +123,13 @@ textarea {
 .crossed {
     text-decoration: overline;
 }
+
+.left-message-text {
+    min-width: 100%;
+    text-align: left;
+}
+
+.right-messsge-text {
+    min-width: 100%;
+    text-align: right;
+}
