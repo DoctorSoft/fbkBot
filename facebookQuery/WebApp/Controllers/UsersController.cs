@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Services.Services;
+
+namespace WebApp.Controllers
+{
+    public class UsersController : Controller
+    {
+        private readonly HomeService homeService;
+
+        public UsersController()
+        {
+            this.homeService = new HomeService();
+        }
+
+        // GET: Users
+        public ActionResult Index()
+        {
+            var accounts = homeService.GetAccounts();
+            return View(accounts);
+        }
+    }
+}

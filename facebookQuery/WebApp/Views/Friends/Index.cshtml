@@ -5,18 +5,20 @@
 @model Services.ViewModels.FriendsModels.FriendListViewModel
 
 <div class="panel panel-default">
-    <div class="panel-body">
-        <h3>Friends</h3>
+    <div class="page-header">
+        <h3 class="alert-info alert">Friends</h3>
     </div>
     <div class="panel-footer">
         @foreach (var friend in @Model.Friends)
         {
-            <div class='@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")'>
+            <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
                 <div class="inline-half-text-left">
-                    @friend.Name
-                </div>
-                <div class="inline-half-text-right">
-                    <a class="btn btn-primary" href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i> Messages</a>
+                    <div class="message-list-tittle">
+                        <div class="">@friend.Name</div>
+                    </div>
+                    <div class="inline-actions">
+                        <a href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i></a>
+                    </div>
                 </div>
             </div>
         }

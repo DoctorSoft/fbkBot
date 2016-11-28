@@ -24,11 +24,5 @@ namespace WebApp.Controllers
             //friendsService.GetFriendsOfFacebook(account.FacebookId);
             return View();
         }
-
-        public ActionResult Users()
-        {
-            var accounts = homeService.GetAccounts();
-            return View(accounts);
-        }
     }
 }

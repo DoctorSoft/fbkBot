@@ -119,3 +119,7 @@ textarea {
     white-space: normal;
     padding-top: 20px;
 }
+
+.crossed {
+    text-decoration: overline;
+}
