@@ -44,12 +44,13 @@ namespace Services.Services
             {
                 var friend = new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
                 {
-                    FacebookId = unansweredMessage.FriendId
-                }).FirstOrDefault();
+                    AccountId = unansweredMessage.FriendId
+                });
 
                 new SendMessageCore().SendMessageToUnanswered(account.FacebookId, Convert.ToInt64(friend.FacebookId));
             }
         }
+
         public void SendMessageToNewFriends(AccountViewModel account)
         {
             var newFriends = new GetNewFriendsForDialogueQueryHandler(new DataBaseContext()).Handle(new GetNewFriendsForDialogueQuery()
@@ -58,10 +59,12 @@ namespace Services.Services
                 AccountId = account.Id
             });
 
-            foreach (var newFriend in newFriends)
-            {
-                new SendMessageCore().SendMessageToNewFriend(account.FacebookId, newFriend.FacebookId);
-            }
+//            foreach (var newFriend in newFriends)
+//            {
+//                new SendMessageCore().SendMessageToNewFriend(account.FacebookId, newFriend.FacebookId);
+//
+//                Thread.Sleep(3000);
+//            }
         }
 
         public UnreadFriendMessageList GetUnreadMessages(long accountId)

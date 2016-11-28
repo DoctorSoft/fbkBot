@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web.WebPages.Html;
 using Constants.MessageEnums;
 using DataBase.Context;
+using Engines.Engines.GetMessagesEngine.ChangeMessageStatus;
 
 namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 {
@@ -29,35 +31,60 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     return unansweredMessages;
                 }
 
-                var lastBotMessageDateTime = context
-                    .FriendMessages.Where(
-                        model => model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false)
-                    .Where(model => model.MessageDirection == MessageDirection.ToFriend)
-                    .OrderByDescending(model => model.MessageDateTime)
-                    .FirstOrDefault().MessageDateTime;
-
-                var lastFriendMessage = context
-                    .FriendMessages.Where(
-                        model => model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false)
-                    .Where(model => model.MessageDirection == MessageDirection.FromFriend)
-                    .OrderByDescending(model => model.MessageDateTime).FirstOrDefault();
-
-                var answered = lastFriendMessage.MessageDateTime > lastBotMessageDateTime;
-
-                if (!answered)
+                var friendsMessages = context.FriendMessages.GroupBy(models => models.FriendId).Select(models => models.OrderByDescending(model=>model.MessageDateTime).FirstOrDefault()).ToList(); 
+                foreach (var friendMessageDbModel in friendsMessages)
                 {
-                    var differenceTime = currentTime - lastFriendMessage.MessageDateTime;
-                    if (differenceTime.Minutes >= query.DelayTime)
+                    var lastBotMessageDateTime = new DateTime();
+                    var lastFriendMessageDateTime = new DateTime();
+
+                    var lastBotMessage = context
+                        .FriendMessages.Where(
+                            model =>
+                                model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false &&
+                                model.FriendId == friendMessageDbModel.FriendId)
+                        .Where(model => model.MessageDirection == MessageDirection.ToFriend)
+                        .OrderByDescending(model => model.MessageDateTime)
+                        .FirstOrDefault();
+
+                    if (lastBotMessage == null)
                     {
-                        unansweredMessages.Add(new FriendMessageData()
+                        continue;
+                    }
+
+                    lastBotMessageDateTime = lastBotMessage.MessageDateTime;
+
+                    var lastFriendMessage = context
+                        .FriendMessages.Where(
+                            model =>
+                                model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false &&
+                                model.FriendId == friendMessageDbModel.FriendId)
+                        .Where(model => model.MessageDirection == MessageDirection.FromFriend)
+                        .OrderByDescending(model => model.MessageDateTime).FirstOrDefault();
+                    
+                    if (lastFriendMessage == null)
+                    {
+                        continue;
+                    }
+
+                    lastFriendMessageDateTime = lastFriendMessage.MessageDateTime;
+
+                    var answered = lastFriendMessageDateTime > lastBotMessageDateTime;
+
+                    if (!answered)
+                    {
+                        var differenceTime = currentTime - lastFriendMessage.MessageDateTime;
+                        if (differenceTime.Minutes >= query.DelayTime)
                         {
-                            Id = lastFriendMessage.Id,
-                            FriendId = lastFriendMessage.FriendId,
-                            OrderNumber = lastFriendMessage.OrderNumber,
-                            Message = lastFriendMessage.Message,
-                            MessageDateTime = lastFriendMessage.MessageDateTime,
-                            MessageDirection = lastFriendMessage.MessageDirection
-                        });
+                            unansweredMessages.Add(new FriendMessageData()
+                            {
+                                Id = lastFriendMessage.Id,
+                                FriendId = lastFriendMessage.FriendId,
+                                OrderNumber = lastFriendMessage.OrderNumber,
+                                Message = lastFriendMessage.Message,
+                                MessageDateTime = lastFriendMessage.MessageDateTime,
+                                MessageDirection = lastFriendMessage.MessageDirection
+                            });
+                        }
                     }
                 }
             }

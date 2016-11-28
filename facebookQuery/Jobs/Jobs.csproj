@@ -75,6 +75,7 @@
     <Compile Include="Jobs\FriendJobs\RefreshFriendsJob.cs" />
     <Compile Include="Jobs\MessageJobs\GetUnreadMessagesJob.cs" />
     <Compile Include="Jobs\MessageJobs\SendMessageToUnansweredJob.cs" />
+    <Compile Include="Jobs\MessageJobs\SendMessageToNewFriendsJob.cs" />
     <Compile Include="Jobs\MessageJobs\SendMessageToUnreadJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

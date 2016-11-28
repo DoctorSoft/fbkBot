@@ -4,7 +4,7 @@ using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
 {
-    public class GetFriendByIdAccountQueryHandler : IQueryHandler<GetFriendByIdAccountQuery, List<FriendData>>
+    public class GetFriendByIdAccountQueryHandler : IQueryHandler<GetFriendByIdAccountQuery, FriendData>
     {
         private readonly DataBaseContext context;
 
@@ -13,10 +13,10 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
             this.context = context;
         }
 
-        public List<FriendData> Handle(GetFriendByIdAccountQuery query)
+        public FriendData Handle(GetFriendByIdAccountQuery query)
         {
             var result = context.Friends
-                .Where(model => model.Id == query.FacebookId)
+                .Where(model => model.Id == query.AccountId)
                 .Select(model => new FriendData
                 {
                     FacebookId = model.FacebookId,
@@ -25,7 +25,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,
                     MessagesEnded = model.IsBlocked
-                }).ToList();
+                }).FirstOrDefault();
 
             return result;
         }
