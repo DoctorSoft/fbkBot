@@ -14,6 +14,10 @@ namespace Services.ViewModels.HomeModels
 
         public string PageUrl { get; set; }
 
+        public string Name { get; set; }
+
+        public long FacebookId { get; set; }
+
         public int NumberNewFriends { get; set; }
 
         public int NumberNewMessages { get; set; }

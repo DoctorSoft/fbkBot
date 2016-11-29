@@ -23,7 +23,7 @@ namespace Services.Core
         {
             var message = String.Empty;
 
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = senderId
             });
@@ -109,7 +109,7 @@ namespace Services.Core
         {
             var message = String.Empty;
 
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = senderId
             });
@@ -193,7 +193,7 @@ namespace Services.Core
         {
             var message = String.Empty;
 
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = senderId
             });

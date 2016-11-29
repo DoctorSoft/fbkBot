@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Constants;
 using Constants.EnumExtension;
-using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
-using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
-using Engines.Engines.SendMessageEngine;
 using RequestsHelpers;
+using Services.ViewModels.AccountModels;
 using Services.ViewModels.HomeModels;
 
 namespace Services.Services
@@ -56,7 +53,7 @@ namespace Services.Services
 
         public GetNewNoticesResponseModel GetNewNotices(long accountId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = accountId
             });
@@ -68,11 +65,16 @@ namespace Services.Services
             return statusModel;
         }
 
-        public AccountActionModel GetAccountByUserId(long userId)
+        public AccountActionModel GetAccountByUserId(long? userId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            if (userId == null)
             {
-                UserId = userId
+                return new AccountActionModel();
+            }
+
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            {
+                UserId = userId.Value
             });
 
             return new AccountActionModel
@@ -81,7 +83,32 @@ namespace Services.Services
                 Login = account.Login,
                 Password = account.Password,
                 UserId = account.UserId,
-                PageUrl = account.PageUrl
+                PageUrl = account.PageUrl,
+                Name = account.Name,
+                FacebookId = account.FacebookId
+            };
+        }
+
+        public AccountDraftViewModel GetAccountById(long? userId)
+        {
+            if (userId == null)
+            {
+                return new AccountDraftViewModel();
+            }
+
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = userId.Value
+            });
+
+            return new AccountDraftViewModel
+            {
+                Id = account.Id,
+                Login = account.Login,
+                Password = account.Password,
+                PageUrl = account.PageUrl,
+                Name = account.Name,
+                FacebookId = account.FacebookId
             };
         }
 

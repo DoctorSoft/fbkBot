@@ -154,10 +154,12 @@
     <Compile Include="QueriesAndCommands\IQuery.cs" />
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\MessageModel.cs" />

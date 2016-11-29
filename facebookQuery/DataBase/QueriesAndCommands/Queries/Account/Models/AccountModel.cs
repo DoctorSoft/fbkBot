@@ -12,6 +12,10 @@
 
         public long UserId { get; set; }
 
+        public string Name { get; set; }
+
+        public long FacebookId { get; set; }
+
         public CookieModel Cookie { get; set; }
     }
 }
