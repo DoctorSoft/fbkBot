@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using DataBase.Constants;
@@ -42,12 +41,7 @@ namespace Services.Services
 
             foreach (var unansweredMessage in unansweredMessagesList)
             {
-                var friend = new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
-                {
-                    AccountId = unansweredMessage.FriendId
-                });
-
-                new SendMessageCore().SendMessageToUnanswered(account.FacebookId, Convert.ToInt64(friend.FacebookId));
+                new SendMessageCore().SendMessageToUnanswered(account.FacebookId, unansweredMessage.FriendId);
             }
         }
 
