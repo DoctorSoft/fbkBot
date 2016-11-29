@@ -65,6 +65,5 @@ namespace Services.Services
                 }).ToList()
             });
         }
-
     }
 }
