@@ -3,6 +3,7 @@ using System.Linq;
 using Constants;
 using Constants.EnumExtension;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using Engines.Engines.GetNewCookiesEngine;
@@ -112,6 +113,20 @@ namespace Services.Services
             };
         }
 
+        public long AddOrUpdateAccount(AccountDraftViewModel model)
+        {
+            var accountId = new AddOrUpdateAccountCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateAccountCommand
+            {
+                Id = model.Id,
+                Name = model.Name,
+                PageUrl = model.PageUrl,
+                FacebookId = model.FacebookId,
+                Password = model.Password,
+                Login = model.Login
+            });
+
+            return accountId;
+        }
     }
 }
 

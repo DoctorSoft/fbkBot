@@ -117,6 +117,8 @@
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />

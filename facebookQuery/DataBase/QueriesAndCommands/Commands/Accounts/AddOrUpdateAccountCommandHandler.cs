@@ -1,0 +1,39 @@
+﻿using System.Data.Entity.Migrations;
+using System.Linq;
+using DataBase.Context;
+using DataBase.Models;
+
+namespace DataBase.QueriesAndCommands.Commands.Accounts
+{
+    public class AddOrUpdateAccountCommandHandler : ICommandHandler<AddOrUpdateAccountCommand, long>
+    {
+        private readonly DataBaseContext context;
+
+        public AddOrUpdateAccountCommandHandler(DataBaseContext context)
+        {
+            this.context = context;
+        }
+
+        public long Handle(AddOrUpdateAccountCommand command)
+        {
+            var account = context.Accounts.FirstOrDefault(model => model.Id == command.Id);
+
+            if (account == null)
+            {
+                account = new AccountDbModel();
+            }
+
+            account.FacebookId = command.FacebookId;
+            account.Login = command.Login;
+            account.Name = command.Name;
+            account.PageUrl = command.PageUrl;
+            account.Password = command.Password;
+
+            context.Accounts.AddOrUpdate(account);
+
+            context.SaveChanges();
+
+            return account.Id;
+        }
+    }
+}
