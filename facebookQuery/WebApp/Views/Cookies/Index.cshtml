@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@model Services.ViewModels.AccountModels.CookiesViewModel
+
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3>
+            <span class="alert-info alert">
+                <span class="inline-half-text-left">
+                    Create/Update Cookies
+                </span>
+                <span class="inline-half-text-right">
+                    <a class="btn btn-success" href="@Url.Action("Index", "Users")"><i class="fa fa-arrow-left"></i> Back To List</a>
+                </span>
+            </span>
+        </h3>
+    </div>
+    <div class="panel-footer">
+        @using (Html.BeginForm("UpdateCookies", "Cookies", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.AccountId);
+
+            <div class="form-group input-group-sm">
+                Cookies: @Html.TextAreaFor(o => o.Value, new { @class = "form-control cookies-area" })
+            </div>
+
+            <div class="">
+                <input type="submit" class="btn btn-success" />
+            </div>
+        }
+    </div>
+</div>
+

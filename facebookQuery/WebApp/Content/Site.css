@@ -133,3 +133,7 @@ textarea {
     min-width: 100%;
     text-align: right;
 }
+
+.cookies-area {
+    min-height: 300px;
+}

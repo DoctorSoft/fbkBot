@@ -127,6 +127,29 @@ namespace Services.Services
 
             return accountId;
         }
+
+        public CookiesViewModel GetAccountCookies(long accountId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            return new CookiesViewModel
+            {
+                AccountId = accountId,
+                Value = account.Cookie.CookieString
+            };
+        }
+
+        public void UpdateCookies(CookiesViewModel model)
+        {
+            new UpdateCookiesHandler(new DataBaseContext()).Handle(new UpdateCookiesCommand
+            {
+                AccountId = model.AccountId,
+                NewCookieString = model.Value
+            });
+        }
     }
 }
 
