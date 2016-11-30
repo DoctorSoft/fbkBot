@@ -49,16 +49,78 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                             MessageDirection = MessageDirection.FromFriend,
                             Message = unreadMessageInformation.LastMessage,
                             MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                            OrderNumber = 1
+                            OrderNumber = 1,
+                            MessageRegime = MessageRegime.UserFirstMessage
                         }
                     };
+
+                    context.SaveChanges();
+                    return new VoidCommandResponse();
                 }
 
+                var lastFriendMessage =
+                context.FriendMessages.OrderByDescending(model => model.MessageDateTime)
+                    .FirstOrDefault(
+                        model =>
+                            model.FriendId.Equals(friend.Id)
+                            && model.MessageDirection == MessageDirection.FromFriend
+                            && model.Friend.AccountId.Equals(command.AccountId));
 
+                if (lastFriendMessage == null)
+                {
+                    friend.FriendMessages = new Collection<FriendMessageDbModel>()
+                    {
+                        new FriendMessageDbModel
+                        {
+                            FriendId = unreadMessageInformation.FriendId,
+                            MessageDirection = MessageDirection.FromFriend,
+                            Message = unreadMessageInformation.LastMessage,
+                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                            OrderNumber = 1,
+                            MessageRegime = MessageRegime.BotFirstMessage
+                        }
+                    };
 
+                    context.SaveChanges();
+                    return new VoidCommandResponse();
+                }
 
+                if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
+                {
+                    friend.FriendMessages = new Collection<FriendMessageDbModel>()
+                    {
+                        new FriendMessageDbModel
+                        {
+                            FriendId = unreadMessageInformation.FriendId,
+                            MessageDirection = MessageDirection.FromFriend,
+                            Message = unreadMessageInformation.LastMessage,
+                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                            OrderNumber = lastBotMessage.OrderNumber++,
+                            MessageRegime = MessageRegime.UserFirstMessage
+                        }
+                    };
 
-                var friendsMessagesInDb =
+                    context.SaveChanges();
+                    return new VoidCommandResponse();
+                }
+
+                friend.FriendMessages = new Collection<FriendMessageDbModel>()
+                    {
+                        new FriendMessageDbModel
+                        {
+                            FriendId = unreadMessageInformation.FriendId,
+                            MessageDirection = MessageDirection.FromFriend,
+                            Message = unreadMessageInformation.LastMessage,
+                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                            OrderNumber = lastBotMessage.OrderNumber,
+                            MessageRegime = MessageRegime.BotFirstMessage
+                        }
+                    };
+
+                context.SaveChanges();
+                return new VoidCommandResponse();
+                
+/*                var friendsMessagesInDb =
                     context.FriendMessages.Where(model => model.FriendId == friend.Id).Select(model => new
                     {
                         model.OrderNumber
@@ -84,10 +146,9 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                         MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
                         OrderNumber = orderNumberMessage + 1
                     }
-                };
+                };*/
             }
 
-            context.SaveChanges();
             return new VoidCommandResponse();
         }
     }

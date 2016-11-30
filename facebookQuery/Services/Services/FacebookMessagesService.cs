@@ -78,31 +78,29 @@ namespace Services.Services
                 })
             });
 
-            if (unreadMessages.Count == 0)
+            if (unreadMessages.Count != 0)
             {
-                return null;
-            }
-
-            new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
-            {
-                AccountId = account.Id,
-                UnreadMessages = unreadMessages
-            });
-                
-            foreach (var unreadMessage in unreadMessages)
-            {
-                new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
+                new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
                 {
-                    AccountId = account.UserId,
-                    FriendId = unreadMessage.FriendId,
-                    Cookie = account.Cookie.CookieString,
-                    UrlParameters =  new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                    {
-                        NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
-                    }),
+                    AccountId = account.Id,
+                    UnreadMessages = unreadMessages
                 });
 
-                Thread.Sleep(2000);
+                foreach (var unreadMessage in unreadMessages)
+                {
+                    new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
+                    {
+                        AccountId = account.UserId,
+                        FriendId = unreadMessage.FriendId,
+                        Cookie = account.Cookie.CookieString,
+                        UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
+                        }),
+                    });
+
+                    Thread.Sleep(2000);
+                }
             }
 
             return new UnreadFriendMessageList()
