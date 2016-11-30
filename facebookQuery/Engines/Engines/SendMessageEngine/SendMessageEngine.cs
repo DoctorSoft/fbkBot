@@ -8,32 +8,47 @@ using RequestsHelpers;
 
 namespace Engines.Engines.SendMessageEngine
 {
-    public class SendMessageEngine : AbstractEngine<SendMessageModel, SendMessageResponseModel>
+    public class SendMessageEngine : AbstractEngine<SendMessageModel, bool>
     {
-        protected override SendMessageResponseModel ExecuteEngine(SendMessageModel model)
-       {
-            if (model.UrlParameters == null) return null;
-            var messageId = GenerateMessageId();
+        protected override bool ExecuteEngine(SendMessageModel model)
+        {
+            try
+            {
+                if (model.UrlParameters == null)
+                {
+                    return false;
+                }
 
-            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
+                var messageId = GenerateMessageId();
 
-            var parametersDictionary = model.UrlParameters.ToDictionary(pair => (SendMessageEnum)pair.Key, pair => pair.Value);
+                var fbDtsg =
+                    ParseResponsePageHelper.GetInputValueById(
+                        RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
 
-            parametersDictionary[SendMessageEnum.Body] = model.Message;
-            parametersDictionary[SendMessageEnum.MessageId] = messageId;
-            parametersDictionary[SendMessageEnum.OfflineThreadingId] = messageId;
-            parametersDictionary[SendMessageEnum.OtherUserFbid] = model.FriendId.ToString("G");
-            parametersDictionary[SendMessageEnum.SpecificToListOne] = model.FriendId.ToString("G");
-            parametersDictionary[SendMessageEnum.SpecificToListTwo] = model.AccountId.ToString("G");
-            parametersDictionary[SendMessageEnum.UserId] = model.AccountId.ToString("G");
-            parametersDictionary[SendMessageEnum.Timestamp] = DateTime.Now.Ticks.ToString();
-            parametersDictionary[SendMessageEnum.FbDtsg] = fbDtsg;
+                var parametersDictionary = model.UrlParameters.ToDictionary(pair => (SendMessageEnum) pair.Key,
+                    pair => pair.Value);
 
-            var parameters = CreateParametersString(parametersDictionary);
+                parametersDictionary[SendMessageEnum.Body] = model.Message;
+                parametersDictionary[SendMessageEnum.MessageId] = messageId;
+                parametersDictionary[SendMessageEnum.OfflineThreadingId] = messageId;
+                parametersDictionary[SendMessageEnum.OtherUserFbid] = model.FriendId.ToString("G");
+                parametersDictionary[SendMessageEnum.SpecificToListOne] = model.FriendId.ToString("G");
+                parametersDictionary[SendMessageEnum.SpecificToListTwo] = model.AccountId.ToString("G");
+                parametersDictionary[SendMessageEnum.UserId] = model.AccountId.ToString("G");
+                parametersDictionary[SendMessageEnum.Timestamp] = DateTime.Now.Ticks.ToString();
+                parametersDictionary[SendMessageEnum.FbDtsg] = fbDtsg;
 
-            var answer = RequestsHelper.Post(Urls.SendMessage.GetDiscription(), parameters, model.Cookie);
+                var parameters = CreateParametersString(parametersDictionary);
 
-            return null;
+                RequestsHelper.Post(Urls.SendMessage.GetDiscription(), parameters, model.Cookie);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
 
 

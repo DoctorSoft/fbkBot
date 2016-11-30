@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommonModels;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
+using Engines.Engines.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RequestsHelpers;
 
 namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 {
-    public class GetUnreadMessagesEngine : AbstractEngine<GetUnreadMessagesModel, List<GetUnreadMessagesResponseModel>>
+    public class GetUnreadMessagesEngine : AbstractEngine<GetUnreadMessagesModel, List<FacebookMessageModel>>
     {
-        protected override List<GetUnreadMessagesResponseModel> ExecuteEngine(GetUnreadMessagesModel model)
+        protected override List<FacebookMessageModel> ExecuteEngine(GetUnreadMessagesModel model)
         {
-            var messagesList = new List<GetUnreadMessagesResponseModel>();
+            var messagesList = new List<FacebookMessageModel>();
 
             if (model.UrlParameters == null) return null;
 
@@ -35,8 +35,9 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             foreach (var thread in threads)
             {
-                messagesList.Add(new GetUnreadMessagesResponseModel()
+                messagesList.Add(new FacebookMessageModel()
                 {
+                    AccountId = model.AccountId,
                     FriendId = thread["thread_fbid"].Value<long>(),
                     CountAllMessages = thread["message_count"].Value<int>(),
                     CountUnreadMessages = thread["unread_count"].Value<int>(),

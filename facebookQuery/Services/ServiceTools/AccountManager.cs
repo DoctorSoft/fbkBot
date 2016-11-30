@@ -14,5 +14,13 @@ namespace Services.ServiceTools
                 UserId = accountId
             });
         }
+
+        public AccountModel GetAccountByFacebookId(long accountFacebookId)
+        {
+            return new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery()
+            {
+                UserId = accountFacebookId
+            });
+        }
     }
 }

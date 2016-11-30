@@ -24,8 +24,10 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
             foreach (var unreadMessageInformation in command.UnreadMessages)
             {
                 var friendId = unreadMessageInformation.FriendId;
-                
-                var friend = context.Friends.FirstOrDefault(model => model.AccountId == command.AccountId && model.FacebookId.Equals(friendId));
+
+                var friend =
+                    context.Friends.FirstOrDefault(
+                        model => model.AccountId == command.AccountId && model.FacebookId.Equals(friendId));
                 if (friend == null || friend.IsBlocked || friend.DeleteFromFriends)
                 {
                     continue;
@@ -35,51 +37,47 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                     context.FriendMessages.OrderByDescending(model => model.MessageDateTime)
                         .FirstOrDefault(
                             model =>
-                                model.FriendId.Equals(friend.Id) 
-                                && model.MessageDirection == MessageDirection.ToFriend 
+                                model.FriendId.Equals(friend.Id)
+                                && model.MessageDirection == MessageDirection.ToFriend
                                 && model.Friend.AccountId.Equals(command.AccountId));
 
                 if (lastBotMessage == null)
                 {
-                    friend.FriendMessages = new Collection<FriendMessageDbModel>()
+                    context.FriendMessages.Add(new FriendMessageDbModel
                     {
-                        new FriendMessageDbModel
-                        {
-                            FriendId = unreadMessageInformation.FriendId,
-                            MessageDirection = MessageDirection.FromFriend,
-                            Message = unreadMessageInformation.LastMessage,
-                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                            OrderNumber = 1,
-                            MessageRegime = MessageRegime.UserFirstMessage
-                        }
-                    };
+                        FriendId = unreadMessageInformation.FriendId,
+                        MessageDirection = MessageDirection.FromFriend,
+                        Message = unreadMessageInformation.LastMessage,
+                        MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                        OrderNumber = 1,
+                        MessageRegime = MessageRegime.UserFirstMessage,
+                        Friend = friend
+                    });
 
                     context.SaveChanges();
                     return new VoidCommandResponse();
                 }
 
                 var lastFriendMessage =
-                context.FriendMessages.OrderByDescending(model => model.MessageDateTime)
-                    .FirstOrDefault(
-                        model =>
-                            model.FriendId.Equals(friend.Id)
-                            && model.MessageDirection == MessageDirection.FromFriend
-                            && model.Friend.AccountId.Equals(command.AccountId));
+                    context.FriendMessages.OrderByDescending(model => model.MessageDateTime)
+                        .FirstOrDefault(
+                            model =>
+                                model.FriendId.Equals(friend.Id)
+                                && model.MessageDirection == MessageDirection.FromFriend
+                                && model.Friend.AccountId.Equals(command.AccountId));
 
                 if (lastFriendMessage == null)
                 {
-                    friend.FriendMessages = new Collection<FriendMessageDbModel>()
+                    context.FriendMessages.Add(new FriendMessageDbModel
                     {
-                        new FriendMessageDbModel
-                        {
-                            FriendId = unreadMessageInformation.FriendId,
-                            MessageDirection = MessageDirection.FromFriend,
-                            Message = unreadMessageInformation.LastMessage,
-                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                            OrderNumber = 1,
-                            MessageRegime = MessageRegime.BotFirstMessage
-                        }
-                    };
+                        FriendId = unreadMessageInformation.FriendId,
+                        MessageDirection = MessageDirection.FromFriend,
+                        Message = unreadMessageInformation.LastMessage,
+                        MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                        OrderNumber = 1,
+                        MessageRegime = MessageRegime.BotFirstMessage,
+                        Friend = friend
+                    });
 
                     context.SaveChanges();
                     return new VoidCommandResponse();
@@ -87,66 +85,34 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
                 if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
                 {
-                    friend.FriendMessages = new Collection<FriendMessageDbModel>()
-                    {
-                        new FriendMessageDbModel
-                        {
-                            FriendId = unreadMessageInformation.FriendId,
-                            MessageDirection = MessageDirection.FromFriend,
-                            Message = unreadMessageInformation.LastMessage,
-                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                            OrderNumber = lastBotMessage.OrderNumber++,
-                            MessageRegime = MessageRegime.UserFirstMessage
-                        }
-                    };
-
-                    context.SaveChanges();
-                    return new VoidCommandResponse();
-                }
-
-                friend.FriendMessages = new Collection<FriendMessageDbModel>()
-                    {
-                        new FriendMessageDbModel
-                        {
-                            FriendId = unreadMessageInformation.FriendId,
-                            MessageDirection = MessageDirection.FromFriend,
-                            Message = unreadMessageInformation.LastMessage,
-                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                            OrderNumber = lastBotMessage.OrderNumber,
-                            MessageRegime = MessageRegime.BotFirstMessage
-                        }
-                    };
-
-                context.SaveChanges();
-                return new VoidCommandResponse();
-                
-/*                var friendsMessagesInDb =
-                    context.FriendMessages.Where(model => model.FriendId == friend.Id).Select(model => new
-                    {
-                        model.OrderNumber
-                    }).AsEnumerable().Select(model => new FriendMessageDbModel()
-                    {
-                        OrderNumber = model.OrderNumber
-                    }).ToList();
-
-                var friendMessageDbModel = friendsMessagesInDb.OrderByDescending(model => model.OrderNumber).FirstOrDefault();
-                var orderNumberMessage = 0;
-                if (friendMessageDbModel != null)
-                {
-                    orderNumberMessage = friendMessageDbModel.OrderNumber;
-                }
-                
-                friend.FriendMessages = new Collection<FriendMessageDbModel>()
-                {
-                    new FriendMessageDbModel
+                    context.FriendMessages.Add(new FriendMessageDbModel
                     {
                         FriendId = unreadMessageInformation.FriendId,
                         MessageDirection = MessageDirection.FromFriend,
                         Message = unreadMessageInformation.LastMessage,
                         MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                        OrderNumber = orderNumberMessage + 1
-                    }
-                };*/
+                        OrderNumber = lastBotMessage.OrderNumber + 1,
+                        MessageRegime = MessageRegime.UserFirstMessage,
+                        Friend = friend
+                    });
+
+                    context.SaveChanges();
+                    return new VoidCommandResponse();
+                }
+
+                context.FriendMessages.Add(new FriendMessageDbModel
+                {
+                    FriendId = unreadMessageInformation.FriendId,
+                    MessageDirection = MessageDirection.FromFriend,
+                    Message = unreadMessageInformation.LastMessage,
+                    MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                    OrderNumber = lastBotMessage.OrderNumber,
+                    MessageRegime = MessageRegime.BotFirstMessage,
+                    Friend = friend
+                });
+
+                context.SaveChanges();
+                return new VoidCommandResponse();
             }
 
             return new VoidCommandResponse();

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using CommonModels;
+using Constants.MessageEnums;
 
 namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 {
@@ -13,6 +12,8 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
         public string Message { get; set; }
 
         public int OrderNumber { get; set; }
+
+        public MessageRegime MessageRegime { get; set; }
         
         public DateTime MessageDateTime { get; set; }
 

@@ -80,6 +80,7 @@
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesEngine.cs" />
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesModel.cs" />
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesResponse.cs" />
+    <Compile Include="Engines\Models\FacebookMessageModel.cs" />
     <Compile Include="Engines\SendMessageEngine\SendMessageEngine.cs" />
     <Compile Include="Engines\SendMessageEngine\SendMessageModel.cs" />
     <Compile Include="Engines\SendMessageEngine\SendMessageResponseModel.cs" />

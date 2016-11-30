@@ -15,46 +15,115 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
         {
             this.context = context;
         }
+
         public VoidCommandResponse Handle(SaveSentMessageCommand command)
         {
-            var friend = context.Friends.FirstOrDefault(model => model.AccountId == command.AccountId 
-                                                        && model.IsBlocked == false 
-                                                        && model.FacebookId.Equals(command.FriendId));
+            var friendId = command.FriendId;
 
-            var currentTime = DateTime.Now;
-
-//            var isDuplicate = context.FriendMessages.Where(model => model.FriendId.Equals(friend.Id)).ToList()
-//            .Any(model => (currentTime - model.MessageDateTime).TotalSeconds < 30);
-//
-//            if (isDuplicate)
-//            {
-//                return new VoidCommandResponse(); 
-//            }
-
-            if (friend!=null)
+            var friend =
+                context.Friends.FirstOrDefault(
+                    model => model.AccountId == command.AccountId && model.FacebookId.Equals(friendId));
+            if (friend == null || friend.IsBlocked || friend.DeleteFromFriends)
             {
-                /*friend.FriendMessages = new Collection<FriendMessageDbModel>()
-                {
-                    new FriendMessageDbModel
-                    {
-                        FriendId = friend.Id,
-                        MessageDirection = MessageDirection.ToFriend,
-                        Message = command.Message,
-                        MessageDateTime = command.MessageDateTime,
-                        OrderNumber = command.OrderNumber
-                    }
-                };*/
-                context.FriendMessages.Add(
-                    new FriendMessageDbModel
-                    {
-                        FriendId = friend.Id,
-                        MessageDirection = MessageDirection.ToFriend,
-                        Message = command.Message,
-                        MessageDateTime = command.MessageDateTime,
-                        OrderNumber = command.OrderNumber
-                    });
-                context.SaveChanges();
+                return new VoidCommandResponse();
             }
+
+            var lastFriendMessage =
+                context.FriendMessages.OrderByDescending(model => model.MessageDateTime)
+                    .FirstOrDefault(
+                        model =>
+                            model.FriendId.Equals(friend.Id)
+                            && model.MessageDirection == MessageDirection.FromFriend
+                            && model.Friend.AccountId.Equals(command.AccountId));
+
+            if (lastFriendMessage == null)
+            {
+                context.FriendMessages.Add(new FriendMessageDbModel
+                {
+                    FriendId = friendId,
+                    MessageDirection = MessageDirection.ToFriend,
+                    Message = command.Message,
+                    MessageDateTime = command.MessageDateTime,
+                    OrderNumber = 1,
+                    MessageRegime = MessageRegime.BotFirstMessage,
+                    Friend = friend
+                });
+
+                context.SaveChanges();
+                return new VoidCommandResponse();
+            }
+
+            var lastBotMessage =
+                context.FriendMessages.OrderByDescending(model => model.MessageDateTime)
+                    .FirstOrDefault(
+                        model =>
+                            model.FriendId.Equals(friend.Id)
+                            && model.MessageDirection == MessageDirection.ToFriend
+                            && model.Friend.AccountId.Equals(command.AccountId));
+
+            if (lastBotMessage == null)
+            {
+                context.FriendMessages.Add(new FriendMessageDbModel
+                {
+                    FriendId = friendId,
+                    MessageDirection = MessageDirection.ToFriend,
+                    Message = command.Message,
+                    MessageDateTime = command.MessageDateTime,
+                    OrderNumber = 1,
+                    MessageRegime = MessageRegime.UserFirstMessage,
+                    Friend = friend
+                });
+
+                context.SaveChanges();
+                return new VoidCommandResponse();
+            }
+
+            if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
+            {
+                context.FriendMessages.Add(new FriendMessageDbModel
+                {
+                    FriendId = friendId,
+                    MessageDirection = MessageDirection.ToFriend,
+                    Message = command.Message,
+                    MessageDateTime = command.MessageDateTime,
+                    OrderNumber = lastFriendMessage.OrderNumber + 1,
+                    MessageRegime = MessageRegime.BotFirstMessage,
+                    Friend = friend
+                });
+
+                context.SaveChanges();
+                return new VoidCommandResponse();
+            }
+
+            if (lastFriendMessage.OrderNumber < lastBotMessage.OrderNumber)
+            {
+                context.FriendMessages.Add(new FriendMessageDbModel
+                {
+                    FriendId = friendId,
+                    MessageDirection = MessageDirection.ToFriend,
+                    Message = command.Message,
+                    MessageDateTime = command.MessageDateTime,
+                    OrderNumber = lastBotMessage.OrderNumber + 1,
+                    MessageRegime = MessageRegime.BotFirstMessage,
+                    Friend = friend
+                });
+
+                context.SaveChanges();
+                return new VoidCommandResponse();
+            }
+
+            context.FriendMessages.Add(new FriendMessageDbModel
+            {
+                FriendId = friendId,
+                MessageDirection = MessageDirection.ToFriend,
+                Message = command.Message,
+                MessageDateTime = command.MessageDateTime,
+                OrderNumber = lastFriendMessage.OrderNumber,
+                MessageRegime = MessageRegime.UserFirstMessage,
+                Friend = friend
+            });
+
+            context.SaveChanges();
             return new VoidCommandResponse();
         }
     }

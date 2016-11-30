@@ -44,7 +44,7 @@ namespace Services.Core
 
             var message = String.Empty;
 
-            var account = _accountManager.GetAccountById(senderId);
+            var account = _accountManager.GetAccountByFacebookId(senderId);
 
 
             var messageData = _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
@@ -98,7 +98,7 @@ namespace Services.Core
                     FriendId = friendId,
                     OrderNumber = orderNumber,
                     Message = message,
-                    MessageDateTime = DateTime.Now
+                    MessageDateTime = DateTime.Now,
                 });
             }
             if (messageData != null && orderNumber >= numberLastResponseMessage)
@@ -122,7 +122,7 @@ namespace Services.Core
             }
             var message = String.Empty;
 
-            var account = _accountManager.GetAccountById(senderId);
+            var account = _accountManager.GetAccountByFacebookId(senderId);
 
             var allMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
             {
@@ -166,21 +166,29 @@ namespace Services.Core
                 {
                     AccountId = account.UserId,
                     Cookie = account.Cookie.CookieString,
-                    FriendId = friendId,
-                    Message = message,
-                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                    {
-                        NameUrlParameter = NamesUrlParameter.SendMessage
-                    })
+                    FriendId = friend.FacebookId,
+                    Message =
+                        new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
+                        {
+                            TextPattern = message,
+                            AccountId = account.Id,
+                            FriendId = lastFriendMessages.FriendId,
+
+                        }),
+                    UrlParameters =
+                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.SendMessage
+                        })
                 });
 
                 new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
                 {
                     AccountId = account.Id,
-                    FriendId = friendId,
+                    FriendId = friend.FacebookId,
                     OrderNumber = orderNumber,
                     Message = message,
-                    MessageDateTime = DateTime.Now
+                    MessageDateTime = DateTime.Now,
                 });
 
                 if (messageData != null && orderNumber >= numberLastResponseMessage)

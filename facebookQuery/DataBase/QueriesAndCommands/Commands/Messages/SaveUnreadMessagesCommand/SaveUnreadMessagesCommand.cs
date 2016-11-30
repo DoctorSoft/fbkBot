@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using CommonModels;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
+using Engines.Engines.Models;
 
 namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand
 {
@@ -7,6 +8,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
     {
         public long AccountId { get; set; }
 
-        public List<GetUnreadMessagesResponseModel> UnreadMessages { get; set; }
+        public List<FacebookMessageModel> UnreadMessages { get; set; }
     }
 }
