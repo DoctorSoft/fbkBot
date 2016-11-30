@@ -46,67 +46,69 @@ namespace Services.Core
 
             var account = _accountManager.GetAccountById(senderId);
 
-            var lastFriendMessages = _facebookMessageManager.GetLastFriendMessageModel(account.Id, friend.Id);
 
             var messageData = _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
 
             var numberLastResponseMessage = 0;
+
             var lastResponseMessageModel = messageData.OrderByDescending(data => data.OrderNumber).FirstOrDefault();
             if (lastResponseMessageModel != null)
             {
                 numberLastResponseMessage = lastResponseMessageModel.OrderNumber;
             }
 
-            if (lastFriendMessages != null)
+            var lastFriendMessages = _facebookMessageManager.GetLastFriendMessageModel(account.Id, friend.Id);
+            if (lastFriendMessages == null)
             {
-                var orderNumber = lastFriendMessages.OrderNumber;
+                return;
+            }
+            var orderNumber = lastFriendMessages.OrderNumber;
 
-                var messageModel = GetRandomMessage(messageData, orderNumber);
-                if (messageModel != null)
+            var messageModel = GetRandomMessage(messageData, orderNumber);
+            if (messageModel != null)
+            {
+                message = messageModel.Message;
+            }
+
+            if (message != String.Empty)
+            {
+                new SendMessageEngine().Execute(new SendMessageModel
                 {
-                    message = messageModel.Message;
-                }
+                    AccountId = account.UserId,
+                    Cookie = account.Cookie.CookieString,
+                    FriendId = friendId,
+                    Message =
+                        new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
+                        {
+                            TextPattern = message,
+                            AccountId = account.Id,
+                            FriendId = lastFriendMessages.FriendId,
 
-                if (message != String.Empty)
+                        }),
+                    UrlParameters =
+                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.SendMessage
+                        })
+                });
+
+                new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
                 {
-                    new SendMessageEngine().Execute(new SendMessageModel
-                    {
-                        AccountId = account.UserId,
-                        Cookie = account.Cookie.CookieString,
-                        FriendId = friendId,
-                        Message =
-                            new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
-                            {
-                                TextPattern = message,
-                                AccountId = account.Id,
-                                FriendId = lastFriendMessages.FriendId,
-
-                            }),
-                        UrlParameters =
-                            new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                            {
-                                NameUrlParameter = NamesUrlParameter.SendMessage
-                            })
-                    });
-
-                    new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
-                    {
-                        AccountId = account.Id,
-                        FriendId = friendId,
-                        OrderNumber = orderNumber,
-                        Message = message,
-                        MessageDateTime = DateTime.Now
-                    });
-                }
-                if (messageData != null && orderNumber >= numberLastResponseMessage)
+                    AccountId = account.Id,
+                    FriendId = friendId,
+                    OrderNumber = orderNumber,
+                    Message = message,
+                    MessageDateTime = DateTime.Now
+                });
+            }
+            if (messageData != null && orderNumber >= numberLastResponseMessage)
+            {
+                new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
                 {
-                    new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
-                    {
-                        AccountId = account.Id,
-                        FriendId = lastFriendMessages.FriendId,
-                        IsBlocked = true
-                    });
-                }
+                    AccountId = account.Id,
+                    FriendId = lastFriendMessages.FriendId,
+                    IsBlocked = true
+                });
             }
         }
 

@@ -22,7 +22,7 @@ namespace DataBase.Migrations
         }
 
         protected override void Seed(DataBaseContext context)
-        {
+        {/*
             if (System.Diagnostics.Debugger.IsAttached == false)
             {
                 System.Diagnostics.Debugger.Launch();
@@ -140,7 +140,7 @@ namespace DataBase.Migrations
                 {GetCorrespondenceEnum.Ttstamp, "265817071514881107105122895158658172108984971659910282121"},
                 {GetCorrespondenceEnum.Rev, "2665999"},
                 {GetCorrespondenceEnum.SrpT, ""}
-            };*/
+            };
 
             
             var parametersFriends = new Dictionary<GetFriendsEnum, string>
@@ -183,7 +183,7 @@ namespace DataBase.Migrations
             context.UrlParameters.AddRange(urlParametersList);
              
             context.SaveChanges(); 
-
+            */
         }
     }
 }

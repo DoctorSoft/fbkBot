@@ -16,6 +16,7 @@ namespace DataBase.Configurations
             Property(model => model.Message);
             Property(model => model.MessageDateTime);
             Property(model => model.OrderNumber);
+            Property(model => model.MessageRegime);
             Property(model => model.MessageDirection);
 
             HasRequired(it => it.Friend).WithMany(model => model.FriendMessages).HasForeignKey(model => model.FriendId);

@@ -24,20 +24,39 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
             foreach (var unreadMessageInformation in command.UnreadMessages)
             {
                 var friendId = unreadMessageInformation.FriendId;
-
+                
                 var friend = context.Friends.FirstOrDefault(model => model.AccountId == command.AccountId && model.FacebookId.Equals(friendId));
-
-                if (friend.IsBlocked)
+                if (friend == null || friend.IsBlocked || friend.DeleteFromFriends)
                 {
                     continue;
                 }
-                var isDuplicate = context.FriendMessages.Where(model => model.FriendId.Equals(friend.Id))
-                    .Any(model => model.MessageDateTime.Equals(unreadMessageInformation.LastReadMessageDateTime));
 
-                if (isDuplicate)
+                var lastBotMessage =
+                    context.FriendMessages.OrderByDescending(model => model.MessageDateTime)
+                        .FirstOrDefault(
+                            model =>
+                                model.FriendId.Equals(friend.Id) 
+                                && model.MessageDirection == MessageDirection.ToFriend 
+                                && model.Friend.AccountId.Equals(command.AccountId));
+
+                if (lastBotMessage == null)
                 {
-                    continue;
+                    friend.FriendMessages = new Collection<FriendMessageDbModel>()
+                    {
+                        new FriendMessageDbModel
+                        {
+                            FriendId = unreadMessageInformation.FriendId,
+                            MessageDirection = MessageDirection.FromFriend,
+                            Message = unreadMessageInformation.LastMessage,
+                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                            OrderNumber = 1
+                        }
+                    };
                 }
+
+
+
+
 
                 var friendsMessagesInDb =
                     context.FriendMessages.Where(model => model.FriendId == friend.Id).Select(model => new
@@ -54,12 +73,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 {
                     orderNumberMessage = friendMessageDbModel.OrderNumber;
                 }
-
-                if (friend == null)
-                {
-                    break;
-                }
-
+                
                 friend.FriendMessages = new Collection<FriendMessageDbModel>()
                 {
                     new FriendMessageDbModel
