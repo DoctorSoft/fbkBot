@@ -38,7 +38,7 @@ namespace Services.Services
 
         public void GetFriendsOfFacebook(long accountFacebokId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = accountFacebokId
             });

@@ -5,20 +5,20 @@ using DataBase.QueriesAndCommands.Queries.Account.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.Account
 {
-    public class GetAccountByIdQueryHandler : IQueryHandler<GetAccountByIdQuery, AccountModel>
+    public class GetAccountByFacebookIdQueryHandler : IQueryHandler<GetAccountByFacebookIdQuery, AccountModel>
     {
         private readonly DataBaseContext context;
 
-        public GetAccountByIdQueryHandler(DataBaseContext context)
+        public GetAccountByFacebookIdQueryHandler(DataBaseContext context)
         {
             this.context = context;
         }
 
-        public AccountModel Handle(GetAccountByIdQuery query)
+        public AccountModel Handle(GetAccountByFacebookIdQuery query)
         {
             var models = 
                 context.Accounts.Include(model => model.Cookies)
-                .Where(model => model.Id == query.UserId)
+                .Where(model => model.FacebookId == query.UserId)
                 .Select(model => new AccountModel
                 {
                     Id = model.Id,

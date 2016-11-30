@@ -56,9 +56,9 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountManager.cs" />
-    <Compile Include="Core\Interfaces\ServiceTools\IMessageManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IFacebookMessageManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IFriendManager.cs" />
+    <Compile Include="Core\Interfaces\ServiceTools\IMessageManager.cs" />
     <Compile Include="Core\SendMessageCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FacebookMessagesService.cs" />
@@ -70,9 +70,10 @@
     <Compile Include="Services\MessageSettingService.cs" />
     <Compile Include="Services\StopWordsService.cs" />
     <Compile Include="ServiceTools\AccountManager.cs" />
-    <Compile Include="ServiceTools\MessageManager.cs" />
-    <Compile Include="ServiceTools\FriendManager.cs" />
     <Compile Include="ServiceTools\FacebookMessageManager.cs" />
+    <Compile Include="ServiceTools\FriendManager.cs" />
+    <Compile Include="ServiceTools\MessageManager.cs" />
+    <Compile Include="ViewModels\AccountModels\AccountDraftViewModel.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessage.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessageList.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageModel.cs" />

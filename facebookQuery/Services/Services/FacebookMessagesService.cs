@@ -63,7 +63,7 @@ namespace Services.Services
 
         public UnreadFriendMessageList GetUnreadMessages(long accountId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = accountId
             });
@@ -120,7 +120,7 @@ namespace Services.Services
 
         public UnreadMessagesListViewModel GetUnreadMessagesFromAccountPage(long accountId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = accountId
             });
@@ -154,7 +154,7 @@ namespace Services.Services
 
         public List<GetMessagesResponseModel> GetAllMessages(long accountId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = accountId
             });
@@ -167,7 +167,7 @@ namespace Services.Services
 
         public void GetСorrespondenceByFriendId(long accountId, long friendId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = accountId
             });

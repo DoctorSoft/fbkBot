@@ -121,6 +121,8 @@
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
@@ -158,10 +160,12 @@
     <Compile Include="QueriesAndCommands\IQuery.cs" />
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\MessageModel.cs" />
