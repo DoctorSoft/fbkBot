@@ -74,6 +74,7 @@
     <Compile Include="ServiceTools\FriendManager.cs" />
     <Compile Include="ServiceTools\MessageManager.cs" />
     <Compile Include="ViewModels\AccountModels\AccountDraftViewModel.cs" />
+    <Compile Include="ViewModels\AccountModels\CookiesViewModel.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessage.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessageList.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageModel.cs" />

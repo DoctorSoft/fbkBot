@@ -25,7 +25,8 @@ namespace DataBase.QueriesAndCommands.Commands.Cookies
                 cookie = new CookiesDbModel()
                 {
                     CookiesString = command.NewCookieString,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.Now,
+                    Id = command.AccountId
                 };
             }
             else
