@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Constants.MessageEnums;
 using DataBase.Context;
@@ -24,6 +25,20 @@ namespace Services.ServiceTools
             {
                 AccountId = accountId
             }).Where(model => model.MessageRegime == MessageRegime.BotFirstMessage).ToList();
+        }
+
+        public MessageModel GetRandomMessage(long accountId, int orderNumber, bool isEmergencyText, MessageRegime? regime)
+        {
+            var messageData = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
+            {
+                AccountId = accountId
+            }).Where(model => model.MessageRegime == regime).ToList();
+
+            return messageData.Where(model => model.OrderNumber == orderNumber
+                && model.IsEmergencyText == isEmergencyText
+                && model.MessageRegime == MessageRegime.UserFirstMessage)
+                .OrderBy(x => Guid.NewGuid())
+                .FirstOrDefault();
         }
     }
 }

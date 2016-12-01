@@ -14,6 +14,7 @@ using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.SendMessageEngine;
 using Services.Core.Interfaces;
 using Services.Core.Interfaces.ServiceTools;
+using Services.Services;
 using Services.ServiceTools;
 
 namespace Services.Core
@@ -24,6 +25,7 @@ namespace Services.Core
         private readonly IAccountManager _accountManager;
         private readonly IFacebookMessageManager _facebookMessageManager;
         private readonly IMessageManager _messageManager;
+        private readonly IStopWordsManager _stopWordsManager;
 
         public SendMessageCore()
         {
@@ -31,6 +33,7 @@ namespace Services.Core
             _accountManager = new AccountManager();
             _facebookMessageManager = new FacebookMessageManager();
             _messageManager = new MessageManager();
+            _stopWordsManager = new StopWordsManager();
         }
         
         public void SendMessageToUnread(long senderId, long friendId)
@@ -62,12 +65,22 @@ namespace Services.Core
             {
                 return;
             }
+
             var orderNumber = lastFriendMessages.OrderNumber;
 
-            var messageModel = GetRandomMessage(messageData, orderNumber);
+            var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
+
+            var messageModel = _messageManager.GetRandomMessage(account.Id, orderNumber, emergencyFactor, friend.MessageRegime);
+
             if (messageModel != null)
             {
-                message = messageModel.Message;
+                message = new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
+                        {
+                            TextPattern = messageModel.Message,
+                            AccountId = account.Id,
+                            FriendId = lastFriendMessages.FriendId,
+
+                        });
             }
 
             if (message != String.Empty)
@@ -77,14 +90,7 @@ namespace Services.Core
                     AccountId = account.UserId,
                     Cookie = account.Cookie.CookieString,
                     FriendId = friendId,
-                    Message =
-                        new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
-                        {
-                            TextPattern = message,
-                            AccountId = account.Id,
-                            FriendId = lastFriendMessages.FriendId,
-
-                        }),
+                    Message = message,
                     UrlParameters =
                         new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                         {
@@ -156,10 +162,19 @@ namespace Services.Core
             {
                 var orderNumber = lastBotMessages.OrderNumber + 1;
 
-                var messageModel = GetRandomMessage(messageData, orderNumber);
+                var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
+
+                var messageModel = _messageManager.GetRandomMessage(account.Id, orderNumber, emergencyFactor, friend.MessageRegime);
+
                 if (messageModel != null)
                 {
-                    message = messageModel.Message;
+                    message = 
+                        new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
+                        {
+                            TextPattern = messageModel.Message,
+                            AccountId = account.Id,
+                            FriendId = lastFriendMessages.FriendId
+                        });
                 }
 
                 new SendMessageEngine().Execute(new SendMessageModel
@@ -167,14 +182,7 @@ namespace Services.Core
                     AccountId = account.UserId,
                     Cookie = account.Cookie.CookieString,
                     FriendId = friend.FacebookId,
-                    Message =
-                        new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
-                        {
-                            TextPattern = message,
-                            AccountId = account.Id,
-                            FriendId = lastFriendMessages.FriendId,
-
-                        }),
+                    Message = message,
                     UrlParameters =
                         new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                         {
@@ -209,12 +217,7 @@ namespace Services.Core
 
             var account = _accountManager.GetAccountById(senderId);
 
-            var messageData = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
-            {
-                AccountId = account.Id
-            }).Where(model => model.MessageRegime == MessageRegime.BotFirstMessage && model.OrderNumber == 1).ToList();
-
-            var messageModel = GetRandomMessage(messageData, 1);
+            var messageModel = _messageManager.GetRandomMessage(account.Id, 1, false, MessageRegime.BotFirstMessage);
             if (messageModel != null)
             {
                 message = messageModel.Message;
@@ -240,12 +243,6 @@ namespace Services.Core
                 Message = message,
                 MessageDateTime = DateTime.Now
             });
-        }
-
-
-        private MessageModel GetRandomMessage(IEnumerable<MessageModel> messages, int orderNumber)
-        {
-            return messages.Where(model => model.OrderNumber == orderNumber).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
         }
     }
 }

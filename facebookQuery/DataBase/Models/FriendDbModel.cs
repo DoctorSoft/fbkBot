@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Constants.MessageEnums;
 
 namespace DataBase.Models
 {
@@ -18,6 +19,8 @@ namespace DataBase.Models
         public long AccountId { get; set; }
 
         public DateTime AddedDateTime { get; set; }
+
+        public MessageRegime? MessageRegime { get; set; }
 
         public AccountDbModel AccountWithFriend { get; set; }
 

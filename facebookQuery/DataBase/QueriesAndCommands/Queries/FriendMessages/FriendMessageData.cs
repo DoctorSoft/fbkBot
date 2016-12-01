@@ -1,6 +1,5 @@
 ﻿using System;
 using Constants.MessageEnums;
-using DataBase.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 {

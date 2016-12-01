@@ -38,6 +38,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastFriendMessage == null)
             {
+                friend.MessageRegime = MessageRegime.BotFirstMessage;
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -45,7 +46,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                     Message = command.Message,
                     MessageDateTime = command.MessageDateTime,
                     OrderNumber = 1,
-                    MessageRegime = MessageRegime.BotFirstMessage,
                     Friend = friend
                 });
 
@@ -63,6 +63,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastBotMessage == null)
             {
+                friend.MessageRegime = MessageRegime.UserFirstMessage;
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -70,7 +71,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                     Message = command.Message,
                     MessageDateTime = command.MessageDateTime,
                     OrderNumber = 1,
-                    MessageRegime = MessageRegime.UserFirstMessage,
                     Friend = friend
                 });
 
@@ -80,6 +80,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
             {
+                friend.MessageRegime = MessageRegime.BotFirstMessage;
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -87,7 +88,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                     Message = command.Message,
                     MessageDateTime = command.MessageDateTime,
                     OrderNumber = lastFriendMessage.OrderNumber + 1,
-                    MessageRegime = MessageRegime.BotFirstMessage,
                     Friend = friend
                 });
 
@@ -97,6 +97,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastFriendMessage.OrderNumber < lastBotMessage.OrderNumber)
             {
+                friend.MessageRegime = MessageRegime.BotFirstMessage;
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -104,7 +105,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                     Message = command.Message,
                     MessageDateTime = command.MessageDateTime,
                     OrderNumber = lastBotMessage.OrderNumber + 1,
-                    MessageRegime = MessageRegime.BotFirstMessage,
                     Friend = friend
                 });
 
@@ -112,6 +112,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                 return new VoidCommandResponse();
             }
 
+            friend.MessageRegime = MessageRegime.UserFirstMessage;
             context.FriendMessages.Add(new FriendMessageDbModel
             {
                 FriendId = friendId,
@@ -119,7 +120,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                 Message = command.Message,
                 MessageDateTime = command.MessageDateTime,
                 OrderNumber = lastFriendMessage.OrderNumber,
-                MessageRegime = MessageRegime.UserFirstMessage,
                 Friend = friend
             });
 

@@ -1,4 +1,6 @@
-﻿namespace DataBase.QueriesAndCommands.Queries.Friends
+﻿using Constants.MessageEnums;
+
+namespace DataBase.QueriesAndCommands.Queries.Friends
 {
     public class FriendData
     {
@@ -13,5 +15,7 @@
         public bool Deleted { get; set; }
 
         public bool MessagesEnded { get; set; }
+
+        public MessageRegime? MessageRegime { get; set; }
     }
 }

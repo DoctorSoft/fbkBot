@@ -13,8 +13,6 @@ namespace DataBase.Models
 
         public int OrderNumber { get; set; }
 
-        public MessageRegime MessageRegime { get; set; }
-
         public FriendDbModel Friend { get; set; }
 
         public MessageDirection MessageDirection { get; set; }
