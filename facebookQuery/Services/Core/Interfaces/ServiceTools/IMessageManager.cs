@@ -11,5 +11,7 @@ namespace Services.Core.Interfaces.ServiceTools
         List<MessageModel> GetAllMessagesWhereBotWritesFirst(long accountId);
 
         MessageModel GetRandomMessage(long accountId, int orderNumber, bool isEmergencyText, MessageRegime? regime);
+
+        int GetLasBotMessageOrderNumber(List<MessageModel> messages, long accountId);
     }
 }

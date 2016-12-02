@@ -11,7 +11,7 @@ namespace Services.ServiceTools
         public bool CheckMessageOnEmergencyFaktor(FriendMessageData messageModel)
         {
             var stopWords = new GetStopWordsQueryHandler(new DataBaseContext()).Handle(new GetStopWordsQuery());
-            return stopWords.Any(data => data.Name == messageModel.Message);
+            return stopWords.Any(data => messageModel.Message.Contains(data.Name));
         }
     }
 }

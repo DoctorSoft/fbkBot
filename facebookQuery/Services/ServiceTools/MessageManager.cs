@@ -40,5 +40,16 @@ namespace Services.ServiceTools
                 .OrderBy(x => Guid.NewGuid())
                 .FirstOrDefault();
         }
+
+        public int GetLasBotMessageOrderNumber(List<MessageModel> messages, long accountId)
+        {
+            var lastMessageModel = messages.OrderByDescending(data => data.OrderNumber).FirstOrDefault();
+            if (lastMessageModel != null)
+            {
+                return lastMessageModel.OrderNumber;
+            }
+
+            return 0;
+        }
     }
 }

@@ -46,16 +46,9 @@ namespace Services.Core
 
             var account = _accountManager.GetAccountByFacebookId(senderId);
 
-
             var messageData = _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
-
-            var numberLastResponseMessage = 0;
-
-            var lastResponseMessageModel = messageData.OrderByDescending(data => data.OrderNumber).FirstOrDefault();
-            if (lastResponseMessageModel != null)
-            {
-                numberLastResponseMessage = lastResponseMessageModel.OrderNumber;
-            }
+            
+            var numberLastBotMessage = _messageManager.GetLasBotMessageOrderNumber(messageData, account.Id);
 
             var lastFriendMessages = _facebookMessageManager.GetLastFriendMessageModel(account.Id, friend.Id);
             if (lastFriendMessages == null)
@@ -113,7 +106,7 @@ namespace Services.Core
                     MessageDateTime = DateTime.Now,
                 });
             }
-            if (messageData != null && orderNumber >= numberLastResponseMessage)
+            if (messageData != null && orderNumber >= numberLastBotMessage)
             {
                 new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
                 {

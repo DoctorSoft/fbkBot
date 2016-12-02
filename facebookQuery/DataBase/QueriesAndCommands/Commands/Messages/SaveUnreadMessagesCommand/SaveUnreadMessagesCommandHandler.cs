@@ -43,10 +43,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
                 if (lastBotMessage == null)
                 {
-//                    if (friend.MessageRegime != null)
-//                    {
-//                        friend.MessageRegime = MessageRegime.UserFirstMessage;
-//                    }
                     context.FriendMessages.Add(new FriendMessageDbModel
                     {
                         FriendId = unreadMessageInformation.FriendId,
@@ -71,10 +67,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
                 if (lastFriendMessage == null)
                 {
-//                    if (friend.MessageRegime != null)
-//                    {
-//                        friend.MessageRegime = MessageRegime.BotFirstMessage;
-//                    }
                     context.FriendMessages.Add(new FriendMessageDbModel
                     {
                         FriendId = unreadMessageInformation.FriendId,
@@ -91,10 +83,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
                 if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
                 {
-//                    if (friend.MessageRegime != null)
-//                    {
-//                        friend.MessageRegime = MessageRegime.UserFirstMessage;
-//                    }
                     context.FriendMessages.Add(new FriendMessageDbModel
                     {
                         FriendId = unreadMessageInformation.FriendId,
@@ -109,10 +97,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                     return new VoidCommandResponse();
                 }
 
-//                if (friend.MessageRegime != null)
-//                {
-//                    friend.MessageRegime = MessageRegime.BotFirstMessage;
-//                }
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = unreadMessageInformation.FriendId,

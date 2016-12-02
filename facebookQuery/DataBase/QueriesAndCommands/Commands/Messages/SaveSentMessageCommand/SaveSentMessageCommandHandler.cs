@@ -38,10 +38,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastFriendMessage == null)
             {
-//                if (friend.MessageRegime!=null)
-//                {
-//                    friend.MessageRegime = MessageRegime.BotFirstMessage;
-//                }
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -66,10 +62,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastBotMessage == null)
             {
-//                if (friend.MessageRegime != null)
-//                {
-//                    friend.MessageRegime = MessageRegime.UserFirstMessage;
-//                }
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -86,10 +78,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
             {
-//                if (friend.MessageRegime != null)
-//                {
-//                    friend.MessageRegime = MessageRegime.BotFirstMessage;
-//                }
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -106,10 +94,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastFriendMessage.OrderNumber < lastBotMessage.OrderNumber)
             {
-//                if (friend.MessageRegime != null)
-//                {
-//                    friend.MessageRegime = MessageRegime.BotFirstMessage;
-//                }
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = friendId,
@@ -124,10 +108,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
                 return new VoidCommandResponse();
             }
 
-//            if (friend.MessageRegime != null)
-//            {
-//                friend.MessageRegime = MessageRegime.UserFirstMessage;
-//            }
             context.FriendMessages.Add(new FriendMessageDbModel
             {
                 FriendId = friendId,
