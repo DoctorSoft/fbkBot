@@ -24,7 +24,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,
-                    MessagesEnded = model.IsBlocked
+                    MessagesEnded = model.IsBlocked,
+                    MessageRegime = model.MessageRegime
                 }).FirstOrDefault();
 
             return result;

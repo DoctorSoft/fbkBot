@@ -5,7 +5,5 @@
         public long FriendId { get; set; }
 
         public long AccountId { get; set; }
-
-        public bool IsBlocked { get; set; }
     }
 }

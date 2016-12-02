@@ -129,6 +129,8 @@
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommand.cs" />

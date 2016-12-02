@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.Friends.ChangeMessageRegimeCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
-using DataBase.QueriesAndCommands.Queries.Account;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
 using DataBase.QueriesAndCommands.Queries.Message;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.SendMessageEngine;
 using Services.Core.Interfaces;
 using Services.Core.Interfaces.ServiceTools;
-using Services.Services;
 using Services.ServiceTools;
 
 namespace Services.Core
@@ -67,6 +64,15 @@ namespace Services.Core
             }
 
             var orderNumber = lastFriendMessages.OrderNumber;
+            if (orderNumber == 1 && friend.MessageRegime == null)
+            {
+                new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand()
+                {
+                    AccountId = account.Id,
+                    FriendId = friend.Id,
+                    MessageRegime = MessageRegime.UserFirstMessage
+                });
+            }
 
             var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
 
@@ -112,8 +118,7 @@ namespace Services.Core
                 new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
                 {
                     AccountId = account.Id,
-                    FriendId = lastFriendMessages.FriendId,
-                    IsBlocked = true
+                    FriendId = lastFriendMessages.FriendId
                 });
             }
         }
@@ -126,7 +131,6 @@ namespace Services.Core
             {
                 return;
             }
-            var message = String.Empty;
 
             var account = _accountManager.GetAccountByFacebookId(senderId);
 
@@ -158,56 +162,58 @@ namespace Services.Core
                 numberLastResponseMessage = lastResponseMessageModel.OrderNumber;
             }
 
-            if (lastFriendMessages != null && lastBotMessages != null)
+            if (lastFriendMessages == null || lastBotMessages == null)
             {
-                var orderNumber = lastBotMessages.OrderNumber + 1;
+                return;
+            }
 
-                var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
+            var orderNumber = lastBotMessages.OrderNumber + 1;
 
-                var messageModel = _messageManager.GetRandomMessage(account.Id, orderNumber, emergencyFactor, friend.MessageRegime);
+            var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
 
-                if (messageModel != null)
-                {
-                    message = 
-                        new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
-                        {
-                            TextPattern = messageModel.Message,
-                            AccountId = account.Id,
-                            FriendId = lastFriendMessages.FriendId
-                        });
-                }
+            var messageModel = _messageManager.GetRandomMessage(account.Id, orderNumber, emergencyFactor, friend.MessageRegime);
 
-                new SendMessageEngine().Execute(new SendMessageModel
-                {
-                    AccountId = account.UserId,
-                    Cookie = account.Cookie.CookieString,
-                    FriendId = friend.FacebookId,
-                    Message = message,
-                    UrlParameters =
-                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                        {
-                            NameUrlParameter = NamesUrlParameter.SendMessage
-                        })
-                });
+            if (messageModel == null)
+            {
+                return;
+            }
 
-                new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
+            var message = new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
+            {
+                TextPattern = messageModel.Message,
+                AccountId = account.Id,
+                FriendId = lastFriendMessages.FriendId
+            });
+
+            new SendMessageEngine().Execute(new SendMessageModel
+            {
+                AccountId = account.UserId,
+                Cookie = account.Cookie.CookieString,
+                FriendId = friend.FacebookId,
+                Message = message,
+                UrlParameters =
+                    new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                    {
+                        NameUrlParameter = NamesUrlParameter.SendMessage
+                    })
+            });
+
+            new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
+            {
+                AccountId = account.Id,
+                FriendId = friend.FacebookId,
+                OrderNumber = orderNumber,
+                Message = message,
+                MessageDateTime = DateTime.Now,
+            });
+
+            if (messageData != null && orderNumber >= numberLastResponseMessage)
+            {
+                new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
                 {
                     AccountId = account.Id,
-                    FriendId = friend.FacebookId,
-                    OrderNumber = orderNumber,
-                    Message = message,
-                    MessageDateTime = DateTime.Now,
+                    FriendId = lastFriendMessages.FriendId
                 });
-
-                if (messageData != null && orderNumber >= numberLastResponseMessage)
-                {
-                    new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
-                    {
-                        AccountId = account.Id,
-                        FriendId = lastFriendMessages.FriendId,
-                        IsBlocked = true
-                    });
-                }
             }
         }
 
@@ -216,6 +222,7 @@ namespace Services.Core
             var message = String.Empty;
 
             var account = _accountManager.GetAccountById(senderId);
+            var friend = _friendManager.GetFriendByFacebookId(friendId);
 
             var messageModel = _messageManager.GetRandomMessage(account.Id, 1, false, MessageRegime.BotFirstMessage);
             if (messageModel != null)
@@ -234,6 +241,16 @@ namespace Services.Core
                     NameUrlParameter = NamesUrlParameter.SendMessage
                 })
             });
+
+            if (friend.MessageRegime == null)
+            {
+                new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand()
+                {
+                    AccountId = account.UserId,
+                    FriendId = friend.Id,
+                    MessageRegime = MessageRegime.BotFirstMessage
+                });
+            }
 
             new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
             {
