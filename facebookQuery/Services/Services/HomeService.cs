@@ -161,6 +161,15 @@ namespace Services.Services
                 ProxyPassword = model.ProxyPassword
             });
 
+            RefreshCookies(new AccountViewModel
+            {
+                Id = model.Id.Value,
+                Login = model.Login,
+                Password = model.Password,
+                Proxy = model.Proxy,
+                ProxyLogin = model.ProxyLogin,
+                ProxyPassword = model.ProxyPassword,
+            });
 
             return accountId;
         }
@@ -175,7 +184,8 @@ namespace Services.Services
             return new CookiesViewModel
             {
                 AccountId = accountId,
-                Value = account.Cookie.CookieString
+                Value = account.Cookie.CookieString,
+                CreateDateTime = account.Cookie.CreateDateTime
             };
         }
 

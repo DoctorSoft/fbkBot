@@ -28,7 +28,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                     Password = model.Password,
                     Cookie = new CookieModel
                     {
-                       CookieString = model.Cookies.CookiesString
+                       CookieString = model.Cookies.CookiesString,
+                       CreateDateTime = model.Cookies.CreateDate
                     },
                     Name = model.Name,
                     FacebookId = model.FacebookId,
