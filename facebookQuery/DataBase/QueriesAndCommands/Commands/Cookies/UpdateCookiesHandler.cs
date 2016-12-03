@@ -18,7 +18,7 @@ namespace DataBase.QueriesAndCommands.Commands.Cookies
         {
             var cookie = context
             .Cookies
-            .FirstOrDefault(m=>m.Account.FacebookId==command.AccountId);
+            .FirstOrDefault(m => m.Account.Id == command.AccountId);
 
             if (cookie == null)
             {

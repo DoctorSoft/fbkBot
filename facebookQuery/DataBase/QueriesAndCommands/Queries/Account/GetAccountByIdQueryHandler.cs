@@ -31,7 +31,10 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                        CookieString = model.Cookies.CookiesString
                     },
                     Name = model.Name,
-                    FacebookId = model.FacebookId
+                    FacebookId = model.FacebookId,
+                    Proxy = model.Proxy,
+                    ProxyLogin = model.ProxyLogin,
+                    ProxyPassword = model.ProxyPassword
                 }).FirstOrDefault();
 
             return models;

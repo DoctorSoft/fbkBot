@@ -10,8 +10,7 @@ namespace Engines.Engines.GetNewCookiesEngine
     {
         protected override GetNewCookiesResponse ExecuteEngine(GetNewCookiesModel model)
         {
-            var path = Directory.GetCurrentDirectory();
-            var driver = new PhantomJSDriver();
+            var driver = model.Driver;
 
             driver.Navigate().GoToUrl("https://www.facebook.com/login.php?login_attempt=1&lwv=110");
 

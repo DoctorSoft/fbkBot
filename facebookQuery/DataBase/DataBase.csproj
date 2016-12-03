@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201612012058510_RelocateMessageRegime.Designer.cs">
       <DependentUpon>201612012058510_RelocateMessageRegime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612031403314_AddProxyFields.cs" />
+    <Compile Include="Migrations\201612031403314_AddProxyFields.Designer.cs">
+      <DependentUpon>201612031403314_AddProxyFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -241,6 +245,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612012058510_RelocateMessageRegime.resx">
       <DependentUpon>201612012058510_RelocateMessageRegime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612031403314_AddProxyFields.resx">
+      <DependentUpon>201612031403314_AddProxyFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

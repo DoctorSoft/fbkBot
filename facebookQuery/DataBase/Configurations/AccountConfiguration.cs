@@ -18,6 +18,9 @@ namespace DataBase.Configurations
             Property(model => model.Password);
             Property(model => model.PageUrl);
             Property(model => model.FacebookId);
+            Property(model => model.Proxy);
+            Property(model => model.ProxyLogin);
+            Property(model => model.ProxyPassword);
 
             HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
             HasMany(model => model.Messages).WithOptional(it => it.Account).HasForeignKey(model => model.AccountId);

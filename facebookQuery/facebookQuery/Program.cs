@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Web;
-using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.Message;
-using OpenQA.Selenium.Chrome;
+﻿using System.Threading;
+using OpenQA.Selenium;
+using Services.Services;
 
 namespace FacebookApp
 {
@@ -14,6 +8,23 @@ namespace FacebookApp
     {
         private static void Main(string[] args)
         {
+            var homeService = new HomeService();
+
+            var accounts = homeService.GetAccounts();
+
+            foreach (var accountViewModel in accounts)
+            {
+                if (accountViewModel.Proxy != null)
+                {
+                    var driver = homeService.RegisterNewDriver(accountViewModel);
+                    driver.Navigate().GoToUrl("https://2ip.ru/");
+
+                    Thread.Sleep(2000);
+
+                    homeService.RefreshCookies(accountViewModel);
+                }
+            }
+/*
             CheckPatternChanges();
 
             var driver = new ChromeDriver();
@@ -56,7 +67,7 @@ namespace FacebookApp
             
             client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36";
             client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-            client.Headers[HttpRequestHeader.Accept] = "*/*";
+            client.Headers[HttpRequestHeader.Accept] = "#1#*";
             client.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4";
             client.Headers.Add(HttpRequestHeader.Cookie, cookiesResult);
             var answer = client.DownloadString("https://www.facebook.com");
@@ -78,9 +89,9 @@ namespace FacebookApp
                 AccountId = accountId,
                 TextPattern = pattern
             });
+        }*/
         }
     }
-
 }
 
 

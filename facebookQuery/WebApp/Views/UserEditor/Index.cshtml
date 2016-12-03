@@ -38,7 +38,16 @@
             <div class="form-group input-group-sm">
                 FacebookId: @Html.TextBoxFor(o => o.FacebookId, new { @class = "form-control", @type="number" })
             </div>
-
+            <div class="form-group input-group-sm">
+                Proxy(Ip:Port): @Html.TextBoxFor(o => o.Proxy, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                Proxy login: @Html.TextBoxFor(o => o.ProxyLogin, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                Proxy password: @Html.TextBoxFor(o => o.ProxyPassword, new { @class = "form-control" })
+            </div>
+            
             <div class="">
                 <input type="submit" class="btn btn-success" />
             </div>

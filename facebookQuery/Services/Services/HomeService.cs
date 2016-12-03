@@ -8,7 +8,10 @@ using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
+using OpenQA.Selenium.PhantomJS;
 using RequestsHelpers;
+using Services.Core.Interfaces.ServiceTools;
+using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.HomeModels;
 
@@ -16,6 +19,13 @@ namespace Services.Services
 {
     public class HomeService
     {
+        private IAccountManager _accountManager;
+
+        public HomeService()
+        {
+            _accountManager = new AccountManager();    
+        }
+
         public List<AccountViewModel> GetAccounts()
         {
             var accounts = new GetAccountsQueryHandler(new DataBaseContext()).Handle(new GetAccountsQuery
@@ -30,22 +40,42 @@ namespace Services.Services
                 PageUrl = model.PageUrl,
                 Login = model.Login,
                 Password = model.Password,
-                FacebookId = model.UserId
+                FacebookId = model.UserId,
+                Proxy = model.Proxy,
+                ProxyLogin = model.ProxyLogin,
+                ProxyPassword = model.ProxyPassword
             }).ToList();
         }
 
-
-        public bool RefreshCookies(long accountId, string login, string password)
+        public PhantomJSDriver RegisterNewDriver(AccountViewModel account)
         {
+            if (string.IsNullOrWhiteSpace(account.Proxy))
+            {
+                return new PhantomJSDriver();
+            }
+
+            var service = PhantomJSDriverService.CreateDefaultService();
+            service.AddArgument(string.Format("--proxy-auth={0}:{1}", account.ProxyLogin, account.ProxyPassword));
+            service.AddArgument(string.Format("--proxy={0}", account.Proxy));
+
+            var driver = new PhantomJSDriver(service);
+
+            return driver;
+        }
+
+        public bool RefreshCookies(AccountViewModel account)
+        {
+            var driver = RegisterNewDriver(account);
             var newCookie = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
             {
-                Login = login,
-                Password = password
+                Login = account.Login,
+                Password = account.Password,
+                Driver = driver
             }).CookiesString;
 
             new UpdateCookiesHandler(new DataBaseContext()).Handle(new UpdateCookiesCommand()
             {
-                AccountId = accountId,
+                AccountId = account.Id,
                 NewCookieString = newCookie
             });
 
@@ -109,7 +139,10 @@ namespace Services.Services
                 Password = account.Password,
                 PageUrl = account.PageUrl,
                 Name = account.Name,
-                FacebookId = account.FacebookId
+                FacebookId = account.FacebookId,
+                Proxy = account.Proxy,
+                ProxyLogin = account.ProxyLogin,
+                ProxyPassword = account.ProxyPassword
             };
         }
 
@@ -122,8 +155,12 @@ namespace Services.Services
                 PageUrl = model.PageUrl,
                 FacebookId = model.FacebookId,
                 Password = model.Password,
-                Login = model.Login
+                Login = model.Login,
+                Proxy = model.Proxy,
+                ProxyLogin = model.ProxyLogin,
+                ProxyPassword = model.ProxyPassword
             });
+
 
             return accountId;
         }

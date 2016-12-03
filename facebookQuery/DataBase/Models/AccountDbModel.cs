@@ -16,6 +16,12 @@ namespace DataBase.Models
 
         public long FacebookId { get; set; }
 
+        public string Proxy { get; set; }
+
+        public string ProxyLogin { get; set; }
+
+        public string ProxyPassword { get; set; }
+
         public CookiesDbModel Cookies { get; set; }
 
         public ICollection<MessageDbModel> Messages { get; set; }

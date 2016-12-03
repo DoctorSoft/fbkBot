@@ -32,7 +32,10 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         Cookie = new CookieModel
                         {
                             CookieString = model.Cookies.CookiesString
-                        }
+                        },
+                        Proxy = model.Proxy,
+                        ProxyLogin = model.ProxyLogin,
+                        ProxyPassword = model.ProxyPassword
                     })
                     .ToList();
 

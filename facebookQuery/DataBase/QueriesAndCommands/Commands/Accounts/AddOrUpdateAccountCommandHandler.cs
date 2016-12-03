@@ -28,6 +28,9 @@ namespace DataBase.QueriesAndCommands.Commands.Accounts
             account.Name = command.Name;
             account.PageUrl = command.PageUrl;
             account.Password = command.Password;
+            account.Proxy = command.Proxy;
+            account.ProxyLogin = command.ProxyLogin;
+            account.ProxyPassword = command.ProxyPassword;
 
             context.Accounts.AddOrUpdate(account);
 

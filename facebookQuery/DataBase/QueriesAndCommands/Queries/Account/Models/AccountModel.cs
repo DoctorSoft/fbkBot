@@ -16,6 +16,12 @@
 
         public long FacebookId { get; set; }
 
+        public string Proxy { get; set; }
+
+        public string ProxyLogin { get; set; }
+
+        public string ProxyPassword { get; set; }
+
         public CookieModel Cookie { get; set; }
     }
 }
