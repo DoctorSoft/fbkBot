@@ -135,6 +135,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\DeleteUserCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\DeleteUserCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />

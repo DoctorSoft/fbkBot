@@ -19,6 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account
         {
             var models =
                 context.Accounts.Include(model => model.Cookies)
+                    .Where(model => !model.IsDeleted)
                     .OrderBy(model => model.Id)
                     .Skip(query.Count*query.Page)
                     .Take(query.Count)

@@ -26,6 +26,7 @@ namespace WebApp.Controllers
 
         public ActionResult RemoveAccount(long accountId)
         {
+            homeService.RemoveAccount(accountId);
             return RedirectToAction("Index", "Users");
         } 
     }

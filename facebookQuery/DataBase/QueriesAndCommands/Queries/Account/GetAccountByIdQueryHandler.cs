@@ -19,6 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account
             var models =
                 context.Accounts.Include(model => model.Cookies)
                     .Where(model => model.Id == query.UserId)
+                    .Where(model => !model.IsDeleted)
                     .Select(model => new AccountModel
                     {
                         Id = model.Id,

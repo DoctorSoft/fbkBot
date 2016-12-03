@@ -49,7 +49,10 @@ namespace Services.Services
 
         public void RemoveAccount(long accountId)
         {
-            
+            new DeleteUserCommandHandler(new DataBaseContext()).Handle(new DeleteUserCommand
+            {
+                AccountId = accountId
+            });
         }
 
         public PhantomJSDriver RegisterNewDriver(AccountViewModel account)
