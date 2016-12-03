@@ -181,6 +181,14 @@ namespace Services.Services
                 UserId = accountId
             });
 
+            if (account.Cookie == null)
+            {
+                return new CookiesViewModel
+                {
+                    AccountId = accountId,
+                    Value = "Cookie is not created"
+                };
+            }
             return new CookiesViewModel
             {
                 AccountId = accountId,
