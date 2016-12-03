@@ -23,5 +23,10 @@ namespace WebApp.Controllers
             var accounts = homeService.GetAccounts();
             return View(accounts);
         }
+
+        public ActionResult RemoveAccount(long accountId)
+        {
+            return RedirectToAction("Index", "Users");
+        } 
     }
 }

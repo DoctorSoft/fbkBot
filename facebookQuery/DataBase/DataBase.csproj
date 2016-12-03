@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201612031403314_AddProxyFields.Designer.cs">
       <DependentUpon>201612031403314_AddProxyFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612032220172_DeletedUserField.cs" />
+    <Compile Include="Migrations\201612032220172_DeletedUserField.Designer.cs">
+      <DependentUpon>201612032220172_DeletedUserField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -248,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612031403314_AddProxyFields.resx">
       <DependentUpon>201612031403314_AddProxyFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612032220172_DeletedUserField.resx">
+      <DependentUpon>201612032220172_DeletedUserField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

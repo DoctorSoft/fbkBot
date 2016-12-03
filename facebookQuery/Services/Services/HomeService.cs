@@ -47,6 +47,11 @@ namespace Services.Services
             }).ToList();
         }
 
+        public void RemoveAccount(long accountId)
+        {
+            
+        }
+
         public PhantomJSDriver RegisterNewDriver(AccountViewModel account)
         {
             if (string.IsNullOrWhiteSpace(account.Proxy))

@@ -22,6 +22,8 @@ namespace DataBase.Models
 
         public string ProxyPassword { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public CookiesDbModel Cookies { get; set; }
 
         public ICollection<MessageDbModel> Messages { get; set; }
