@@ -1,5 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Net;
+using System.Threading;
 using OpenQA.Selenium;
+using RequestsHelpers;
 using Services.Services;
 
 namespace FacebookApp
@@ -8,6 +11,8 @@ namespace FacebookApp
     {
         private static void Main(string[] args)
         {
+
+
             var homeService = new HomeService();
 
             var accounts = homeService.GetAccounts();
@@ -16,85 +21,92 @@ namespace FacebookApp
             {
                 if (accountViewModel.Proxy != null)
                 {
-                    var driver = homeService.RegisterNewDriver(accountViewModel);
+                    var proxy = new WebProxy(accountViewModel.Proxy)
+                    {
+                        Credentials = new NetworkCredential(accountViewModel.ProxyLogin, accountViewModel.ProxyPassword)
+                    };
+
+
+                    RequestsHelper.Get("https://www.2ip.ru", "", proxy);
+                    /*var driver = homeService.RegisterNewDriver(accountViewModel);
                     driver.Navigate().GoToUrl("https://2ip.ru/");
 
                     Thread.Sleep(2000);
 
-                    homeService.RefreshCookies(accountViewModel);
+                    homeService.RefreshCookies(accountViewModel);*/
                 }
             }
-/*
-            CheckPatternChanges();
-
-            var driver = new ChromeDriver();
-
-            driver.Navigate().GoToUrl("https://www.facebook.com/login.php?login_attempt=1&lwv=110");
-            
-            Thread.Sleep(500);
-
-            var email = driver.FindElementById("email"); 
-            Thread.Sleep(300);
-            var pass = driver.FindElementById("pass"); 
-            Thread.Sleep(300);
-            var button = driver.FindElementById("loginbutton");
-
-            email.SendKeys("ms.nastasia.1983@mail.ru");
-            pass.SendKeys("Ntvyjnf123");
-            Thread.Sleep(300);
-
-            button.Click();
-
-            var cookies = driver.Manage().Cookies;
-
-            //get
-
-            var data = new NameValueCollection();
-            var userId = cookies.GetCookieNamed("c_user").Value;
-            data.Add("client", "web_messenger");
-            data.Add("inbox[offset]", "0");
-            data.Add("inbox[limit]", "1000");
-            data.Add("inbox[filter]", "unread");
-            data.Add("__user", cookies.GetCookieNamed("c_user").Value);
-            data.Add("__a", "1");
-            data.Add("__be", "-1");
-            data.Add("__pc", "PHASED:DEFAULT");
-
-            //data.Add("fb_dtsg", fb_dtsg);
-            var cookiesResult = cookies.AllCookies.Aggregate("", (current, cookie) => current + (cookie.Name + "=" + cookie.Value + ";"));
-
-            var client = new WebClient();
-            
-            client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36";
-            client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-            client.Headers[HttpRequestHeader.Accept] = "#1#*";
-            client.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4";
-            client.Headers.Add(HttpRequestHeader.Cookie, cookiesResult);
-            var answer = client.DownloadString("https://www.facebook.com");
-        }
-        private static string ToQueryString(NameValueCollection source)
-        {
-            return String.Join("&", source.AllKeys.Where(m => m != null)
-                .SelectMany(key => source.GetValues(key)
-                    .Where(val => val != null).Select(value => String.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value))))
-                .ToArray());
-        }
-
-        private static void CheckPatternChanges()
-        {
-            var accountId = 4;
-            var pattern = "{Hi|Hello}, my name is {$MY_NAME|John}, please follow this link {$LINK|www.a.b|www.ololo.lo}!";
-            var result = new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
-            {
-                AccountId = accountId,
-                TextPattern = pattern
-            });
-        }*/
         }
     }
 }
 
+/*
+           CheckPatternChanges();
 
+           var driver = new ChromeDriver();
+
+           driver.Navigate().GoToUrl("https://www.facebook.com/login.php?login_attempt=1&lwv=110");
+            
+           Thread.Sleep(500);
+
+           var email = driver.FindElementById("email"); 
+           Thread.Sleep(300);
+           var pass = driver.FindElementById("pass"); 
+           Thread.Sleep(300);
+           var button = driver.FindElementById("loginbutton");
+
+           email.SendKeys("ms.nastasia.1983@mail.ru");
+           pass.SendKeys("Ntvyjnf123");
+           Thread.Sleep(300);
+
+           button.Click();
+
+           var cookies = driver.Manage().Cookies;
+
+           //get
+
+           var data = new NameValueCollection();
+           var userId = cookies.GetCookieNamed("c_user").Value;
+           data.Add("client", "web_messenger");
+           data.Add("inbox[offset]", "0");
+           data.Add("inbox[limit]", "1000");
+           data.Add("inbox[filter]", "unread");
+           data.Add("__user", cookies.GetCookieNamed("c_user").Value);
+           data.Add("__a", "1");
+           data.Add("__be", "-1");
+           data.Add("__pc", "PHASED:DEFAULT");
+
+           //data.Add("fb_dtsg", fb_dtsg);
+           var cookiesResult = cookies.AllCookies.Aggregate("", (current, cookie) => current + (cookie.Name + "=" + cookie.Value + ";"));
+
+           var client = new WebClient();
+            
+           client.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36";
+           client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+           client.Headers[HttpRequestHeader.Accept] = "#1#*";
+           client.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4";
+           client.Headers.Add(HttpRequestHeader.Cookie, cookiesResult);
+           var answer = client.DownloadString("https://www.facebook.com");
+       }
+       private static string ToQueryString(NameValueCollection source)
+       {
+           return String.Join("&", source.AllKeys.Where(m => m != null)
+               .SelectMany(key => source.GetValues(key)
+                   .Where(val => val != null).Select(value => String.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value))))
+               .ToArray());
+       }
+
+       private static void CheckPatternChanges()
+       {
+           var accountId = 4;
+           var pattern = "{Hi|Hello}, my name is {$MY_NAME|John}, please follow this link {$LINK|www.a.b|www.ololo.lo}!";
+           var result = new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
+           {
+               AccountId = accountId,
+               TextPattern = pattern
+           });
+       }*/
+        
 
 
 

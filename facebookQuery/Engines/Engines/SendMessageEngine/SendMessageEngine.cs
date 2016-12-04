@@ -23,7 +23,7 @@ namespace Engines.Engines.SendMessageEngine
 
                 var fbDtsg =
                     ParseResponsePageHelper.GetInputValueById(
-                        RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
+                        RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
 
                 var parametersDictionary = model.UrlParameters.ToDictionary(pair => (SendMessageEnum) pair.Key,
                     pair => pair.Value);
@@ -40,7 +40,7 @@ namespace Engines.Engines.SendMessageEngine
 
                 var parameters = CreateParametersString(parametersDictionary);
 
-                RequestsHelper.Post(Urls.SendMessage.GetDiscription(), parameters, model.Cookie);
+                RequestsHelper.Post(Urls.SendMessage.GetDiscription(), parameters, model.Cookie, model.Proxy);
 
                 return true;
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants.GendersUnums;
 
 namespace Engines.Engines.Models
 {
@@ -6,7 +7,13 @@ namespace Engines.Engines.Models
     {
         public long AccountId { get; set; }
 
-        public long FriendId { get; set; }
+        public long FriendFacebookId { get; set; }
+
+        public GenderEnum Gender { get; set; }
+
+        public string Href { get; set; }
+
+        public string Name { get; set; }
 
         public int CountUnreadMessages { get; set; }
 

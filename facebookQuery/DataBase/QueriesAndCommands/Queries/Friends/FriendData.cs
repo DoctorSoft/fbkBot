@@ -1,4 +1,5 @@
-﻿using Constants.MessageEnums;
+﻿using Constants.GendersUnums;
+using Constants.MessageEnums;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
 {
@@ -10,6 +11,10 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
 
         public long AccountId { get; set; }
 
+        public GenderEnum Gender { get; set; }
+
+        public string Href { get; set; }
+        
         public string FriendName { get; set; }
 
         public bool Deleted { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices;
 using CommonModels;
 using DataBase.Constants;
 using DataBase.Context;
@@ -7,12 +8,21 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.GetFriendsEngine;
+using Services.Core.Interfaces.ServiceTools;
+using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 
 namespace Services.Services
 {
     public class FriendsService
     {
+        private readonly IAccountManager _accountManager;
+
+        public FriendsService()
+        {
+            _accountManager = new AccountManager();
+        }
+
         public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
         {
             var friends = new GetFriendsByAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountQuery
@@ -52,7 +62,8 @@ namespace Services.Services
             {
                 Cookie = account.Cookie.CookieString,
                 AccountId = accountFacebokId,
-                UrlParameters = urlParameters
+                UrlParameters = urlParameters,
+                Proxy = _accountManager.GetAccountProxy(account)
             });
                 
             new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()

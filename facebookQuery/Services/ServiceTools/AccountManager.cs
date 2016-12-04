@@ -1,4 +1,5 @@
-﻿using DataBase.Context;
+﻿using System.Net;
+using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Services.Core.Interfaces.ServiceTools;
@@ -13,6 +14,14 @@ namespace Services.ServiceTools
             {
                 UserId = accountId
             });
+        }
+
+        public WebProxy GetAccountProxy(AccountModel account)
+        {
+            return new WebProxy(account.Proxy)
+            {
+                Credentials = new NetworkCredential(account.ProxyLogin, account.ProxyPassword)
+            };
         }
 
         public AccountModel GetAccountByFacebookId(long accountFacebookId)

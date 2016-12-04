@@ -1,8 +1,11 @@
-﻿namespace Services.Core.Interfaces
+﻿using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.Friends;
+
+namespace Services.Core.Interfaces
 {
     public interface ISendMessageCore
     {
-        void SendMessageToUnread(long senderId, long friendId);
+        void SendMessageToUnread(AccountModel account, FriendData friend);
 
         void SendMessageToUnanswered(long senderId, long friendId);
 

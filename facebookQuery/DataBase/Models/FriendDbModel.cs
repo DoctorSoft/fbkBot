@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Constants.GendersUnums;
 using Constants.MessageEnums;
 
 namespace DataBase.Models
@@ -18,6 +19,10 @@ namespace DataBase.Models
 
         public long AccountId { get; set; }
 
+        public GenderEnum Gender { get; set; }
+
+        public string Href { get; set; }
+        
         public DateTime AddedDateTime { get; set; }
 
         public MessageRegime? MessageRegime { get; set; }

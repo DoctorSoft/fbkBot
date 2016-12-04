@@ -1,10 +1,11 @@
 ﻿using System.Net;
+using System.Runtime.Remoting.Proxies;
 
 namespace RequestsHelpers
 {
     public static class RequestsHelper
     {
-        public static string Get(string url, string cookie)
+        public static string Get(string url, string cookie, WebProxy proxy)
         {
             var client = new WebClient();
 
@@ -13,11 +14,13 @@ namespace RequestsHelpers
             client.Headers[HttpRequestHeader.Accept] = "*/*";
             client.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4";
             client.Headers.Add(HttpRequestHeader.Cookie, cookie);
+            client.Proxy = proxy;
+
             var answer = client.DownloadString(url);
             return answer;
         }
 
-        public static string Post(string url, string parameters, string cookie)
+        public static string Post(string url, string parameters, string cookie, WebProxy proxy)
         {
             var client = new WebClient();
 
@@ -26,6 +29,8 @@ namespace RequestsHelpers
             client.Headers[HttpRequestHeader.Accept] = "*/*";
             client.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4";
             client.Headers.Add(HttpRequestHeader.Cookie, cookie);
+            client.Proxy = proxy;
+
             var answer = client.UploadString(url, parameters);
 
             return answer;

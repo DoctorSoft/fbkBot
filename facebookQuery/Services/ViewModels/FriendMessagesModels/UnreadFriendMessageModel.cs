@@ -1,10 +1,17 @@
 ﻿using System;
+using Constants.GendersUnums;
 
 namespace Services.ViewModels.FriendMessagesModels
 {
     public class UnreadFriendMessageModel
     {
-        public long FriendId { get; set; }
+        public long FriendFacebookId { get; set; }
+
+        public string FriendName { get; set; }
+
+        public GenderEnum FriendGender { get; set; }
+
+        public string FriendHref { get; set; }
 
         public int CountUnreadMessages { get; set; }
 

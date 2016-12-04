@@ -32,19 +32,23 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                 {
                     var messagesFound =
                         allMessages.Any(model => model.FriendId == friendDbModel.Id);
+
                     if (messagesFound)
                     {
                         continue;
                     }
-                    if ((DateTime.Now - friendDbModel.AddedDateTime).Minutes > query.DelayTime)
+                    if (friendDbModel.AddedDateTime != null)
                     {
-                        newFriends.Add(new FriendData()
+                        if ((DateTime.Now - friendDbModel.AddedDateTime).Minutes > query.DelayTime)
                         {
-                            AccountId = friendDbModel.AccountId,
-                            FacebookId = friendDbModel.FacebookId,
-                            FriendName = friendDbModel.FriendName,
-                            Id = friendDbModel.Id
-                        });
+                            newFriends.Add(new FriendData()
+                            {
+                                AccountId = friendDbModel.AccountId,
+                                FacebookId = friendDbModel.FacebookId,
+                                FriendName = friendDbModel.FriendName,
+                                Id = friendDbModel.Id
+                            });
+                        }
                     }
                 }
             }

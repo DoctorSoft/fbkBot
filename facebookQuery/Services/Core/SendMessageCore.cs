@@ -3,10 +3,14 @@ using System.Linq;
 using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.Models;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeMessageRegimeCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
+using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.Message;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.SendMessageEngine;
@@ -33,21 +37,21 @@ namespace Services.Core
             _stopWordsManager = new StopWordsManager();
         }
         
-        public void SendMessageToUnread(long senderId, long friendId)
+        public void SendMessageToUnread(AccountModel account, FriendData friend)
         {
-            var friend = _friendManager.GetFriendByFacebookId(friendId);
-
             if (friend.Deleted || friend.MessagesEnded)
             {
                 return;
             }
 
             var message = String.Empty;
-
-            var account = _accountManager.GetAccountByFacebookId(senderId);
-
-            var messageData = _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
             
+            var messageData = _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
+
+            if (messageData.Count == 0)
+            {
+                return;
+            }
             var numberLastBotMessage = _messageManager.GetLasBotMessageOrderNumber(messageData, account.Id);
 
             var lastFriendMessages = _facebookMessageManager.GetLastFriendMessageModel(account.Id, friend.Id);
@@ -88,8 +92,9 @@ namespace Services.Core
                 {
                     AccountId = account.UserId,
                     Cookie = account.Cookie.CookieString,
-                    FriendId = friendId,
+                    FriendId = friend.FacebookId,
                     Message = message,
+                    Proxy = _accountManager.GetAccountProxy(account),
                     UrlParameters =
                         new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                         {
@@ -100,7 +105,7 @@ namespace Services.Core
                 new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
                 {
                     AccountId = account.Id,
-                    FriendId = friendId,
+                    FriendId = friend.FacebookId,
                     OrderNumber = orderNumber,
                     Message = message,
                     MessageDateTime = DateTime.Now,
@@ -120,12 +125,24 @@ namespace Services.Core
         {
             var friend = _friendManager.GetFriendById(friendId);
 
+            var account = _accountManager.GetAccountByFacebookId(senderId);
+            
+            if (friend == null)
+            {
+                new SaveNewFriendCommandHandler(new DataBaseContext()).Handle(new SaveNewFriendCommand()
+                {
+                    AccountId = account.Id,
+                    FriendData = new FriendData()
+                    {
+                        
+                    }
+                });
+            }
+
             if (friend.MessagesEnded || friend.Deleted)
             {
                 return;
             }
-
-            var account = _accountManager.GetAccountByFacebookId(senderId);
 
             var allMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
             {
@@ -184,6 +201,7 @@ namespace Services.Core
                 Cookie = account.Cookie.CookieString,
                 FriendId = friend.FacebookId,
                 Message = message,
+                Proxy = _accountManager.GetAccountProxy(account),
                 UrlParameters =
                     new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                     {
@@ -229,6 +247,7 @@ namespace Services.Core
                 Cookie = account.Cookie.CookieString,
                 FriendId = friendId,
                 Message = message,
+                Proxy = _accountManager.GetAccountProxy(account),
                 UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                 {
                     NameUrlParameter = NamesUrlParameter.SendMessage

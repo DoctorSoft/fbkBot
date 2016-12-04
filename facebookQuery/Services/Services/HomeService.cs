@@ -98,7 +98,7 @@ namespace Services.Services
             });
             var statusModel = new GetNewNoticesEngine().Execute(new GetNewNoticesModel()
             {
-                ResponsePage = RequestsHelper.Get(Urls.HomePage.GetDiscription(), account.Cookie.CookieString) 
+                ResponsePage = RequestsHelper.Get(Urls.HomePage.GetDiscription(), account.Cookie.CookieString, _accountManager.GetAccountProxy(account)) 
             });
 
             return statusModel;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using Constants;
 
 namespace Engines.Engines.SendMessageEngine
@@ -12,6 +13,8 @@ namespace Engines.Engines.SendMessageEngine
         public string Message { get; set; }
 
         public string Cookie { get; set; }
+
+        public WebProxy Proxy { get; set; }
 
         public List<KeyValue<int, string>> UrlParameters { get; set; }
     }

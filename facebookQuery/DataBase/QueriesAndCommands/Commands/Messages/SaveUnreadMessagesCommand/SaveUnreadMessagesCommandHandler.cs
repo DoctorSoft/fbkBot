@@ -23,7 +23,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
             foreach (var unreadMessageInformation in command.UnreadMessages)
             {
-                var friendId = unreadMessageInformation.FriendId;
+                var friendId = unreadMessageInformation.FriendFacebookId;
 
                 var friend =
                     context.Friends.FirstOrDefault(
@@ -45,7 +45,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 {
                     context.FriendMessages.Add(new FriendMessageDbModel
                     {
-                        FriendId = unreadMessageInformation.FriendId,
+                        FriendId = unreadMessageInformation.FriendFacebookId,
                         MessageDirection = MessageDirection.FromFriend,
                         Message = unreadMessageInformation.LastMessage,
                         MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
@@ -69,7 +69,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 {
                     context.FriendMessages.Add(new FriendMessageDbModel
                     {
-                        FriendId = unreadMessageInformation.FriendId,
+                        FriendId = unreadMessageInformation.FriendFacebookId,
                         MessageDirection = MessageDirection.FromFriend,
                         Message = unreadMessageInformation.LastMessage,
                         MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
@@ -85,7 +85,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 {
                     context.FriendMessages.Add(new FriendMessageDbModel
                     {
-                        FriendId = unreadMessageInformation.FriendId,
+                        FriendId = unreadMessageInformation.FriendFacebookId,
                         MessageDirection = MessageDirection.FromFriend,
                         Message = unreadMessageInformation.LastMessage,
                         MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
@@ -99,7 +99,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
                 context.FriendMessages.Add(new FriendMessageDbModel
                 {
-                    FriendId = unreadMessageInformation.FriendId,
+                    FriendId = unreadMessageInformation.FriendFacebookId,
                     MessageDirection = MessageDirection.FromFriend,
                     Message = unreadMessageInformation.LastMessage,
                     MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,

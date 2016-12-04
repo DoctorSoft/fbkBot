@@ -17,7 +17,7 @@ namespace Engines.Engines.GetMessagesEngine.GetMessages
 
             if (model.UrlParameters == null) return null;
 
-            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
+            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
 
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetMessagesEnum)pair.Key, pair => pair.Value);
 
@@ -26,7 +26,7 @@ namespace Engines.Engines.GetMessagesEngine.GetMessages
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Post(Urls.NewMessages.GetDiscription(), parameters, model.Cookie).Remove(0, 9);
+            var stringResponse = RequestsHelper.Post(Urls.NewMessages.GetDiscription(), parameters, model.Cookie, model.Proxy).Remove(0, 9);
 
             var data = (JObject)JsonConvert.DeserializeObject(stringResponse);
             var threads = data["payload"]["threads"];

@@ -122,6 +122,10 @@
     <Compile Include="Migrations\201612032220172_DeletedUserField.Designer.cs">
       <DependentUpon>201612032220172_DeletedUserField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612041746079_EditFriendModel.cs" />
+    <Compile Include="Migrations\201612041746079_EditFriendModel.Designer.cs">
+      <DependentUpon>201612041746079_EditFriendModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -141,7 +145,9 @@
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveNewFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveNewFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommandHandler.cs" />
@@ -242,21 +248,28 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611231957513_Init.resx">
       <DependentUpon>201611231957513_Init.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611241947257_AddedFriendDateField.resx">
       <DependentUpon>201611241947257_AddedFriendDateField.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611301928417_AddedMessageRegimeField.resx">
       <DependentUpon>201611301928417_AddedMessageRegimeField.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612012058510_RelocateMessageRegime.resx">
       <DependentUpon>201612012058510_RelocateMessageRegime.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612031403314_AddProxyFields.resx">
       <DependentUpon>201612031403314_AddProxyFields.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612032220172_DeletedUserField.resx">
       <DependentUpon>201612032220172_DeletedUserField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612041746079_EditFriendModel.resx">
+      <DependentUpon>201612041746079_EditFriendModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Constants;
 using Constants.EnumExtension;
+using Constants.GendersUnums;
 using Constants.UrlEnums;
 using Engines.Engines.Models;
 using Newtonsoft.Json;
@@ -19,7 +21,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             if (model.UrlParameters == null) return null;
 
-            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie), "fb_dtsg");
+            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
 
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetUnreadMessagesEnum)pair.Key, pair => pair.Value);
 
@@ -28,21 +30,26 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Post(Urls.NewMessages.GetDiscription(), parameters, model.Cookie).Remove(0, 9);
+            var stringResponse = RequestsHelper.Post(Urls.NewMessages.GetDiscription(), parameters, model.Cookie, model.Proxy).Remove(0, 9);
 
             var data = (JObject)JsonConvert.DeserializeObject(stringResponse);
             var threads = data["payload"]["threads"];
+            var threads2 = data["payload"]["participants"];
 
             foreach (var thread in threads)
             {
                 messagesList.Add(new FacebookMessageModel()
                 {
                     AccountId = model.AccountId,
-                    FriendId = thread["thread_fbid"].Value<long>(),
+                    FriendFacebookId = thread["thread_fbid"].Value<long>(),
                     CountAllMessages = thread["message_count"].Value<int>(),
                     CountUnreadMessages = thread["unread_count"].Value<int>(),
+                    Gender = threads2.First["gender"].Value<int>() == 1 ? GenderEnum.Female : GenderEnum.Male,
+                    Href = threads2.First["href"].Value<string>(),
+                    Name = threads2.First["name"].Value<string>(),
                     LastMessage = thread["snippet"].Value<string>(),
-                    LastUnreadMessageDateTime = GetDateTime(Convert.ToInt64(thread["last_message_timestamp"].Value<string>())),
+                    LastUnreadMessageDateTime =
+                        GetDateTime(Convert.ToInt64(thread["last_message_timestamp"].Value<string>())),
                     UnreadMessage = thread["unread_count"].Value<int>() != 0
                 });
             }
@@ -54,6 +61,12 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
         {
             var newDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(Math.Round(timeStamp / 1000d)).ToLocalTime();
             return newDateTime;
+        }
+        private static string ConvertToUTF8(string source)
+        {
+            var utfBytes = Encoding.UTF8.GetBytes(source);
+            var koi8RBytes = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1251"), utfBytes);
+            return Encoding.GetEncoding("utf-8").GetString(koi8RBytes);
         }
 
         private static string CreateParametersString(Dictionary<GetUnreadMessagesEnum, string> parameters)

@@ -15,6 +15,7 @@
         public string PageUrl { get; set; }
 
         public string Cookie { get; set; }
+
         public string Proxy { get; set; }
 
         public string ProxyLogin { get; set; }

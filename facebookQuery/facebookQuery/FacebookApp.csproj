@@ -83,6 +83,10 @@
       <Project>{f3eda670-d963-42d7-845e-555c12db1dbc}</Project>
       <Name>DataBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RequestsHelper\RequestsHelpers.csproj">
+      <Project>{3CB46211-A7DA-4884-88F0-15E801D2F0B7}</Project>
+      <Name>RequestsHelpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{D6CDD9A2-389B-4CF5-8888-ABD4D6905719}</Project>
       <Name>Services</Name>

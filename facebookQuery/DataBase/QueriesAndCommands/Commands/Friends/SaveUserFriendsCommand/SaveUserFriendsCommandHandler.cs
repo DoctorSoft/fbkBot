@@ -28,7 +28,9 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                     model.FriendMessages, 
                     model.FriendName, 
                     model.DeleteFromFriends, 
-                    model.Id
+                    model.Id,
+                    model.Href,
+                    model.Gender
                 }).AsEnumerable().Select(model => new FriendDbModel
                 {
                     FacebookId = model.FacebookId,
@@ -37,7 +39,9 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                     FriendMessages = model.FriendMessages,
                     FriendName = model.FriendName,
                     DeleteFromFriends = model.DeleteFromFriends,
-                    Id = model.Id
+                    Id = model.Id,
+                    Gender = model.Gender,
+                    Href = model.Href
                 }).ToList();
 
                 foreach (var friendDbModel in friendsInDb)
@@ -64,7 +68,9 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                             FacebookId = friend.FacebookId,
                             AccountId = command.AccountId,
                             FriendName = friend.FriendName,
-                            AddedDateTime = DateTime.Now
+                            AddedDateTime = DateTime.Now,
+                            Href = friend.Href,
+                            Gender = friend.Gender
                         });
                     }
                 }
@@ -77,7 +83,9 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                     FacebookId = friend.FacebookId, 
                     FriendName = friend.FriendName,
                     DeleteFromFriends = false,
-                    AddedDateTime = DateTime.Now
+                    AddedDateTime = DateTime.Now,
+                    Href = friend.Href,
+                    Gender = friend.Gender
                 }));
             }
 

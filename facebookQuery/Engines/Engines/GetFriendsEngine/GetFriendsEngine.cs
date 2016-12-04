@@ -23,7 +23,7 @@ namespace Engines.Engines.GetFriendsEngine
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Get(Urls.GetFriends.GetDiscription() + parameters, model.Cookie).Remove(0, 9);
+            var stringResponse = RequestsHelper.Get(Urls.GetFriends.GetDiscription() + parameters, model.Cookie, model.Proxy).Remove(0, 9);
 
             return GetFriendsData(stringResponse);
         }
