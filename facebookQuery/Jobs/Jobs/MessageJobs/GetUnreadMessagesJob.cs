@@ -8,7 +8,7 @@ namespace Jobs.Jobs.MessageJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(long userId)
         {
-            new FacebookMessagesService().GetUnreadMessages(userId);
+            //new FacebookMessagesService().GetUnreadMessages(userId);
         }
     }
 }

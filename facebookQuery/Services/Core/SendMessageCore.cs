@@ -82,7 +82,6 @@ namespace Services.Core
                             TextPattern = messageModel.Message,
                             AccountId = account.Id,
                             FriendId = lastFriendMessages.FriendId,
-
                         });
             }
 
@@ -121,24 +120,9 @@ namespace Services.Core
             }
         }
 
-        public void SendMessageToUnanswered(long senderId, long friendId)
+        public void SendMessageToUnanswered(AccountModel account, FriendData friend)
         {
-            var friend = _friendManager.GetFriendById(friendId);
-
-            var account = _accountManager.GetAccountByFacebookId(senderId);
             
-            if (friend == null)
-            {
-                new SaveNewFriendCommandHandler(new DataBaseContext()).Handle(new SaveNewFriendCommand()
-                {
-                    AccountId = account.Id,
-                    FriendData = new FriendData()
-                    {
-                        
-                    }
-                });
-            }
-
             if (friend.MessagesEnded || friend.Deleted)
             {
                 return;
@@ -218,7 +202,7 @@ namespace Services.Core
                 MessageDateTime = DateTime.Now,
             });
 
-            if (messageData != null && orderNumber >= numberLastResponseMessage)
+            if (orderNumber >= numberLastResponseMessage)
             {
                 new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
                 {

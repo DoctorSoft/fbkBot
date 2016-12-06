@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
 using System.Linq;
 using Constants.MessageEnums;
 using DataBase.Context;
@@ -26,9 +26,21 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 var friendId = unreadMessageInformation.FriendFacebookId;
 
                 var friend =
-                    context.Friends.FirstOrDefault(
-                        model => model.AccountId == command.AccountId && model.FacebookId.Equals(friendId));
-                if (friend == null || friend.IsBlocked || friend.DeleteFromFriends)
+                    context.Friends
+                    .FirstOrDefault(model => model.AccountId == command.AccountId 
+                        && model.FacebookId.Equals(friendId)) ??
+                    new FriendDbModel
+                        {
+                            AccountId = command.AccountId,
+                            FacebookId = unreadMessageInformation.FriendFacebookId,
+                            MessageRegime = MessageRegime.UserFirstMessage,
+                            Gender = unreadMessageInformation.Gender,
+                            Href = unreadMessageInformation.Href,
+                            AddedDateTime = new DateTime(2000,01,01),
+                            FriendName = unreadMessageInformation.Name,
+                        };
+
+                if (friend.IsBlocked || friend.DeleteFromFriends)
                 {
                     continue;
                 }

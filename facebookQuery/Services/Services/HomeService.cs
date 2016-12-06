@@ -43,7 +43,9 @@ namespace Services.Services
                 FacebookId = model.UserId,
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
-                ProxyPassword = model.ProxyPassword
+                ProxyPassword = model.ProxyPassword,
+                Cookie = model.Cookie.CookieString,
+                Name = model.Name
             }).ToList();
         }
 

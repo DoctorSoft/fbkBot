@@ -7,7 +7,7 @@ namespace Services.Core.Interfaces
     {
         void SendMessageToUnread(AccountModel account, FriendData friend);
 
-        void SendMessageToUnanswered(long senderId, long friendId);
+        void SendMessageToUnanswered(AccountModel account, FriendData friend);
 
         void SendMessageToNewFriend(long senderId, long friendId);
     }

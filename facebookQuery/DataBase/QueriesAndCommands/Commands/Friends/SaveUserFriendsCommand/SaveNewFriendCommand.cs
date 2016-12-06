@@ -1,4 +1,4 @@
-﻿using DataBase.QueriesAndCommands.Queries.Friends;
+﻿using DataBase.Models;
 
 namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 {
@@ -6,6 +6,6 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
     {
         public long AccountId { get; set; }
 
-        public FriendData FriendData { get; set; }
+        public FriendDbModel FriendData { get; set; }
     }
 }

@@ -16,22 +16,7 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
         }
         public VoidCommandResponse Handle(SaveNewFriendCommand command)
         {
-            var account = context.Accounts.FirstOrDefault(model => model.FacebookId == command.AccountId);
-            var friend = new FriendDbModel()
-            {
-                AccountWithFriend = account,
-                AccountId = account.Id,
-                IsBlocked = false,
-                MessageRegime = MessageRegime.UserFirstMessage,
-                Gender = command.FriendData.Gender,
-                Href = command.FriendData.Href,
-                FacebookId = command.FriendData.FacebookId,
-                FriendName = command.FriendData.FriendName,
-                DeleteFromFriends = false,
-                AddedDateTime = DateTime.Now,
-            };
-
-            context.Set<FriendDbModel>().Add(friend);
+            context.Set<FriendDbModel>().Add(command.FriendData);
 
             context.SaveChanges();
 
