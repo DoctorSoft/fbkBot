@@ -141,6 +141,8 @@
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\DeleteUserCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\DeleteUserCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\RecoverUserCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\RecoverUserCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
@@ -184,6 +186,8 @@
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQuery.cs" />

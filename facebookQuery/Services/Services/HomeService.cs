@@ -49,9 +49,40 @@ namespace Services.Services
             }).ToList();
         }
 
+        public List<AccountViewModel> GetDeletedAccounts()
+        {
+            var accounts = new GetDeletedAccountsQueryHandler(new DataBaseContext()).Handle(new GetDeletedAccountsQuery
+            {
+                Count = 10,
+                Page = 0
+            });
+
+            return accounts.Select(model => new AccountViewModel
+            {
+                Id = model.Id,
+                PageUrl = model.PageUrl,
+                Login = model.Login,
+                Password = model.Password,
+                FacebookId = model.UserId,
+                Proxy = model.Proxy,
+                ProxyLogin = model.ProxyLogin,
+                ProxyPassword = model.ProxyPassword,
+                Cookie = model.Cookie.CookieString,
+                Name = model.Name
+            }).ToList();
+        } 
+
         public void RemoveAccount(long accountId)
         {
             new DeleteUserCommandHandler(new DataBaseContext()).Handle(new DeleteUserCommand
+            {
+                AccountId = accountId
+            });
+        }
+
+        public void RecoverAccount(long accountId)
+        {
+            new RecoverUserCommandHandler(new DataBaseContext()).Handle(new RecoverUserCommand
             {
                 AccountId = accountId
             });
