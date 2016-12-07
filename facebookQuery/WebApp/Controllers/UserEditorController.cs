@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Jobs.JobsService;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Services;
 using Services.ServiceTools;
@@ -13,7 +14,7 @@ namespace WebApp.Controllers
 
         public UserEditorController()
         {
-            this.homeService = new HomeService();
+            this.homeService = new HomeService(new JobService(), new AccountManager());
         }
 
         // GET: UserEditor
