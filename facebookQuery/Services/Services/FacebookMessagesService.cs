@@ -101,20 +101,38 @@ namespace Services.Services
             }
         }
 
-        public void SendMessageToNewFriends(AccountViewModel account)
+        public void SendMessageToNewFriends(AccountViewModel accountViewModel)
         {
+            var account = new AccountModel()
+            {
+                Id = accountViewModel.Id,
+                FacebookId = accountViewModel.FacebookId,
+                Login = accountViewModel.Login,
+                Name = accountViewModel.Name,
+                PageUrl = accountViewModel.PageUrl,
+                Password = accountViewModel.Password,
+                Proxy = accountViewModel.Proxy,
+                ProxyLogin = accountViewModel.ProxyLogin,
+                ProxyPassword = accountViewModel.ProxyPassword,
+                UserId = accountViewModel.Id,
+                Cookie = new CookieModel
+                {
+                    CookieString = accountViewModel.Cookie
+                }
+            };
+
             var newFriends = new GetNewFriendsForDialogueQueryHandler(new DataBaseContext()).Handle(new GetNewFriendsForDialogueQuery()
             {
                 DelayTime = 2,
                 AccountId = account.Id
             });
 
-//            foreach (var newFriend in newFriends)
-//            {
-//                new SendMessageCore().SendMessageToNewFriend(account.FacebookId, newFriend.FacebookId);
-//
-//                Thread.Sleep(3000);
-//            }
+            foreach (var newFriend in newFriends)
+            {
+                new SendMessageCore().SendMessageToNewFriend(account, newFriend);
+
+                Thread.Sleep(3000);
+            }
         }
 
         public UnreadFriendMessageList GetUnreadMessages(AccountModel account)
@@ -174,21 +192,23 @@ namespace Services.Services
                 Thread.Sleep(2000);
             }
 
+            var ureadMessages = unreadMessages.Select(model => new UnreadFriendMessageModel
+            {
+                FriendFacebookId = model.FriendFacebookId,
+                UnreadMessage = model.UnreadMessage,
+                LastMessage = model.LastMessage,
+                CountAllMessages = model.CountAllMessages,
+                CountUnreadMessages = model.CountUnreadMessages,
+                LastReadMessageDateTime = model.LastReadMessageDateTime,
+                LastUnreadMessageDateTime = model.LastUnreadMessageDateTime,
+                FriendGender = model.Gender,
+                FriendName = model.Name,
+                FriendHref = model.Href
+            }).ToList();
+
             return new UnreadFriendMessageList()
             {
-                UnreadMessages = unreadMessages.Select(model => new UnreadFriendMessageModel
-                {
-                    FriendFacebookId = model.FriendFacebookId,
-                    UnreadMessage = model.UnreadMessage,
-                    LastMessage = model.LastMessage,
-                    CountAllMessages = model.CountAllMessages,
-                    CountUnreadMessages = model.CountUnreadMessages,
-                    LastReadMessageDateTime = model.LastReadMessageDateTime,
-                    LastUnreadMessageDateTime = model.LastUnreadMessageDateTime,
-                    FriendGender = model.Gender,
-                    FriendName = model.Name,
-                    FriendHref = model.Href
-                }).ToList()
+                UnreadMessages = ureadMessages
             };
         }
 

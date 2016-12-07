@@ -17,6 +17,7 @@ namespace Jobs
             {
                 RecurringJob.AddOrUpdate(string.Format("Respond to unread messages from {0}", accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
                 RecurringJob.AddOrUpdate(string.Format("Respond to unanswered messages from {0}", accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);
+                RecurringJob.AddOrUpdate(string.Format("Sen mail to new friend for {0}", accountViewModel.Login), () => SendMessageToNewFriendsJob.Run(accountViewModel), Cron.Minutely);
                 RecurringJob.AddOrUpdate(string.Format("Refresh friends list for account = {0} )", accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
             }
             //RecurringJob.AddOrUpdate(string.Format("Sending letters to new friends from = {0} )", account.Login), () => SendMessageToNewFriendsJob.Run(account), Cron.Minutely);

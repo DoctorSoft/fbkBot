@@ -9,6 +9,6 @@ namespace Services.Core.Interfaces
 
         void SendMessageToUnanswered(AccountModel account, FriendData friend);
 
-        void SendMessageToNewFriend(long senderId, long friendId);
+        void SendMessageToNewFriend(AccountModel account, FriendData friend);
     }
 }

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using CommonModels;
 using Constants;
 using Constants.EnumExtension;
+using Constants.GendersUnums;
 using Constants.UrlEnums;
 using RequestsHelpers;
 
@@ -32,7 +33,7 @@ namespace Engines.Engines.GetFriendsEngine
         {
             var friendsList = new List<GetFriendsResponseModel>();
 
-            var regex = new Regex("id:\"*[^\")]*\",name:\"*[^\")]*\",firstName:\"*[^\")]*\"");
+            var regex = new Regex("id:\"*[^\")]*\",name:\"*[^\")]*\",firstName:\"*[^\")]*\",vanity:\"*[^\")]*\",thumbSrc:\"*[^\")]*\",uri:\"*[^\")]*\",gender:*[^\")]*,i");
             if (!regex.IsMatch(pageRequest)) return null;
             var collection = regex.Matches(pageRequest);
 
@@ -45,10 +46,19 @@ namespace Engines.Engines.GetFriendsEngine
                 var nameRegex = new Regex("name:\"*[^\")]*\"");
                 var name = nameRegex.Match(friend.ToString()).ToString().Remove(0, 6);
 
+                var uriRegex = new Regex("uri:\"*[^\")]*\"");
+                var uri = uriRegex.Match(friend.ToString()).ToString().Remove(0, 5);
+
+                var genderRegex = new Regex("gender:*[^\")]*");
+                var genderString = genderRegex.Match(friend.ToString()).ToString().Remove(0, 7);
+                var gender = Convert.ToInt32(genderString.Remove(genderString.Length - 2));
+
                 friendsList.Add(new GetFriendsResponseModel()
                 {
                     FacebookId = Convert.ToInt64(id.Remove(id.Length-1)),
-                    FriendName = ConvertToUTF8(name.Remove(name.Length - 1))
+                    FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),
+                    Gender = gender == 1 ? GenderEnum.Female : GenderEnum.Male,
+                    Uri = uri.Remove(uri.Length - 1)
                 });
             }
 

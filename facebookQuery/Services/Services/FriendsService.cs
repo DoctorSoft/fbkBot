@@ -72,7 +72,9 @@ namespace Services.Services
                 Friends = friends.Select(model => new FriendData()
                 {
                     FacebookId = model.FacebookId,
-                    FriendName = model.FriendName
+                    FriendName = model.FriendName,
+                    Href = model.Uri,
+                    Gender = model.Gender
                 }).ToList()
             });
         }

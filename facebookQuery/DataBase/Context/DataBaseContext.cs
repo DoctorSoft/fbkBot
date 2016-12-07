@@ -28,6 +28,8 @@ namespace DataBase.Context
 
         public DbSet<StopWordDbModel> StopWords { get; set; }
 
+        public DbSet<ExtraMessageDbModel> ExtraMessages { get; set; }
+
         public DbSet<LinkDbModel> Links { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -40,6 +42,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new FriendMessageConfiguration());
             modelBuilder.Configurations.Add(new LinkConfiguration());
             modelBuilder.Configurations.Add(new StopWordConfiguration());
+            modelBuilder.Configurations.Add(new ExtraMessageConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

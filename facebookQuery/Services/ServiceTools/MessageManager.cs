@@ -36,7 +36,7 @@ namespace Services.ServiceTools
 
             return messageData.Where(model => model.OrderNumber == orderNumber
                 && model.IsEmergencyText == isEmergencyText
-                && model.MessageRegime == MessageRegime.UserFirstMessage)
+                && model.MessageRegime == regime)
                 .OrderBy(x => Guid.NewGuid())
                 .FirstOrDefault();
         }

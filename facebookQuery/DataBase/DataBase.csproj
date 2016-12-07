@@ -94,6 +94,7 @@
     <Compile Include="Configurations\LinkConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\MessageGroupConfiguration.cs" />
+    <Compile Include="Configurations\ExtraMessageConfiguration.cs" />
     <Compile Include="Configurations\StopWordConfiguration.cs" />
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
@@ -126,9 +127,18 @@
     <Compile Include="Migrations\201612041746079_EditFriendModel.Designer.cs">
       <DependentUpon>201612041746079_EditFriendModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612072112584_AddExtraMessagesTable.cs" />
+    <Compile Include="Migrations\201612072112584_AddExtraMessagesTable.Designer.cs">
+      <DependentUpon>201612072112584_AddExtraMessagesTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612072117168_AddExtraMessagesTable2.cs" />
+    <Compile Include="Migrations\201612072117168_AddExtraMessagesTable2.Designer.cs">
+      <DependentUpon>201612072117168_AddExtraMessagesTable2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
+    <Compile Include="Models\ExtraMessageDbModel.cs" />
     <Compile Include="Models\FriendDbModel.cs" />
     <Compile Include="Models\LinkDbModel.cs" />
     <Compile Include="Models\MessageDbModel.cs" />
@@ -274,6 +284,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612041746079_EditFriendModel.resx">
       <DependentUpon>201612041746079_EditFriendModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612072112584_AddExtraMessagesTable.resx">
+      <DependentUpon>201612072112584_AddExtraMessagesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612072117168_AddExtraMessagesTable2.resx">
+      <DependentUpon>201612072117168_AddExtraMessagesTable2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

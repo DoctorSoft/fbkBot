@@ -20,8 +20,12 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
             try
             {
                 var friends =
-                    context.Friends.Where(model => model.AccountId == query.AccountId && model.IsBlocked == false).ToList();
-                var allMessages =context.FriendMessages.Select(model => model);
+                    context.Friends.Where(model => model.AccountId == query.AccountId 
+                        && !model.IsBlocked 
+                        && !model.DeleteFromFriends 
+                        && !model.FriendMessages.Any()).ToList();
+
+                var allMessages = context.FriendMessages.Select(model => model);
 
                 if (!friends.Any())
                 {
