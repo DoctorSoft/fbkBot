@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
+using Jobs.JobsService;
 using Services.Services;
+using Services.ServiceTools;
 
 namespace WebApp.Controllers
 {
@@ -13,7 +15,7 @@ namespace WebApp.Controllers
 
         public HomeController()
         {
-            this.homeService = new HomeService();
+            this.homeService = new HomeService(new JobService(), new AccountManager());
             this.friendsService = new FriendsService();
             this.facebookMessagesService = new FacebookMessagesService();
         }

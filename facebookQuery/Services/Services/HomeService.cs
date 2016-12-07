@@ -11,6 +11,7 @@ using Engines.Engines.GetNewNoticesEngine;
 using OpenQA.Selenium.PhantomJS;
 using RequestsHelpers;
 using Services.Core.Interfaces.ServiceTools;
+using Services.Interfaces;
 using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.HomeModels;
@@ -21,9 +22,12 @@ namespace Services.Services
     {
         private IAccountManager _accountManager;
 
-        public HomeService()
+        private IJobService _jobService;
+
+        public HomeService(IJobService jobService, IAccountManager accountManager)
         {
-            _accountManager = new AccountManager();    
+            _jobService = jobService;
+            _accountManager = accountManager;
         }
 
         public List<AccountViewModel> GetAccounts()
@@ -74,10 +78,18 @@ namespace Services.Services
 
         public void RemoveAccount(long accountId)
         {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId,
+                SearchDeleted = true
+            });
+
             new DeleteUserCommandHandler(new DataBaseContext()).Handle(new DeleteUserCommand
             {
                 AccountId = accountId
             });
+
+            _jobService.RemoveAccountJobs(account.Login);
         }
 
         public void RecoverAccount(long accountId)
@@ -85,6 +97,40 @@ namespace Services.Services
             new RecoverUserCommandHandler(new DataBaseContext()).Handle(new RecoverUserCommand
             {
                 AccountId = accountId
+            });
+
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            RefreshCookies(new AccountViewModel
+            {
+                Id = accountId,
+                Login = account.Login,
+                Password = account.Password,
+                Proxy = account.Proxy,
+                ProxyLogin = account.ProxyLogin,
+                ProxyPassword = account.ProxyPassword,
+            });
+
+            account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            _jobService.AddOrUpdateAccountJobs(new AccountViewModel
+            {
+                Id = accountId,
+                Name = account.Name,
+                PageUrl = account.PageUrl,
+                FacebookId = account.FacebookId,
+                Password = account.Password,
+                Login = account.Login,
+                Proxy = account.Proxy,
+                ProxyLogin = account.ProxyLogin,
+                ProxyPassword = account.ProxyPassword,
+                Cookie = account.Cookie.CookieString
             });
         }
 
@@ -204,12 +250,31 @@ namespace Services.Services
 
             RefreshCookies(new AccountViewModel
             {
-                Id = model.Id.Value,
+                Id = accountId,
                 Login = model.Login,
                 Password = model.Password,
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
+            });
+
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            _jobService.AddOrUpdateAccountJobs(new AccountViewModel
+            {
+                Id = accountId,
+                Name = model.Name,
+                PageUrl = model.PageUrl,
+                FacebookId = model.FacebookId,
+                Password = model.Password,
+                Login = model.Login,
+                Proxy = model.Proxy,
+                ProxyLogin = model.ProxyLogin,
+                ProxyPassword = model.ProxyPassword,
+                Cookie = account.Cookie.CookieString
             });
 
             return accountId;

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
+using Jobs.JobsService;
 using OpenQA.Selenium;
 using RequestsHelpers;
 using Services.Services;
+using Services.ServiceTools;
 
 namespace FacebookApp
 {
@@ -11,9 +13,7 @@ namespace FacebookApp
     {
         private static void Main(string[] args)
         {
-
-
-            var homeService = new HomeService();
+            var homeService = new HomeService(new JobService(), new AccountManager());
 
             var accounts = homeService.GetAccounts();
 

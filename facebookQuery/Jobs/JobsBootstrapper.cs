@@ -3,7 +3,9 @@ using System.Linq;
 using Hangfire;
 using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.MessageJobs;
+using Jobs.JobsService;
 using Services.Services;
+using Services.ServiceTools;
 
 namespace Jobs
 {
@@ -12,12 +14,10 @@ namespace Jobs
         public static void SetUpJobs()
         {
             //todo: uncomment it back
-            var accounts = new HomeService().GetAccounts();
+            var accounts = new HomeService(new JobService(), new AccountManager()).GetAccounts();
             foreach (var accountViewModel in accounts)
             {
-                RecurringJob.AddOrUpdate(string.Format("Respond to unread messages from {0}", accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
-                RecurringJob.AddOrUpdate(string.Format("Respond to unanswered messages from {0}", accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);
-                RecurringJob.AddOrUpdate(string.Format("Refresh friends list for account = {0} )", accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
+                new JobService().AddOrUpdateAccountJobs(accountViewModel);
             }
             //RecurringJob.AddOrUpdate(string.Format("Sending letters to new friends from = {0} )", account.Login), () => SendMessageToNewFriendsJob.Run(account), Cron.Minutely);
         }
