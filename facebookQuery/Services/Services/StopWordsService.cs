@@ -1,10 +1,7 @@
 ﻿using System.Linq;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Commands.Groups;
 using DataBase.QueriesAndCommands.Commands.StopWords;
-using DataBase.QueriesAndCommands.Queries.Groups;
 using DataBase.QueriesAndCommands.Queries.StopWords;
-using Services.ViewModels.GroupModels;
 using Services.ViewModels.StopWordsModels;
 
 namespace Services.Services

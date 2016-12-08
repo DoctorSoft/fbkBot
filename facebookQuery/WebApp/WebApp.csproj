@@ -159,6 +159,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CookiesController.cs" />
+    <Compile Include="Controllers\ExtraMessagesController.cs" />
     <Compile Include="Controllers\FriendMessagesController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
@@ -268,6 +269,7 @@
     <Content Include="Views\UserEditor\Index.cshtml" />
     <Content Include="Views\Cookies\Index.cshtml" />
     <Content Include="Views\DeletedUsers\Index.cshtml" />
+    <Content Include="Views\ExtraMessages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

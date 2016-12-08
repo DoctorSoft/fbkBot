@@ -63,6 +63,7 @@
     <Compile Include="Core\SendMessageCore.cs" />
     <Compile Include="Interfaces\IJobService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ExtraMessagesService.cs" />
     <Compile Include="Services\FacebookMessagesService.cs" />
     <Compile Include="Services\FriendMessagesService.cs" />
     <Compile Include="Services\FriendsService.cs" />
@@ -78,6 +79,8 @@
     <Compile Include="ServiceTools\MessageManager.cs" />
     <Compile Include="ViewModels\AccountModels\AccountDraftViewModel.cs" />
     <Compile Include="ViewModels\AccountModels\CookiesViewModel.cs" />
+    <Compile Include="ViewModels\ExtraMessagesModel\ExtraMessage.cs" />
+    <Compile Include="ViewModels\ExtraMessagesModel\ExtraMessageList.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessage.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\FriendMessageList.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageModel.cs" />
