@@ -16,6 +16,7 @@ namespace DataBase.Configurations
             Property(model => model.Name);
 
             HasMany(it => it.Messages).WithOptional(model => model.MessageGroup).HasForeignKey(model => model.MessageGroupId);
+            HasMany(it => it.Accounts).WithOptional(model => model.MessageGroup).HasForeignKey(model => model.MessageGroupId);
         }
     }
 }

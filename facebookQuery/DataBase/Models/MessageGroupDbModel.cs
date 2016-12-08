@@ -8,6 +8,8 @@ namespace DataBase.Models
 
         public string Name { get; set; }
 
-        public ICollection<MessageDbModel> Messages { get; set; } 
+        public ICollection<MessageDbModel> Messages { get; set; }
+
+        public ICollection<AccountDbModel> Accounts { get; set; } 
     }
 }

@@ -24,6 +24,10 @@ namespace DataBase.Models
 
         public bool IsDeleted { get; set; }
 
+        public long? MessageGroupId { get; set; }
+
+        public MessageGroupDbModel MessageGroup { get; set; }
+
         public CookiesDbModel Cookies { get; set; }
 
         public ICollection<MessageDbModel> Messages { get; set; }

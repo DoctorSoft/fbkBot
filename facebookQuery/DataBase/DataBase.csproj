@@ -135,6 +135,10 @@
     <Compile Include="Migrations\201612072117168_AddExtraMessagesTable2.Designer.cs">
       <DependentUpon>201612072117168_AddExtraMessagesTable2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612081934538_ConnectUserToGroup.cs" />
+    <Compile Include="Migrations\201612081934538_ConnectUserToGroup.Designer.cs">
+      <DependentUpon>201612081934538_ConnectUserToGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -155,6 +159,12 @@
     <Compile Include="QueriesAndCommands\Commands\Accounts\RecoverUserCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\AddNewExtraMessagesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\AddNewStopWordCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\RemoveExtraMessageCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\RemoveExtraMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveNewFriendCommand.cs" />
@@ -183,12 +193,6 @@
     <Compile Include="QueriesAndCommands\Commands\Links\RemoveLinkCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Links\UpdateLinkCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Links\UpdateLinkCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\AddNewExtraMessagesCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\AddNewStopWordCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\RemoveExtraMessageCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\RemoveExtraMessageCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\RemoveStopWordCommand.cs" />
@@ -211,6 +215,9 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\MessageModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\ExtraMessages\ExtraMessagesData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\FriendMessageData.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQueryHandler.cs" />
@@ -232,9 +239,6 @@
     <Compile Include="QueriesAndCommands\Queries\Links\LinkData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\CalculateMessageTextQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\CalculateMessageTextQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\ExtraMessages\ExtraMessagesData.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\StopWordData.cs" />
@@ -299,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612072117168_AddExtraMessagesTable2.resx">
       <DependentUpon>201612072117168_AddExtraMessagesTable2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612081934538_ConnectUserToGroup.resx">
+      <DependentUpon>201612081934538_ConnectUserToGroup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
