@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="EnumExtension\EnumExtension.cs" />
     <Compile Include="EnumExtension\UrlEnumsExtension.cs" />
+    <Compile Include="FunctionEnums\FunctionName.cs" />
     <Compile Include="GendersUnums\GenderEnum.cs" />
     <Compile Include="KeyValue.cs" />
     <Compile Include="MessageEnums\MessageDirection.cs" />

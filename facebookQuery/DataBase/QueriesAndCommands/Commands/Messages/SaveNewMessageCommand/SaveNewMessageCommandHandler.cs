@@ -1,4 +1,5 @@
-﻿using DataBase.Context;
+﻿using System.Linq;
+using DataBase.Context;
 using DataBase.Models;
 
 namespace DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand

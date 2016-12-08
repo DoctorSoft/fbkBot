@@ -32,6 +32,10 @@ namespace DataBase.Context
 
         public DbSet<LinkDbModel> Links { get; set; }
 
+        public DbSet<FunctionDbModel> Functions { get; set; }
+
+        public DbSet<GroupFunctionDbModel> GroupFunctions { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
@@ -43,6 +47,8 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new LinkConfiguration());
             modelBuilder.Configurations.Add(new StopWordConfiguration());
             modelBuilder.Configurations.Add(new ExtraMessageConfiguration());
+            modelBuilder.Configurations.Add(new FunctionConfiguration());
+            modelBuilder.Configurations.Add(new GroupFunctionConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

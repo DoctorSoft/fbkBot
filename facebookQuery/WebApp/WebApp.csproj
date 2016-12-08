@@ -162,6 +162,7 @@
     <Compile Include="Controllers\ExtraMessagesController.cs" />
     <Compile Include="Controllers\FriendMessagesController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
+    <Compile Include="Controllers\GroupFunctionsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LinksController.cs" />
@@ -270,6 +271,7 @@
     <Content Include="Views\Cookies\Index.cshtml" />
     <Content Include="Views\DeletedUsers\Index.cshtml" />
     <Content Include="Views\ExtraMessages\Index.cshtml" />
+    <Content Include="Views\GroupFunctions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

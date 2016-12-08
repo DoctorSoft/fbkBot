@@ -10,6 +10,8 @@ namespace DataBase.Models
 
         public ICollection<MessageDbModel> Messages { get; set; }
 
-        public ICollection<AccountDbModel> Accounts { get; set; } 
+        public ICollection<AccountDbModel> Accounts { get; set; }
+
+        public ICollection<GroupFunctionDbModel> GroupFunctions { get; set; } 
     }
 }
