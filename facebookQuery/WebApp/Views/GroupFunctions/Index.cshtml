@@ -3,5 +3,25 @@
     ViewBag.Title = "Index";
 }
 
+@section scripts
+{
+    <script type="text/javascript" src="/Content/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-multiselect.css" type="text/css"/>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#example-getting-started').multiselect();
+        });
+    </script>
+}
+
 <h2>Index</h2>
 
+<select id="example-getting-started" multiple="multiple">
+    <option value="cheese">Cheese</option>
+    <option value="tomatoes">Tomatoes</option>
+    <option value="mozarella">Mozzarella</option>
+    <option value="mushrooms">Mushrooms</option>
+    <option value="pepperoni">Pepperoni</option>
+    <option value="onions">Onions</option>
+</select>

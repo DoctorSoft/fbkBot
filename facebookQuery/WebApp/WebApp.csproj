@@ -182,10 +182,12 @@
     <Content Include="Content\bootstrap-clockpicker.js" />
     <Content Include="Content\bootstrap-clockpicker.min.css" />
     <Content Include="Content\bootstrap-clockpicker.min.js" />
+    <Content Include="Content\bootstrap-multiselect.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\clockpicker.css" />
     <Content Include="Content\clockpicker.js" />
+    <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
