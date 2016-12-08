@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity.Migrations;
+using System.Linq;
 using DataBase.Context;
 using DataBase.Models;
 using EntityFramework.BulkInsert.Extensions;
@@ -15,7 +16,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand
             this.context = context;
         }
 
-        public VoidCommandResponse Handle(Messages.SetDefaulMessagesCommand.SetDefaulMessagesCommand command)
+        public VoidCommandResponse Handle(SetDefaulMessagesCommand command)
         {
             context.Set<MessageDbModel>().Where(model => model.AccountId == command.AccountId).Delete();
 
@@ -36,6 +37,12 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand
                 }).ToList();
 
             context.BulkInsert(messagesToCopy);
+
+            var userToConnect = context.Set<AccountDbModel>().FirstOrDefault(model => model.Id == command.AccountId && !model.IsDeleted);
+
+            userToConnect.MessageGroupId = command.GroupId;
+
+            context.Set<AccountDbModel>().AddOrUpdate(userToConnect);
 
             context.SaveChanges();
 
