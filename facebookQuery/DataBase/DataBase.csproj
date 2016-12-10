@@ -183,6 +183,8 @@
     <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\RemoveGroupCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\RemoveGroupCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\SaveGroupFunctionsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Groups\SaveGroupFunctionsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\UpdateGroupCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\UpdateGroupCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\RemoveMessageCommand\RemoveMessageCommand.cs" />
@@ -242,6 +244,12 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Functions\FunctionData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GroupFunctionData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GroupFunctionsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GroupFunctionsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\GetLinksQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Links\LinkData.cs" />

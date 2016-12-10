@@ -3,25 +3,70 @@
     ViewBag.Title = "Index";
 }
 
+@using System.Web.Script.Serialization
+@using Newtonsoft.Json
+@model List<Services.ViewModels.GroupFunctionsModels.GroupFunctionViewModel>
+
 @section scripts
 {
     <script type="text/javascript" src="/Content/bootstrap-multiselect.js"></script>
     <link rel="stylesheet" href="/Content/bootstrap-multiselect.css" type="text/css"/>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#example-getting-started').multiselect();
-        });
-    </script>
+    @foreach (var group in @Model)
+    {
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $("#submit-@group.GroupId").hide();
+                $('#select-' + @group.GroupId).multiselect({
+                    onChange: function(option, checked, select) {
+                        $("#submit-@group.GroupId").show();
+                    }
+                });
+            });
+        </script>
+    }
 }
 
-<h2>Index</h2>
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3 class="alert-info alert">Group Functions</h3>
+    </div>
+    <div class="panel-footer">
+        @foreach (var group in @Model)
+        {
+            using (Html.BeginForm("SaveFunctions", "GroupFunctions", FormMethod.Post))
+            {
+                <div class="alert alert-info">
+                    <div class="inline-half-text-left">
+                        <div class="message-list-tittle width-200">
+                            <input type="hidden" name="groupId" value="@group.GroupId"/>
+                            @group.GroupName
+                        </div>
+                        <div class="message-list-tittle width-200">
+                            <select id="select-@group.GroupId" multiple="multiple" class="col-md-12" name="functions">
+                                @foreach (var function in group.Functions)
+                                {
+                                    if (function.Assigned)
+                                    {
+                                        <option value="@function.FunctionId" selected="selected">@function.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@function.FunctionId">@function.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="inline-half-text-right">
+                        <div>
+                            <button type="submit" class="btn btn-primary" id="submit-@group.GroupId" hidden="hidden"><i class="fa fa-floppy-o"></i></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
 
-<select id="example-getting-started" multiple="multiple">
-    <option value="cheese">Cheese</option>
-    <option value="tomatoes">Tomatoes</option>
-    <option value="mozarella">Mozzarella</option>
-    <option value="mushrooms">Mushrooms</option>
-    <option value="pepperoni">Pepperoni</option>
-    <option value="onions">Onions</option>
-</select>

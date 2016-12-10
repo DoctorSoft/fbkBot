@@ -137,3 +137,15 @@ textarea {
 .cookies-area {
     min-height: 300px;
 }
+
+.width-200 {
+    width: 200px;
+}
+
+.multiselect {
+    width: 300px;
+}
+
+.multiselect-container li {
+    width: 300px;
+}
