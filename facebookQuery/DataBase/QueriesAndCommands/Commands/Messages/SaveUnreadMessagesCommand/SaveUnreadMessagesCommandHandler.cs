@@ -55,6 +55,8 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
                 if (lastBotMessage == null)
                 {
+                    friend.MessageRegime = MessageRegime.UserFirstMessage;
+
                     context.FriendMessages.Add(new FriendMessageDbModel
                     {
                         FriendId = unreadMessageInformation.FriendFacebookId,
