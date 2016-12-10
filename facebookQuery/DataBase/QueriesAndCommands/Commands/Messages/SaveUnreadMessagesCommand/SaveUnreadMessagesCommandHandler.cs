@@ -95,21 +95,41 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
 
                 if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
                 {
-                    context.FriendMessages.Add(new FriendMessageDbModel
+                    if (unreadMessageInformation.LastUnreadMessageDateTime != lastFriendMessage.MessageDateTime)
                     {
-                        FriendId = unreadMessageInformation.FriendFacebookId,
-                        MessageDirection = MessageDirection.FromFriend,
-                        Message = unreadMessageInformation.LastMessage,
-                        MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                        OrderNumber = lastBotMessage.OrderNumber + 1,
-                        Friend = friend
-                    });
+                        context.FriendMessages.Add(new FriendMessageDbModel
+                        {
+                            FriendId = unreadMessageInformation.FriendFacebookId,
+                            MessageDirection = MessageDirection.FromFriend,
+                            Message = unreadMessageInformation.LastMessage,
+                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                            OrderNumber = lastBotMessage.OrderNumber + 1,
+                            Friend = friend
+                        });
+                    }
 
                     context.SaveChanges();
                     return new VoidCommandResponse();
                 }
-
-                context.FriendMessages.Add(new FriendMessageDbModel
+                if (lastBotMessage.OrderNumber > lastFriendMessage.OrderNumber)
+                {
+                    if (unreadMessageInformation.LastUnreadMessageDateTime > lastFriendMessage.MessageDateTime)
+                    {
+                        context.FriendMessages.Add(new FriendMessageDbModel
+                        {
+                            FriendId = unreadMessageInformation.FriendFacebookId,
+                            MessageDirection = MessageDirection.FromFriend,
+                            Message = unreadMessageInformation.LastMessage,
+                            MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
+                            OrderNumber = lastBotMessage.OrderNumber,
+                            Friend = friend
+                        });
+                    }
+                    context.SaveChanges();
+                    return new VoidCommandResponse();
+                }
+                
+                /* context.FriendMessages.Add(new FriendMessageDbModel
                 {
                     FriendId = unreadMessageInformation.FriendFacebookId,
                     MessageDirection = MessageDirection.FromFriend,
@@ -120,7 +140,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                 });
 
                 context.SaveChanges();
-                return new VoidCommandResponse();
+                return new VoidCommandResponse();*/
             }
 
             return new VoidCommandResponse();

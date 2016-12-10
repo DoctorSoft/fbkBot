@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Web.WebPages.Html;
 using Constants.MessageEnums;
 using DataBase.Context;
-using Engines.Engines.GetMessagesEngine.ChangeMessageStatus;
 
 namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 {
@@ -20,7 +17,6 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 
         public List<FriendMessageData> Handle(GetUnansweredMessagesQuery query)
         {
-            var currentTime = DateTime.Now;
             var unansweredMessages = new List<FriendMessageData>();
             try
             {
@@ -34,9 +30,6 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                 var friendsMessages = context.FriendMessages.GroupBy(models => models.FriendId).Select(models => models.OrderByDescending(model=>model.MessageDateTime).FirstOrDefault()).ToList(); 
                 foreach (var friendMessageDbModel in friendsMessages)
                 {
-                    var lastBotMessageDateTime = new DateTime();
-                    var lastFriendMessageDateTime = new DateTime();
-
                     var lastBotMessage = context
                         .FriendMessages.Where(
                             model =>
@@ -51,7 +44,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                         continue;
                     }
 
-                    lastBotMessageDateTime = lastBotMessage.MessageDateTime;
+                    var lastBotMessageDateTime = lastBotMessage.MessageDateTime;
 
                     var lastFriendMessage = context
                         .FriendMessages.Where(
@@ -60,31 +53,44 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                                 model.FriendId == friendMessageDbModel.FriendId)
                         .Where(model => model.MessageDirection == MessageDirection.FromFriend)
                         .OrderByDescending(model => model.MessageDateTime).FirstOrDefault();
-                    
+
+
                     if (lastFriendMessage == null)
+                    {
+                        if (CheckDelay(lastBotMessageDateTime, query.DelayTime))
+                        {
+                            unansweredMessages.Add(new FriendMessageData()
+                            {
+                                Id = lastBotMessage.Id,
+                                FriendId = lastBotMessage.FriendId,
+                                OrderNumber = lastBotMessage.OrderNumber,
+                                Message = lastBotMessage.Message,
+                                MessageDateTime = lastBotMessage.MessageDateTime,
+                                MessageDirection = lastBotMessage.MessageDirection
+                            });
+                        }
+                        continue;
+
+                    }
+                    var lastFriendMessageDateTime = lastFriendMessage.MessageDateTime;
+
+                    var answered = lastFriendMessageDateTime > lastBotMessageDateTime;
+                    if (answered)
                     {
                         continue;
                     }
 
-                    lastFriendMessageDateTime = lastFriendMessage.MessageDateTime;
-
-                    var answered = lastFriendMessageDateTime > lastBotMessageDateTime;
-
-                    if (!answered)
+                    if (CheckDelay(lastFriendMessageDateTime, query.DelayTime))
                     {
-                        var differenceTime = currentTime - lastFriendMessage.MessageDateTime;
-                        if (differenceTime.Minutes >= query.DelayTime)
+                        unansweredMessages.Add(new FriendMessageData()
                         {
-                            unansweredMessages.Add(new FriendMessageData()
-                            {
-                                Id = lastFriendMessage.Id,
-                                FriendId = lastFriendMessage.FriendId,
-                                OrderNumber = lastFriendMessage.OrderNumber,
-                                Message = lastFriendMessage.Message,
-                                MessageDateTime = lastFriendMessage.MessageDateTime,
-                                MessageDirection = lastFriendMessage.MessageDirection
-                            });
-                        }
+                            Id = lastFriendMessage.Id,
+                            FriendId = lastFriendMessage.FriendId,
+                            OrderNumber = lastFriendMessage.OrderNumber,
+                            Message = lastFriendMessage.Message,
+                            MessageDateTime = lastFriendMessage.MessageDateTime,
+                            MessageDirection = lastFriendMessage.MessageDirection
+                        });
                     }
                 }
             }
@@ -93,6 +99,13 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                 return unansweredMessages;
             }
             return unansweredMessages;
+        }
+
+        private bool CheckDelay(DateTime friendAddedDateTime, int delay)
+        {
+            var differenceTime = DateTime.Now - friendAddedDateTime;
+            var summ = differenceTime.Days * 24 * 60 + differenceTime.Hours * 60 + differenceTime.Minutes;
+            return summ >= delay;
         }
     }
 }

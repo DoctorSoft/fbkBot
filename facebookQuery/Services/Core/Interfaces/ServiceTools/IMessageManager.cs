@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Constants.MessageEnums;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.ExtraMessages;
 
 namespace Services.Core.Interfaces.ServiceTools
 {
@@ -11,6 +12,8 @@ namespace Services.Core.Interfaces.ServiceTools
         List<MessageModel> GetAllMessagesWhereBotWritesFirst(long accountId);
 
         MessageModel GetRandomMessage(long accountId, int orderNumber, bool isEmergencyText, MessageRegime? regime);
+
+        ExtraMessagesData GetRandomExtraMessage();
 
         int GetLasBotMessageOrderNumber(List<MessageModel> messages, long accountId);
     }

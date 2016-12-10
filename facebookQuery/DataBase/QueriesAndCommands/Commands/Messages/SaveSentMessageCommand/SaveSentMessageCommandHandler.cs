@@ -78,15 +78,31 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastBotMessage.OrderNumber == lastFriendMessage.OrderNumber)
             {
-                context.FriendMessages.Add(new FriendMessageDbModel
+                if (lastBotMessage.MessageDateTime > lastFriendMessage.MessageDateTime)
                 {
-                    FriendId = friendId,
-                    MessageDirection = MessageDirection.ToFriend,
-                    Message = command.Message,
-                    MessageDateTime = command.MessageDateTime,
-                    OrderNumber = lastFriendMessage.OrderNumber + 1,
-                    Friend = friend
-                });
+                    //Extra - message
+                    context.FriendMessages.Add(new FriendMessageDbModel
+                    {
+                        FriendId = friendId,
+                        MessageDirection = MessageDirection.ToFriend,
+                        Message = command.Message,
+                        MessageDateTime = command.MessageDateTime,
+                        OrderNumber = lastFriendMessage.OrderNumber,
+                        Friend = friend
+                    });
+                }
+                else
+                {
+                    context.FriendMessages.Add(new FriendMessageDbModel
+                    {
+                        FriendId = friendId,
+                        MessageDirection = MessageDirection.ToFriend,
+                        Message = command.Message,
+                        MessageDateTime = command.MessageDateTime,
+                        OrderNumber = lastFriendMessage.OrderNumber + 1,
+                        Friend = friend
+                    });
+                }
 
                 context.SaveChanges();
                 return new VoidCommandResponse();
@@ -94,15 +110,31 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
 
             if (lastFriendMessage.OrderNumber < lastBotMessage.OrderNumber)
             {
-                context.FriendMessages.Add(new FriendMessageDbModel
+                if (lastBotMessage.MessageDateTime > lastFriendMessage.MessageDateTime)
                 {
-                    FriendId = friendId,
-                    MessageDirection = MessageDirection.ToFriend,
-                    Message = command.Message,
-                    MessageDateTime = command.MessageDateTime,
-                    OrderNumber = lastBotMessage.OrderNumber + 1,
-                    Friend = friend
-                });
+                    //Extra - message
+                    context.FriendMessages.Add(new FriendMessageDbModel
+                    {
+                        FriendId = friendId,
+                        MessageDirection = MessageDirection.ToFriend,
+                        Message = command.Message,
+                        MessageDateTime = command.MessageDateTime,
+                        OrderNumber = lastBotMessage.OrderNumber,
+                        Friend = friend
+                    });
+                }
+                else
+                {
+                    context.FriendMessages.Add(new FriendMessageDbModel
+                    {
+                        FriendId = friendId,
+                        MessageDirection = MessageDirection.ToFriend,
+                        Message = command.Message,
+                        MessageDateTime = command.MessageDateTime,
+                        OrderNumber = lastBotMessage.OrderNumber + 1,
+                        Friend = friend
+                    });
+                }
 
                 context.SaveChanges();
                 return new VoidCommandResponse();

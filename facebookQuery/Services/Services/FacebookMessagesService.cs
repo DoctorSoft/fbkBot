@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Security.AccessControl;
 using System.Threading;
-using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
@@ -57,9 +53,11 @@ namespace Services.Services
                 }
             };
 
-            var unreadMessagesList = GetUnreadMessages(account).UnreadMessages;
+            var unreadMessagesList = GetUnreadMessages(account);
+            
+            ChangeMessageStatus(unreadMessagesList, account);
                         
-            foreach (var unreadMessage in unreadMessagesList)
+            foreach (var unreadMessage in unreadMessagesList.UnreadMessages)
             {
                 var friend = _friendManager.GetFriendByFacebookId(unreadMessage.FriendFacebookId);
 
@@ -87,11 +85,18 @@ namespace Services.Services
                 }
             };
 
-            var unansweredMessagesList = new GetUnansweredMessagesQueryHandler(new DataBaseContext()).Handle(new GetUnansweredMessagesQuery()
+            var unreadMessagesList = GetUnreadMessages(account);
+
+            if (unreadMessagesList.UnreadMessages.Count != 0)
             {
-                DelayTime = 2,
-                AccountId = account.Id
-            });
+                return;
+            }
+
+            var unansweredMessagesList = new GetUnansweredMessagesQueryHandler(new DataBaseContext()).Handle(new GetUnansweredMessagesQuery()
+                {
+                    DelayTime = 2,
+                    AccountId = account.Id
+                });
 
             foreach (var unansweredMessage in unansweredMessagesList)
             {
@@ -121,9 +126,11 @@ namespace Services.Services
                 }
             };
 
+            GetUnreadMessages(account);
+
             var newFriends = new GetNewFriendsForDialogueQueryHandler(new DataBaseContext()).Handle(new GetNewFriendsForDialogueQuery()
             {
-                DelayTime = 2,
+                DelayTime = 10,
                 AccountId = account.Id
             });
 
@@ -168,29 +175,11 @@ namespace Services.Services
                 };
             }
 
-
             new SaveUnreadMessagesCommandHandler(new DataBaseContext()).Handle(new SaveUnreadMessagesCommand()
             {
                 AccountId = account.Id,
                 UnreadMessages = unreadMessages
             });
-
-            foreach (var unreadMessage in unreadMessages)
-            {
-                new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
-                {
-                    AccountId = account.UserId,
-                    FriendFacebookId = unreadMessage.FriendFacebookId,
-                    Cookie = account.Cookie.CookieString,
-                    Proxy = _accountManager.GetAccountProxy(account),
-                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                    {
-                        NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
-                    }),
-                });
-
-                Thread.Sleep(2000);
-            }
 
             var ureadMessages = unreadMessages.Select(model => new UnreadFriendMessageModel
             {
@@ -210,6 +199,26 @@ namespace Services.Services
             {
                 UnreadMessages = ureadMessages
             };
+        }
+
+        public void ChangeMessageStatus(UnreadFriendMessageList unreadMessages, AccountModel account)
+        {
+            foreach (var unreadMessage in unreadMessages.UnreadMessages)
+            {
+                new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
+                {
+                    AccountId = account.UserId,
+                    FriendFacebookId = unreadMessage.FriendFacebookId,
+                    Cookie = account.Cookie.CookieString,
+                    Proxy = _accountManager.GetAccountProxy(account),
+                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                    {
+                        NameUrlParameter = NamesUrlParameter.ChangeMessageStatus
+                    }),
+                });
+
+                Thread.Sleep(2000);
+            }
         }
 
         public UnreadMessagesListViewModel GetUnreadMessagesFromAccountPage(long accountId)

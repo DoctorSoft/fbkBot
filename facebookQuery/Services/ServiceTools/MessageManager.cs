@@ -4,6 +4,7 @@ using System.Linq;
 using Constants.MessageEnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.ExtraMessages;
 using DataBase.QueriesAndCommands.Queries.Message;
 using Services.Core.Interfaces.ServiceTools;
 
@@ -37,6 +38,15 @@ namespace Services.ServiceTools
             return messageData.Where(model => model.OrderNumber == orderNumber
                 && model.IsEmergencyText == isEmergencyText
                 && model.MessageRegime == regime)
+                .OrderBy(x => Guid.NewGuid())
+                .FirstOrDefault();
+        }
+
+        public ExtraMessagesData GetRandomExtraMessage()
+        {
+            var messageData = new GetExtraMessagesQueryHandler(new DataBaseContext()).Handle(new GetExtraMessagesQuery()).ToList();
+
+            return messageData
                 .OrderBy(x => Guid.NewGuid())
                 .FirstOrDefault();
         }

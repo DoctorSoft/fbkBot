@@ -46,7 +46,10 @@ namespace Services.Core
 
             var message = String.Empty;
             
-            var messageData = _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
+            //
+            var messageData = friend.MessageRegime == MessageRegime.BotFirstMessage
+            ? _messageManager.GetAllMessagesWhereBotWritesFirst(account.Id)
+            : _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
 
             if (messageData.Count == 0)
             {
@@ -54,13 +57,26 @@ namespace Services.Core
             }
             var numberLastBotMessage = _messageManager.GetLasBotMessageOrderNumber(messageData, account.Id);
 
+            //
+
             var lastFriendMessages = _facebookMessageManager.GetLastFriendMessageModel(account.Id, friend.Id);
             if (lastFriendMessages == null)
             {
                 return;
             }
 
-            var orderNumber = lastFriendMessages.OrderNumber;
+            var lastBotMessage = _facebookMessageManager.GetLastBotMessageModel(account.Id, friend.Id);
+
+            int orderNumber;
+            if (lastBotMessage != null && lastFriendMessages.OrderNumber == lastBotMessage.OrderNumber && lastFriendMessages.MessageDateTime > lastBotMessage.MessageDateTime)
+            {
+                orderNumber = lastFriendMessages.OrderNumber + 1;
+            }
+            else
+            {
+                orderNumber = lastFriendMessages.OrderNumber;
+            }
+
             if (orderNumber == 1 && friend.MessageRegime == null)
             {
                 new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand()
@@ -124,7 +140,6 @@ namespace Services.Core
 
         public void SendMessageToUnanswered(AccountModel account, FriendData friend)
         {
-            
             if (friend.MessagesEnded || friend.Deleted)
             {
                 return;
@@ -136,38 +151,17 @@ namespace Services.Core
                 FriendId = friend.Id
             });
 
-            var lastFriendMessages =
-            allMessages.Where(data => data.MessageDirection == MessageDirection.FromFriend)
-                .OrderByDescending(data => data.OrderNumber)
-                .FirstOrDefault();
-
             var lastBotMessages =
             allMessages.Where(data => data.MessageDirection == MessageDirection.ToFriend)
                 .OrderByDescending(data => data.OrderNumber)
                 .FirstOrDefault();
-
-            var messageData = new GetMessageModelQueryHandler(new DataBaseContext()).Handle(new GetMessageModelQuery()
-            {
-                AccountId = account.Id
-            }).Where(model => model.MessageRegime == MessageRegime.UserFirstMessage).ToList();
-
-            var numberLastResponseMessage = 0;
-            var lastResponseMessageModel = messageData.OrderByDescending(data => data.OrderNumber).FirstOrDefault();
-            if (lastResponseMessageModel != null)
-            {
-                numberLastResponseMessage = lastResponseMessageModel.OrderNumber;
-            }
-
-            if (lastFriendMessages == null || lastBotMessages == null)
+            
+            if (lastBotMessages == null)
             {
                 return;
             }
 
-            var orderNumber = lastBotMessages.OrderNumber + 1;
-
-            var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
-
-            var messageModel = _messageManager.GetRandomMessage(account.Id, orderNumber, emergencyFactor, friend.MessageRegime);
+            var messageModel = _messageManager.GetRandomExtraMessage();
 
             if (messageModel == null)
             {
@@ -178,7 +172,7 @@ namespace Services.Core
             {
                 TextPattern = messageModel.Message,
                 AccountId = account.Id,
-                FriendId = lastFriendMessages.FriendId
+                FriendId = friend.FacebookId
             });
 
             new SendMessageEngine().Execute(new SendMessageModel
@@ -199,19 +193,10 @@ namespace Services.Core
             {
                 AccountId = account.Id,
                 FriendId = friend.FacebookId,
-                OrderNumber = orderNumber,
+                OrderNumber = lastBotMessages.OrderNumber,
                 Message = message,
                 MessageDateTime = DateTime.Now,
             });
-
-            if (orderNumber >= numberLastResponseMessage)
-            {
-                new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
-                {
-                    AccountId = account.Id,
-                    FriendId = lastFriendMessages.FriendId
-                });
-            }
         }
 
         public void SendMessageToNewFriend(AccountModel account, FriendData friend)

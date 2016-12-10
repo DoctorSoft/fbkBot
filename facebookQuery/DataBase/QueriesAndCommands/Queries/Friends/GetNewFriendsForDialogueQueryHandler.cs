@@ -41,18 +41,15 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     {
                         continue;
                     }
-                    if (friendDbModel.AddedDateTime != null)
+                    if (CheckDelay(friendDbModel.AddedDateTime, query.DelayTime))
                     {
-                        if ((DateTime.Now - friendDbModel.AddedDateTime).Minutes > query.DelayTime)
+                        newFriends.Add(new FriendData()
                         {
-                            newFriends.Add(new FriendData()
-                            {
-                                AccountId = friendDbModel.AccountId,
-                                FacebookId = friendDbModel.FacebookId,
-                                FriendName = friendDbModel.FriendName,
-                                Id = friendDbModel.Id
-                            });
-                        }
+                            AccountId = friendDbModel.AccountId,
+                            FacebookId = friendDbModel.FacebookId,
+                            FriendName = friendDbModel.FriendName,
+                            Id = friendDbModel.Id
+                        });
                     }
                 }
             }
@@ -61,6 +58,13 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                 return newFriends;
             }
             return newFriends;
+        }
+
+        private bool CheckDelay(DateTime friendAddedDateTime, int delay)
+        {
+            var s = DateTime.Now - friendAddedDateTime;
+            var summ = s.Days * 24 * 60 + s.Hours * 60 + s.Minutes;
+            return summ > delay;
         }
     }
 }
