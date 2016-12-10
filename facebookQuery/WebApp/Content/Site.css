@@ -143,9 +143,10 @@ textarea {
 }
 
 .multiselect {
-    width: 300px;
+    min-width: 300px;
+    max-width: 50%;
 }
 
 .multiselect-container li {
-    width: 300px;
+    min-width: 300px;
 }

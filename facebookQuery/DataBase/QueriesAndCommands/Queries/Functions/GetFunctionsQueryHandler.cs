@@ -15,11 +15,16 @@ namespace DataBase.QueriesAndCommands.Queries.Functions
 
         public List<FunctionData> Handle(GetFunctionsQuery query)
         {
-            var result = context.Functions.Select(model => new FunctionData
+            var result = context
+            .Functions
+            .OrderBy(model => model.FunctionType.FunctionTypeName)
+            .Select(model => new FunctionData
             {
                 Name = model.Name,
                 FunctionId = model.Id,
-                FunctionName = model.FunctionName
+                FunctionName = model.FunctionName,
+                FunctionTypeName = model.FunctionType.FunctionTypeName,
+                TypeName = model.FunctionType.TypeName
             }).ToList();
 
             return result;

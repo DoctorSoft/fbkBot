@@ -25,7 +25,9 @@ namespace Services.Services
                     Name = function.Name,
                     FunctionName = function.FunctionName,
                     FunctionId = function.FunctionId,
-                    Assigned = groupFunctions.Any(groupFunction => groupFunction.FunctionId == function.FunctionId && groupFunction.GroupId == group.Id)
+                    Assigned = groupFunctions.Any(groupFunction => groupFunction.FunctionId == function.FunctionId && groupFunction.GroupId == group.Id),
+                    FunctionTypeName = function.FunctionTypeName,
+                    TypeName = function.TypeName
                 }).ToList()
             }).ToList();
 

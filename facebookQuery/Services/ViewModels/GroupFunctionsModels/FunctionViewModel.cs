@@ -10,6 +10,10 @@ namespace Services.ViewModels.GroupFunctionsModels
 
         public string Name { get; set; }
 
+        public FunctionTypeName FunctionTypeName { get; set; }
+
+        public string TypeName { get; set; }
+
         public bool Assigned { get; set; }
     }
 }

@@ -21,7 +21,10 @@
                 $('#select-' + @group.GroupId).multiselect({
                     onChange: function(option, checked, select) {
                         $("#submit-@group.GroupId").show();
-                    }
+                    },
+                    buttonText: function(options, select) {
+                        return 'Check functions';
+                    },
                 });
             });
         </script>
@@ -45,15 +48,23 @@
                         </div>
                         <div class="message-list-tittle width-200">
                             <select id="select-@group.GroupId" multiple="multiple" class="col-md-12" name="functions">
-                                @foreach (var function in group.Functions)
-                                {
-                                    if (function.Assigned)
+                                @{
+                                    var groupedFunctions = group.Functions.GroupBy(model => model.FunctionTypeName);
+                                    foreach (var groupedFunction in groupedFunctions)
                                     {
-                                        <option value="@function.FunctionId" selected="selected">@function.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@function.FunctionId">@function.Name</option>
+                                        <optgroup label="@groupedFunction.FirstOrDefault().TypeName">
+                                            @foreach (var function in groupedFunction.ToList())
+                                            {
+                                                if (function.Assigned)
+                                                {
+                                                    <option value="@function.FunctionId" selected="selected">@function.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@function.FunctionId">@function.Name</option>
+                                                }
+                                            }
+                                        </optgroup>
                                     }
                                 }
                             </select>
