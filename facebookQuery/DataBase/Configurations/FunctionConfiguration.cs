@@ -17,6 +17,9 @@ namespace DataBase.Configurations
             Property(model => model.Name).IsRequired();
 
             HasMany(it => it.GroupFunctions).WithRequired(model => model.Function).HasForeignKey(model => model.FunctionId);
+            HasRequired(it => it.FunctionType)
+                .WithMany(model => model.Functions)
+                .HasForeignKey(model => model.FunctionTypeId);
         }
     }
 }

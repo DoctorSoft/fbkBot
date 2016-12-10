@@ -92,6 +92,7 @@
     <Compile Include="Configurations\FriendConfiguration.cs" />
     <Compile Include="Configurations\FriendMessageConfiguration.cs" />
     <Compile Include="Configurations\FunctionConfiguration.cs" />
+    <Compile Include="Configurations\FunctionTypeConfiguration.cs" />
     <Compile Include="Configurations\GroupFunctionConfiguration.cs" />
     <Compile Include="Configurations\LinkConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
@@ -145,12 +146,17 @@
     <Compile Include="Migrations\201612082040417_AddGroupFunctionsTable.Designer.cs">
       <DependentUpon>201612082040417_AddGroupFunctionsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612102004263_AddFunctionTypeTable.cs" />
+    <Compile Include="Migrations\201612102004263_AddFunctionTypeTable.Designer.cs">
+      <DependentUpon>201612102004263_AddFunctionTypeTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
     <Compile Include="Models\ExtraMessageDbModel.cs" />
     <Compile Include="Models\FriendDbModel.cs" />
     <Compile Include="Models\FunctionDbModel.cs" />
+    <Compile Include="Models\FunctionTypeDbModel.cs" />
     <Compile Include="Models\GroupFunctionDbModel.cs" />
     <Compile Include="Models\LinkDbModel.cs" />
     <Compile Include="Models\MessageDbModel.cs" />
@@ -325,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612082040417_AddGroupFunctionsTable.resx">
       <DependentUpon>201612082040417_AddGroupFunctionsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612102004263_AddFunctionTypeTable.resx">
+      <DependentUpon>201612102004263_AddFunctionTypeTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

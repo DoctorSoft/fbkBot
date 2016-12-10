@@ -36,6 +36,8 @@ namespace DataBase.Context
 
         public DbSet<GroupFunctionDbModel> GroupFunctions { get; set; }
 
+        public DbSet<FunctionTypeDbModel> FunctionTypes { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
@@ -49,6 +51,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new ExtraMessageConfiguration());
             modelBuilder.Configurations.Add(new FunctionConfiguration());
             modelBuilder.Configurations.Add(new GroupFunctionConfiguration());
+            modelBuilder.Configurations.Add(new FunctionTypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
