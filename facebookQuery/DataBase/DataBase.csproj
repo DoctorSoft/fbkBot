@@ -253,6 +253,10 @@
     <Compile Include="QueriesAndCommands\Queries\Functions\FunctionData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionByIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionByIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupIdByFacebookIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupIdByFacebookIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GroupFunctionData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GroupFunctionsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GroupFunctionsQueryHandler.cs" />
