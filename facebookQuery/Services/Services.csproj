@@ -67,6 +67,7 @@
     <Compile Include="Services\FacebookMessagesService.cs" />
     <Compile Include="Services\FriendMessagesService.cs" />
     <Compile Include="Services\FriendsService.cs" />
+    <Compile Include="Services\GroupFunctionsService.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\LinksService.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageList.cs" />
     <Compile Include="ViewModels\FriendsModels\FriendListViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\FriendViewModel.cs" />
+    <Compile Include="ViewModels\GroupFunctionsModels\FunctionViewModel.cs" />
+    <Compile Include="ViewModels\GroupFunctionsModels\GroupFunctionViewModel.cs" />
     <Compile Include="ViewModels\GroupModels\Group.cs" />
     <Compile Include="ViewModels\GroupModels\GroupList.cs" />
     <Compile Include="ViewModels\HomeModels\AccountActionModel.cs" />
