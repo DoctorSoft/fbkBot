@@ -119,7 +119,7 @@
                                     @(message.OrderNumber). @message.Message
                                 </a>
                                 <span class="remove-message">
-                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id, accountId = Model.AccountId })"><i class="fa fa-close" aria-hidden="true"></i></a>
+                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id, accountId = Model.AccountId, groupId = Model.GroupId })"><i class="fa fa-close" aria-hidden="true"></i></a>
                                 </span>
                             </h4>
                         </div>
@@ -170,7 +170,7 @@
                                     @(message.OrderNumber). @message.Message
                                 </a>
                                 <span class="remove-message">
-                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id, accountId = Model.AccountId })"><i class="fa fa-close" aria-hidden="true"></i></a>
+                                    <a href="@Url.Action("RemoveMessage", "Options", new { messageId = message.Id, accountId = Model.AccountId, groupId = Model.GroupId })"><i class="fa fa-close" aria-hidden="true"></i></a>
                                 </span>
                             </h4>
                         </div>
