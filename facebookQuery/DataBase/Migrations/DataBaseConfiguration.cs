@@ -231,7 +231,7 @@ namespace DataBase.Migrations
             var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
             var jsonChangeStatus = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
             var jsonFriends = js.Serialize(parametersFriends.Select(pair => pair).ToList());
-            */
+            
 
             var winkParameters = new Dictionary<WinkEnum, string>
             {
@@ -249,15 +249,35 @@ namespace DataBase.Migrations
                 {WinkEnum.Ttstamp, "265817199789774539555113995865817111410777122119456774112"},
                 {WinkEnum.FbDtsg, ""},
             };
+            */
+            var confirmFriendshipParameters = new Dictionary<ConfirmFriendshipEnum, string>
+            {
+                {ConfirmFriendshipEnum.Action, "confirm"},
+                {ConfirmFriendshipEnum.Id, ""},
+                {ConfirmFriendshipEnum.Ref, "/reqs.php"},
+                {ConfirmFriendshipEnum.User, ""},
+                {ConfirmFriendshipEnum.A, "1"},
+                {ConfirmFriendshipEnum.Af, "i0"},
+                {ConfirmFriendshipEnum.Req, "12"},
+                {ConfirmFriendshipEnum.Be, "-1"},
+                {ConfirmFriendshipEnum.Pc, "PHASED:DEFAULT"},
+                {ConfirmFriendshipEnum.Rev, "2748123"},
+                {ConfirmFriendshipEnum.Dyn, "aihoFeyfyGmagngDxyG9giolzkqbxqbAKGiBAyedirWo8popyui9zob4q2i5U4e8wwG2KfhUKbkwy8xa5WjzEgVrDG4XzE8-EiGt0gKum4UpKq4G-FFUkgmVV8-cxnxm3i7oG9J7By8K48hxGbwYxyr_gnHggKm7WAxmAKiambGezooyECcyqKnhojG4998"},
+                {ConfirmFriendshipEnum.Ttstamp, "2658172851181101199855991021085865816911210076106681001028580"},
+                {ConfirmFriendshipEnum.FbDtsg, ""},
+                {ConfirmFriendshipEnum.Floc, "friend_center_requests"},
+                {ConfirmFriendshipEnum.Frefs0, "ft"},
+                {ConfirmFriendshipEnum.ViewerId, ""},
+            };
 
             var js = new JavaScriptSerializer();
-            var jsonWink = js.Serialize(winkParameters.Select(pair => pair).ToList());
+            var jsonWink = js.Serialize(confirmFriendshipParameters.Select(pair => pair).ToList());
 
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.Wink,
+                    CodeParameters = (int)NamesUrlParameter.ConfirmFriendship,
                     ParametersSet = jsonWink
                 },/*
                 new UrlParametersDbModel

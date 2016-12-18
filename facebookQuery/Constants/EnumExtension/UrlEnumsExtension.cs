@@ -388,5 +388,46 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("winkEnum");
             }
         }
+
+        public static string GetAttributeName(this ConfirmFriendshipEnum confirmFriendshipEnum)
+        {
+            switch (confirmFriendshipEnum)
+            {
+                case ConfirmFriendshipEnum.Action:
+                    return "action=";
+                case ConfirmFriendshipEnum.Id:
+                    return "id=";
+                case ConfirmFriendshipEnum.Ref:
+                    return "ref=";
+                case ConfirmFriendshipEnum.User:
+                    return "__user=";
+                case ConfirmFriendshipEnum.A:
+                    return "__a=";
+                case ConfirmFriendshipEnum.Dyn:
+                    return "__dyn=";
+                case ConfirmFriendshipEnum.Af:
+                    return "__af=";
+                case ConfirmFriendshipEnum.Req:
+                    return "__req=";
+                case ConfirmFriendshipEnum.Be:
+                    return "__be=";
+                case ConfirmFriendshipEnum.Pc:
+                    return "__pc=";
+                case ConfirmFriendshipEnum.Rev:
+                    return "__rev=";
+                case ConfirmFriendshipEnum.Ttstamp:
+                    return "ttstamp=";
+                case ConfirmFriendshipEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case ConfirmFriendshipEnum.Floc:
+                    return "floc=";
+                case ConfirmFriendshipEnum.Frefs0:
+                    return "frefs[0]=";
+                case ConfirmFriendshipEnum.ViewerId:
+                    return "viewer_id=";
+                default:
+                    throw new ArgumentOutOfRangeException("confirmFriendshipEnum");
+            }
+        }
     }
 }

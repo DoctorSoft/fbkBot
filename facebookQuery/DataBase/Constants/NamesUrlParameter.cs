@@ -11,6 +11,7 @@
         GetFriendsByCriteries = 7,
         AddFriend = 8,
         AddFriendExtra = 9,
-        Wink = 10
+        Wink = 10,
+        ConfirmFriendship = 11
     }
 }

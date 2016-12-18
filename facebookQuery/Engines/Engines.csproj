@@ -85,6 +85,8 @@
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesModel.cs" />
     <Compile Include="Engines\GetNewCookiesEngine\GetNewCookiesResponse.cs" />
     <Compile Include="Engines\Models\FacebookMessageModel.cs" />
+    <Compile Include="Engines\ConfirmFriendshipEngine\ConfirmFriendshipEngine.cs" />
+    <Compile Include="Engines\ConfirmFriendshipEngine\ConfirmFriendshipModel.cs" />
     <Compile Include="Engines\WinkEngine\WinkEngine.cs" />
     <Compile Include="Engines\WinkEngine\WinkModel.cs" />
     <Compile Include="Engines\SendMessageEngine\SendMessageEngine.cs" />

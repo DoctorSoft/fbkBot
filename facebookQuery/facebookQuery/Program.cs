@@ -5,6 +5,7 @@ using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsByCriteriesEngine;
 using Engines.Engines.GetFriendsEngine.AddFrienEngine;
 using Engines.Engines.GetNewCookiesEngine;
@@ -54,17 +55,28 @@ namespace FacebookApp
 
                         //homeService.RefreshCookies(accountViewModel);
 
-                    new WinkEngine().Execute(new WinkModel
+                    new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
                     {
-                            AccountFacebookId = account.FacebookId,
-                            FriendFacebookId = 100005708075966,
-                            Proxy = _accountManager.GetAccountProxy(account),
-                            Cookie = account.Cookie.CookieString,
-                            UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                            {
-                                NameUrlParameter = NamesUrlParameter.Wink
-                            }),
+                        AccountFacebookId = account.FacebookId,
+                        FriendFacebookId = 100014431878138,
+                        Proxy = _accountManager.GetAccountProxy(account),
+                        Cookie = account.Cookie.CookieString,
+                        UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.ConfirmFriendship
+                        }),
                     });
+//                    new WinkEngine().Execute(new WinkModel
+//                    {
+//                            AccountFacebookId = account.FacebookId,
+//                            FriendFacebookId = 100005708075966,
+//                            Proxy = _accountManager.GetAccountProxy(account),
+//                            Cookie = account.Cookie.CookieString,
+//                            UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                            {
+//                                NameUrlParameter = NamesUrlParameter.Wink
+//                            }),
+//                    });
 
 //                        new AddFriendEngine().Execute(new AddFriendModel()
 //                        {

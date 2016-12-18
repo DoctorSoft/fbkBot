@@ -23,6 +23,8 @@ namespace Constants
         [Description("https://www.facebook.com/pubcontent/chained_suggestions/")]
         AddFriendExtra,
         [Description("https://www.facebook.com/pokes/dialog/")]
-        Wink
+        Wink,
+        [Description("https://www.facebook.com/requests/friends/ajax/?dpr=1")]
+        ConfirmFriendship
     }
 }
