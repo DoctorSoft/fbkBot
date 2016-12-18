@@ -1,0 +1,38 @@
+﻿namespace Constants.UrlEnums
+{
+    public enum GetFriendsByCriteriesEnum
+    {
+        FbDtsg = 1,
+        FriendBrowserIdZero = 2,
+        ExtraData = 3,
+        HowFound = 4,
+        Page = 5,
+        InstanceName = 6,
+        BigPics = 7,
+        SocialContext = 8,
+        NetworkContext = 9,
+        NameIdsZero = 10,
+        NameInput = 11,
+        HomeTownIdsZero = 12,
+        CityIdsZero = 13,
+        GradschoolIdsZero = 14,
+        UsedTypeahead = 15,
+        User = 16,
+        A = 17,
+        Dyn = 18,
+        Af = 19,
+        Req = 20,
+        Be = 21,
+        Pc = 22,
+        Rev = 23,
+        Ttstamp = 24,
+        FriendBrowserId1 = 25,
+        FriendBrowserId2 = 26,
+        FriendBrowserId3 = 27,
+        FriendBrowserId4 = 28,
+        FriendBrowserId5 = 29,
+        FriendBrowserId6 = 30,
+        FriendBrowserId7 = 31,
+        FriendBrowserId8 = 32,
+    }
+}

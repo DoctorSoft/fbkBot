@@ -15,6 +15,12 @@ namespace Constants
         [Description("https://www.facebook.com/profile.php")]
         GetFriends,
         [Description("https://www.facebook.com/ajax/mercury/change_read_status.php?dpr=1")]
-        ChangeReadStatus
+        ChangeReadStatus,
+        [Description("https://www.facebook.com/ajax/growth/friend_browser/checkbox.php?dpr=1")]
+        GetFriendsByCriteries,
+        [Description("https://www.facebook.com/ajax/add_friend/action.php?dpr=1")]
+        AddFriend,
+        [Description("https://www.facebook.com/pubcontent/chained_suggestions/")]
+        AddFriendExtra
     }
 }

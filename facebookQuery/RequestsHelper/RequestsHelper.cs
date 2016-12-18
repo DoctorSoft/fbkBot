@@ -29,7 +29,10 @@ namespace RequestsHelpers
             client.Headers[HttpRequestHeader.Accept] = "*/*";
             client.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4";
             client.Headers.Add(HttpRequestHeader.Cookie, cookie);
-            client.Proxy = proxy;
+            if (proxy.Address != null)
+            {
+                client.Proxy = proxy;
+            }
 
             var answer = client.UploadString(url, parameters);
 

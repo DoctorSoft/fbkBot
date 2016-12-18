@@ -149,15 +149,107 @@ namespace DataBase.Migrations
                 {GetFriendsEnum.Sk, "friends"}
             };
             
+            
 
+            var getFriendsByCriteriesParameters = new Dictionary<GetFriendsByCriteriesEnum, string>
+            {
+                {GetFriendsByCriteriesEnum.FbDtsg, ""},
+                {GetFriendsByCriteriesEnum.FriendBrowserIdZero, ""},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId1, "100005851170388"},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId2, "100002032854809"},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId3, "100006615665493"},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId4, "100006478482694"},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId5, "100000636217168"},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId6, "758966725"},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId7, "10913044"},
+                //{GetFriendsByCriteriesEnum.FriendBrowserId8, "45008220"},
+                //{GetFriendsByCriteriesEnum.ExtraData, "AQKHL0W2UkdZ1NcEahRGFfjYQA47D-zqXURmRjclfcc_ue8ZmufARg6I24y0_TcRd4BRlzo4-UWxdlPNxvEzXCI0aDdjr33sopHzlzjjE5ILx60797TvS5cv-13-o2Mc9pDhQrIJ-96838oOsUETNrnlI2kGt9yCAFpCF4N29Tnhw8gyWsynxKqCytJ-grsfGsTpbfQPODRhxph5QxBN7TkyDAIi0bB5Q2OR7UffWIEQ9gVDU8fFunkZqsxe8CNhJTW_SdJH2a2sBw8m-uUid-wKAF2NOUodRPbA1aWzI_JyzEHz0Rcwm1cCSTXDe6e0ahANh_VP6dx5y4E-FRb5UmTgrygPaZ0MsMuOSJ_IrMjy7eQFJSqToTdfZ_aGj-D89Gz1CE35uG5LKXaHbl14ST0xcbQ5EQ4oDXxXknGiTbJtp-tPXvSmBdAJgD-vKMyyNAmrKZDsAgFGa1UpYNoLcoFqkIctXGt10cVOTnIV7JxQ0pMpS7wbgC59ZWdLRLbhPwuZSNCx-qKoiSGG4H0bpOOd0HGYvzY5o3hFZ6HZr-1HewaiS-zm18k674K75QKHnPfmARFb8ifFRpQq60ZLtOUAO8wYtqou5TDnos9rGX_HcOxcXFYJUL00Ej-SgFXke_U9PKN4-Yh1Isc-OcMKr4gznqNYMez7pPoeynsUZmng8n-zkhFMdeepYZhx8borrBuwEZwyV1iyz8LF_6OGyK2ISdZcO7-9gdAML6Tfz-XZHTWHqJBuMtyj4tGhkeRVt3g"},
+                //{GetFriendsByCriteriesEnum.HowFound, "requests_page_pymk"},
+                {GetFriendsByCriteriesEnum.Page, "friend_browser_list"},
+                {GetFriendsByCriteriesEnum.InstanceName, "friend-browser"},
+                {GetFriendsByCriteriesEnum.BigPics, "1"},
+                {GetFriendsByCriteriesEnum.SocialContext, "1"},
+                {GetFriendsByCriteriesEnum.NetworkContext, "1"},
+                {GetFriendsByCriteriesEnum.NameIdsZero, ""},
+                {GetFriendsByCriteriesEnum.NameInput, ""},
+                {GetFriendsByCriteriesEnum.HomeTownIdsZero, ""},
+                {GetFriendsByCriteriesEnum.CityIdsZero, ""},
+                {GetFriendsByCriteriesEnum.GradschoolIdsZero, ""},
+                {GetFriendsByCriteriesEnum.UsedTypeahead, "true"},
+                {GetFriendsByCriteriesEnum.User, ""},
+                //{GetFriendsByCriteriesEnum.Dyn, "aihoFeyfyGmagngDxyG9giolzFEbFbGA8AyedirWo8popyUWdwIhE98nwgUy22EaUgDyUJi28y4EnFeex2uVWxeUW2fG4GDg4bDBxe6rCxaLGqu58nVV8-cxnxm1iyECQum8yUgx66EK3O69LZ1uJ12VovG6GiV8FoWezu5EG9z8CqnCxeEgAw"},
+                {GetFriendsByCriteriesEnum.A, "1"},
+                {GetFriendsByCriteriesEnum.Af, "i0"},
+                {GetFriendsByCriteriesEnum.Req, "2u"},
+                {GetFriendsByCriteriesEnum.Be, "-1"},
+                {GetFriendsByCriteriesEnum.Pc, "PHASED:DEFAULT"},
+                {GetFriendsByCriteriesEnum.Rev, "2739930"},
+                {GetFriendsByCriteriesEnum.Ttstamp, "26581704884105717899984911458658169529552102116122815199"}
+            };
+            */
+
+            var addFriendParameters = new Dictionary<AddFriendEnum, string>
+            {
+                {AddFriendEnum.FbDtsg, ""},
+                {AddFriendEnum.ToFriend, ""},
+                {AddFriendEnum.Action, "add_friend"},
+                {AddFriendEnum.HowFound, "requests_page_pymk"},
+                {AddFriendEnum.RefParam, "none"},
+                {AddFriendEnum.OutgoingId, ""},
+                {AddFriendEnum.LoggingLocation, "friends_center"},
+                {AddFriendEnum.NoFlyoutOnClick, "true"},
+                {AddFriendEnum.Floc, ""},
+                //{AddFriendEnum.Frefs0, "friends_center"},
+                //{AddFriendEnum.Frefs1, "ft"},
+                {AddFriendEnum.User, ""},
+                {AddFriendEnum.A, "1"},
+                {AddFriendEnum.Af, "i0"},
+                {AddFriendEnum.Req, "19"},
+                {AddFriendEnum.Be, "-1"},
+                {AddFriendEnum.Pc, "PHASED:DEFAULT"},
+                {AddFriendEnum.Rev, "2748071"},
+                {AddFriendEnum.EgoLogData, ""},
+                {AddFriendEnum.HttpReferer, ""},
+                {AddFriendEnum.Dyn, "7AmajEzUGByA5Q9UoGya4A5EWq2WiWF298yfirWo8popyUWdwIhE98nwgUaqwHx24UJi28y4EnFeex2uVWxeUW2y4GDg4bDBxe6rCxaLGqu58nVV8-cxnxm1iyECQum8yUgx66EK3O69L-6Z1im7WAxxbAyBzEWdxyayoO9CBQm4Wx2ii"},
+                {AddFriendEnum.Ttstamp, "2658171121121110575211998828658658170788951705276987953"}
+            };
+
+            var addFriendExtraParameters = new Dictionary<AddFriendExtraEnum, string>
+            {
+                {AddFriendExtraEnum.User, ""},
+                {AddFriendExtraEnum.A, "1"},
+                {AddFriendExtraEnum.Af, "i0"},
+                {AddFriendExtraEnum.Req, "19"},
+                {AddFriendExtraEnum.Be, "-1"},
+                {AddFriendExtraEnum.Pc, "PHASED:DEFAULT"},
+                {AddFriendExtraEnum.Rev, "2748071"},
+                {AddFriendExtraEnum.Dyn, "7AmajEzUGByA5Q9UoGya4A5EWq2WiWF298yfirWo8popyUWdwIhE98nwgUaqwHx24UJi28y4EnFeex2uVWxeUW2y4GDg4bDBxe6rCxaLGqu58nVV8-cxnxm1iyECQum8yUgx66EK3O69L-6Z1im7WAxxbAyBzEWdxyayoO9CBQm4Wx2ii"},
+                {AddFriendExtraEnum.Ttstamp, "2658171121121110575211998828658658170788951705276987953"},
+                {AddFriendExtraEnum.FbDtsg, ""},
+            };
+            var js = new JavaScriptSerializer();
+            var jsonAddFriend = js.Serialize(addFriendParameters.Select(pair => pair).ToList());
+            var jsonGetFriendsExtra= js.Serialize(addFriendExtraParameters.Select(pair => pair).ToList());
+
+            /*
             var js = new JavaScriptSerializer();
             var jsonSendMessage = js.Serialize(sendMessageParameters.Select(pair => pair).ToList());
             var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
             var jsonChangeStatus = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
             var jsonFriends = js.Serialize(parametersFriends.Select(pair => pair).ToList());
-
+            */
             var urlParametersList = new List<UrlParametersDbModel>()
             {
+                new UrlParametersDbModel
+                {
+                    CodeParameters = (int)NamesUrlParameter.AddFriend,
+                    ParametersSet = jsonAddFriend
+                },
+                new UrlParametersDbModel
+                {
+                    CodeParameters = (int)NamesUrlParameter.AddFriendExtra,
+                    ParametersSet = jsonGetFriendsExtra
+                },/*
                 new UrlParametersDbModel
                 {
                     CodeParameters = (int)NamesUrlParameter.SendMessage,
@@ -177,13 +269,13 @@ namespace DataBase.Migrations
                 {
                     CodeParameters = (int)NamesUrlParameter.GetFriends,
                     ParametersSet = jsonFriends
-                },
+                },*/
             };
 
             context.UrlParameters.AddRange(urlParametersList);
              
             context.SaveChanges(); 
-            */
+            
         }
     }
 }

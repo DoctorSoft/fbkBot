@@ -7,6 +7,9 @@
         GetCorrespondence = 3,
         GetFriends = 4,
         GetUnreadMessages = 5,
-        ChangeMessageStatus = 6
+        ChangeMessageStatus = 6,
+        GetFriendsByCriteries = 7,
+        AddFriend = 8,
+        AddFriendExtra = 9
     }
 }

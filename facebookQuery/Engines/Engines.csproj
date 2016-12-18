@@ -61,8 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\AbstractEngine.cs" />
+    <Compile Include="Engines\GetFriendsByCriteriesEngine\GetFriendsEngine.cs" />
+    <Compile Include="Engines\GetFriendsByCriteriesEngine\GetFriendsModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetFriendsModel.cs" />
+    <Compile Include="Engines\GetFriendsEngine\AddFrienEngine\AddFriendEngine.cs" />
+    <Compile Include="Engines\GetFriendsEngine\AddFrienEngine\AddFriendModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\ChangeMessageStatus\ChangeMessageStatusEngine.cs" />
     <Compile Include="Engines\GetMessagesEngine\ChangeMessageStatus\ChangeMessageStatusModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetUnreadMessages\GetUnreadMessagesEngine.cs" />

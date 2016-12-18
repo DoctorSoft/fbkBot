@@ -62,6 +62,8 @@ namespace Services.Services
                 var friend = _friendManager.GetFriendByFacebookId(unreadMessage.FriendFacebookId);
 
                 new SendMessageCore().SendMessageToUnread(account, friend);
+
+                Thread.Sleep(3000);
             }
         }
 
@@ -103,6 +105,8 @@ namespace Services.Services
                 var friend = _friendManager.GetFriendById(unansweredMessage.FriendId);
 
                 new SendMessageCore().SendMessageToUnanswered(account, friend);
+
+                Thread.Sleep(3000);
             }
         }
 

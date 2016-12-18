@@ -159,7 +159,7 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("messageEnum");
             }
         }
-
+        
         public static string GetAttributeName(this ChangeStatusForMesagesEnum changeStatusEnum)
         {
             switch (changeStatusEnum)
@@ -196,6 +196,161 @@ namespace Constants.EnumExtension
                     return "ttstamp=";
                 default:
                     throw new ArgumentOutOfRangeException("changeStatusEnum", changeStatusEnum, null);
+            }
+        }
+
+        public static string GetAttributeName(this GetFriendsByCriteriesEnum getFriendsByCriteriesEnum)
+        {
+            switch (getFriendsByCriteriesEnum)
+            {
+                case GetFriendsByCriteriesEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case GetFriendsByCriteriesEnum.FriendBrowserIdZero:
+                    return "friend_browser_id[0]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId1:
+                    return "friend_browser_id[1]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId2:
+                    return "friend_browser_id[2]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId3:
+                    return "friend_browser_id[3]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId4:
+                    return "friend_browser_id[4]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId5:
+                    return "friend_browser_id[5]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId6:
+                    return "friend_browser_id[6]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId7:
+                    return "friend_browser_id[7]=";
+                case GetFriendsByCriteriesEnum.FriendBrowserId8:
+                    return "friend_browser_id[8]=";
+                case GetFriendsByCriteriesEnum.ExtraData:
+                    return "extra_data=";
+                case GetFriendsByCriteriesEnum.HowFound:
+                    return "how_found=";
+                case GetFriendsByCriteriesEnum.Page:
+                    return "page=";
+                case GetFriendsByCriteriesEnum.InstanceName:
+                    return "instance_name=";
+                case GetFriendsByCriteriesEnum.BigPics:
+                    return "big_pics=";
+                case GetFriendsByCriteriesEnum.SocialContext:
+                    return "social_context=";
+                case GetFriendsByCriteriesEnum.NetworkContext:
+                    return "network_context=";
+                case GetFriendsByCriteriesEnum.NameIdsZero:
+                    return "name_ids[0]=";
+                case GetFriendsByCriteriesEnum.NameInput:
+                    return "name_input=";
+                case GetFriendsByCriteriesEnum.HomeTownIdsZero:
+                    return "hometown_ids[0]=";
+                case GetFriendsByCriteriesEnum.CityIdsZero:
+                    return "city_ids[0]=";
+                case GetFriendsByCriteriesEnum.GradschoolIdsZero:
+                    return "gradschool_ids[0]=";
+                case GetFriendsByCriteriesEnum.UsedTypeahead:
+                    return "used_typeahead=";
+                case GetFriendsByCriteriesEnum.User:
+                    return "__user=";
+                case GetFriendsByCriteriesEnum.A:
+                    return "__a=";
+                case GetFriendsByCriteriesEnum.Dyn:
+                    return "__dyn=";
+                case GetFriendsByCriteriesEnum.Af:
+                    return "__af=";
+                case GetFriendsByCriteriesEnum.Req:
+                    return "__req=";
+                case GetFriendsByCriteriesEnum.Be:
+                    return "__be=";
+                case GetFriendsByCriteriesEnum.Pc:
+                    return "__pc=";
+                case GetFriendsByCriteriesEnum.Rev:
+                    return "__rev=";
+                case GetFriendsByCriteriesEnum.Ttstamp:
+                    return "ttstamp=";
+                default:
+                    throw new ArgumentOutOfRangeException("getFriendsByCriteriesEnum");
+            }
+        }
+
+        public static string GetAttributeName(this AddFriendEnum addFriendEnum)
+        {
+            switch (addFriendEnum)
+            {
+                case AddFriendEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case AddFriendEnum.ToFriend:
+                    return "to_friend=";
+                case AddFriendEnum.Action:
+                    return "action=";
+                case AddFriendEnum.HowFound:
+                    return "how_found=";
+                case AddFriendEnum.RefParam:
+                    return "ref_param=";
+                case AddFriendEnum.OutgoingId:
+                    return "outgoing_id=";
+                case AddFriendEnum.LoggingLocation:
+                    return "logging_location=";
+                case AddFriendEnum.NoFlyoutOnClick:
+                    return "no_flyout_on_click=";
+                case AddFriendEnum.Floc:
+                    return "floc=";
+                case AddFriendEnum.Frefs0:
+                    return "frefs[0]=";
+                case AddFriendEnum.Frefs1:
+                    return "frefs[1]=";
+                case AddFriendEnum.User:
+                    return "__user=";
+                case AddFriendEnum.A:
+                    return "__a=";
+                case AddFriendEnum.Dyn:
+                    return "__dyn=";
+                case AddFriendEnum.Af:
+                    return "__af=";
+                case AddFriendEnum.Req:
+                    return "__req=";
+                case AddFriendEnum.Be:
+                    return "__be=";
+                case AddFriendEnum.Pc:
+                    return "__pc=";
+                case AddFriendEnum.Rev:
+                    return "__rev=";
+                case AddFriendEnum.Ttstamp:
+                    return "ttstamp=";
+                case AddFriendEnum.EgoLogData:
+                    return "ego_log_data=";
+                case AddFriendEnum.HttpReferer:
+                    return "http_referer=";
+                default:
+                    throw new ArgumentOutOfRangeException("addFriendEnum");
+            }
+        }
+
+        public static string GetAttributeName(this AddFriendExtraEnum addFriendExtraEnum)
+        {
+            switch (addFriendExtraEnum)
+            {
+                case AddFriendExtraEnum.User:
+                    return "__user=";
+                case AddFriendExtraEnum.A:
+                    return "__a=";
+                case AddFriendExtraEnum.Dyn:
+                    return "__dyn=";
+                case AddFriendExtraEnum.Af:
+                    return "__af=";
+                case AddFriendExtraEnum.Req:
+                    return "__req=";
+                case AddFriendExtraEnum.Be:
+                    return "__be=";
+                case AddFriendExtraEnum.Pc:
+                    return "__pc=";
+                case AddFriendExtraEnum.Rev:
+                    return "__rev=";
+                case AddFriendExtraEnum.Ttstamp:
+                    return "ttstamp=";
+                case AddFriendExtraEnum.FbDtsg:
+                    return "fb_dtsg=";
+                default:
+                    throw new ArgumentOutOfRangeException("addFriendExtraEnum");
             }
         }
     }

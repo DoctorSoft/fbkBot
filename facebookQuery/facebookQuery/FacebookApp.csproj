@@ -79,9 +79,21 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonModels\CommonModels.csproj">
+      <Project>{a64a27f4-6cf0-4936-8cb2-bc0e8f1609cb}</Project>
+      <Name>CommonModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataBase\DataBase.csproj">
       <Project>{f3eda670-d963-42d7-845e-555c12db1dbc}</Project>
       <Name>DataBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Engines\Engines.csproj">
+      <Project>{FBB7EBB2-3FB4-4A19-95C8-BA69794E8C44}</Project>
+      <Name>Engines</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jobs\Jobs.csproj">
       <Project>{DA5E57AC-C85D-4738-9CA5-BDD1CA482F23}</Project>

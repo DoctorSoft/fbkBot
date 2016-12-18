@@ -1,9 +1,17 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
+using DataBase.Constants;
+using DataBase.Context;
+using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using Engines.Engines.GetFriendsByCriteriesEngine;
+using Engines.Engines.GetFriendsEngine.AddFrienEngine;
+using Engines.Engines.GetNewCookiesEngine;
 using Jobs.JobsService;
 using OpenQA.Selenium;
 using RequestsHelpers;
+using Services.Core.Interfaces.ServiceTools;
 using Services.Services;
 using Services.ServiceTools;
 
@@ -11,29 +19,71 @@ namespace FacebookApp
 {
     internal class Program
     {
+        private static IAccountManager _accountManager;
+
+        public Program()
+        {
+        }
         private static void Main(string[] args)
         {
             var homeService = new HomeService(new JobService(), new AccountManager());
 
             var accounts = homeService.GetAccounts();
 
+            _accountManager = new AccountManager();
+            
+
             foreach (var accountViewModel in accounts)
             {
-                if (accountViewModel.Proxy != null)
+                if (accountViewModel.Id == 1)
                 {
-                    var proxy = new WebProxy(accountViewModel.Proxy)
-                    {
-                        Credentials = new NetworkCredential(accountViewModel.ProxyLogin, accountViewModel.ProxyPassword)
-                    };
+                        var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+                        {
+                            UserId = accountViewModel.FacebookId
+                        });
+                       /* var proxy = new WebProxy(accountViewModel.Proxy)
+                        {
+                            Credentials =
+                                new NetworkCredential(accountViewModel.ProxyLogin, accountViewModel.ProxyPassword)
+                        };*/
 
+                        //RequestsHelper.Get("https://www.facebook.com/friends/requests/?fcref=jwl", account.Cookie.CookieString, proxy);
 
-                    RequestsHelper.Get("https://www.2ip.ru", "", proxy);
-                    /*var driver = homeService.RegisterNewDriver(accountViewModel);
+                        //new HomeService(null, null).RefreshCookies(accountViewModel);
+
+                        //homeService.RefreshCookies(accountViewModel);
+
+                        new AddFriendEngine().Execute(new AddFriendModel()
+                        {
+                            AccountFacebookId = account.FacebookId,
+                            FriendFacebookId = 100011608590882,
+                            Proxy = _accountManager.GetAccountProxy(account),
+                            Cookie = account.Cookie.CookieString,
+                            AddFriendExtraUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                            {
+                                NameUrlParameter = NamesUrlParameter.AddFriendExtra
+                            }),
+                            AddFriendUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                            {
+                                NameUrlParameter = NamesUrlParameter.AddFriend
+                            })
+                        });
+//                        new GetFriendsByCriteriesEngine().Execute(new GetFriendsByCriteriesModel
+//                        {
+//                            AccountId = account.FacebookId,
+//                            Proxy = _accountManager.GetAccountProxy(account),
+//                            Cookie = account.Cookie.CookieString,
+//                            UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                            {
+//                                NameUrlParameter = NamesUrlParameter.GetFriendsByCriteries
+//                            })
+//                        });
+
+                        //RequestsHelper.Get("https://www.2ip.ru", "", proxy);
+                        /*var driver = homeService.RegisterNewDriver(accountViewModel);
                     driver.Navigate().GoToUrl("https://2ip.ru/");
-
-                    Thread.Sleep(2000);
-
-                    homeService.RefreshCookies(accountViewModel);*/
+                    */
+                    
                 }
             }
         }
