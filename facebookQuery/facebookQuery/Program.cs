@@ -8,6 +8,7 @@ using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.GetFriendsByCriteriesEngine;
 using Engines.Engines.GetFriendsEngine.AddFrienEngine;
 using Engines.Engines.GetNewCookiesEngine;
+using Engines.Engines.WinkEngine;
 using Jobs.JobsService;
 using OpenQA.Selenium;
 using RequestsHelpers;
@@ -53,22 +54,34 @@ namespace FacebookApp
 
                         //homeService.RefreshCookies(accountViewModel);
 
-                        new AddFriendEngine().Execute(new AddFriendModel()
-                        {
+                    new WinkEngine().Execute(new WinkModel
+                    {
                             AccountFacebookId = account.FacebookId,
-                            FriendFacebookId = 100011608590882,
+                            FriendFacebookId = 100005708075966,
                             Proxy = _accountManager.GetAccountProxy(account),
                             Cookie = account.Cookie.CookieString,
-                            AddFriendExtraUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                            UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                             {
-                                NameUrlParameter = NamesUrlParameter.AddFriendExtra
+                                NameUrlParameter = NamesUrlParameter.Wink
                             }),
-                            AddFriendUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                            {
-                                NameUrlParameter = NamesUrlParameter.AddFriend
-                            })
-                        });
-//                        new GetFriendsByCriteriesEngine().Execute(new GetFriendsByCriteriesModel
+                    });
+
+//                        new AddFriendEngine().Execute(new AddFriendModel()
+//                        {
+//                            AccountFacebookId = account.FacebookId,
+//                            FriendFacebookId = 100011608590882,
+//                            Proxy = _accountManager.GetAccountProxy(account),
+//                            Cookie = account.Cookie.CookieString,
+//                            AddFriendExtraUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                            {
+//                                NameUrlParameter = NamesUrlParameter.AddFriendExtra
+//                            }),
+//                            AddFriendUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                            {
+//                                NameUrlParameter = NamesUrlParameter.AddFriend
+//                            })
+//                        });
+////                        new GetFriendsByCriteriesEngine().Execute(new GetFriendsByCriteriesModel
 //                        {
 //                            AccountId = account.FacebookId,
 //                            Proxy = _accountManager.GetAccountProxy(account),
@@ -79,11 +92,11 @@ namespace FacebookApp
 //                            })
 //                        });
 
-                        //RequestsHelper.Get("https://www.2ip.ru", "", proxy);
-                        /*var driver = homeService.RegisterNewDriver(accountViewModel);
+                    //RequestsHelper.Get("https://www.2ip.ru", "", proxy);
+                    /*var driver = homeService.RegisterNewDriver(accountViewModel);
                     driver.Navigate().GoToUrl("https://2ip.ru/");
                     */
-                    
+
                 }
             }
         }

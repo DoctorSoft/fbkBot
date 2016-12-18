@@ -21,6 +21,8 @@ namespace Constants
         [Description("https://www.facebook.com/ajax/add_friend/action.php?dpr=1")]
         AddFriend,
         [Description("https://www.facebook.com/pubcontent/chained_suggestions/")]
-        AddFriendExtra
+        AddFriendExtra,
+        [Description("https://www.facebook.com/pokes/dialog/")]
+        Wink
     }
 }

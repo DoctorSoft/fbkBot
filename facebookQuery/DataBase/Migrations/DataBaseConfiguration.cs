@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web.Script.Serialization;
@@ -8,8 +6,6 @@ using Constants.UrlEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.Models;
-using DataBase.QueriesAndCommands.Queries.UrlParameters;
-using DataBase.QueriesAndCommands.Queries.UrlParameters.Models;
 
 namespace DataBase.Migrations
 {
@@ -186,7 +182,6 @@ namespace DataBase.Migrations
                 {GetFriendsByCriteriesEnum.Rev, "2739930"},
                 {GetFriendsByCriteriesEnum.Ttstamp, "26581704884105717899984911458658169529552102116122815199"}
             };
-            */
 
             var addFriendParameters = new Dictionary<AddFriendEnum, string>
             {
@@ -231,25 +226,45 @@ namespace DataBase.Migrations
             var jsonAddFriend = js.Serialize(addFriendParameters.Select(pair => pair).ToList());
             var jsonGetFriendsExtra= js.Serialize(addFriendExtraParameters.Select(pair => pair).ToList());
 
-            /*
             var js = new JavaScriptSerializer();
             var jsonSendMessage = js.Serialize(sendMessageParameters.Select(pair => pair).ToList());
             var jsonUnread = js.Serialize(parametersUnread.Select(pair => pair).ToList());
             var jsonChangeStatus = js.Serialize(parametersChangeStatus.Select(pair => pair).ToList());
             var jsonFriends = js.Serialize(parametersFriends.Select(pair => pair).ToList());
             */
+
+            var winkParameters = new Dictionary<WinkEnum, string>
+            {
+                {WinkEnum.PokeTarget, ""},
+                {WinkEnum.Nctr, "pagelet_timeline_profile_actions"},
+                {WinkEnum.AsyncDialog, "1"},
+                {WinkEnum.User, ""},
+                {WinkEnum.A, "1"},
+                {WinkEnum.Af, "i0"},
+                {WinkEnum.Req, "19"},
+                {WinkEnum.Be, "-1"},
+                {WinkEnum.Pc, "PHASED:DEFAULT"},
+                {WinkEnum.Rev, "2748071"},
+                {WinkEnum.Dyn, "aihoFeyfyGmagngDxyG9giolzFEbFbGA8AyedirWo8popyUWdwIhE98nwgUy22EaUgDyUJi28y4EnFeex2uVWxeUW2fG4GDg4bDBxe6rCxaLGqu58nVV8-cxnxm1iyECQum8yUgx66EK3O69LZ1uJ12VovGi5qiV8FoWezooyECcypFt5xeEgAAw"},
+                {WinkEnum.Ttstamp, "265817199789774539555113995865817111410777122119456774112"},
+                {WinkEnum.FbDtsg, ""},
+            };
+
+            var js = new JavaScriptSerializer();
+            var jsonWink = js.Serialize(winkParameters.Select(pair => pair).ToList());
+
             var urlParametersList = new List<UrlParametersDbModel>()
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.AddFriend,
-                    ParametersSet = jsonAddFriend
-                },
+                    CodeParameters = (int)NamesUrlParameter.Wink,
+                    ParametersSet = jsonWink
+                },/*
                 new UrlParametersDbModel
                 {
                     CodeParameters = (int)NamesUrlParameter.AddFriendExtra,
                     ParametersSet = jsonGetFriendsExtra
-                },/*
+                },
                 new UrlParametersDbModel
                 {
                     CodeParameters = (int)NamesUrlParameter.SendMessage,

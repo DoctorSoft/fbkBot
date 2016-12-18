@@ -10,6 +10,7 @@
         ChangeMessageStatus = 6,
         GetFriendsByCriteries = 7,
         AddFriend = 8,
-        AddFriendExtra = 9
+        AddFriendExtra = 9,
+        Wink = 10
     }
 }

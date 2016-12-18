@@ -353,5 +353,40 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("addFriendExtraEnum");
             }
         }
+
+        public static string GetAttributeName(this WinkEnum winkEnum)
+        {
+            switch (winkEnum)
+            {
+                case WinkEnum.PokeTarget:
+                    return "poke_target=";
+                case WinkEnum.Nctr:
+                    return "nctr[_mod]=";
+                case WinkEnum.AsyncDialog:
+                    return "__asyncDialog=";
+                case WinkEnum.User:
+                    return "__user=";
+                case WinkEnum.A:
+                    return "__a=";
+                case WinkEnum.Dyn:
+                    return "__dyn=";
+                case WinkEnum.Af:
+                    return "__af=";
+                case WinkEnum.Req:
+                    return "__req=";
+                case WinkEnum.Be:
+                    return "__be=";
+                case WinkEnum.Pc:
+                    return "__pc=";
+                case WinkEnum.Rev:
+                    return "__rev=";
+                case WinkEnum.Ttstamp:
+                    return "ttstamp=";
+                case WinkEnum.FbDtsg:
+                    return "fb_dtsg=";
+                default:
+                    throw new ArgumentOutOfRangeException("winkEnum");
+            }
+        }
     }
 }
