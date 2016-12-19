@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Configurations\AccountConfiguration.cs" />
     <Compile Include="Configurations\CookiesConfiguration.cs" />
+    <Compile Include="Configurations\AnalysisFriendConfiguration.cs" />
     <Compile Include="Configurations\FriendConfiguration.cs" />
     <Compile Include="Configurations\FriendMessageConfiguration.cs" />
     <Compile Include="Configurations\FunctionConfiguration.cs" />
@@ -150,7 +151,20 @@
     <Compile Include="Migrations\201612102004263_AddFunctionTypeTable.Designer.cs">
       <DependentUpon>201612102004263_AddFunctionTypeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612191921466_AddAnalisysFriendTable.cs" />
+    <Compile Include="Migrations\201612191921466_AddAnalisysFriendTable.Designer.cs">
+      <DependentUpon>201612191921466_AddAnalisysFriendTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612191926405_FixAnalisysFriendTable.cs" />
+    <Compile Include="Migrations\201612191926405_FixAnalisysFriendTable.Designer.cs">
+      <DependentUpon>201612191926405_FixAnalisysFriendTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.cs" />
+    <Compile Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.Designer.cs">
+      <DependentUpon>201612191947415_FixSyntaxysBugAnalisysFriendTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
+    <Compile Include="Models\AnalysisFriendDbModel.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
     <Compile Include="Models\ExtraMessageDbModel.cs" />
@@ -338,6 +352,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612102004263_AddFunctionTypeTable.resx">
       <DependentUpon>201612102004263_AddFunctionTypeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612191921466_AddAnalisysFriendTable.resx">
+      <DependentUpon>201612191921466_AddAnalisysFriendTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612191926405_FixAnalisysFriendTable.resx">
+      <DependentUpon>201612191926405_FixAnalisysFriendTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.resx">
+      <DependentUpon>201612191947415_FixSyntaxysBugAnalisysFriendTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

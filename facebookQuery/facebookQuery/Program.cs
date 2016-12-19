@@ -8,6 +8,7 @@ using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsByCriteriesEngine;
 using Engines.Engines.GetFriendsEngine.AddFrienEngine;
+using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.WinkEngine;
 using Jobs.JobsService;
@@ -43,29 +44,38 @@ namespace FacebookApp
                         {
                             UserId = accountViewModel.FacebookId
                         });
-                       /* var proxy = new WebProxy(accountViewModel.Proxy)
+
+                    var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
+                    {
+                        Cookie = account.Cookie.CookieString,
+                        Proxy = _accountManager.GetAccountProxy(account)
+                    });
+
+                    /* var proxy = new WebProxy(accountViewModel.Proxy)
                         {
                             Credentials =
                                 new NetworkCredential(accountViewModel.ProxyLogin, accountViewModel.ProxyPassword)
                         };*/
 
-                        //RequestsHelper.Get("https://www.facebook.com/friends/requests/?fcref=jwl", account.Cookie.CookieString, proxy);
+                    //RequestsHelper.Get("https://www.facebook.com/friends/requests/?fcref=jwl", account.Cookie.CookieString, proxy);
 
-                        //new HomeService(null, null).RefreshCookies(accountViewModel);
+                    //new HomeService(null, null).RefreshCookies(accountViewModel);
 
-                        //homeService.RefreshCookies(accountViewModel);
+                    //homeService.RefreshCookies(accountViewModel);
+                    //
 
-                    new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
-                    {
-                        AccountFacebookId = account.FacebookId,
-                        FriendFacebookId = 100014431878138,
-                        Proxy = _accountManager.GetAccountProxy(account),
-                        Cookie = account.Cookie.CookieString,
-                        UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                        {
-                            NameUrlParameter = NamesUrlParameter.ConfirmFriendship
-                        }),
-                    });
+//                    new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
+//                    {
+//                        AccountFacebookId = account.FacebookId,
+//                        FriendFacebookId = 100014431878138,
+//                        Proxy = _accountManager.GetAccountProxy(account),
+//                        Cookie = account.Cookie.CookieString,
+//                        UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                        {
+//                            NameUrlParameter = NamesUrlParameter.ConfirmFriendship
+//                        }),
+//                    });
+
 //                    new WinkEngine().Execute(new WinkModel
 //                    {
 //                            AccountFacebookId = account.FacebookId,

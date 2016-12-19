@@ -22,6 +22,8 @@ namespace DataBase.Context
 
         public DbSet<FriendDbModel> Friends { get; set; }
 
+        public DbSet<AnalysisFriendDbModel> AnalisysFriends { get; set; }
+
         public DbSet<FriendMessageDbModel> FriendMessages { get; set; }
 
         public DbSet<MessageGroupDbModel> MessageGroups { get; set; }
@@ -45,6 +47,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new MessageConfiguration());
             modelBuilder.Configurations.Add(new UrlParametersConfiguration());
             modelBuilder.Configurations.Add(new FriendConfiguration());
+            modelBuilder.Configurations.Add(new AnalysisFriendConfiguration());
             modelBuilder.Configurations.Add(new FriendMessageConfiguration());
             modelBuilder.Configurations.Add(new LinkConfiguration());
             modelBuilder.Configurations.Add(new StopWordConfiguration());

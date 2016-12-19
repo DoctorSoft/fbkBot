@@ -14,6 +14,8 @@ namespace Constants
         GetСorrespondenceByFriendId,
         [Description("https://www.facebook.com/profile.php")]
         GetFriends,
+        [Description("https://www.facebook.com/friends/requests/?split=1&fcref=ft")]
+        GetRecommendedFriends,
         [Description("https://www.facebook.com/ajax/mercury/change_read_status.php?dpr=1")]
         ChangeReadStatus,
         [Description("https://www.facebook.com/ajax/growth/friend_browser/checkbox.php?dpr=1")]

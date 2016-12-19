@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="EnumExtension\EnumExtension.cs" />
     <Compile Include="EnumExtension\UrlEnumsExtension.cs" />
+    <Compile Include="FriendTypesEnum\StatusesFriend.cs" />
+    <Compile Include="FriendTypesEnum\FriendTypes.cs" />
     <Compile Include="FunctionEnums\FunctionName.cs" />
     <Compile Include="FunctionEnums\FunctionTypeName.cs" />
     <Compile Include="GendersUnums\GenderEnum.cs" />

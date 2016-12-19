@@ -10,7 +10,7 @@ using Constants.GendersUnums;
 using Constants.UrlEnums;
 using RequestsHelpers;
 
-namespace Engines.Engines.GetFriendsEngine
+namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine
 {
     public class GetFriendsEngine : AbstractEngine<GetFriendsModel, List<GetFriendsResponseModel>>
     {

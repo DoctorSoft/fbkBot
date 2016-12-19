@@ -1,4 +1,5 @@
-﻿using Constants.GendersUnums;
+﻿using Constants.FriendTypesEnum;
+using Constants.GendersUnums;
 
 namespace CommonModels
 {
@@ -11,5 +12,7 @@ namespace CommonModels
         public string Uri { get; set; }
 
         public GenderEnum Gender { get; set; }
+
+        public FriendTypes Type { get; set; }
     }
 }

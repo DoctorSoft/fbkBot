@@ -8,6 +8,7 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.GetFriendsEngine;
+using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
 using Services.Core.Interfaces.ServiceTools;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
