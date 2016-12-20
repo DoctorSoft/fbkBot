@@ -249,7 +249,7 @@ namespace DataBase.Migrations
                 {WinkEnum.Ttstamp, "265817199789774539555113995865817111410777122119456774112"},
                 {WinkEnum.FbDtsg, ""},
             };
-            */
+            
             var confirmFriendshipParameters = new Dictionary<ConfirmFriendshipEnum, string>
             {
                 {ConfirmFriendshipEnum.Action, "confirm"},
@@ -304,13 +304,13 @@ namespace DataBase.Migrations
                 {
                     CodeParameters = (int)NamesUrlParameter.GetFriends,
                     ParametersSet = jsonFriends
-                },*/
+                },
             };
 
             context.UrlParameters.AddRange(urlParametersList);
              
             context.SaveChanges(); 
-            
+            */
         }
     }
 }

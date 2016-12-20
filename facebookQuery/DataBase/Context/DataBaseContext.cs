@@ -11,11 +11,15 @@ namespace DataBase.Context
         {
 
         }
-        
+
         public DbSet<AccountDbModel> Accounts { get; set; }
+
+        public DbSet<SpyAccountDbModel> SpyAccounts { get; set; }
 
         public DbSet<CookiesDbModel> Cookies { get; set; }
 
+        public DbSet<CookiesForSpyDbModel> CookiesForSpy { get; set; }
+        
         public DbSet<MessageDbModel> Messages { get; set; }
 
         public DbSet<UrlParametersDbModel> UrlParameters { get; set; }
@@ -43,7 +47,9 @@ namespace DataBase.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
+            modelBuilder.Configurations.Add(new SpyAccountConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
+            modelBuilder.Configurations.Add(new CookiesForSpyConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
             modelBuilder.Configurations.Add(new UrlParametersConfiguration());
             modelBuilder.Configurations.Add(new FriendConfiguration());

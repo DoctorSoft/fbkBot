@@ -87,6 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\CookiesForSpyConfiguration.cs" />
+    <Compile Include="Configurations\SpyAccountConfiguration.cs" />
     <Compile Include="Configurations\AccountConfiguration.cs" />
     <Compile Include="Configurations\CookiesConfiguration.cs" />
     <Compile Include="Configurations\AnalysisFriendConfiguration.cs" />
@@ -163,7 +165,13 @@
     <Compile Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.Designer.cs">
       <DependentUpon>201612191947415_FixSyntaxysBugAnalisysFriendTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612201608209_AddSpyAccountsTable.cs" />
+    <Compile Include="Migrations\201612201608209_AddSpyAccountsTable.Designer.cs">
+      <DependentUpon>201612201608209_AddSpyAccountsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
+    <Compile Include="Models\CookiesForSpyDbModel.cs" />
+    <Compile Include="Models\SpyAccountDbModel.cs" />
     <Compile Include="Models\AnalysisFriendDbModel.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
     <Compile Include="Models\CookiesDbModel.cs" />
@@ -361,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.resx">
       <DependentUpon>201612191947415_FixSyntaxysBugAnalisysFriendTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612201608209_AddSpyAccountsTable.resx">
+      <DependentUpon>201612201608209_AddSpyAccountsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
