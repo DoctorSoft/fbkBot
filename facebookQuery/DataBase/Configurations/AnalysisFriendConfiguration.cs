@@ -16,6 +16,7 @@ namespace DataBase.Configurations
             Property(model => model.FriendName);
             Property(model => model.FacebookId);
             Property(model => model.AddedDateTime);
+            Property(model => model.Type);
 
             HasRequired(it => it.AccountWithFriend).WithMany(m => m.AnalysisFriends).HasForeignKey(model => model.AccountId);
         }

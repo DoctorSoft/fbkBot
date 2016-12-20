@@ -18,5 +18,7 @@ namespace DataBase.Models
         public DateTime AddedDateTime { get; set; }
 
         public StatusesFriend Status { get; set; }
+
+        public FriendTypes Type { get; set; }
     }
 }
