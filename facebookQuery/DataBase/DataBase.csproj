@@ -208,8 +208,10 @@
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveNewFriendCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveFriendsForAnalysisCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveNewFriendCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveFriendsForAnalysisCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Groups\AddNewGroupCommandHandler.cs" />
@@ -246,6 +248,7 @@
     <Compile Include="QueriesAndCommands\IQuery.cs" />
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
+    <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQuery.cs" />
@@ -269,7 +272,7 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetNewFriendsForDialogueQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Friends\FriendData.cs" />
+    <Compile Include="QueriesAndCommands\Models\FriendData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdAccountQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdAccountQueryHandler.cs" />

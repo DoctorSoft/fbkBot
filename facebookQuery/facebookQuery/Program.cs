@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
+using Constants.FriendTypesEnum;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
+using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.ConfirmFriendshipEngine;
@@ -40,10 +44,10 @@ namespace FacebookApp
             {
                 if (accountViewModel.Id == 1)
                 {
-                        var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
-                        {
-                            UserId = accountViewModel.FacebookId
-                        });
+                    var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+                    {
+                        UserId = accountViewModel.FacebookId
+                    });
 
                     var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
                     {
@@ -51,6 +55,19 @@ namespace FacebookApp
                         Proxy = _accountManager.GetAccountProxy(account)
                     });
 
+                    new SaveFriendsForAnalysisCommandHandler(new DataBaseContext()).Handle(new SaveFriendsForAnalysisCommand
+                    {
+                        AccountId = account.Id,
+                        Friends = friendList.Select(model => new AnalysisFriendData
+                        {
+                            AccountId = account.Id,
+                            Href = model.Uri,
+                            FacebookId = model.FacebookId,
+                            Type = model.Type,
+                            Status = StatusesFriend.ToAnalys,
+                            FriendName = model.FriendName
+                        }).ToList()
+                    });
                     /* var proxy = new WebProxy(accountViewModel.Proxy)
                         {
                             Credentials =

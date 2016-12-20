@@ -2,6 +2,7 @@
 using System.Linq;
 using CommonModels;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
 {

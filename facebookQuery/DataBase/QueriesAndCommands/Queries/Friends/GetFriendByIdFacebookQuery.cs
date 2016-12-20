@@ -1,4 +1,6 @@
-﻿namespace DataBase.QueriesAndCommands.Queries.Friends
+﻿using DataBase.QueriesAndCommands.Models;
+
+namespace DataBase.QueriesAndCommands.Queries.Friends
 {
     public class GetFriendByIdFacebookQuery : IQuery<FriendData>
     {

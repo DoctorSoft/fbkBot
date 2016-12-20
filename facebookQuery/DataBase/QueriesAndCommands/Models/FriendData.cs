@@ -1,7 +1,7 @@
 ﻿using Constants.GendersUnums;
 using Constants.MessageEnums;
 
-namespace DataBase.QueriesAndCommands.Queries.Friends
+namespace DataBase.QueriesAndCommands.Models
 {
     public class FriendData
     {

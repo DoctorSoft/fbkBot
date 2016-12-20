@@ -1,4 +1,5 @@
 ﻿using DataBase.Context;
+using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using Services.Core.Interfaces.ServiceTools;
 

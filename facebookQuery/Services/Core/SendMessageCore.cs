@@ -8,6 +8,7 @@ using DataBase.QueriesAndCommands.Commands.Friends.ChangeMessageRegimeCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
+using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
 using DataBase.QueriesAndCommands.Queries.Friends;

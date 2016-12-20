@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CommonModels;
+using DataBase.QueriesAndCommands.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
 {

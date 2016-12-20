@@ -1,4 +1,5 @@
-﻿using DataBase.QueriesAndCommands.Queries.Friends;
+﻿using DataBase.QueriesAndCommands.Models;
+using DataBase.QueriesAndCommands.Queries.Friends;
 
 namespace Services.Core.Interfaces.ServiceTools
 {
