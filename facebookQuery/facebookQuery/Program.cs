@@ -10,6 +10,7 @@ using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.ConfirmFriendshipEngine;
+using Engines.Engines.GetFriendInfoEngine;
 using Engines.Engines.GetFriendsByCriteriesEngine;
 using Engines.Engines.GetFriendsEngine.AddFrienEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
@@ -49,6 +50,14 @@ namespace FacebookApp
                         UserId = accountViewModel.FacebookId
                     });
 
+                    new GetFriendInfoEngine().Execute(new GetFriendInfoModel()
+                    {
+                        AccountFacebookId = account.FacebookId,
+                        Proxy = _accountManager.GetAccountProxy(account),
+                        Cookie = account.Cookie.CookieString,
+                        FrienFacebookId = 100007549243326
+                    });
+                    /*
                     var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
                     {
                         Cookie = account.Cookie.CookieString,
