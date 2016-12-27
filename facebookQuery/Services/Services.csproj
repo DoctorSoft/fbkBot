@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
+    <Compile Include="Core\Interfaces\ServiceTools\IAccountSettingsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IFacebookMessageManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IFriendManager.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Services\LinksService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
     <Compile Include="Services\SpyService.cs" />
+    <Compile Include="ServiceTools\AccountSettingsManager.cs" />
     <Compile Include="ServiceTools\FunctionPermissionManager.cs" />
     <Compile Include="ServiceTools\StopWordsManager.cs" />
     <Compile Include="Services\StopWordsService.cs" />

@@ -197,6 +197,8 @@
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AccountSettings\AddOrUpdateAccountSettingsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AccountSettings\AddOrUpdateAccountSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\DeleteUserCommand.cs" />
@@ -255,10 +257,13 @@
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountSettingsModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQuery.cs" />
@@ -393,6 +398,7 @@
       <DependentUpon>201612272146224_AddAccountSettingsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
