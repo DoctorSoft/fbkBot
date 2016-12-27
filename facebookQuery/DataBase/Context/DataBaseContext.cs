@@ -14,6 +14,8 @@ namespace DataBase.Context
 
         public DbSet<AccountDbModel> Accounts { get; set; }
 
+        public DbSet<AccountSettingsDbModel> AccountSettings { get; set; }
+
         public DbSet<SpyAccountDbModel> SpyAccounts { get; set; }
 
         public DbSet<CookiesDbModel> Cookies { get; set; }
@@ -47,6 +49,7 @@ namespace DataBase.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
+            modelBuilder.Configurations.Add(new AccountSettingsConfiguration());
             modelBuilder.Configurations.Add(new SpyAccountConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
             modelBuilder.Configurations.Add(new CookiesForSpyConfiguration());

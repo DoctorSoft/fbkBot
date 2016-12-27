@@ -22,7 +22,8 @@ namespace DataBase.Configurations
             Property(model => model.ProxyLogin);
             Property(model => model.ProxyPassword);
 
-            HasOptional(it => it.Cookies).WithRequired(m=>m.Account);
+            HasOptional(it => it.Cookies).WithRequired(m => m.Account);
+            HasOptional(it => it.Settings).WithRequired(m => m.Account);
             HasMany(model => model.Messages).WithOptional(it => it.Account).HasForeignKey(model => model.AccountId);
             HasMany(model => model.Friends).WithRequired(it => it.AccountWithFriend).HasForeignKey(model => model.AccountId);
             HasMany(model => model.AnalysisFriends).WithRequired(it => it.AccountWithFriend).HasForeignKey(model => model.AccountId);

@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\AccountSettingsConfiguration.cs" />
     <Compile Include="Configurations\CookiesForSpyConfiguration.cs" />
     <Compile Include="Configurations\SpyAccountConfiguration.cs" />
     <Compile Include="Configurations\AccountConfiguration.cs" />
@@ -173,7 +174,12 @@
     <Compile Include="Migrations\201612202040360_AddFriendTypeField.Designer.cs">
       <DependentUpon>201612202040360_AddFriendTypeField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612272146224_AddAccountSettingsTable.cs" />
+    <Compile Include="Migrations\201612272146224_AddAccountSettingsTable.Designer.cs">
+      <DependentUpon>201612272146224_AddAccountSettingsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
+    <Compile Include="Models\AccountSettingsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
     <Compile Include="Models\SpyAccountDbModel.cs" />
     <Compile Include="Models\AnalysisFriendDbModel.cs" />
@@ -382,6 +388,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612202040360_AddFriendTypeField.resx">
       <DependentUpon>201612202040360_AddFriendTypeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612272146224_AddAccountSettingsTable.resx">
+      <DependentUpon>201612272146224_AddAccountSettingsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

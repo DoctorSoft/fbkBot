@@ -11,5 +11,7 @@ namespace Engines.Engines.GetFriendInfoEngine
         public string Cookie { get; set; }
 
         public WebProxy Proxy { get; set; }
+
+        public bool GetGenderFunctionEnable { get; set; }
     }
 }

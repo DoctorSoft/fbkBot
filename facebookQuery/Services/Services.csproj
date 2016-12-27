@@ -72,6 +72,7 @@
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\LinksService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
+    <Compile Include="Services\SpyService.cs" />
     <Compile Include="ServiceTools\FunctionPermissionManager.cs" />
     <Compile Include="ServiceTools\StopWordsManager.cs" />
     <Compile Include="Services\StopWordsService.cs" />

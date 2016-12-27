@@ -21,6 +21,7 @@ namespace Services.Services
                 }).ToList()
             };
         }
+
         public void AddNewExtraMessage(string name)
         {
             if (string.IsNullOrWhiteSpace(name))

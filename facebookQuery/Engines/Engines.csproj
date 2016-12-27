@@ -65,7 +65,8 @@
     <Compile Include="Engines\GetFriendInfoEngine\GetFriendInfoModel.cs" />
     <Compile Include="Engines\GetFriendsByCriteriesEngine\GetFriendsEngine.cs" />
     <Compile Include="Engines\GetFriendsByCriteriesEngine\GetFriendsModel.cs" />
-    <Compile Include="Engines\GetFriendsEngine\GetCurrentFriendsEngine\FriendInfoData.cs" />
+    <Compile Include="Engines\GetFriendInfoEngine\FriendInfoSection.cs" />
+    <Compile Include="Engines\GetFriendInfoEngine\FriendInfoData.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetRecommendedFriendsEngine\GetRecommendedFriendsEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetRecommendedFriendsEngine\GetRecommendedFriendsModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetCurrentFriendsEngine\GetFriendsEngine.cs" />

@@ -55,7 +55,8 @@ namespace FacebookApp
                         AccountFacebookId = account.FacebookId,
                         Proxy = _accountManager.GetAccountProxy(account),
                         Cookie = account.Cookie.CookieString,
-                        FrienFacebookId = 100007549243326
+                        FrienFacebookId = 100014593804528,
+                        GetGenderFunctionEnable = true
                     });
                     /*
                     var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
