@@ -12,34 +12,37 @@ namespace Engines.Engines.GetFriendInfoEngine
     {
         protected override FriendInfoSection ExecuteEngine(GetFriendInfoModel model)
         {
-            var stringResponse = RequestsHelper.Get("https://www.facebook.com/profile.php?id=" 
-                                                + model.FrienFacebookId
-                                                + "&sk=about"
-                                                + "&lst=" + model.AccountFacebookId 
-                                                + "%3A" + model.FrienFacebookId 
-                                                + "%3A" + GenerateValue() 
-                                                + "&section=overview&pnref=about"
-                                                , model.Cookie, model.Proxy);
+            var result = new FriendInfoSection();
 
-            var result = GetFriendsData(stringResponse);
-
-            if (!model.GetGenderFunctionEnable)
+            if (model.Settings.LivesPlace != null && model.Settings.SchoolPlace != null && model.Settings.WorkPlace != null)
             {
-                return result;
+                var stringResponse = RequestsHelper.Get("https://www.facebook.com/profile.php?id="
+                                    + model.FriendFacebookId
+                                    + "&sk=about"
+                                    + "&lst=" + model.AccountFacebookId
+                                    + "%3A" + model.FriendFacebookId
+                                    + "%3A" + GenerateValue()
+                                    + "&section=overview&pnref=about"
+                                    , model.Cookie, model.Proxy);
+
+                result = GetFriendsData(stringResponse);
             }
+            
+            if (model.Settings.Gender != null)
+            {
+                var contactStringResponse = RequestsHelper.Get("https://www.facebook.com/profile.php?id="
+                                               + model.FriendFacebookId
+                                               + "&sk=about"
+                                               + "&lst=" + model.AccountFacebookId
+                                               + "%3A" + model.FriendFacebookId
+                                               + "%3A" + GenerateValue()
+                                               + "&section=contact-info&pnref=about"
+                                               , model.Cookie, model.Proxy);
 
-            var contactStringResponse = RequestsHelper.Get("https://www.facebook.com/profile.php?id="
-                                                           + model.FrienFacebookId
-                                                           + "&sk=about"
-                                                           + "&lst=" + model.AccountFacebookId
-                                                           + "%3A" + model.FrienFacebookId
-                                                           + "%3A" + GenerateValue()
-                                                           + "&section=contact-info&pnref=about"
-                                                           , model.Cookie, model.Proxy);
+                var gender = GetGender(contactStringResponse);
 
-            var gender = GetGender(contactStringResponse);
-
-            result.Gender = gender;
+                result.Gender = gender;
+            }
 
             return result;
         }
@@ -56,10 +59,17 @@ namespace Engines.Engines.GetFriendInfoEngine
             var friendData = new FriendInfoSection();
 
             var parentPattern = new Regex("class=\"_4bl7\"><ul.*?</ul></div>");
-            var parentCollection = parentPattern.Matches(pageRequest)[0].ToString();
+
+            var parentCollection = parentPattern.Matches(pageRequest);
+            if (parentCollection.Count == 0)
+            {
+                return null;
+            }
+
+            var parentCollectionString = parentCollection[0].ToString();
 
             var infoPattern = new Regex("<div class=\"clearfix.*?</div></div></div></div>");
-            var infoCollection = infoPattern.Matches(parentCollection);
+            var infoCollection = infoPattern.Matches(parentCollectionString);
 
             var i = 1;
 

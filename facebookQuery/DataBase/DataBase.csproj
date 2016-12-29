@@ -178,6 +178,10 @@
     <Compile Include="Migrations\201612272146224_AddAccountSettingsTable.Designer.cs">
       <DependentUpon>201612272146224_AddAccountSettingsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612291928588_ChangedFieldType.cs" />
+    <Compile Include="Migrations\201612291928588_ChangedFieldType.Designer.cs">
+      <DependentUpon>201612291928588_ChangedFieldType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountSettingsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
@@ -213,6 +217,8 @@
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\RemoveExtraMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\ChangeAnalysisFriendStatusCommand\ChangeAnalysisFriendStatusCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\ChangeAnalysisFriendStatusCommand\ChangeAnalysisFriendStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveNewFriendCommand.cs" />
@@ -279,6 +285,8 @@
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetFriendMessagesQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdFacebookQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdFacebookQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetNewFriendsForDialogueQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetNewFriendsForDialogueQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQuery.cs" />
@@ -396,6 +404,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612272146224_AddAccountSettingsTable.resx">
       <DependentUpon>201612272146224_AddAccountSettingsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612291928588_ChangedFieldType.resx">
+      <DependentUpon>201612291928588_ChangedFieldType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

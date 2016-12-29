@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
 
 namespace Engines.Engines.GetFriendInfoEngine
 {
@@ -6,12 +7,12 @@ namespace Engines.Engines.GetFriendInfoEngine
     {
         public long AccountFacebookId { get; set; }
 
-        public long FrienFacebookId { get; set; }
+        public long FriendFacebookId { get; set; }
 
         public string Cookie { get; set; }
 
         public WebProxy Proxy { get; set; }
 
-        public bool GetGenderFunctionEnable { get; set; }
+        public AccountSettingsModel Settings { get; set; }
     }
 }

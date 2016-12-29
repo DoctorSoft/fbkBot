@@ -19,6 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.AccountSettings
                 context.AccountSettings.Where(model => model.Id == query.AccountId)
                     .Select(model => new AccountSettingsModel()
                     {
+                        AccountId = model.Id,
                         Gender = model.Gender,
                         LivesPlace = model.LivesPlace,
                         SchoolPlace = model.SchoolPlace,

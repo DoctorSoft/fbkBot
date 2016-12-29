@@ -12,9 +12,7 @@ namespace DataBase.QueriesAndCommands.Models
         public string FriendName { get; set; }
 
         public long AccountId { get; set; }
-
-        public string Href { get; set; }
-
+        
         public DateTime AddedToAnalysDateTime { get; set; }
         
         public StatusesFriend Status { get; set; }

@@ -12,6 +12,6 @@ namespace DataBase.QueriesAndCommands.Queries.Account.Models
 
         public string WorkPlace { get; set; }
 
-        public GenderEnum Gender { get; set; }
+        public GenderEnum? Gender { get; set; }
     }
 }

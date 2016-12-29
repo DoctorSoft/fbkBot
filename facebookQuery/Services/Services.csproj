@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Interfaces\IAnalyzeFriendCore.cs" />
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountSettingsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountManager.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Core\Interfaces\ServiceTools\IFriendManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IMessageManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IStopWordsManager.cs" />
+    <Compile Include="Core\AnalizeFriendCore.cs" />
     <Compile Include="Core\SendMessageCore.cs" />
     <Compile Include="Interfaces\IJobService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageModel.cs" />
     <Compile Include="ViewModels\FriendMessagesModels\UnreadFriendMessageList.cs" />
     <Compile Include="ViewModels\FriendsModels\FriendListViewModel.cs" />
+    <Compile Include="ViewModels\FriendsModels\FriendInfoViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\GroupFunctionsModels\FunctionViewModel.cs" />
     <Compile Include="ViewModels\GroupFunctionsModels\GroupFunctionViewModel.cs" />

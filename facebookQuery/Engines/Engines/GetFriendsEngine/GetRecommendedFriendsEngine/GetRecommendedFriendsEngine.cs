@@ -42,9 +42,9 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
                 var index2 = dataStep2.IndexOf(">", StringComparison.Ordinal);
                 var name = dataStep2.Remove(0, index2 + 1);
 
-                friendsList.Add(new GetFriendsResponseModel()
+                friendsList.Add(new GetFriendsResponseModel
                 {
-                    FacebookId = Convert.ToInt64(id.Remove(id.Length-1)),
+                    FacebookId = Convert.ToInt64(id),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),
                     Type = FriendTypes.Incoming
                 });
@@ -64,7 +64,7 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
 
                 friendsList.Add(new GetFriendsResponseModel()
                 {
-                    FacebookId = Convert.ToInt64(id.Remove(id.Length - 1)),
+                    FacebookId = Convert.ToInt64(id),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),
                     Type = FriendTypes.Recommended
                 });

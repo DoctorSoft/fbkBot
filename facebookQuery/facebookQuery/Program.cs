@@ -35,6 +35,7 @@ namespace FacebookApp
         private static void Main(string[] args)
         {
             var homeService = new HomeService(new JobService(), new AccountManager());
+            var spyService = new SpyService();
 
             var accounts = homeService.GetAccounts();
 
@@ -50,39 +51,34 @@ namespace FacebookApp
                         UserId = accountViewModel.FacebookId
                     });
 
-                    new GetFriendInfoEngine().Execute(new GetFriendInfoModel()
-                    {
-                        AccountFacebookId = account.FacebookId,
-                        Proxy = _accountManager.GetAccountProxy(account),
-                        Cookie = account.Cookie.CookieString,
-                        FrienFacebookId = 100014593804528,
-                        GetGenderFunctionEnable = true
-                    });
-                    /*
-                    var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
-                    {
-                        Cookie = account.Cookie.CookieString,
-                        Proxy = _accountManager.GetAccountProxy(account)
-                    });
+                    //homeService.RefreshCookies(accountViewModel);
 
-                    new SaveFriendsForAnalysisCommandHandler(new DataBaseContext()).Handle(new SaveFriendsForAnalysisCommand
-                    {
-                        AccountId = account.Id,
-                        Friends = friendList.Select(model => new AnalysisFriendData
-                        {
-                            AccountId = account.Id,
-                            Href = model.Uri,
-                            FacebookId = model.FacebookId,
-                            Type = model.Type,
-                            Status = StatusesFriend.ToAnalys,
-                            FriendName = model.FriendName
-                        }).ToList()
-                    });
-                    /* var proxy = new WebProxy(accountViewModel.Proxy)
-                        {
-                            Credentials =
-                                new NetworkCredential(accountViewModel.ProxyLogin, accountViewModel.ProxyPassword)
-                        };*/
+                    spyService.AnalyzeFriends(accountViewModel);
+
+                   
+//                    var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
+//                    {
+//                        Cookie = account.Cookie.CookieString,
+//                        Proxy = _accountManager.GetAccountProxy(account)
+//                    });
+//                    new SaveFriendsForAnalysisCommandHandler(new DataBaseContext()).Handle(new SaveFriendsForAnalysisCommand
+//                    {
+//                        AccountId = account.Id,
+//                        Friends = friendList.Select(model => new AnalysisFriendData
+//                        {
+//                            AccountId = account.Id,
+//                            FacebookId = model.FacebookId,
+//                            Type = model.Type,
+//                            Status = StatusesFriend.ToAnalys,
+//                            FriendName = model.FriendName
+//                        }).ToList()
+//                    });
+
+//                     var proxy = new WebProxy(accountViewModel.Proxy)
+//                        {
+//                            Credentials =
+//                                new NetworkCredential(accountViewModel.ProxyLogin, accountViewModel.ProxyPassword)
+//                        };
 
                     //RequestsHelper.Get("https://www.facebook.com/friends/requests/?fcref=jwl", account.Cookie.CookieString, proxy);
 

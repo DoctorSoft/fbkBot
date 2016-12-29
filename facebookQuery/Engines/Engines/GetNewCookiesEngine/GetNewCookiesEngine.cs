@@ -1,8 +1,5 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.PhantomJS;
 
 namespace Engines.Engines.GetNewCookiesEngine
 {

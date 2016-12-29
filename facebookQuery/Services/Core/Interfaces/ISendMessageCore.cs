@@ -1,6 +1,5 @@
 ﻿using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
-using DataBase.QueriesAndCommands.Queries.Friends;
 
 namespace Services.Core.Interfaces
 {

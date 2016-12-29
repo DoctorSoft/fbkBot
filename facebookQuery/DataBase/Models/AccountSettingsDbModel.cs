@@ -13,7 +13,7 @@ namespace DataBase.Models
 
         public string WorkPlace { get; set; }
 
-        public GenderEnum Gender { get; set; }
+        public GenderEnum? Gender { get; set; }
 
         public AccountDbModel Account { get; set; }
     }
