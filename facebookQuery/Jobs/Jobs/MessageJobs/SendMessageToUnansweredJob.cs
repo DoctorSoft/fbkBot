@@ -8,7 +8,7 @@ namespace Jobs.Jobs.MessageJobs
 {
     public static class SendMessageToUnansweredJob
     {
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail), Queue("sendmessagetounanswered", Order = 1)]
         public static void Run(AccountViewModel account)
         {
             if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.SendMessageToUnanswered, account.FacebookId))

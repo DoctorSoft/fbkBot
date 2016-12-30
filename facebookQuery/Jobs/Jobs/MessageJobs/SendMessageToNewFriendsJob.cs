@@ -8,7 +8,7 @@ namespace Jobs.Jobs.MessageJobs
 {
     public static class SendMessageToNewFriendsJob
     {
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail), Queue("sendmessagetonewfriends", Order = 2)]
         public static void Run(AccountViewModel account)
         {
             if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.SendMessageToNewFriends, account.FacebookId))

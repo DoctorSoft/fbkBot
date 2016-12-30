@@ -269,7 +269,6 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountSettingsModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQuery.cs" />
