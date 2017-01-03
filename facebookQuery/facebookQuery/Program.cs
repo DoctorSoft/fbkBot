@@ -12,7 +12,6 @@ using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendInfoEngine;
 using Engines.Engines.GetFriendsByCriteriesEngine;
-using Engines.Engines.GetFriendsEngine.AddFrienEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.WinkEngine;
@@ -35,7 +34,7 @@ namespace FacebookApp
         private static void Main(string[] args)
         {
             var homeService = new HomeService(new JobService(), new AccountManager());
-            var spyService = new SpyService();
+            //var spyService = new SpyService();
 
             var accounts = homeService.GetAccounts();
 
@@ -51,11 +50,12 @@ namespace FacebookApp
                         UserId = accountViewModel.FacebookId
                     });
 
+
                     //homeService.RefreshCookies(accountViewModel);
 
-                    spyService.AnalyzeFriends(accountViewModel);
+//                    spyService.AnalyzeFriends(accountViewModel);
 
-                   
+
 //                    var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
 //                    {
 //                        Cookie = account.Cookie.CookieString,

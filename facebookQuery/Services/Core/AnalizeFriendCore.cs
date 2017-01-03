@@ -1,6 +1,7 @@
 ﻿using Constants.FriendTypesEnum;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Services.Core.Interfaces;
 using Services.ViewModels.FriendsModels;
@@ -61,6 +62,13 @@ namespace Services.Core
                         FriendFacebookId = friendInfo.FacebookId,
                         NewStatus = StatusesFriend.ToDelete
                     });
+
+                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
+                {
+
+                    AccountId = settings.AccountId,
+                    FriendId = friendInfo.Id,
+                });
             }
         }
     }

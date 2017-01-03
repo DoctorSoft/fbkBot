@@ -12,6 +12,7 @@ namespace Jobs.JobsService
         const string UnansweredMessagesPattern = "Respond to unanswered messages from {0}";
         const string NewFriendMessagesPattern = "Send message to new friend from {0}";
         const string RefreshFriendsPattern = "Refresh friends list for account = {0}";
+        const string AddNewFriendsPattern = "Add new friends and recommended for account = {0}";
 
         public void AddOrUpdateAccountJobs(AccountViewModel accountViewModel)
         {
@@ -19,6 +20,7 @@ namespace Jobs.JobsService
             RecurringJob.AddOrUpdate(string.Format(UnansweredMessagesPattern, accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);
             RecurringJob.AddOrUpdate(string.Format(NewFriendMessagesPattern, accountViewModel.Login), () => SendMessageToNewFriendsJob.Run(accountViewModel), Cron.Minutely);
             RecurringJob.AddOrUpdate(string.Format(RefreshFriendsPattern, accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
+            RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
         }
 
         public void RemoveAccountJobs(string login)
@@ -27,6 +29,7 @@ namespace Jobs.JobsService
             RecurringJob.RemoveIfExists(string.Format(UnansweredMessagesPattern, login));
             RecurringJob.RemoveIfExists(string.Format(NewFriendMessagesPattern, login));
             RecurringJob.RemoveIfExists(string.Format(RefreshFriendsPattern, login));
+            RecurringJob.RemoveIfExists(string.Format(AddNewFriendsPattern, login));
         }
 
         public void RenameAccountJobs(AccountViewModel accountViewModel, string oldLogin)

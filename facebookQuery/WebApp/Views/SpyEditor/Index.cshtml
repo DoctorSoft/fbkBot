@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model Services.ViewModels.SpyAccountModels.SpyAccountViewModel
+
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3>
+            <span class="alert-info alert">
+                <span class="inline-half-text-left">
+                    Create/Update Spy account Data
+                </span>
+                <span class="inline-half-text-right">
+                    <a class="btn btn-success" href="@Url.Action("Index", "Spies")"><i class="fa fa-arrow-left"></i> Back To List</a>
+                </span>
+            </span>
+        </h3>
+    </div>
+    <div class="panel-footer">
+        @using (Html.BeginForm("UpdateUser", "SpyEditor", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.Id);
+
+            <div class="form-group input-group-sm">
+                Login: @Html.TextBoxFor(o => o.Login, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                Password: @Html.TextBoxFor(o => o.Password, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                Name: @Html.TextBoxFor(o => o.Name, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                PageUrl: @Html.TextBoxFor(o => o.PageUrl, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                FacebookId: @Html.TextBoxFor(o => o.FacebookId, new { @class = "form-control", @type = "number" })
+            </div>
+            <div class="form-group input-group-sm">
+                Proxy(Ip:Port): @Html.TextBoxFor(o => o.Proxy, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                Proxy login: @Html.TextBoxFor(o => o.ProxyLogin, new { @class = "form-control" })
+            </div>
+            <div class="form-group input-group-sm">
+                Proxy password: @Html.TextBoxFor(o => o.ProxyPassword, new { @class = "form-control" })
+            </div>
+
+            <div class="">
+                <input type="submit" class="btn btn-success" />
+            </div>
+        }
+    </div>
+

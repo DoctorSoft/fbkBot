@@ -2,7 +2,7 @@
 using System.Net;
 using Constants;
 
-namespace Engines.Engines.GetFriendsEngine.AddFrienEngine
+namespace Engines.Engines.GetFriendsEngine.AddFriendEngine
 {
     public class AddFriendModel
     {

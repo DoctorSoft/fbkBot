@@ -167,9 +167,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LinksController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
+    <Compile Include="Controllers\SpyAccountController.cs" />
     <Compile Include="Controllers\StopWordsController.cs" />
+    <Compile Include="Controllers\SpyEditorController.cs" />
     <Compile Include="Controllers\UserEditorController.cs" />
     <Compile Include="Controllers\DeletedUsersController.cs" />
+    <Compile Include="Controllers\SpiesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -274,9 +277,12 @@
     <Content Include="Views\DeletedUsers\Index.cshtml" />
     <Content Include="Views\ExtraMessages\Index.cshtml" />
     <Content Include="Views\GroupFunctions\Index.cshtml" />
+    <Content Include="Views\Spies\Index.cshtml" />
+    <Content Include="Views\SpyEditor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\SpyAccount\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

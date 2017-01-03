@@ -4,6 +4,7 @@ using System.Linq;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
+using Engines.Engines.GetFriendsEngine.AddFriendEngine;
 using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsEngine.AddFrienEngine

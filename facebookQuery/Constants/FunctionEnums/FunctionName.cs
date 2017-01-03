@@ -8,6 +8,7 @@
         SendMessageToUnread = 3,
 
         // Friends
-        RefreshFriends = 101
+        RefreshFriends = 101,
+        GetNewFriendsAndRecommended = 102
     }
 }

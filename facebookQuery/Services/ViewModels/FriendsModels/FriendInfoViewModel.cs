@@ -4,6 +4,8 @@ namespace Services.ViewModels.FriendsModels
 {
     public class FriendInfoViewModel
     {
+        public long Id { get; set; }
+
         public long FacebookId { get; set; }
 
         public string WorkSection { get; set; }
