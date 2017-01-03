@@ -209,9 +209,7 @@
     <Compile Include="QueriesAndCommands\Commands\Accounts\DeleteUserCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\RecoverUserCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\RecoverUserCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesForSpyCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesForSpyHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Cookies\UpdateCookiesHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\AddNewExtraMessagesCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\AddNewStopWordCommandHandler.cs" />
@@ -223,8 +221,6 @@
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeAnalysisFriendStatusCommand\ChangeAnalysisFriendStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Friends\RemoveAnalyzedFriendCommand\RemoveAnalyzedFriendCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Friends\RemoveAnalyzedFriendCommand\RemoveAnalyzedFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveNewFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveFriendsForAnalysisCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\SaveUserFriendsCommand\SaveUserFriendsCommand.cs" />
@@ -255,8 +251,6 @@
     <Compile Include="QueriesAndCommands\Commands\Links\RemoveLinkCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Links\UpdateLinkCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Links\UpdateLinkCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\SpyAccounts\AddOrUpdateSpyAccountCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\SpyAccounts\AddOrUpdateSpyAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\RemoveStopWordCommand.cs" />
@@ -275,8 +269,6 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\Models\SpyAccountModel.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountSettingsModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\AccountModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\CookieModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByFacebookIdQuery.cs" />
@@ -284,12 +276,6 @@
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\Models\MessageModel.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountsQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountsQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountByFacebookIdQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountByFacebookIdQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountByIdQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\ExtraMessages\ExtraMessagesData.cs" />
     <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQueryHandler.cs" />

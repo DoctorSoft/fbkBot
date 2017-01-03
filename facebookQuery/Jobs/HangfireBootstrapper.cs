@@ -1,4 +1,7 @@
-﻿using Hangfire;
+﻿using System;
+using System.Linq;
+using Constants.FunctionEnums;
+using Hangfire;
 using Owin;
 
 namespace Jobs
@@ -10,8 +13,13 @@ namespace Jobs
             GlobalConfiguration.Configuration
                 .UseSqlServerStorage("DefaultConnection");
 
+            var options = new BackgroundJobServerOptions
+            {
+                Queues = Enum.GetValues(typeof(FunctionName)).Cast<FunctionName>().Select(name => name.ToString("G").ToLower()).ToArray()
+            };
+
             app.UseHangfireDashboard("/dashboard");
-            app.UseHangfireServer();
+            app.UseHangfireServer(options);
 
             JobsBootstrapper.SetUpJobs();
         }
