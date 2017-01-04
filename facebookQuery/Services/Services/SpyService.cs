@@ -15,6 +15,7 @@ using Services.Core;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
 using Services.ServiceTools;
+using Services.ViewModels.AccountModels;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.SpyAccountModels;
@@ -58,6 +59,21 @@ namespace Services.Services
                 Cookie = model.Cookie.CookieString,
                 Name = model.Name
             }).ToList();
+        }
+
+        public void RemoveSpyAccount(long spyAccountId)
+        {
+            var spyAccount = new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
+            {
+                UserId = spyAccountId
+            });
+
+            new DeleteSpyAccounCommandHandler(new DataBaseContext()).Handle(new DeleteSpyAccounCommand
+            {
+                AccountId = spyAccountId
+            });
+
+            _jobService.RemoveAccountJobs(spyAccount.Login);
         }
 
         public void AddOrUpdateSpyAccount(SpyAccountViewModel model)
@@ -218,6 +234,38 @@ namespace Services.Services
             var driver = new PhantomJSDriver(service);
 
             return driver;
+        }
+
+        public CookiesViewModel GetSpyAccountCookies(long accountId)
+        {
+            var spyAccount = new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            if (spyAccount.Cookie == null)
+            {
+                return new CookiesViewModel
+                {
+                    AccountId = accountId,
+                    Value = "Cookie is not created"
+                };
+            }
+            return new CookiesViewModel
+            {
+                AccountId = accountId,
+                Value = spyAccount.Cookie.CookieString,
+                CreateDateTime = spyAccount.Cookie.CreateDateTime
+            };
+        }
+
+        public void UpdateCookies(CookiesViewModel model)
+        {
+            new UpdateCookiesForSpyHandler(new DataBaseContext()).Handle(new UpdateCookiesForSpyCommand
+            {
+                AccountId = model.AccountId,
+                NewCookieString = model.Value
+            });
         }
     }
 }

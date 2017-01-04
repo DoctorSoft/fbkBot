@@ -13,7 +13,7 @@
             item_to_delete = $(this).data('id');
         });
         $('#btnContinueDelete').click(function() {
-            window.location = "@Url.Action("RemoveAccount", "Spies")" + "?accountId=" + item_to_delete;
+            window.location = "@Url.Action("RemoveSpyAccount", "Spies")" + "?spyAccountId=" + item_to_delete;
         });
     </script>
 }
@@ -31,19 +31,13 @@
                         <a id="@("group" + spyAccount.Id)">@spyAccount.Login</a>
                     </div>
                     <div class="inline-actions">
-                        <a href="@Url.Action("Index", "Account", new { AccountId = spyAccount.FacebookId })"><i class="fa fa-cogs"></i></a>
+                        <a href="@Url.Action("Index", "SpyOptions", new { AccountId = spyAccount.Id })"><i class="fa fa-cogs"></i></a>
                     </div>
                     <div class="inline-actions">
-                        <a href="@Url.Action("Index", "Friends", new { AccountId = spyAccount.Id })"><i class="fa fa-users"></i></a>
+                        <a href="@Url.Action("Index", "SpyEditor", new { AccountId = spyAccount.Id })"><i class="fa fa-pencil"></i></a>
                     </div>
                     <div class="inline-actions">
-                        <a href="@Url.Action("Index", "Options", new { AccountId = spyAccount.Id })"><i class="fa fa-book"></i></a>
-                    </div>
-                    <div class="inline-actions">
-                        <a href="@Url.Action("Index", "UserEditor", new { AccountId = spyAccount.Id })"><i class="fa fa-pencil"></i></a>
-                    </div>
-                    <div class="inline-actions">
-                        <a href="@Url.Action("Index", "Cookies", new { AccountId = spyAccount.Id })"><i class="fa fa-birthday-cake"></i></a>
+                        <a href="@Url.Action("Index", "SpyCookies", new { AccountId = spyAccount.Id })"><i class="fa fa-birthday-cake"></i></a>
                     </div>
                 </div>
                 <div class="inline-half-text-right">
@@ -69,7 +63,7 @@
                 <h4 class="modal-title">Delete Confirmation</h4>
             </div>
             <div class="modal-body">
-                <i class="fa fa-warning warning-message"></i> Are you sure you want to delete this user?
+                <i class="fa fa-warning warning-message"></i> Are you sure you want to delete this spy?
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" type="button" class="btn btn-default">Cancel</button>

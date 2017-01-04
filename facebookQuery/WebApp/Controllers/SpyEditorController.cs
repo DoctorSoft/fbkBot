@@ -1,10 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Jobs.JobsService;
-using Services.Core.Interfaces.ServiceTools;
 using Services.Services;
-using Services.ServiceTools;
-using Services.ViewModels.AccountModels;
 using Services.ViewModels.SpyAccountModels;
 
 namespace WebApp.Controllers

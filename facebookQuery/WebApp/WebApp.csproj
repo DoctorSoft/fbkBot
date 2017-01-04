@@ -158,6 +158,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SpyCookiesController.cs" />
     <Compile Include="Controllers\CookiesController.cs" />
     <Compile Include="Controllers\ExtraMessagesController.cs" />
     <Compile Include="Controllers\FriendMessagesController.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LinksController.cs" />
+    <Compile Include="Controllers\SpyOptionsController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
     <Compile Include="Controllers\SpyAccountController.cs" />
     <Compile Include="Controllers\StopWordsController.cs" />
@@ -279,10 +281,11 @@
     <Content Include="Views\GroupFunctions\Index.cshtml" />
     <Content Include="Views\Spies\Index.cshtml" />
     <Content Include="Views\SpyEditor\Index.cshtml" />
+    <Content Include="Views\SpyOptions\Index.cshtml" />
+    <Content Include="Views\SpyCookies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\SpyAccount\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
