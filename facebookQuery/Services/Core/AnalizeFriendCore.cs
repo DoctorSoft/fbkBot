@@ -1,10 +1,12 @@
-﻿using Constants.FriendTypesEnum;
+﻿using CommonModels;
+using Constants.FriendTypesEnum;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Services.Core.Interfaces;
 using Services.ViewModels.FriendsModels;
+using Services.ViewModels.HomeModels;
 
 namespace Services.Core
 {
@@ -12,7 +14,7 @@ namespace Services.Core
     {
         public void StartAnalyze(AccountSettingsModel settings, FriendInfoViewModel friendInfo)
         {
-            if (friendInfo.LivesSection != null && friendInfo.LivesSection.Contains(settings.LivesPlace))
+            if (settings.LivesPlace != null && friendInfo.LivesSection != null && friendInfo.LivesSection.Contains(settings.LivesPlace))
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand
@@ -22,7 +24,7 @@ namespace Services.Core
                         NewStatus = StatusesFriend.ToAdd
                     });
             }
-            else if (friendInfo.SchoolSection != null && friendInfo.SchoolSection.Contains(settings.SchoolPlace))
+            else if (settings.SchoolPlace != null && friendInfo.SchoolSection != null && friendInfo.SchoolSection.Contains(settings.SchoolPlace))
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                 new ChangeAnalysisFriendStatusCommand
@@ -32,7 +34,7 @@ namespace Services.Core
                     NewStatus = StatusesFriend.ToAdd
                 });
             }
-            else if (friendInfo.WorkSection != null && friendInfo.WorkSection.Contains(settings.WorkPlace))
+            else if (settings.WorkPlace != null && friendInfo.WorkSection != null && friendInfo.WorkSection.Contains(settings.WorkPlace))
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                 new ChangeAnalysisFriendStatusCommand

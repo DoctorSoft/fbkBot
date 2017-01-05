@@ -33,7 +33,7 @@ namespace FacebookApp
         }
         private static void Main(string[] args)
         {
-            var homeService = new HomeService(new JobService(), new AccountManager());
+            var homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
             //var spyService = new SpyService();
 
             var accounts = homeService.GetAccounts();

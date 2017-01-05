@@ -6,13 +6,14 @@ using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.AccountSettings;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
 using OpenQA.Selenium.PhantomJS;
 using RequestsHelpers;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
-using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.HomeModels;
 
@@ -21,13 +22,14 @@ namespace Services.Services
     public class HomeService
     {
         private IAccountManager _accountManager;
-
+        private IAccountSettingsManager _accountSettingsManager;
         private IJobService _jobService;
 
-        public HomeService(IJobService jobService, IAccountManager accountManager)
+        public HomeService(IJobService jobService, IAccountManager accountManager, IAccountSettingsManager accountSettingsManager)
         {
             _jobService = jobService;
             _accountManager = accountManager;
+            _accountSettingsManager = accountSettingsManager;
         }
 
         public List<AccountViewModel> GetAccounts()
@@ -183,28 +185,22 @@ namespace Services.Services
             return statusModel;
         }
 
-        public AccountActionModel GetAccountByUserId(long? userId)
+        public AccountModel GetAccountByUserId(long? userId)
         {
             if (userId == null)
             {
-                return new AccountActionModel();
+                return new AccountModel();
             }
 
-            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            return new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 UserId = userId.Value
             });
+        }
 
-            return new AccountActionModel
-            {
-                Id = account.Id,
-                Login = account.Login,
-                Password = account.Password,
-                UserId = account.UserId,
-                PageUrl = account.PageUrl,
-                Name = account.Name,
-                FacebookId = account.FacebookId
-            };
+        public AccountSettingsModel GetAccountSettings(long accountId)
+        {
+            return _accountSettingsManager.GetAccountSettings(accountId);
         }
 
         public AccountDraftViewModel GetAccountById(long? userId)
@@ -310,6 +306,11 @@ namespace Services.Services
                 AccountId = model.AccountId,
                 NewCookieString = model.Value
             });
+        }
+
+        public void UpdateAccountSettings(AccountSettingsModel newOptions)
+        {
+            _accountSettingsManager.UpdateAccountSettings(newOptions);
         }
     }
 }

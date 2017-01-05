@@ -271,6 +271,7 @@
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountSettings\AccountOptionsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />

@@ -12,7 +12,7 @@ namespace WebApp.Controllers
 
         public CookiesController()
         {
-            this.homeService = new HomeService(new JobService(), new AccountManager());
+            this.homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
         }
 
         // GET: Cookies

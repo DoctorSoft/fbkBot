@@ -9,6 +9,9 @@
 
         // Friends
         RefreshFriends = 101,
-        GetNewFriendsAndRecommended = 102
+        GetNewFriendsAndRecommended = 102,
+
+        //Spy
+        AnalyzeFriends = 201
     }
 }

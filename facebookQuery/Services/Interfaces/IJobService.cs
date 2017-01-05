@@ -6,6 +6,8 @@ namespace Services.Interfaces
     {
         void AddOrUpdateAccountJobs(AccountViewModel accountViewModel);
 
+        void AddOrUpdateSpyAccountJobs(AccountViewModel accountViewModel);
+
         void RemoveAccountJobs(string login);
 
         void RenameAccountJobs(AccountViewModel accountViewModel, string oldLogin);

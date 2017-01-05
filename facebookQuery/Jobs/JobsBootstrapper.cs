@@ -14,7 +14,7 @@ namespace Jobs
         public static void SetUpJobs()
         {
             //todo: uncomment it back
-            var accounts = new HomeService(new JobService(), new AccountManager()).GetAccounts();
+            var accounts = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager()).GetAccounts();
             foreach (var accountViewModel in accounts)
             {
                 new JobService().AddOrUpdateAccountJobs(accountViewModel);

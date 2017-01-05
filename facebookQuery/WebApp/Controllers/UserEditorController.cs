@@ -14,7 +14,7 @@ namespace WebApp.Controllers
 
         public UserEditorController()
         {
-            this.homeService = new HomeService(new JobService(), new AccountManager());
+            this.homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
         }
 
         // GET: UserEditor

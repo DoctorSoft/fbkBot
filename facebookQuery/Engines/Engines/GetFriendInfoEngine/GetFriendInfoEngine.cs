@@ -14,7 +14,7 @@ namespace Engines.Engines.GetFriendInfoEngine
         {
             var result = new FriendInfoSection();
 
-            if (model.Settings.LivesPlace != null && model.Settings.SchoolPlace != null && model.Settings.WorkPlace != null)
+            if (model.Settings.LivesPlace != null || model.Settings.SchoolPlace != null || model.Settings.WorkPlace != null)
             {
                 var stringResponse = RequestsHelper.Get("https://www.facebook.com/profile.php?id="
                                     + model.FriendFacebookId

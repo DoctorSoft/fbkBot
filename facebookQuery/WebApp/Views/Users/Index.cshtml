@@ -30,7 +30,7 @@
                         <a id="@("group" + account.Id)">@account.Login</a>
                     </div>
                     <div class="inline-actions">
-                        <a href="@Url.Action("Index", "Account", new {AccountId = account.FacebookId})"><i class="fa fa-cogs"></i></a>
+                        <a href="@Url.Action("Index", "Account", new {AccountId = account.Id})"><i class="fa fa-cogs"></i></a>
                     </div>
                     <div class="inline-actions">
                         <a href="@Url.Action("Index", "Friends", new {AccountId = account.Id})"><i class="fa fa-users"></i></a>

@@ -1,8 +1,8 @@
 ﻿using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.AccountSettings;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AccountSettings;
 using Services.Core.Interfaces.ServiceTools;
+using AccountSettingsModel = Services.ViewModels.HomeModels.AccountSettingsModel;
 
 namespace Services.ServiceTools
 {
@@ -10,10 +10,19 @@ namespace Services.ServiceTools
     {
         public AccountSettingsModel GetAccountSettings(long accountId)
         {
-            return new GetAccountSettingsQueryHandler(new DataBaseContext()).Handle(new GetAccountSettingsQuery
+            var settings = new GetAccountSettingsQueryHandler(new DataBaseContext()).Handle(new GetAccountSettingsQuery
             {
                 AccountId = accountId
             });
+
+            return new AccountSettingsModel
+            {
+                AccountId = settings.AccountId,
+                Gender = settings.Gender,
+                LivesPlace = settings.LivesPlace,
+                SchoolPlace = settings.SchoolPlace,
+                WorkPlace = settings.WorkPlace
+            };
         }
 
         public void UpdateAccountSettings(AccountSettingsModel newSettings)

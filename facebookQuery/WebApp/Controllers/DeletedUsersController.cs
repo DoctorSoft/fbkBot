@@ -16,7 +16,7 @@ namespace WebApp.Controllers
 
         public DeletedUsersController()
         {
-            this.homeService = new HomeService(new JobService(), new AccountManager());
+            this.homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
         }
 
         // GET: Users

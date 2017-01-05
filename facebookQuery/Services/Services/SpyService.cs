@@ -106,7 +106,7 @@ namespace Services.Services
                 UserId = accountId
             });
 
-            _jobService.AddOrUpdateAccountJobs(new AccountViewModel
+            _jobService.AddOrUpdateSpyAccountJobs(new AccountViewModel
             {
                 Id = accountId,
                 Name = model.Name,
@@ -165,10 +165,10 @@ namespace Services.Services
             };
 
             var friendList = new GetAnalisysFriendsQueryHandler(new DataBaseContext()).Handle(new GetAnalisysFriendsQuery());
-            var settings = _accountSettingsManager.GetAccountSettings(accountViewModel.Id);
 
             foreach (var analysisFriendData in friendList)
             {
+                var settings = _accountSettingsManager.GetAccountSettings(analysisFriendData.AccountId);
                 var friendInfo = new GetFriendInfoEngine().Execute(new GetFriendInfoModel()
                 {
                     AccountFacebookId = account.FacebookId,

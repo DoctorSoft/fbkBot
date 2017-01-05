@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Jobs.JobsService;
 using Services.Services;
 using Services.ServiceTools;
-using Services.ViewModels.AccountModels;
 
 namespace WebApp.Controllers
 {
@@ -16,7 +11,7 @@ namespace WebApp.Controllers
 
         public UsersController()
         {
-            this.homeService = new HomeService(new JobService(), new AccountManager());
+            this.homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
         }
 
         // GET: Users

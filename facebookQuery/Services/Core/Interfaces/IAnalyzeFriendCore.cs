@@ -1,5 +1,6 @@
-﻿using DataBase.QueriesAndCommands.Queries.Account.Models;
+﻿using CommonModels;
 using Services.ViewModels.FriendsModels;
+using Services.ViewModels.HomeModels;
 
 namespace Services.Core.Interfaces
 {

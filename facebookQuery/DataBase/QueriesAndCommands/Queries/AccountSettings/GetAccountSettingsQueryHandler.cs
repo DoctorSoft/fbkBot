@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.AccountSettings
 {
-    public class GetAccountSettingsQueryHandler : IQueryHandler<GetAccountSettingsQuery, AccountSettingsModel>
+    public class GetAccountSettingsQueryHandler : IQueryHandler<GetAccountSettingsQuery, AccountOptionsData>
     {
         private readonly DataBaseContext context;
 
@@ -13,11 +12,11 @@ namespace DataBase.QueriesAndCommands.Queries.AccountSettings
             this.context = context;
         }
 
-        public AccountSettingsModel Handle(GetAccountSettingsQuery query)
+        public AccountOptionsData Handle(GetAccountSettingsQuery query)
         {
             var settings =
                 context.AccountSettings.Where(model => model.Id == query.AccountId)
-                    .Select(model => new AccountSettingsModel()
+                    .Select(model => new AccountOptionsData
                     {
                         AccountId = model.Id,
                         Gender = model.Gender,

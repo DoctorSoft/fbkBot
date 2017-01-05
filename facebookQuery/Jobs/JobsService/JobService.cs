@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.MessageJobs;
+using Jobs.Jobs.SpyJobs;
 using Services.Interfaces;
 using Services.ViewModels.HomeModels;
 
@@ -13,6 +14,7 @@ namespace Jobs.JobsService
         const string NewFriendMessagesPattern = "Send message to new friend from {0}";
         const string RefreshFriendsPattern = "Refresh friends list for account = {0}";
         const string AddNewFriendsPattern = "Add new friends and recommended for account = {0}";
+        const string AnalyzeFriendsPattern = "Analyze spy friends account = {0}";
 
         public void AddOrUpdateAccountJobs(AccountViewModel accountViewModel)
         {
@@ -23,6 +25,11 @@ namespace Jobs.JobsService
             RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
         }
 
+        public void AddOrUpdateSpyAccountJobs(AccountViewModel accountViewModel)
+        {
+            RecurringJob.AddOrUpdate(string.Format(AnalyzeFriendsPattern, accountViewModel.Login), () => AnalyzeFriendsJob.Run(accountViewModel), Cron.Minutely);
+        }
+
         public void RemoveAccountJobs(string login)
         {
             RecurringJob.RemoveIfExists(string.Format(UnreadMessagesPattern, login));
@@ -30,6 +37,7 @@ namespace Jobs.JobsService
             RecurringJob.RemoveIfExists(string.Format(NewFriendMessagesPattern, login));
             RecurringJob.RemoveIfExists(string.Format(RefreshFriendsPattern, login));
             RecurringJob.RemoveIfExists(string.Format(AddNewFriendsPattern, login));
+            RecurringJob.RemoveIfExists(string.Format(AnalyzeFriendsPattern, login));
         }
 
         public void RenameAccountJobs(AccountViewModel accountViewModel, string oldLogin)

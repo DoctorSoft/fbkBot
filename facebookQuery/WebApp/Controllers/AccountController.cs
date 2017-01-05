@@ -2,33 +2,31 @@
 using Jobs.JobsService;
 using Services.Services;
 using Services.ServiceTools;
+using Services.ViewModels.HomeModels;
 
 namespace WebApp.Controllers
 {
     public class AccountController : Controller
     {
         private readonly HomeService homeService;
-        private readonly FacebookMessagesService facebookMessagesService;
 
         public AccountController()
         {
-            this.homeService = new HomeService(new JobService(), new AccountManager());
-            this.facebookMessagesService = new FacebookMessagesService();
+            this.homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
         }
         // GET: Account
         public ActionResult Index(long accountId)
         {
-            var currentAccount = homeService.GetAccountByUserId(accountId);
-
-            var status = homeService.GetNewNotices(currentAccount.UserId);
-
-            currentAccount.NumberNewFriends = status.NumberNewFriends;
-            currentAccount.NumberNewMessages = status.NumberNewMessages;
-            currentAccount.NumberNewNotifications = status.NumberNewNotifications;
-
-            currentAccount.NewMessagesList = facebookMessagesService.GetUnreadMessagesFromAccountPage(currentAccount.UserId);
+            var currentAccount = homeService.GetAccountSettings(accountId);
             
             return View(currentAccount);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateOptionsSettings(AccountSettingsModel options)
+        {
+            homeService.UpdateAccountSettings(options);
+            return RedirectToAction("Index", "Users", new { accountId = options.AccountId });
         }
     }
 }

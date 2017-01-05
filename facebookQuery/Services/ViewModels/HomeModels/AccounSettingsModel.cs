@@ -1,6 +1,6 @@
 ﻿using Constants.GendersUnums;
 
-namespace DataBase.QueriesAndCommands.Queries.Account.Models
+namespace Services.ViewModels.HomeModels
 {
     public class AccountSettingsModel
     {
