@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-@model Services.ViewModels.HomeModels.AccountSettingsModel
+@model CommonModels.AccountSettingsModel
 
 <h2>Account Page</h2>
 
@@ -34,12 +34,13 @@
                 <div class="col-md-4 panel-body">
                     <div class="input-group">
                         <span class="input-group-addon">Gender:</span>
+                        @Html.EnumDropDownListFor(model=>model.Gender, null, new {@class="form-control"})
                     </div>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
-            <input type="submit" class="btn btn-success" value="Сохранить"/>
+            <input type="submit" class="btn btn-success" value="Save"/>
         </div>
     </div>
 

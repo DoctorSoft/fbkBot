@@ -1,32 +1,35 @@
 ﻿using System.Linq;
-using System.Runtime.InteropServices;
+using System.Threading;
 using CommonModels;
 using Constants.FriendTypesEnum;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
-using Engines.Engines.GetFriendsEngine;
-using Engines.Engines.GetFriendsEngine.AddFriendEngine;
-using Engines.Engines.GetFriendsEngine.AddFrienEngine;
+using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Services.Core.Interfaces.ServiceTools;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
+using Services.ViewModels.HomeModels;
 
 namespace Services.Services
 {
     public class FriendsService
     {
         private readonly IAccountManager _accountManager;
+        private readonly IAccountStatisticsManager _accountStatisticsManager;
 
         public FriendsService()
         {
             _accountManager = new AccountManager();
+            _accountStatisticsManager = new AccountStatisticsManager();
         }
 
         public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
@@ -56,7 +59,7 @@ namespace Services.Services
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
-                UserId = accountFacebokId
+                FacebookUserId = accountFacebokId
             });
 
             var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
@@ -89,7 +92,7 @@ namespace Services.Services
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
-                UserId = accountFacebokId
+                FacebookUserId = accountFacebokId
             });
 
             var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
@@ -123,6 +126,52 @@ namespace Services.Services
                     Uri = model.Uri
                 }).ToList()
             };
+        }
+
+        public void ConfirmFriendship(long accountId)
+        {
+            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            {
+                FacebookUserId = accountId
+            });
+
+            var friends = new GetFriendsToConfirmQueryHandler(new DataBaseContext()).Handle(new GetFriendsToConfirmQuery
+            {
+                AccountId = account.Id
+            });
+
+            foreach (var analysisFriendsData in friends)
+            {
+                new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
+                {
+                    AccountFacebookId = account.FacebookId,
+                    FriendFacebookId = analysisFriendsData.FacebookId,
+                    Proxy = _accountManager.GetAccountProxy(account),
+                    Cookie = account.Cookie.CookieString,
+                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                    {
+                        NameUrlParameter = NamesUrlParameter.ConfirmFriendship
+                    }),
+                });
+
+                if (true)
+                {
+                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                    {
+                        AccountId = account.Id,
+                        CountReceivedFriends = 1
+                    });
+                }
+
+                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
+                {
+                    AccountId = account.Id,
+                    FriendId = analysisFriendsData.Id
+                });
+
+                Thread.Sleep(2000);
+            }
+
         }
     }
 }

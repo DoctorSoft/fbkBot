@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CommonModels;
 using Constants;
 using Constants.EnumExtension;
 using DataBase.Context;
@@ -7,7 +8,6 @@ using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
-using DataBase.QueriesAndCommands.Queries.AccountSettings;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
 using OpenQA.Selenium.PhantomJS;
@@ -175,7 +175,7 @@ namespace Services.Services
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
-                UserId = accountId
+                FacebookUserId = accountId
             });
             var statusModel = new GetNewNoticesEngine().Execute(new GetNewNoticesModel()
             {
@@ -194,7 +194,7 @@ namespace Services.Services
 
             return new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
-                UserId = userId.Value
+                FacebookUserId = userId.Value
             });
         }
 

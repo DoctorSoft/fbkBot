@@ -29,7 +29,7 @@ namespace DataBase.Models
         public MessageGroupDbModel MessageGroup { get; set; }
 
         public CookiesDbModel Cookies { get; set; }
-
+        
         public ICollection<MessageDbModel> Messages { get; set; }
 
         public ICollection<FriendDbModel> Friends { get; set; }

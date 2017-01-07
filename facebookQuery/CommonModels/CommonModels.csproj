@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountStatisticsModel.cs" />
+    <Compile Include="AccountSettingsModel.cs" />
     <Compile Include="GetFriendsResponseModel.cs" />
     <Compile Include="GetUnreadMessagesResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

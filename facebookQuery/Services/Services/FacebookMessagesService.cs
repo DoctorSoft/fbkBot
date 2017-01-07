@@ -229,7 +229,7 @@ namespace Services.Services
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
-                UserId = accountId
+                FacebookUserId = accountId
             });
 
             var getUnreadMessagesUrlParameters =
@@ -264,7 +264,7 @@ namespace Services.Services
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
-                UserId = accountId
+                FacebookUserId = accountId
             });
             return new GetMessagesEngine().Execute(new GetMessagesModel()
             {
@@ -278,7 +278,7 @@ namespace Services.Services
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
-                UserId = accountId
+                FacebookUserId = accountId
             });
 
             var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery

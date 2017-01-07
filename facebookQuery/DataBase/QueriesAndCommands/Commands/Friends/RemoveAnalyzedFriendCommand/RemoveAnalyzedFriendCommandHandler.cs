@@ -19,7 +19,7 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendComma
             var friendModel = context.AnalisysFriends.FirstOrDefault(
                 model => model.AccountId == command.AccountId && model.Id == command.FriendId);
 
-            if (friendModel == null || friendModel.Status != StatusesFriend.ToDelete)
+            if (friendModel == null)
             {
                 return new VoidCommandResponse();
             }

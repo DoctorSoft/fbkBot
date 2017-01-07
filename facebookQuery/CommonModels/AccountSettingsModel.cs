@@ -1,6 +1,6 @@
 ﻿using Constants.GendersUnums;
 
-namespace Engines.Engines.GetFriendInfoEngine
+namespace CommonModels
 {
     public class AccountSettingsModel
     {

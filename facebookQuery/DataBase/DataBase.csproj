@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\AccountSettingsConfiguration.cs" />
+    <Compile Include="Configurations\AccountStatisticsConfiguration.cs" />
     <Compile Include="Configurations\CookiesForSpyConfiguration.cs" />
     <Compile Include="Configurations\SpyAccountConfiguration.cs" />
     <Compile Include="Configurations\AccountConfiguration.cs" />
@@ -182,8 +183,13 @@
     <Compile Include="Migrations\201612291928588_ChangedFieldType.Designer.cs">
       <DependentUpon>201612291928588_ChangedFieldType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701072044240_CreateAccountStatisticsTable.cs" />
+    <Compile Include="Migrations\201701072044240_CreateAccountStatisticsTable.Designer.cs">
+      <DependentUpon>201701072044240_CreateAccountStatisticsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountSettingsDbModel.cs" />
+    <Compile Include="Models\AccountStatisticsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
     <Compile Include="Models\SpyAccountDbModel.cs" />
     <Compile Include="Models\AnalysisFriendDbModel.cs" />
@@ -201,6 +207,8 @@
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountSettings\AddOrUpdateAccountSettingsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountSettings\AddOrUpdateAccountSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
@@ -271,6 +279,9 @@
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountStatistics\AccountStatisticsData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountStatistics\GetAccountStatisticsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountStatistics\GetAccountStatisticsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountSettings\AccountOptionsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQueryHandler.cs" />
@@ -292,6 +303,11 @@
     <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\AnalysisFriendsData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToConfirmQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToAddQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToConfirmQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToAddQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\ExtraMessages\ExtraMessagesData.cs" />
     <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\ExtraMessages\GetExtraMessagesQueryHandler.cs" />
@@ -422,6 +438,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612291928588_ChangedFieldType.resx">
       <DependentUpon>201612291928588_ChangedFieldType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701072044240_CreateAccountStatisticsTable.resx">
+      <DependentUpon>201701072044240_CreateAccountStatisticsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

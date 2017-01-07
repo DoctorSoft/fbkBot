@@ -19,7 +19,7 @@ using Services.ViewModels.AccountModels;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.SpyAccountModels;
-using AccountSettingsModel = Engines.Engines.GetFriendInfoEngine.AccountSettingsModel;
+using CommonModels;
 
 namespace Services.Services
 {
@@ -166,23 +166,28 @@ namespace Services.Services
 
             var friendList = new GetAnalisysFriendsQueryHandler(new DataBaseContext()).Handle(new GetAnalisysFriendsQuery());
 
+            var settings = new AccountSettingsModel();
             foreach (var analysisFriendData in friendList)
             {
-                var settings = _accountSettingsManager.GetAccountSettings(analysisFriendData.AccountId);
+                var settingsModel = _accountSettingsManager.GetAccountSettings(analysisFriendData.AccountId);
+                if (settingsModel!=null)
+                {
+                    settings = new AccountSettingsModel
+                    {
+                        AccountId = settingsModel.AccountId,
+                        Gender = settingsModel.Gender,
+                        LivesPlace = settingsModel.LivesPlace,
+                        SchoolPlace = settingsModel.SchoolPlace,
+                        WorkPlace = settingsModel.WorkPlace
+                    };
+                }
                 var friendInfo = new GetFriendInfoEngine().Execute(new GetFriendInfoModel()
                 {
                     AccountFacebookId = account.FacebookId,
                     Proxy = _accountManager.GetAccountProxy(account),
                     Cookie = account.Cookie.CookieString,
                     FriendFacebookId = analysisFriendData.FacebookId,
-                    Settings = new AccountSettingsModel
-                    {
-                        AccountId = settings.AccountId,
-                        Gender = settings.Gender,
-                        LivesPlace = settings.LivesPlace,
-                        SchoolPlace = settings.SchoolPlace,
-                        WorkPlace = settings.WorkPlace
-                    }
+                    Settings = settings
                 });
 
 

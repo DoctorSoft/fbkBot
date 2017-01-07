@@ -47,7 +47,7 @@ namespace FacebookApp
                 {
                     var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
                     {
-                        UserId = accountViewModel.FacebookId
+                        FacebookUserId = accountViewModel.FacebookId
                     });
 
 

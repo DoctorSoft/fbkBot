@@ -62,6 +62,12 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
                 var index2 = dataStep2.IndexOf(">", StringComparison.Ordinal);
                 var name = dataStep2.Remove(0, index2 + 1);
 
+                var index3 = name.IndexOf("<", StringComparison.Ordinal); 
+                if (index3 != -1)
+                {
+                    name = name.Remove(index3);
+                }
+                
                 friendsList.Add(new GetFriendsResponseModel()
                 {
                     FacebookId = Convert.ToInt64(id),

@@ -58,7 +58,7 @@ namespace Engines.Engines.GetFriendInfoEngine
         {
             var friendData = new FriendInfoSection();
 
-            var parentPattern = new Regex("class=\"_4bl7\"><ul.*?</ul></div>");
+            var parentPattern = new Regex("class=\"_4bl7\"><ul([\\s\\S]*)</ul></div>");
 
             var parentCollection = parentPattern.Matches(pageRequest);
             if (parentCollection.Count == 0)

@@ -7,7 +7,7 @@ namespace Jobs.Jobs.FriendJobs
 {
     public static class GetNewFriendsAndRecommendedJob
     {
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail), Queue("getnewfriendsandrecommended", Order = 1)]
         public static void Run(long userId)
         {
             if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.GetNewFriendsAndRecommended, userId))

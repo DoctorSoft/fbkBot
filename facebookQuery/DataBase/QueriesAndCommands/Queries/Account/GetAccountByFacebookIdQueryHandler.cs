@@ -18,7 +18,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account
         {
             var models = 
                 context.Accounts.Include(model => model.Cookies)
-                .Where(model => model.FacebookId == query.UserId)
+                .Where(model => model.FacebookId == query.FacebookUserId)
                 .Where(model => !model.IsDeleted)
                 .Select(model => new AccountModel
                 {

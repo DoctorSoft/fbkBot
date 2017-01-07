@@ -1,8 +1,8 @@
-﻿using DataBase.Context;
+﻿using CommonModels;
+using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.AccountSettings;
 using DataBase.QueriesAndCommands.Queries.AccountSettings;
 using Services.Core.Interfaces.ServiceTools;
-using AccountSettingsModel = Services.ViewModels.HomeModels.AccountSettingsModel;
 
 namespace Services.ServiceTools
 {
@@ -14,6 +14,11 @@ namespace Services.ServiceTools
             {
                 AccountId = accountId
             });
+
+            if (settings == null)
+            {
+                return new AccountSettingsModel();
+            }
 
             return new AccountSettingsModel
             {

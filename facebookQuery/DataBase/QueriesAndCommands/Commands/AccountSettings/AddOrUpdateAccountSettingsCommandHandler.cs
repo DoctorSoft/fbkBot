@@ -23,6 +23,7 @@ namespace DataBase.QueriesAndCommands.Commands.AccountSettings
                 accountSettings = new AccountSettingsDbModel();
             }
 
+            accountSettings.Id = command.AccountId;
             accountSettings.Gender = command.Gender;
             accountSettings.LivesPlace = command.LivesPlace;
             accountSettings.SchoolPlace = command.SchoolPlace;

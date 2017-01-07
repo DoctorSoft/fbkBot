@@ -7,7 +7,7 @@ namespace Jobs.Jobs.FriendJobs
 {
     public static class RefreshFriendsJob
     {
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail), Queue("RefreshFriends", Order = 1)] 
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail), Queue("refreshfriends", Order = 1)] 
         public static void Run(long userId)
         {
             if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.RefreshFriends, userId))

@@ -28,7 +28,7 @@ namespace Services.ServiceTools
         {
             return new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery()
             {
-                UserId = accountFacebookId
+                FacebookUserId = accountFacebookId
             });
         }
     }

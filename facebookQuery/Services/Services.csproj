@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\IAnalyzeFriendCore.cs" />
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
+    <Compile Include="Core\Interfaces\ServiceTools\IAccountStatisticsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\ISpyAccountManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountSettingsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountManager.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Services\LinksService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
     <Compile Include="Services\SpyService.cs" />
+    <Compile Include="ServiceTools\AccountStatisticsManager.cs" />
     <Compile Include="ServiceTools\SpyAccountManager.cs" />
     <Compile Include="ServiceTools\AccountSettingsManager.cs" />
     <Compile Include="ServiceTools\FunctionPermissionManager.cs" />
@@ -133,7 +135,6 @@
     <Compile Include="ViewModels\GroupFunctionsModels\GroupFunctionViewModel.cs" />
     <Compile Include="ViewModels\GroupModels\Group.cs" />
     <Compile Include="ViewModels\GroupModels\GroupList.cs" />
-    <Compile Include="ViewModels\HomeModels\AccounSettingsModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\MessagesModels\UnreadMessageModel.cs" />
     <Compile Include="ViewModels\MessagesModels\UnreadMessagesListViewModel.cs" />

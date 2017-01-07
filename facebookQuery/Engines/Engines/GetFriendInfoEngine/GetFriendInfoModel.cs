@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using CommonModels;
 
 namespace Engines.Engines.GetFriendInfoEngine
 {

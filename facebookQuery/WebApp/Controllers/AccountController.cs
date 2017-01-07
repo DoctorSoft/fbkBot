@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using CommonModels;
 using Jobs.JobsService;
 using Services.Services;
 using Services.ServiceTools;
