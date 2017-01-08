@@ -158,6 +158,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FriendsOutgoingRequestsController.cs" />
+    <Compile Include="Controllers\FriendsIncomingRequestsController.cs" />
     <Compile Include="Controllers\SpyCookiesController.cs" />
     <Compile Include="Controllers\CookiesController.cs" />
     <Compile Include="Controllers\ExtraMessagesController.cs" />
@@ -241,6 +243,7 @@
     <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
+    <None Include="Properties\PublishProfiles\Facebook.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -283,6 +286,8 @@
     <Content Include="Views\SpyEditor\Index.cshtml" />
     <Content Include="Views\SpyOptions\Index.cshtml" />
     <Content Include="Views\SpyCookies\Index.cshtml" />
+    <Content Include="Views\FriendsIncomingRequests\Index.cshtml" />
+    <Content Include="Views\FriendsOutgoingRequests\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

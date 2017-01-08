@@ -2,9 +2,9 @@
 using System.Net;
 using Constants;
 
-namespace Engines.Engines.GetFriendsEngine.AddFriendEngine
+namespace Engines.Engines.SendRequestFriendshipEngine
 {
-    public class AddFriendModel
+    public class SendRequestFriendshipModel
     {
         public long AccountFacebookId { get; set; }
 

@@ -227,6 +227,8 @@
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\RemoveExtraMessageCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\ExtraMessages\UpdateExtraMessageCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\ChangeAnalysisFriendTypeCommand\ChangeAnalysisFriendTypeCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\ChangeAnalysisFriendTypeCommand\ChangeAnalysisFriendTypeCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeAnalysisFriendStatusCommand\ChangeAnalysisFriendStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeAnalysisFriendStatusCommand\ChangeAnalysisFriendStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\ChangeMessageRegimeCommand\ChangeMessageRegimeCommand.cs" />
@@ -304,8 +306,12 @@
     <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\SpyAccount\GetSpyAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\AnalysisFriendsData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsByAccountIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsByAccountIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToRequestQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToConfirmQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToAddQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToRequestQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToConfirmQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\AnalysisFriends\GetFriendsToAddQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\ExtraMessages\ExtraMessagesData.cs" />

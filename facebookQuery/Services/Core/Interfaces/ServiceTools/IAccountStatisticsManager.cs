@@ -4,7 +4,11 @@ namespace Services.Core.Interfaces.ServiceTools
 {
     public interface IAccountStatisticsManager
     {
-        AccountStatisticsModel GetAccountStatistics(long accountId);
+        AccountStatisticsList GetAccountStatistics(long accountId);
+
+        AccountStatisticsModel GetLastHourAccountStatistics(AccountStatisticsList allStatistics);
+
+        AccountStatisticsModel GetAllTimeAccountStatistics(AccountStatisticsList allStatistics);
 
         void UpdateAccountStatistics(AccountStatisticsModel newStatistics);
     }

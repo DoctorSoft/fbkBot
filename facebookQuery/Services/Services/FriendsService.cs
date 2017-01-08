@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using CommonModels;
 using Constants.FriendTypesEnum;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendTypeCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Models;
@@ -14,6 +17,7 @@ using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
+using Engines.Engines.SendRequestFriendshipEngine;
 using Services.Core.Interfaces.ServiceTools;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
@@ -49,6 +53,64 @@ namespace Services.Services
                     Deleted = model.Deleted,
                     Id = model.Id,
                     MessagesEnded = model.MessagesEnded
+                }).ToList()
+            };
+
+            return result;
+        }
+
+        public AnalizeFriendListViewModel GetIncomingRequestsFriendshipByAccount(long accountId)
+        {
+            var friendsIncoming = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
+            {
+                AccountId = accountId,
+                FriendsType = FriendTypes.Incoming
+            });
+            var friendsRecommended = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
+            {
+                AccountId = accountId,
+                FriendsType = FriendTypes.Recommended
+            });
+
+            var friends = friendsIncoming.Concat(friendsRecommended);
+
+            var result = new AnalizeFriendListViewModel
+            {
+                AccountId = accountId,
+                Friends = friends.Select(model => new AnalizeFriendViewModel
+                {
+                    FacebookId = model.FacebookId,
+                    Id = model.Id,
+                    AccountId = accountId,
+                    FriendName = model.FriendName,
+                    AddedDateTime = model.AddedDateTime,
+                    Status = model.Status,
+                    Type = model.Type
+                }).ToList()
+            };
+
+            return result;
+        }
+
+        public AnalizeFriendListViewModel GetOutgoingRequestsFriendshipByAccount(long accountId)
+        {
+            var friends = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
+            {
+                AccountId = accountId,
+                FriendsType = FriendTypes.Outgoig
+            });
+
+            var result = new AnalizeFriendListViewModel
+            {
+                AccountId = accountId,
+                Friends = friends.Select(model => new AnalizeFriendViewModel
+                {
+                    FacebookId = model.FacebookId,
+                    Id = model.Id,
+                    AccountId = accountId,
+                    FriendName = model.FriendName,
+                    AddedDateTime = model.AddedDateTime,
+                    Status = model.Status
                 }).ToList()
             };
 
@@ -130,28 +192,114 @@ namespace Services.Services
 
         public void ConfirmFriendship(long accountId)
         {
-            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
-            {
-                FacebookUserId = accountId
-            });
+            var account =
+                new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+                {
+                    FacebookUserId = accountId
+                });
 
             var friends = new GetFriendsToConfirmQueryHandler(new DataBaseContext()).Handle(new GetFriendsToConfirmQuery
             {
                 AccountId = account.Id
             });
 
-            foreach (var analysisFriendsData in friends)
+            var analysisFriendsData = friends.FirstOrDefault();
+
+            new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
             {
-                new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
+                AccountFacebookId = account.FacebookId,
+                FriendFacebookId = analysisFriendsData.FacebookId,
+                Proxy = _accountManager.GetAccountProxy(account),
+                Cookie = account.Cookie.CookieString,
+                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.ConfirmFriendship
+                }),
+            });
+
+            if (true)
+            {
+                _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                {
+                    AccountId = account.Id,
+                    CountReceivedFriends = 1
+                });
+            }
+
+            new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
+            {
+                AccountId = account.Id,
+                FriendId = analysisFriendsData.Id
+            });
+
+            Thread.Sleep(2000);
+
+
+//            foreach (var analysisFriendsData in friends)
+//            {
+//                new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
+//                {
+//                    AccountFacebookId = account.FacebookId,
+//                    FriendFacebookId = analysisFriendsData.FacebookId,
+//                    Proxy = _accountManager.GetAccountProxy(account),
+//                    Cookie = account.Cookie.CookieString,
+//                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                    {
+//                        NameUrlParameter = NamesUrlParameter.ConfirmFriendship
+//                    }),
+//                });
+//
+//                if (true)
+//                {
+//                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+//                    {
+//                        AccountId = account.Id,
+//                        CountReceivedFriends = 1
+//                    });
+//                }
+//
+//                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
+//                {
+//                    AccountId = account.Id,
+//                    FriendId = analysisFriendsData.Id
+//                });
+//
+//                Thread.Sleep(2000);
+//            }
+        }
+
+        public void SendRequestFriendship(long accountId)
+        {
+            var account =
+                new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+                {
+                    FacebookUserId = accountId
+                });
+
+            var friends = new GetFriendsToRequestQueryHandler(new DataBaseContext()).Handle(new GetFriendsToRequestQuery
+            {
+                AccountId = account.Id
+            });
+
+            var analysisFriendsData = friends.FirstOrDefault();
+            try
+            {
+                new SendRequestFriendshipEngine().Execute(new SendRequestFriendshipModel
                 {
                     AccountFacebookId = account.FacebookId,
                     FriendFacebookId = analysisFriendsData.FacebookId,
                     Proxy = _accountManager.GetAccountProxy(account),
                     Cookie = account.Cookie.CookieString,
-                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                    {
-                        NameUrlParameter = NamesUrlParameter.ConfirmFriendship
-                    }),
+                    AddFriendUrlParameters =
+                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.AddFriend
+                        }),
+                    AddFriendExtraUrlParameters =
+                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.AddFriendExtra
+                        }),
                 });
 
                 if (true)
@@ -159,19 +307,56 @@ namespace Services.Services
                     _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
                     {
                         AccountId = account.Id,
-                        CountReceivedFriends = 1
+                        CountRequestsSentToFriends = 1
                     });
                 }
 
-                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
+                new ChangeAnalysisFriendTypeCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendTypeCommand
                 {
                     AccountId = account.Id,
-                    FriendId = analysisFriendsData.Id
+                    NewType = FriendTypes.Outgoig,
+                    FriendFacebookId = analysisFriendsData.FacebookId
                 });
-
-                Thread.Sleep(2000);
             }
-
+            catch (Exception ex)
+            {
+                
+            }
+//            foreach (var analysisFriendsData in friends)
+//            {
+//                new SendRequestFriendshipEngine().Execute(new SendRequestFriendshipModel
+//                {
+//                    AccountFacebookId = account.FacebookId,
+//                    FriendFacebookId = analysisFriendsData.FacebookId,
+//                    Proxy = _accountManager.GetAccountProxy(account),
+//                    Cookie = account.Cookie.CookieString,
+//                    AddFriendUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                    {
+//                        NameUrlParameter = NamesUrlParameter.AddFriend
+//                    }),
+//                    AddFriendExtraUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+//                    {
+//                        NameUrlParameter = NamesUrlParameter.AddFriendExtra
+//                    }),
+//                });
+//
+//                if (true)
+//                {
+//                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+//                    {
+//                        AccountId = account.Id,
+//                        CountRequestsSentToFriends = 1
+//                    });
+//                }
+//
+//                new ChangeAnalysisFriendTypeCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendTypeCommand
+//                {
+//                    AccountId = account.Id,
+//                    NewType = FriendTypes.Outgoig
+//                });
+//
+//                Thread.Sleep(2000);
+//            }
         }
     }
 }

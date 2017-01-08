@@ -73,6 +73,7 @@
     <Compile Include="HangfireBootstrapper.cs" />
     <Compile Include="JobsBootstrapper.cs" />
     <Compile Include="JobsService\JobService.cs" />
+    <Compile Include="Jobs\FriendJobs\SendRequestFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\GetNewFriendsAndRecommendedJob.cs" />
     <Compile Include="Jobs\FriendJobs\ConfirmFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\RefreshFriendsJob.cs" />

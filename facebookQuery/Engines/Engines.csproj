@@ -70,8 +70,8 @@
     <Compile Include="Engines\GetFriendsByCriteriesEngine\GetFriendsModel.cs" />
     <Compile Include="Engines\GetFriendInfoEngine\FriendInfoSection.cs" />
     <Compile Include="Engines\GetFriendInfoEngine\FriendInfoData.cs" />
-    <Compile Include="Engines\GetFriendsEngine\AddFriendEngine - Copy\AddFriendEngine.cs" />
-    <Compile Include="Engines\GetFriendsEngine\AddFriendEngine - Copy\AddFriendModel.cs" />
+    <Compile Include="Engines\SendRequestFriendshipEngine\SendRequestFriendshipEngine.cs" />
+    <Compile Include="Engines\SendRequestFriendshipEngine\SendRequestFriendshipModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetRecommendedFriendsEngine\GetRecommendedFriendsEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetRecommendedFriendsEngine\GetRecommendedFriendsModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\GetCurrentFriendsEngine\GetFriendsEngine.cs" />

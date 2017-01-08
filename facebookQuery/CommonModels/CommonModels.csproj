@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountStatisticsList.cs" />
     <Compile Include="AccountStatisticsModel.cs" />
     <Compile Include="AccountSettingsModel.cs" />
     <Compile Include="GetFriendsResponseModel.cs" />

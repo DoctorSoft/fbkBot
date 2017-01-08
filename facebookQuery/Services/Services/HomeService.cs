@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommonModels;
 using Constants;
@@ -14,6 +15,7 @@ using OpenQA.Selenium.PhantomJS;
 using RequestsHelpers;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
+using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.HomeModels;
 
@@ -23,6 +25,7 @@ namespace Services.Services
     {
         private IAccountManager _accountManager;
         private IAccountSettingsManager _accountSettingsManager;
+        private IAccountStatisticsManager _accountStatisticsManager;
         private IJobService _jobService;
 
         public HomeService(IJobService jobService, IAccountManager accountManager, IAccountSettingsManager accountSettingsManager)
@@ -30,6 +33,7 @@ namespace Services.Services
             _jobService = jobService;
             _accountManager = accountManager;
             _accountSettingsManager = accountSettingsManager;
+            _accountStatisticsManager = new AccountStatisticsManager();
         }
 
         public List<AccountViewModel> GetAccounts()
@@ -198,9 +202,36 @@ namespace Services.Services
             });
         }
 
-        public AccountSettingsModel GetAccountSettings(long accountId)
+        public AccountSettingsViewModel GetAccountSettings(long accountId)
         {
-            return _accountSettingsManager.GetAccountSettings(accountId);
+            var account =  _accountManager.GetAccountById(accountId);
+            var settings =  _accountSettingsManager.GetAccountSettings(accountId);
+            var statistics = _accountStatisticsManager.GetAccountStatistics(accountId);
+
+            var detailedStatistic = new DetailedStatisticsModel()
+            {
+                AllTimeStatistic = _accountStatisticsManager.GetLastHourAccountStatistics(statistics),
+                LastHourStatistic = _accountStatisticsManager.GetAllTimeAccountStatistics(statistics)
+            };
+            
+            return new AccountSettingsViewModel
+            {
+                Settings = settings,
+                Statistics = detailedStatistic,
+                Account = new AccountViewModel
+                {
+                    Id = accountId,
+                    Name = account.Name,
+                    PageUrl = account.PageUrl,
+                    FacebookId = account.FacebookId,
+                    Password = account.Password,
+                    Login = account.Login,
+                    Proxy = account.Proxy,
+                    ProxyLogin = account.ProxyLogin,
+                    ProxyPassword = account.ProxyPassword,
+                    Cookie = account.Cookie.CookieString
+                }
+            };
         }
 
         public AccountDraftViewModel GetAccountById(long? userId)

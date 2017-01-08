@@ -4,16 +4,15 @@ using System.Linq;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
-using Engines.Engines.GetFriendsEngine.AddFriendEngine;
 using RequestsHelpers;
 
-namespace Engines.Engines.GetFriendsEngine.AddFrienEngine
+namespace Engines.Engines.SendRequestFriendshipEngine
 {
-    public class AddFriendEngine : AbstractEngine<AddFriendModel, bool>
+    public class SendRequestFriendshipEngine : AbstractEngine<SendRequestFriendshipModel, bool>
     {
         private static readonly Random Random = new Random();
 
-        protected override bool ExecuteEngine(AddFriendModel model)
+        protected override bool ExecuteEngine(SendRequestFriendshipModel model)
         {
             try
             {

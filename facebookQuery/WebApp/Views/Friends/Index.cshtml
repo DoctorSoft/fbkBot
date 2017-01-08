@@ -8,6 +8,14 @@
     <div class="page-header">
         <h3 class="alert-info alert">Friends</h3>
     </div>
+    <div class="panel-body">
+        <div class="inline-actions">
+            <a href="@Url.Action("Index", "FriendsIncomingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">Incoming request friendships</a>
+        </div>
+        <div class="inline-actions">
+            <a href="@Url.Action("Index", "FriendsOutgoingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">Outgoing request friendships</a>
+        </div>
+    </div>
     <div class="panel-footer">
         @foreach (var friend in @Model.Friends)
         {

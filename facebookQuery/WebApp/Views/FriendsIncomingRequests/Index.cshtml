@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using Constants.FriendTypesEnum
+@model Services.ViewModels.FriendsModels.AnalizeFriendListViewModel
+
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3 class="alert-info alert">Incoming friends requests</h3> 
+        <div class="inline-actions">
+            <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <table>
+            <tr>
+                <td>
+                    To analize
+                </td>
+                <td>
+                    To add
+                </td>
+                <td>
+                    To delete
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="alert alert-info"></div>
+                </td>
+                <td>
+                    <div class="alert alert-success"></div>
+                </td>
+                <td>
+                    <div class="alert alert-danger"></div>
+                </td>
+            </tr>
+        </table>
+        @foreach (var friend in @Model.Friends)
+        {
+            if (friend.Type == FriendTypes.Incoming)
+            {
+                <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
+                    <div class="inline-half-text-left">
+                        <div class="message-list-tittle">
+                            <div class="">@friend.FriendName (@friend.FacebookId)</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div>Recommended</div>
+        @foreach (var friend in @Model.Friends)
+        {
+            if (friend.Type == FriendTypes.Recommended)
+            {
+                <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
+                    <div class="inline-half-text-left">
+                        <div class="message-list-tittle">
+                            <div class="">@friend.FriendName (@friend.FacebookId)</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="inline-actions">
+        <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">Back</a>
+    </div>
+</div>

@@ -116,6 +116,10 @@
     <Compile Include="ServiceTools\FacebookMessageManager.cs" />
     <Compile Include="ServiceTools\FriendManager.cs" />
     <Compile Include="ServiceTools\MessageManager.cs" />
+    <Compile Include="ViewModels\FriendsModels\AnalizeFriendListViewModel.cs" />
+    <Compile Include="ViewModels\FriendsModels\AnalizeFriendViewModel.cs" />
+    <Compile Include="ViewModels\HomeModels\AccountSettingsViewModel.cs" />
+    <Compile Include="ViewModels\HomeModels\DetailedStatisticsModel.cs" />
     <Compile Include="ViewModels\SpyAccountModels\SpyAccountViewModel.cs" />
     <Compile Include="ViewModels\SpyAccountModels\SpyCookiesViewModel.cs" />
     <Compile Include="ViewModels\AccountModels\AccountDraftViewModel.cs" />

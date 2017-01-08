@@ -11,7 +11,7 @@
         RefreshFriends = 101,
         GetNewFriendsAndRecommended = 102,
         ConfirmFriendship = 103,
-
+        SendRequestFriendship = 104,
         //Spy
         AnalyzeFriends = 201
     }

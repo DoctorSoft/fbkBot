@@ -24,10 +24,10 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateOptionsSettings(AccountSettingsModel options)
+        public ActionResult UpdateOptionsSettings(AccountSettingsViewModel options)
         {
-            homeService.UpdateAccountSettings(options);
-            return RedirectToAction("Index", "Users", new { accountId = options.AccountId });
+            homeService.UpdateAccountSettings(options.Settings);
+            return RedirectToAction("Index", "Users", new { accountId = options.Account.Id });
         }
     }
 }

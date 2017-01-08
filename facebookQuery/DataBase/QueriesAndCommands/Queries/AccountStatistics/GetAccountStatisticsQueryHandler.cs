@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Queries.AccountStatistics
 {
-    public class GetAccountStatisticsQueryHandler : IQueryHandler<GetAccountStatisticsQuery, AccountStatisticsData>
+    public class GetAccountStatisticsQueryHandler : IQueryHandler<GetAccountStatisticsQuery, List<AccountStatisticsData>>
     {
         private readonly DataBaseContext context;
 
@@ -13,12 +14,12 @@ namespace DataBase.QueriesAndCommands.Queries.AccountStatistics
             this.context = context;
         }
 
-        public AccountStatisticsData Handle(GetAccountStatisticsQuery query)
+        public List<AccountStatisticsData> Handle(GetAccountStatisticsQuery query)
         {
             try
             {
-                var settings =
-                    context.AccountStatistics.Where(model => model.Id == query.AccountId)
+                var statistics =
+                    context.AccountStatistics.Where(model => model.AccountId == query.AccountId)
                         .Select(model => new AccountStatisticsData
                         {
                             AccountId = model.Id,
@@ -27,9 +28,9 @@ namespace DataBase.QueriesAndCommands.Queries.AccountStatistics
                             CountReceivedFriends = model.CountReceivedFriends,
                             CountRequestsSentToFriends = model.CountRequestsSentToFriends,
                             DateTimeUpdateStatistics = model.DateTimeUpdateStatistics
-                        }).FirstOrDefault();
+                        }).ToList();
 
-                return settings;
+                return statistics;
             }
             catch (Exception)
             {

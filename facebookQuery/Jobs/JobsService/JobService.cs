@@ -16,6 +16,7 @@ namespace Jobs.JobsService
         const string AddNewFriendsPattern = "Add new friends and recommended for account = {0}";
         const string AnalyzeFriendsPattern = "Analyze spy friends account = {0}";
         const string ConfirmFriendshipPattern = "Confirm friendship for account = {0}";
+        const string SendRequestFriendshipPattern = "Send request friendship for account = {0}";
 
         public void AddOrUpdateAccountJobs(AccountViewModel accountViewModel)
         {
@@ -25,6 +26,7 @@ namespace Jobs.JobsService
             RecurringJob.AddOrUpdate(string.Format(RefreshFriendsPattern, accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
             RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel.FacebookId), Cron.Hourly);
             RecurringJob.AddOrUpdate(string.Format(ConfirmFriendshipPattern, accountViewModel.Login), () => ConfirmFriendshipJob.Run(accountViewModel.FacebookId), Cron.Minutely);
+            RecurringJob.AddOrUpdate(string.Format(SendRequestFriendshipPattern, accountViewModel.Login), () => SendRequestFriendshipJob.Run(accountViewModel.FacebookId), Cron.Minutely);
         }
 
         public void AddOrUpdateSpyAccountJobs(AccountViewModel accountViewModel)
@@ -42,6 +44,7 @@ namespace Jobs.JobsService
             RecurringJob.RemoveIfExists(string.Format(AddNewFriendsPattern, login));
             RecurringJob.RemoveIfExists(string.Format(AnalyzeFriendsPattern, login));
             RecurringJob.RemoveIfExists(string.Format(ConfirmFriendshipPattern, login));
+            RecurringJob.RemoveIfExists(string.Format(SendRequestFriendshipPattern, login));
         }
 
         public void RenameAccountJobs(AccountViewModel accountViewModel, string oldLogin)

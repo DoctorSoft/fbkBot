@@ -1,8 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
-@model CommonModels.AccountSettingsModel
+@model Services.ViewModels.HomeModels.AccountSettingsViewModel
 
 <h2>Account Page</h2>
 
@@ -10,43 +9,243 @@
 {
     <div class="panel panel-default">
         <div class="panel-body">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Account Information</div>
 
+                <div class="col-md-7 panel-body">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.Label("Login:", new { @class = "form-control col-md-8" })
+                                </td>
+                                <td>
+                                    @Html.LabelForModel(Model.Account.Login, new { @class = "form-control" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Name:", new { @class = "form-control col-md-8" })
+                                </td>
+                                <td>
+                                    @Html.LabelForModel(Model.Account.Name, new { @class = "form-control" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Home page url:", new { @class = "form-control col-md-8" })
+                                </td>
+                                <td>
+                                    @Html.LabelForModel(Model.Account.PageUrl, new { @class = "form-control" }) 
+                                </td>
+                                <td>
+                                    <a href="@Model.Account.PageUrl" target="blank">Go</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Proxy:", new { @class = "form-control col-md-8" })
+                                </td>
+                                <td>
+                                    @{
+                                        if (Model.Account.Proxy != null)
+                                        {
+                                            @Html.LabelForModel(Model.Account.Proxy, new {@class = "form-control"})
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("No proxy", new { @class = "form-control" })
+                                        }
+                                    }
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Account Statistics</div>
+                <div class="col-md-6 panel-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                <th>
+                                    Last hour statistics
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.Label("Count of received applications Friend:", new { @class = "form-control col-md-7" })
+                                </td>
+                                <td>
+                                    @{
+                                        if (Model.Statistics.LastHourStatistic != null)
+                                        {
+                                            @Html.LabelForModel(Model.Statistics.LastHourStatistic.CountReceivedFriends.ToString(), new {@class = "form-control"});
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Count of requests sent to friends:", new { @class = "form-control col-md-7" })
+                                </td>
+                                <td>
+                                    @{
+                                        if (Model.Statistics.LastHourStatistic != null)
+                                        {
+                                            @Html.LabelForModel(Model.Statistics.LastHourStatistic.CountRequestsSentToFriends.ToString(), new {@class = "form-control"})
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Last update statistics:", new { @class = "form-control col-md-7" })
+                                </td>
+                                <td>
+                                    @{
+                                        if (Model.Statistics.LastHourStatistic != null)
+                                        {
+                                            @Html.LabelForModel(Model.Statistics.LastHourStatistic.DateTimeUpdateStatistics.ToString(), new {@class = "form-control"})
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                <th>
+                                    All time statistics
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.Label("Count of received applications Friend:", new { @class = "form-control col-md-7" })
+                                </td>
+                                <td>
+                                    @{
+                                        if (Model.Statistics.AllTimeStatistic != null)
+                                        {
+                                            @Html.LabelForModel(Model.Statistics.AllTimeStatistic.CountReceivedFriends.ToString(), new {@class = "form-control"})
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Count of requests sent to friends:", new { @class = "form-control col-md-7" })
+                                </td>
+                                <td>
+                                    @{
+                                        if (Model.Statistics.AllTimeStatistic != null)
+                                        {
+                                            @Html.LabelForModel(Model.Statistics.AllTimeStatistic.CountRequestsSentToFriends.ToString(), new {@class = "form-control"})
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Last update statistics:", new { @class = "form-control col-md-7" })
+                                </td>
+                                <td>
+                                    @{
+                                        if (Model.Statistics.AllTimeStatistic != null)
+                                        {
+                                            @Html.LabelForModel(Model.Statistics.AllTimeStatistic.DateTimeUpdateStatistics.ToString(), new {@class = "form-control"})
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body">
             <div class="panel panel-primary">
                 <div class="panel-heading">Geo Options</div>
 
                 <div class="col-md-7 panel-body">
                     <div class="input-group">
                         <span class="width-200 input-group-addon">Current residence:</span>
-                        @Html.TextBoxFor(o => Model.LivesPlace, new { @class = "form-control" })
+                        @Html.TextBoxFor(o => Model.Settings.LivesPlace, new { @class = "form-control" })
                     </div>
                     <br />
                     <div class="input-group">
                         <span class="width-200 input-group-addon">Current place of study:</span>
-                        @Html.TextBoxFor(o => Model.SchoolPlace, new { @class = "form-control" })
+                        @Html.TextBoxFor(o => Model.Settings.SchoolPlace, new { @class = "form-control" })
                     </div>
                     <br />
                     <div class="input-group">
                         <span class="width-200 input-group-addon">Current job:</span>
-                        @Html.TextBoxFor(o => Model.WorkPlace, new { @class = "form-control" })
+                        @Html.TextBoxFor(o => Model.Settings.WorkPlace, new { @class = "form-control" })
                     </div>
                 </div>
 
                 <div class="col-md-4 panel-body">
                     <div class="input-group">
                         <span class="input-group-addon">Gender:</span>
-                        @Html.EnumDropDownListFor(model=>model.Gender, null, new {@class="form-control"})
+                        @Html.EnumDropDownListFor(model => model.Settings.Gender, null, new { @class = "form-control" })
                     </div>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
-            <input type="submit" class="btn btn-success" value="Save"/>
+            <input type="submit" class="btn btn-success" value="Save" />
         </div>
     </div>
 
     <div>
         <a href="@Url.Action("Index", "Users")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Back to list </a>
     </div>
-    
-    @Html.HiddenFor(model => model.AccountId)
+
+    @Html.HiddenFor(model => model.Account.Id)
+    @Html.HiddenFor(model => model.Settings.AccountId)
 }
