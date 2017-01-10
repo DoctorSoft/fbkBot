@@ -23,7 +23,9 @@ namespace DataBase.Models
         public string ProxyPassword { get; set; }
 
         public bool IsDeleted { get; set; }
-        
-       public CookiesForSpyDbModel Cookies { get; set; }
+
+        public CookiesForSpyDbModel Cookies { get; set; }
+
+        public ICollection<SpyFunctionDbModel> Functions { get; set; } 
     }
 }

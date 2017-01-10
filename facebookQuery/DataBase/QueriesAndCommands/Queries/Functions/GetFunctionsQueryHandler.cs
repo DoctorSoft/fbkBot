@@ -24,10 +24,11 @@ namespace DataBase.QueriesAndCommands.Queries.Functions
                 FunctionId = model.Id,
                 FunctionName = model.FunctionName,
                 FunctionTypeName = model.FunctionType.FunctionTypeName,
-                TypeName = model.FunctionType.TypeName
+                TypeName = model.FunctionType.TypeName,
+                ForSpy = model.ForSpy
             }).ToList();
 
-            return result;
+            return query.ForSpy ? result.Where(data => data.ForSpy).ToList() : result.Where(data => !data.ForSpy).ToList();
         }
     }
 }

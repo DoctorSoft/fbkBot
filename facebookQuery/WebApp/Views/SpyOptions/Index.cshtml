@@ -2,6 +2,95 @@
 @{
     ViewBag.Title = "Index";
 }
+@model Services.ViewModels.SpySettingsViewModels.SpySettingsViewModel
+@section scripts
+{
+    <script type="text/javascript" src="/Content/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-multiselect.css" type="text/css" />
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $("#submit-@Model.SpyId").hide();
+            $('#select-' + @Model.SpyId).multiselect({
+                onChange: function(option, checked, select) {
+                    $("#submit-@Model.SpyId").show();
+                },
+                buttonText: function(options, select) {
+                    return 'Check functions';
+                },
+            });
+        });
+    </script>
+}
 
 <h2>Index</h2>
 
+@using (Html.BeginForm("UpdateSpyOptions", "SpyOptions", FormMethod.Post))
+{
+    if (Model.SpyFunctions == null) //CHANGE ON SPY DATA
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Account Information</div>
+                    <div class="col-md-7 panel-body">
+                        Spy account has been deleted or moved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Spy account functions</div>
+                    <div class="panel-body">
+                        <div class="alert alert-info">
+                            <div class="inline-half-text-left">
+                                <div class="message-list-tittle width-200">
+                                    <input type="hidden" name="spyId" value="@Model.SpyId" />
+                                    Choose functions
+                                </div>
+                                <div class="message-list-tittle">
+                                    <select id="select-@Model.SpyId" multiple="multiple" class="col-md-12" name="functions">
+                                        @{
+                                            var groupedFunctions = Model.SpyFunctions.GroupBy(model => model.FunctionTypeName);
+                                            foreach (var groupedFunction in groupedFunctions)
+                                            {
+                                                <optgroup label="@groupedFunction.FirstOrDefault().TypeName">
+                                                    @{
+                                                foreach (var function in Model.SpyFunctions)
+                                                {
+                                                    if (function.Assigned)
+                                                    {
+                                                        <option value="@function.FunctionId" selected="selected"> @function.Name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@function.FunctionId"> @function.Name</option>
+                                                    }
+                                                }
+}
+                                                </optgroup>
+                                            }
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="inline-half-text-right">
+                                <div>
+                                    <button type="submit" class="btn btn-primary" id="submit-@Model.SpyId" hidden="hidden"><i class="fa fa-floppy-o"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

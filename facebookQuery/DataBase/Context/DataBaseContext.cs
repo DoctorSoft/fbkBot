@@ -43,6 +43,8 @@ namespace DataBase.Context
         public DbSet<LinkDbModel> Links { get; set; }
 
         public DbSet<FunctionDbModel> Functions { get; set; }
+        
+        public DbSet<SpyFunctionDbModel> SpyFunctions { get; set; }
 
         public DbSet<GroupFunctionDbModel> GroupFunctions { get; set; }
 
@@ -65,6 +67,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new StopWordConfiguration());
             modelBuilder.Configurations.Add(new ExtraMessageConfiguration());
             modelBuilder.Configurations.Add(new FunctionConfiguration());
+            modelBuilder.Configurations.Add(new SpyFunctionConfiguration());
             modelBuilder.Configurations.Add(new GroupFunctionConfiguration());
             modelBuilder.Configurations.Add(new FunctionTypeConfiguration());
 

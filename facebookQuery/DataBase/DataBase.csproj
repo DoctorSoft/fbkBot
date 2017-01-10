@@ -90,6 +90,7 @@
     <Compile Include="Configurations\AccountSettingsConfiguration.cs" />
     <Compile Include="Configurations\AccountStatisticsConfiguration.cs" />
     <Compile Include="Configurations\CookiesForSpyConfiguration.cs" />
+    <Compile Include="Configurations\SpyFunctionConfiguration.cs" />
     <Compile Include="Configurations\SpyAccountConfiguration.cs" />
     <Compile Include="Configurations\AccountConfiguration.cs" />
     <Compile Include="Configurations\CookiesConfiguration.cs" />
@@ -187,10 +188,23 @@
     <Compile Include="Migrations\201701072044240_CreateAccountStatisticsTable.Designer.cs">
       <DependentUpon>201701072044240_CreateAccountStatisticsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701101658582_AddFieldForSpyInFunctionsTable.cs" />
+    <Compile Include="Migrations\201701101658582_AddFieldForSpyInFunctionsTable.Designer.cs">
+      <DependentUpon>201701101658582_AddFieldForSpyInFunctionsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701101716516_AddSpyFunctionsTable.cs" />
+    <Compile Include="Migrations\201701101716516_AddSpyFunctionsTable.Designer.cs">
+      <DependentUpon>201701101716516_AddSpyFunctionsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701101719540_FixedNames.cs" />
+    <Compile Include="Migrations\201701101719540_FixedNames.Designer.cs">
+      <DependentUpon>201701101719540_FixedNames.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountSettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
+    <Compile Include="Models\SpyFunctionDbModel.cs" />
     <Compile Include="Models\SpyAccountDbModel.cs" />
     <Compile Include="Models\AnalysisFriendDbModel.cs" />
     <Compile Include="Models\AccountDbModel.cs" />
@@ -269,6 +283,8 @@
     <Compile Include="QueriesAndCommands\Commands\SpyAccounts\AddOrUpdateSpyAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyAccounts\DeleteSpyAccounCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyAccounts\DeleteSpyAccounCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\SpyOptions\SaveSpyFunctionsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\SpyOptions\SaveSpyFunctionsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\AddNewStopWordCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\StopWords\RemoveStopWordCommand.cs" />
@@ -350,6 +366,11 @@
     <Compile Include="QueriesAndCommands\Queries\Links\LinkData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\CalculateMessageTextQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Message\CalculateMessageTextQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyFunctions\GetAllSpyFunctionByIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyFunctions\GetSpyFunctionByIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyFunctions\GetAllSpyFunctionByIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyFunctions\GetSpyFunctionByIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyFunctions\SpyFunctionData.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\GetStopWordsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\StopWords\StopWordData.cs" />
@@ -447,6 +468,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701072044240_CreateAccountStatisticsTable.resx">
       <DependentUpon>201701072044240_CreateAccountStatisticsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701101658582_AddFieldForSpyInFunctionsTable.resx">
+      <DependentUpon>201701101658582_AddFieldForSpyInFunctionsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701101716516_AddSpyFunctionsTable.resx">
+      <DependentUpon>201701101716516_AddSpyFunctionsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701101719540_FixedNames.resx">
+      <DependentUpon>201701101719540_FixedNames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

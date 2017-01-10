@@ -101,7 +101,7 @@ namespace Services.Services
                 ProxyPassword = model.ProxyPassword,
             });
 
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
             {
                 UserId = accountId
             });

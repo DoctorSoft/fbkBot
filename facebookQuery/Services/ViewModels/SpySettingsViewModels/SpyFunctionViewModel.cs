@@ -1,8 +1,8 @@
 ﻿using Constants.FunctionEnums;
 
-namespace DataBase.QueriesAndCommands.Queries.Functions
+namespace Services.ViewModels.SpySettingsViewModels
 {
-    public class FunctionData
+    public class SpyFunctionViewModel
     {
         public long FunctionId { get; set; }
 
@@ -14,6 +14,6 @@ namespace DataBase.QueriesAndCommands.Queries.Functions
 
         public string TypeName { get; set; }
 
-        public bool ForSpy { get; set; }
+        public bool Assigned { get; set; }
     }
 }

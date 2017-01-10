@@ -12,7 +12,10 @@ namespace Services.Services
     {
         public List<GroupFunctionViewModel> GetGroupFunctions()
         {
-            var functions = new GetFunctionsQueryHandler(new DataBaseContext()).Handle(new GetFunctionsQuery());
+            var functions = new GetFunctionsQueryHandler(new DataBaseContext()).Handle(new GetFunctionsQuery
+            {
+                ForSpy = false
+            });
             var groups = new GetGroupsQueryHandler(new DataBaseContext()).Handle(new GetGroupsQuery());
             var groupFunctions = new GroupFunctionsQueryHandler(new DataBaseContext()).Handle(new GroupFunctionsQuery());
 

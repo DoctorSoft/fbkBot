@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Constants.FunctionEnums;
 using Hangfire;
+using Hangfire.Dashboard;
 using Owin;
 
 namespace Jobs
@@ -18,7 +20,11 @@ namespace Jobs
                 Queues = Enum.GetValues(typeof(FunctionName)).Cast<FunctionName>().Select(name => name.ToString("G").ToLower()).ToArray()
             };
 
-            app.UseHangfireDashboard("/dashboard");
+            app.UseHangfireDashboard("/dashboard", new DashboardOptions
+            {
+                Authorization = new[] { new MyRestrictiveAuthorizationFilter() }
+            });
+
             app.UseHangfireServer(options);
 
             JobsBootstrapper.SetUpJobs();

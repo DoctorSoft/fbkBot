@@ -46,6 +46,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -100,6 +101,7 @@
     <Compile Include="Services\FacebookMessagesService.cs" />
     <Compile Include="Services\FriendMessagesService.cs" />
     <Compile Include="Services\FriendsService.cs" />
+    <Compile Include="Services\SpySettingsService.cs" />
     <Compile Include="Services\GroupFunctionsService.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\HomeService.cs" />
@@ -118,6 +120,9 @@
     <Compile Include="ServiceTools\MessageManager.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendListViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendViewModel.cs" />
+    <Compile Include="ViewModels\SpySettingsViewModels\SpyFunctionViewModel.cs" />
+    <Compile Include="ViewModels\SpySettingsViewModels\NewSpySettingsViewModel.cs" />
+    <Compile Include="ViewModels\SpySettingsViewModels\SpySettingsViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountSettingsViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\DetailedStatisticsModel.cs" />
     <Compile Include="ViewModels\SpyAccountModels\SpyAccountViewModel.cs" />
