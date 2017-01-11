@@ -24,7 +24,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                 {
                     Id = model.Id,
                     PageUrl = model.PageUrl,
-                    UserId = model.FacebookId,
+                    FacebookId = model.FacebookId,
                     Login = model.Login,
                     Password = model.Password,
                     Cookie = new CookieModel
@@ -32,7 +32,6 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                        CookieString = model.Cookies.CookiesString
                     },
                     Name = model.Name,
-                    FacebookId = model.FacebookId,
                     Proxy = model.Proxy,
                     ProxyLogin = model.ProxyLogin,
                     ProxyPassword = model.ProxyPassword

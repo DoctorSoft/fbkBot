@@ -25,7 +25,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetUnreadMessagesEnum)pair.Key, pair => pair.Value);
 
-            parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString("G");
+            parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString();
             parametersDictionary[GetUnreadMessagesEnum.FbDtsg] = fbDtsg;
 
             var parameters = CreateParametersString(parametersDictionary);
@@ -38,7 +38,7 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             foreach (var thread in threads)
             {
-                messagesList.Add(new FacebookMessageModel()
+                messagesList.Add(new FacebookMessageModel
                 {
                     AccountId = model.AccountId,
                     FriendFacebookId = thread["thread_fbid"].Value<long>(),

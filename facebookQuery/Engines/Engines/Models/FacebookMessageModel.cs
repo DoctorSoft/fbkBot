@@ -5,7 +5,7 @@ namespace Engines.Engines.Models
 {
     public class FacebookMessageModel
     {
-        public long AccountId { get; set; }
+        public long? AccountId { get; set; }
 
         public long FriendFacebookId { get; set; }
 

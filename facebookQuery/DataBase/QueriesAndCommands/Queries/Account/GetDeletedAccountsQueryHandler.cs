@@ -29,7 +29,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         Login = model.Login,
                         Password = model.Password,
                         PageUrl = model.PageUrl,
-                        UserId = model.FacebookId,
+                        FacebookId = model.FacebookId,
                         Cookie = new CookieModel
                         {
                             CookieString = model.Cookies.CookiesString

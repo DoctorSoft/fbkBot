@@ -18,7 +18,7 @@ namespace Engines.Engines.GetMessagesEngine.ChangeMessageStatus
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (ChangeStatusForMesagesEnum)pair.Key, pair => pair.Value);
 
             parametersDictionary[ChangeStatusForMesagesEnum.Ids] = model.FriendFacebookId.ToString("G") + "]=true";
-            parametersDictionary[ChangeStatusForMesagesEnum.User] = model.AccountId.ToString("G");
+            parametersDictionary[ChangeStatusForMesagesEnum.User] = model.AccountId.ToString();
             parametersDictionary[ChangeStatusForMesagesEnum.FbDtsg] = fbDtsg;
             parametersDictionary[ChangeStatusForMesagesEnum.Ttstamp] = "2658169757012152707310256495865817278110491018710365111116";
 

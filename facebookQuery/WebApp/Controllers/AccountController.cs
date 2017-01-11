@@ -26,6 +26,8 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult UpdateOptionsSettings(AccountSettingsViewModel options)
         {
+            options.Settings.AccountId = options.Account.Id;
+
             homeService.UpdateAccountSettings(options.Settings);
             return RedirectToAction("Index", "Users", new { accountId = options.Account.Id });
         }

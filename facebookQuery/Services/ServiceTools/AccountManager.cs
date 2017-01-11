@@ -31,5 +31,10 @@ namespace Services.ServiceTools
                 FacebookUserId = accountFacebookId
             });
         }
+
+        public string CreateHomePageUrl(long accountFacebookId)
+        {
+            return "https://www.facebook.com/profile.php?id=" + accountFacebookId;
+        }
     }
 }

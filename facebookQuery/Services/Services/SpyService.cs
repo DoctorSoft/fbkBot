@@ -4,6 +4,7 @@ using System.Threading;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Commands.SpyAccounts;
+using DataBase.QueriesAndCommands.Commands.SpyStatistics;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.Account.SpyAccount;
@@ -157,7 +158,6 @@ namespace Services.Services
                 Proxy = accountViewModel.Proxy,
                 ProxyLogin = accountViewModel.ProxyLogin,
                 ProxyPassword = accountViewModel.ProxyPassword,
-                UserId = accountViewModel.Id,
                 Cookie = new CookieModel
                 {
                     CookieString = accountViewModel.Cookie
@@ -166,22 +166,29 @@ namespace Services.Services
 
             var friendList = new GetAnalisysFriendsQueryHandler(new DataBaseContext()).Handle(new GetAnalisysFriendsQuery());
 
-            var settings = new AccountSettingsModel();
             foreach (var analysisFriendData in friendList)
             {
                 var settingsModel = _accountSettingsManager.GetAccountSettings(analysisFriendData.AccountId);
-                if (settingsModel!=null)
+
+                if (settingsModel==null)
                 {
-                    settings = new AccountSettingsModel
-                    {
-                        AccountId = settingsModel.AccountId,
-                        Gender = settingsModel.Gender,
-                        LivesPlace = settingsModel.LivesPlace,
-                        SchoolPlace = settingsModel.SchoolPlace,
-                        WorkPlace = settingsModel.WorkPlace
-                    };
+                    continue;    
                 }
-                var friendInfo = new GetFriendInfoEngine().Execute(new GetFriendInfoModel()
+
+                if (settingsModel.LivesPlace == null && settingsModel.Gender == null && settingsModel.SchoolPlace == null && settingsModel.WorkPlace == null) //replace
+                {
+                    continue;
+                }
+
+                var settings = new AccountSettingsModel
+                {
+                    AccountId = settingsModel.AccountId,
+                    Gender = settingsModel.Gender,
+                    LivesPlace = settingsModel.LivesPlace,
+                    SchoolPlace = settingsModel.SchoolPlace,
+                    WorkPlace = settingsModel.WorkPlace
+                };
+                var friendInfo = new GetFriendInfoEngine().Execute(new GetFriendInfoModel
                 {
                     AccountFacebookId = account.FacebookId,
                     Proxy = _accountManager.GetAccountProxy(account),
@@ -200,6 +207,13 @@ namespace Services.Services
                     RelationsSection = friendInfo.RelationsSection,
                     SchoolSection = friendInfo.SchoolSection,
                     WorkSection = friendInfo.WorkSection
+                });
+
+                new AddOrUpdateSpyStatisticsCommandHandler(new DataBaseContext()).Handle(
+                new AddOrUpdateSpyStatisticsCommand
+                {
+                    CountAnalizeFriends = 1,
+                    SpyAccountId = account.Id
                 });
 
                 Thread.Sleep(5000);

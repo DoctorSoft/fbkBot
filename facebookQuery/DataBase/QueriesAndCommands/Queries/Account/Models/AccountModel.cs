@@ -9,9 +9,7 @@
         public string Password { get; set; }
 
         public string PageUrl { get; set; }
-
-        public long UserId { get; set; }
-
+        
         public string Name { get; set; }
 
         public long FacebookId { get; set; }

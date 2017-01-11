@@ -29,6 +29,13 @@ namespace Services.Services
         }
         public SpySettingsViewModel GetSpySettings(long spyAccountId)
         {
+            /*var statistics = _accountStatisticsManager.GetAccountStatistics(accountId);
+
+            var detailedStatistic = new DetailedStatisticsModel()
+            {
+                AllTimeStatistic = _accountStatisticsManager.GetLastHourAccountStatistics(statistics),
+                LastHourStatistic = _accountStatisticsManager.GetAllTimeAccountStatistics(statistics)
+            };*/
             var functions = new GetFunctionsQueryHandler(new DataBaseContext()).Handle(new GetFunctionsQuery
             {
                 ForSpy = true

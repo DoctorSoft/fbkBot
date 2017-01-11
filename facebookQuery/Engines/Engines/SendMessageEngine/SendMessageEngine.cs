@@ -33,8 +33,8 @@ namespace Engines.Engines.SendMessageEngine
                 parametersDictionary[SendMessageEnum.OfflineThreadingId] = messageId;
                 parametersDictionary[SendMessageEnum.OtherUserFbid] = model.FriendId.ToString("G");
                 parametersDictionary[SendMessageEnum.SpecificToListOne] = model.FriendId.ToString("G");
-                parametersDictionary[SendMessageEnum.SpecificToListTwo] = model.AccountId.ToString("G");
-                parametersDictionary[SendMessageEnum.UserId] = model.AccountId.ToString("G");
+                parametersDictionary[SendMessageEnum.SpecificToListTwo] = model.AccountId.ToString();
+                parametersDictionary[SendMessageEnum.UserId] = model.AccountId.ToString();
                 parametersDictionary[SendMessageEnum.Timestamp] = DateTime.Now.Ticks.ToString();
                 parametersDictionary[SendMessageEnum.FbDtsg] = fbDtsg;
 

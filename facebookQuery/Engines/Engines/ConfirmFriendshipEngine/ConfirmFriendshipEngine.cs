@@ -23,8 +23,8 @@ namespace Engines.Engines.ConfirmFriendshipEngine
 
                 var parametersDictionary = model.UrlParameters.ToDictionary(pair => (ConfirmFriendshipEnum)pair.Key, pair => pair.Value);
 
-                parametersDictionary[ConfirmFriendshipEnum.ViewerId] = model.AccountFacebookId.ToString("G");
-                parametersDictionary[ConfirmFriendshipEnum.User] = model.AccountFacebookId.ToString("G");
+                parametersDictionary[ConfirmFriendshipEnum.ViewerId] = model.AccountFacebookId.ToString();
+                parametersDictionary[ConfirmFriendshipEnum.User] = model.AccountFacebookId.ToString();
                 parametersDictionary[ConfirmFriendshipEnum.Id] = model.FriendFacebookId.ToString("G");
                 parametersDictionary[ConfirmFriendshipEnum.FbDtsg] = fbDtsg;
 

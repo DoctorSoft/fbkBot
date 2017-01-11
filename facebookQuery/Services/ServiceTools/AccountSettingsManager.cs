@@ -17,7 +17,7 @@ namespace Services.ServiceTools
 
             if (settings == null)
             {
-                return new AccountSettingsModel();
+                return null;
             }
 
             return new AccountSettingsModel

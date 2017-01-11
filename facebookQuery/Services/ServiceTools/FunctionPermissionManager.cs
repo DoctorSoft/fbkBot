@@ -45,7 +45,7 @@ namespace Services.ServiceTools
 
             if (groupId == null)
             {
-                return true;
+                return false;
             }
 
             return HasPermissions(functionName, groupId.Value);

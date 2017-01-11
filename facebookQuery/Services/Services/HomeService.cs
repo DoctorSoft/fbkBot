@@ -25,7 +25,8 @@ namespace Services.Services
     {
         private IAccountManager _accountManager;
         private IAccountSettingsManager _accountSettingsManager;
-        private IAccountStatisticsManager _accountStatisticsManager;
+        private IStatisticsManager _accountStatisticsManager;
+        private IProxyManager _proxyManager;
         private IJobService _jobService;
 
         public HomeService(IJobService jobService, IAccountManager accountManager, IAccountSettingsManager accountSettingsManager)
@@ -33,7 +34,8 @@ namespace Services.Services
             _jobService = jobService;
             _accountManager = accountManager;
             _accountSettingsManager = accountSettingsManager;
-            _accountStatisticsManager = new AccountStatisticsManager();
+            _accountStatisticsManager = new StatisticsManager();
+            _proxyManager = new ProxyManager();
         }
 
         public List<AccountViewModel> GetAccounts()
@@ -50,7 +52,7 @@ namespace Services.Services
                 PageUrl = model.PageUrl,
                 Login = model.Login,
                 Password = model.Password,
-                FacebookId = model.UserId,
+                FacebookId = model.FacebookId,
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
@@ -73,7 +75,7 @@ namespace Services.Services
                 PageUrl = model.PageUrl,
                 Login = model.Login,
                 Password = model.Password,
-                FacebookId = model.UserId,
+                FacebookId = model.FacebookId,
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
@@ -214,7 +216,7 @@ namespace Services.Services
                 LastHourStatistic = _accountStatisticsManager.GetAllTimeAccountStatistics(statistics)
             };
             
-            return new AccountSettingsViewModel
+            var accountViewModel = new AccountSettingsViewModel
             {
                 Settings = settings,
                 Statistics = detailedStatistic,
@@ -232,6 +234,8 @@ namespace Services.Services
                     Cookie = account.Cookie.CookieString
                 }
             };
+
+            return accountViewModel;
         }
 
         public AccountDraftViewModel GetAccountById(long? userId)
@@ -285,10 +289,29 @@ namespace Services.Services
                 ProxyPassword = model.ProxyPassword,
             });
 
+
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = accountId
             });
+
+            if (model.Id == null || model.PageUrl == null || model.FacebookId == 0)
+            {
+                var accountFacebookId = _proxyManager.GetAccountFacebookId(account.Cookie.CookieString);
+                var homePageUrl = _accountManager.CreateHomePageUrl(accountFacebookId);
+
+                new AddOrUpdateAccountCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateAccountCommand
+                {                Id = model.Id,
+                    Name = model.Name,
+                    PageUrl = homePageUrl,
+                    FacebookId = accountFacebookId,
+                    Password = model.Password,
+                    Login = model.Login,
+                    Proxy = model.Proxy,
+                    ProxyLogin = model.ProxyLogin,
+                    ProxyPassword = model.ProxyPassword
+                });
+            }
 
             _jobService.AddOrUpdateAccountJobs(new AccountViewModel
             {

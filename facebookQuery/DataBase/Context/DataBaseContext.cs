@@ -22,6 +22,8 @@ namespace DataBase.Context
 
         public DbSet<AccountStatisticsDbModel> AccountStatistics { get; set; }
 
+        public DbSet<SpyStatisticsDbModel> SpyStatistics { get; set; }
+
         public DbSet<CookiesForSpyDbModel> CookiesForSpy { get; set; }
         
         public DbSet<MessageDbModel> Messages { get; set; }
@@ -55,6 +57,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new AccountConfiguration());
             modelBuilder.Configurations.Add(new AccountSettingsConfiguration());
             modelBuilder.Configurations.Add(new SpyAccountConfiguration());
+            modelBuilder.Configurations.Add(new SpyStatisticsConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
             modelBuilder.Configurations.Add(new AccountStatisticsConfiguration());
             modelBuilder.Configurations.Add(new CookiesForSpyConfiguration());

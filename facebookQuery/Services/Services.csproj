@@ -85,7 +85,8 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\IAnalyzeFriendCore.cs" />
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
-    <Compile Include="Core\Interfaces\ServiceTools\IAccountStatisticsManager.cs" />
+    <Compile Include="Core\Interfaces\ServiceTools\IStatisticsManager.cs" />
+    <Compile Include="Core\Interfaces\ServiceTools\IProxyManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\ISpyAccountManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountSettingsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAccountManager.cs" />
@@ -108,7 +109,8 @@
     <Compile Include="Services\LinksService.cs" />
     <Compile Include="Services\MessageSettingService.cs" />
     <Compile Include="Services\SpyService.cs" />
-    <Compile Include="ServiceTools\AccountStatisticsManager.cs" />
+    <Compile Include="ServiceTools\StatisticsManager.cs" />
+    <Compile Include="ServiceTools\ProxyManager.cs" />
     <Compile Include="ServiceTools\SpyAccountManager.cs" />
     <Compile Include="ServiceTools\AccountSettingsManager.cs" />
     <Compile Include="ServiceTools\FunctionPermissionManager.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="ServiceTools\MessageManager.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendListViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendViewModel.cs" />
+    <Compile Include="ViewModels\SpySettingsViewModels\DetailedSpyStatisticsModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\SpyFunctionViewModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\NewSpySettingsViewModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\SpySettingsViewModel.cs" />

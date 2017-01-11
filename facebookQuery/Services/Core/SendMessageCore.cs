@@ -105,7 +105,7 @@ namespace Services.Core
             {
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
-                    AccountId = account.UserId,
+                    AccountId = account.FacebookId,
                     Cookie = account.Cookie.CookieString,
                     FriendId = friend.FacebookId,
                     Message = message,
@@ -175,7 +175,7 @@ namespace Services.Core
 
             new SendMessageEngine().Execute(new SendMessageModel
             {
-                AccountId = account.UserId,
+                AccountId = account.FacebookId,
                 Cookie = account.Cookie.CookieString,
                 FriendId = friend.FacebookId,
                 Message = message,
@@ -211,7 +211,7 @@ namespace Services.Core
             {
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
-                    AccountId = account.UserId,
+                    AccountId = account.FacebookId,
                     Cookie = account.Cookie.CookieString,
                     FriendId = friend.FacebookId,
                     Message = message,
@@ -227,7 +227,7 @@ namespace Services.Core
                 {
                     new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand()
                     {
-                        AccountId = account.UserId,
+                        AccountId = account.FacebookId,
                         FriendId = friend.Id,
                         MessageRegime = MessageRegime.BotFirstMessage
                     });

@@ -9,7 +9,7 @@ using Services.Core.Interfaces.ServiceTools;
 
 namespace Services.ServiceTools
 {
-    public class AccountStatisticsManager : IAccountStatisticsManager
+    public class StatisticsManager : IStatisticsManager
     {
         public AccountStatisticsList GetAccountStatistics(long accountId)
         {

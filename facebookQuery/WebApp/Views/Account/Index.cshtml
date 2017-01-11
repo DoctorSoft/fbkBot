@@ -261,6 +261,6 @@
             <a href="@Url.Action("Index", "Users")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Back to list </a>
         </div>
     }
-    @Html.HiddenFor(model => model.Account.Id)
-    @Html.HiddenFor(model => model.Settings.AccountId)
+    @Html.HiddenFor(x => x.Account.Id)
+    @Html.HiddenFor(x => x.Settings.AccountId)
 }

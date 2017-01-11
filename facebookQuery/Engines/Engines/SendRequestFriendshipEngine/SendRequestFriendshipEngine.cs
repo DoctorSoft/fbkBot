@@ -26,12 +26,12 @@ namespace Engines.Engines.SendRequestFriendshipEngine
                 var parametersAddFriendDictionary = model.AddFriendUrlParameters.ToDictionary(pair => (AddFriendEnum)pair.Key, pair => pair.Value);
 
                 parametersAddFriendDictionary[AddFriendEnum.ToFriend] = model.FriendFacebookId.ToString("G");
-                parametersAddFriendDictionary[AddFriendEnum.User] = model.AccountFacebookId.ToString("G");
+                parametersAddFriendDictionary[AddFriendEnum.User] = model.AccountFacebookId.ToString();
                 parametersAddFriendDictionary[AddFriendEnum.FbDtsg] = fbDtsg;
 
                 var parametersAddFriendExtraDictionary = model.AddFriendExtraUrlParameters.ToDictionary(pair => (AddFriendExtraEnum)pair.Key, pair => pair.Value);
 
-                parametersAddFriendExtraDictionary[AddFriendExtraEnum.User] = model.AccountFacebookId.ToString("G");
+                parametersAddFriendExtraDictionary[AddFriendExtraEnum.User] = model.AccountFacebookId.ToString();
                 parametersAddFriendExtraDictionary[AddFriendExtraEnum.FbDtsg] = fbDtsg;
 
                 var addFriendParameters = CreateParametersString(parametersAddFriendDictionary);

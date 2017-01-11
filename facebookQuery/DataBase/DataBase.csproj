@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\AccountSettingsConfiguration.cs" />
+    <Compile Include="Configurations\SpyStatisticsConfiguration.cs" />
     <Compile Include="Configurations\AccountStatisticsConfiguration.cs" />
     <Compile Include="Configurations\CookiesForSpyConfiguration.cs" />
     <Compile Include="Configurations\SpyFunctionConfiguration.cs" />
@@ -200,6 +201,14 @@
     <Compile Include="Migrations\201701101719540_FixedNames.Designer.cs">
       <DependentUpon>201701101719540_FixedNames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701102040327_AddSpyStatisticsTable.cs" />
+    <Compile Include="Migrations\201701102040327_AddSpyStatisticsTable.Designer.cs">
+      <DependentUpon>201701102040327_AddSpyStatisticsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701102043311_AddSpyIdInStatisticsTable.cs" />
+    <Compile Include="Migrations\201701102043311_AddSpyIdInStatisticsTable.Designer.cs">
+      <DependentUpon>201701102043311_AddSpyIdInStatisticsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountSettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
@@ -218,9 +227,12 @@
     <Compile Include="Models\MessageDbModel.cs" />
     <Compile Include="Models\FriendMessageDbModel.cs" />
     <Compile Include="Models\MessageGroupDbModel.cs" />
+    <Compile Include="Models\SpyStatisticsDbModel.cs" />
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountSettings\AddOrUpdateAccountSettingsCommand.cs" />
@@ -477,6 +489,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701101719540_FixedNames.resx">
       <DependentUpon>201701101719540_FixedNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701102040327_AddSpyStatisticsTable.resx">
+      <DependentUpon>201701102040327_AddSpyStatisticsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701102043311_AddSpyIdInStatisticsTable.resx">
+      <DependentUpon>201701102043311_AddSpyIdInStatisticsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

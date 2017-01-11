@@ -10,5 +10,7 @@ namespace Services.Core.Interfaces.ServiceTools
         WebProxy GetAccountProxy(AccountModel account);
 
         AccountModel GetAccountByFacebookId(long accountFacebookId);
+
+        string CreateHomePageUrl(long accountFacebookId);
     }
 }

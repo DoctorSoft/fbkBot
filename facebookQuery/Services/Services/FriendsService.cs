@@ -28,12 +28,12 @@ namespace Services.Services
     public class FriendsService
     {
         private readonly IAccountManager _accountManager;
-        private readonly IAccountStatisticsManager _accountStatisticsManager;
+        private readonly IStatisticsManager _accountStatisticsManager;
 
         public FriendsService()
         {
             _accountManager = new AccountManager();
-            _accountStatisticsManager = new AccountStatisticsManager();
+            _accountStatisticsManager = new StatisticsManager();
         }
 
         public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
@@ -203,9 +203,14 @@ namespace Services.Services
                 AccountId = account.Id
             });
 
+            if (friends.Count == 0)
+            {
+                return;
+            }
+
             var analysisFriendsData = friends.FirstOrDefault();
 
-            new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
+            new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel
             {
                 AccountFacebookId = account.FacebookId,
                 FriendFacebookId = analysisFriendsData.FacebookId,
@@ -233,39 +238,6 @@ namespace Services.Services
             });
 
             Thread.Sleep(2000);
-
-
-//            foreach (var analysisFriendsData in friends)
-//            {
-//                new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
-//                {
-//                    AccountFacebookId = account.FacebookId,
-//                    FriendFacebookId = analysisFriendsData.FacebookId,
-//                    Proxy = _accountManager.GetAccountProxy(account),
-//                    Cookie = account.Cookie.CookieString,
-//                    UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-//                    {
-//                        NameUrlParameter = NamesUrlParameter.ConfirmFriendship
-//                    }),
-//                });
-//
-//                if (true)
-//                {
-//                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
-//                    {
-//                        AccountId = account.Id,
-//                        CountReceivedFriends = 1
-//                    });
-//                }
-//
-//                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
-//                {
-//                    AccountId = account.Id,
-//                    FriendId = analysisFriendsData.Id
-//                });
-//
-//                Thread.Sleep(2000);
-//            }
         }
 
         public void SendRequestFriendship(long accountId)
@@ -280,6 +252,11 @@ namespace Services.Services
             {
                 AccountId = account.Id
             });
+
+            if (friends.Count == 0)
+            {
+                return;
+            }
 
             var analysisFriendsData = friends.FirstOrDefault();
             try

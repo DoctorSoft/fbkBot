@@ -2,7 +2,7 @@
 
 namespace Services.Core.Interfaces.ServiceTools
 {
-    public interface IAccountStatisticsManager
+    public interface IStatisticsManager
     {
         AccountStatisticsList GetAccountStatistics(long accountId);
 

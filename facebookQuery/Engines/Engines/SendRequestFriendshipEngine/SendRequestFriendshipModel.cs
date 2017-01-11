@@ -6,7 +6,7 @@ namespace Engines.Engines.SendRequestFriendshipEngine
 {
     public class SendRequestFriendshipModel
     {
-        public long AccountFacebookId { get; set; }
+        public long? AccountFacebookId { get; set; }
 
         public long FriendFacebookId { get; set; }
         

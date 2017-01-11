@@ -24,7 +24,6 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                     {
                         Id = model.Id,
                         PageUrl = model.PageUrl,
-                        UserId = model.FacebookId,
                         Login = model.Login,
                         Password = model.Password,
                         Cookie = model.Cookies!=null ? new CookieModel

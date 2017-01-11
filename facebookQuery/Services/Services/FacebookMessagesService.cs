@@ -46,7 +46,6 @@ namespace Services.Services
                 Proxy = accountViewModel.Proxy,
                 ProxyLogin = accountViewModel.ProxyLogin,
                 ProxyPassword = accountViewModel.ProxyPassword,
-                UserId = accountViewModel.Id,
                 Cookie = new CookieModel
                 {
                     CookieString = accountViewModel.Cookie
@@ -80,7 +79,6 @@ namespace Services.Services
                 Proxy = accountViewModel.Proxy,
                 ProxyLogin = accountViewModel.ProxyLogin,
                 ProxyPassword = accountViewModel.ProxyPassword,
-                UserId = accountViewModel.Id,
                 Cookie = new CookieModel
                 {
                     CookieString = accountViewModel.Cookie
@@ -123,7 +121,6 @@ namespace Services.Services
                 Proxy = accountViewModel.Proxy,
                 ProxyLogin = accountViewModel.ProxyLogin,
                 ProxyPassword = accountViewModel.ProxyPassword,
-                UserId = accountViewModel.Id,
                 Cookie = new CookieModel
                 {
                     CookieString = accountViewModel.Cookie
@@ -209,9 +206,9 @@ namespace Services.Services
         {
             foreach (var unreadMessage in unreadMessages.UnreadMessages)
             {
-                new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel()
+                new ChangeMessageStatusEngine().Execute(new ChangeMessageStatusModel
                 {
-                    AccountId = account.UserId,
+                    AccountId = account.FacebookId,
                     FriendFacebookId = unreadMessage.FriendFacebookId,
                     Cookie = account.Cookie.CookieString,
                     Proxy = _accountManager.GetAccountProxy(account),
@@ -238,9 +235,9 @@ namespace Services.Services
                     NameUrlParameter = NamesUrlParameter.GetUnreadMessages
                 });
 
-            var unreadMessagesList =  new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel()
+            var unreadMessagesList =  new GetUnreadMessagesEngine().Execute(new GetUnreadMessagesModel
             {
-                AccountId = account.UserId,
+                AccountId = account.FacebookId,
                 Cookie = account.Cookie.CookieString,
                 UrlParameters = getUnreadMessagesUrlParameters,
                 Proxy = _accountManager.GetAccountProxy(account)
@@ -266,9 +263,9 @@ namespace Services.Services
             {
                 FacebookUserId = accountId
             });
-            return new GetMessagesEngine().Execute(new GetMessagesModel()
+            return new GetMessagesEngine().Execute(new GetMessagesModel
             {
-                AccountId = account.UserId,
+                AccountId = account.FacebookId,
                 Cookie = account.Cookie.CookieString,
                 Proxy = _accountManager.GetAccountProxy(account)
             });

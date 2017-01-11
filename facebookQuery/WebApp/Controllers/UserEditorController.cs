@@ -28,12 +28,12 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult UpdateUser(AccountDraftViewModel model)
         {
-            var textList = new[] {model.Login, model.Name, model.PageUrl, model.Password, model.Proxy, model.ProxyLogin, model.ProxyPassword};
+            var textList = new[] {model.Login, model.Name, model.Password};
             if (textList.Any(string.IsNullOrWhiteSpace))
             {
                 return View("Index", model);
             }
-
+            
             var accountId = homeService.AddOrUpdateAccount(model);
 
             return RedirectToAction("Index", "Users");
