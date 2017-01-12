@@ -6,6 +6,8 @@ using DataBase.QueriesAndCommands.Commands.Messages.SaveNewMessageCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand;
 using DataBase.QueriesAndCommands.Queries.Groups;
 using DataBase.QueriesAndCommands.Queries.Message;
+using Services.Core.Interfaces.ServiceTools;
+using Services.ServiceTools;
 using Services.ViewModels.GroupModels;
 using Services.ViewModels.OptionsModel;
 
@@ -13,6 +15,12 @@ namespace Services.Services
 {
     public class MessageSettingService
     {
+        private readonly IAccountManager _accountManager;
+
+        public MessageSettingService()
+        {
+            _accountManager = new AccountManager();
+        }
         public void SaveNewMessage(MessageViewModel model)
         {
             if (string.IsNullOrWhiteSpace(model.Message))
@@ -70,6 +78,18 @@ namespace Services.Services
                     Id = data.Id,
                     Name = data.Name
                 }).ToList();
+
+
+            if (groupId == null && accountId != null)
+            {
+                var account = _accountManager.GetAccountById((long)accountId);
+                groupId =
+                    new GetGroupIdByFacebookIdQueryHandler(new DataBaseContext()).Handle(
+                        new GetGroupIdByFacebookIdQuery
+                        {
+                            FacebookId = account.FacebookId
+                        });
+            }
 
             var result = new MessageListModel
             {

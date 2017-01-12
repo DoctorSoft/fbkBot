@@ -19,53 +19,60 @@
         <table>
             <tr>
                 <td>
-                    To analize
+                    <div class="alert alert-info">
+                        To analize
+                    </div>
                 </td>
                 <td>
-                    To add
+                    <div class="alert alert-success">
+                        To add
+                    </div>
                 </td>
                 <td>
-                    To delete
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="alert alert-info"></div>
-                </td>
-                <td>
-                    <div class="alert alert-success"></div>
-                </td>
-                <td>
-                    <div class="alert alert-danger"></div>
+                    <div class="alert alert-danger">
+                        To delete
+                    </div>
                 </td>
             </tr>
         </table>
-        @foreach (var friend in @Model.Friends)
-        {
-            if (friend.Type == FriendTypes.Incoming)
+        @{
+            <div>Incoming (@Model.Friends.Where(model => model.Type == FriendTypes.Incoming).Count())</div>
+            int incomingFriendCount = 1;
+            foreach (var friend in @Model.Friends)
             {
-                <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
-                    <div class="inline-half-text-left">
-                        <div class="message-list-tittle">
-                            <div class="">@friend.FriendName (@friend.FacebookId)</div>
-                        </div>
-                    </div>
-                </div>
-            }
+                if (friend.Type == FriendTypes.Incoming)
+                {
+                     <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
+                         @incomingFriendCount.
+                         <div class="inline-half-text-left">
+                             <div class="message-list-tittle">
+                                 <div class="">@friend.FriendName (@friend.FacebookId)</div>
+                             </div>
+                         </div>
+                     </div>
+                     incomingFriendCount++;
+                 }
+             }
+
         }
-        <div>Recommended</div>
-        @foreach (var friend in @Model.Friends)
-        {
-            if (friend.Type == FriendTypes.Recommended)
-            {
-                <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
-                    <div class="inline-half-text-left">
-                        <div class="message-list-tittle">
-                            <div class="">@friend.FriendName (@friend.FacebookId)</div>
-                        </div>
-                    </div>
-                </div>
-            }
+        
+        @{<div>Recommended(@Model.Friends.Where(model => model.Type == FriendTypes.Recommended).Count())</div>
+            int recommendedFriendCount = 1;
+            foreach (var friend in @Model.Friends)
+             {
+                 if (friend.Type == FriendTypes.Recommended)
+                 {
+                     <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
+                         @recommendedFriendCount.
+                         <div class="inline-half-text-left">
+                             <div class="message-list-tittle">
+                                 <div class="">@friend.FriendName (@friend.FacebookId)</div>
+                             </div>
+                         </div>
+                     </div>
+                     recommendedFriendCount++;
+                 }
+             }
         }
     </div>
 

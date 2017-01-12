@@ -301,7 +301,8 @@ namespace Services.Services
                 var homePageUrl = _accountManager.CreateHomePageUrl(accountFacebookId);
 
                 new AddOrUpdateAccountCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateAccountCommand
-                {                Id = model.Id,
+                {
+                    Id = account.Id,
                     Name = model.Name,
                     PageUrl = homePageUrl,
                     FacebookId = accountFacebookId,
@@ -310,6 +311,11 @@ namespace Services.Services
                     Proxy = model.Proxy,
                     ProxyLogin = model.ProxyLogin,
                     ProxyPassword = model.ProxyPassword
+                });
+
+                account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+                {
+                    UserId = accountId
                 });
             }
 

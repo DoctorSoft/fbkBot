@@ -23,6 +23,10 @@ namespace DataBase.QueriesAndCommands.Commands.Accounts
                 account = new AccountDbModel();
             }
 
+            if (command.Id != null)
+            {
+                account.Id = (long)command.Id;
+            }
             account.FacebookId = command.FacebookId;
             account.Login = command.Login;
             account.Name = command.Name;

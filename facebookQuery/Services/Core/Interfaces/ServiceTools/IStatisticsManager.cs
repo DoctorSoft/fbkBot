@@ -10,6 +10,12 @@ namespace Services.Core.Interfaces.ServiceTools
 
         AccountStatisticsModel GetAllTimeAccountStatistics(AccountStatisticsList allStatistics);
 
+        SpyStatisticsList GetSpyStatistics(long spyAccountId);
+
+        SpyStatisticsModel GetLastHourSpyStatistics(SpyStatisticsList allStatistics);
+
+        SpyStatisticsModel GetAllTimeSpyStatistics(SpyStatisticsList allStatistics);
+
         void UpdateAccountStatistics(AccountStatisticsModel newStatistics);
     }
 }

@@ -5,6 +5,7 @@ using CommonModels;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.AccountStatistics;
 using DataBase.QueriesAndCommands.Queries.AccountStatistics;
+using DataBase.QueriesAndCommands.Queries.SpyStatistics;
 using Services.Core.Interfaces.ServiceTools;
 
 namespace Services.ServiceTools
@@ -85,6 +86,65 @@ namespace Services.ServiceTools
                     CreateDateTime = newStatistics.CreateDateTime,
                     DateTimeUpdateStatistics = newStatistics.DateTimeUpdateStatistics
                 });
+        }
+
+        public SpyStatisticsList GetSpyStatistics(long spyId)
+        {
+            var statisticData = new GetSpyStatisticsQueryHandler(new DataBaseContext()).Handle(new GetSpyStatisticsQuery
+            {
+                SpyId = spyId
+            });
+
+            if (statisticData == null)
+            {
+                return new SpyStatisticsList
+                {
+                    StatisticsList = new List<SpyStatisticsModel>()
+                };
+            }
+            return new SpyStatisticsList
+            {
+                StatisticsList = statisticData.Select(data => new SpyStatisticsModel
+                {
+                    SpyAccountId = data.SpyAccountId,
+                    CreateDateTime = data.CreateDateTime,
+                    CountAnalizeFriends = data.CountAnalizeFriends,
+                    Id = data.Id,
+                    DateTimeUpdateStatistics = data.DateTimeUpdateStatistics
+                }).ToList()
+            };
+        }
+
+        public SpyStatisticsModel GetLastHourSpyStatistics(SpyStatisticsList allStatistics)
+        {
+            return allStatistics.StatisticsList.OrderByDescending(model => model.CreateDateTime).FirstOrDefault();
+        }
+
+        public SpyStatisticsModel GetAllTimeSpyStatistics(SpyStatisticsList allStatistics)
+        {
+            long accountId = 0;
+            var updateDateTime = new DateTime();
+
+            var accountStatisticsModel = allStatistics.StatisticsList.OrderByDescending(model => model.DateTimeUpdateStatistics).FirstOrDefault();
+
+            if (accountStatisticsModel == null)
+                return new SpyStatisticsModel
+                {
+                    CountAnalizeFriends = allStatistics.StatisticsList.Sum(model => model.CountAnalizeFriends),
+                    SpyAccountId = accountId,
+                    CreateDateTime = DateTime.Now,
+                    DateTimeUpdateStatistics = updateDateTime
+                };
+
+            accountId = accountStatisticsModel.SpyAccountId;
+            updateDateTime = accountStatisticsModel.DateTimeUpdateStatistics;
+            return new SpyStatisticsModel
+            {
+                CountAnalizeFriends = allStatistics.StatisticsList.Sum(model => model.CountAnalizeFriends),
+                SpyAccountId = accountId,
+                CreateDateTime = DateTime.Now,
+                DateTimeUpdateStatistics = updateDateTime
+            };
         }
     }
 }

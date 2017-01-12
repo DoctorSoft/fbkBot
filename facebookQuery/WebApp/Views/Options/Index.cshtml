@@ -70,11 +70,13 @@
     </div>
 </div>
 
-<div class="panel-group right-add-message-panel" id="accordion">
+<div class="panel panel-default panel-group right-add-message-panel" id="accordion">
 
     <div class="panel-heading">
-        <div class="message-list-tittle">
-            <h3 class="panel-title">List of messages</h3>
+        <div class="message-list-tittle panel-heading">
+            <h3 class="panel-title">
+                Current group: <strong>@(Model.GroupId == null ? "group is not selected" : Model.GroupList.Groups.FirstOrDefault(@group => group.Id == @Model.GroupId).Name)</strong>
+            </h3>
         </div>
         @if (Model.AccountId != null)
         {
@@ -137,7 +139,8 @@
                                     }
                                     if (message.IsEmergencyText)
                                     {
-                                        <div class="message-emergency-warning"><i class="fa fa-info-circle"></i> It is message after catching stop word
+                                        <div class="message-emergency-warning">
+                                            <i class="fa fa-info-circle"></i> It is message after catching stop word
                                         </div>
                                     }
                                 }

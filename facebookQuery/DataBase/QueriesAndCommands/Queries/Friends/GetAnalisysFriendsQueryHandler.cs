@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Constants.FriendTypesEnum;
 using DataBase.Context;
+using DataBase.Models;
 using DataBase.QueriesAndCommands.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
@@ -20,21 +21,44 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
         {
             try
             {
-                var result = context.AnalisysFriends
+
+                var analisisFriends = context.AnalisysFriends
                 .Where(model => model.Status == StatusesFriend.ToAnalys)
+                .Where(model => !model.AccountWithFriend.IsDeleted)
                 .GroupBy(model => model.AccountId)
                 .Select(model => model.OrderBy(dbModel => dbModel.AddedDateTime).FirstOrDefault()).ToList();
 
-                return result.Select(model => new AnalysisFriendData
+                var result = new List<AnalysisFriendData>();
+
+                foreach (var analysisFriendDbModel in analisisFriends)
                 {
-                    FacebookId = model.FacebookId,
-                    AccountId = model.AccountId,
-                    FriendName = model.FriendName,
-                    Id = model.Id,
-                    AddedToAnalysDateTime = model.AddedDateTime,
-                    Type = model.Type,
-                    Status = model.Status
-                }).ToList();
+                    var dbModel = analysisFriendDbModel;
+                    var settingsModel = context.AccountSettings.FirstOrDefault(model => model.Id == dbModel.AccountId);
+
+                    if (settingsModel == null)
+                    {
+                        continue;
+                    }
+
+                    if (settingsModel.LivesPlace == null && settingsModel.Gender == null &&
+                        settingsModel.SchoolPlace == null && settingsModel.WorkPlace == null) //replace
+                    {
+                        continue;
+                    }
+
+                    result.Add(new AnalysisFriendData
+                    {
+                        FacebookId = analysisFriendDbModel.FacebookId,
+                        AccountId = analysisFriendDbModel.AccountId,
+                        FriendName = analysisFriendDbModel.FriendName,
+                        Id = analysisFriendDbModel.Id,
+                        AddedToAnalysDateTime = analysisFriendDbModel.AddedDateTime,
+                        Type = analysisFriendDbModel.Type,
+                        Status = analysisFriendDbModel.Status
+                    });
+                }
+
+                return result;
             }
             catch (Exception)
             {

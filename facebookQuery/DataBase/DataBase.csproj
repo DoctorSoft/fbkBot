@@ -309,6 +309,9 @@
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyStatistics\SpyStatisticsData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountStatistics\AccountStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountStatistics\GetAccountStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountStatistics\GetAccountStatisticsQueryHandler.cs" />

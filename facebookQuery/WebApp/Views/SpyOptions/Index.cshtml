@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
+@using System.Globalization
 @model Services.ViewModels.SpySettingsViewModels.SpySettingsViewModel
 @section scripts
 {
@@ -62,18 +63,18 @@
                                             {
                                                 <optgroup label="@groupedFunction.FirstOrDefault().TypeName">
                                                     @{
-                                                foreach (var function in Model.SpyFunctions)
-                                                {
-                                                    if (function.Assigned)
-                                                    {
-                                                        <option value="@function.FunctionId" selected="selected"> @function.Name</option>
+                                                        foreach (var function in Model.SpyFunctions)
+                                                        {
+                                                            if (function.Assigned)
+                                                            {
+                                                                <option value="@function.FunctionId" selected="selected"> @function.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@function.FunctionId"> @function.Name</option>
+                                                            }
+                                                        }
                                                     }
-                                                    else
-                                                    {
-                                                        <option value="@function.FunctionId"> @function.Name</option>
-                                                    }
-                                                }
-}
                                                 </optgroup>
                                             }
                                         }
@@ -88,6 +89,110 @@
                             </div>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Spy Statistics</div>
+                    <div class="col-md-6 panel-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                    </th>
+                                    <th>
+                                        Last hour statistics
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.Label("Count analize friends:", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (Model.SpyStatistics.LastHourStatistic != null)
+                                            {
+                                                @Html.LabelForModel(Model.SpyStatistics.LastHourStatistic.CountAnalizeFriends.ToString(CultureInfo.InvariantCulture), new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.Label("Last update statistics:", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (Model.SpyStatistics.LastHourStatistic != null)
+                                            {
+                                                @Html.LabelForModel(Model.SpyStatistics.LastHourStatistic.DateTimeUpdateStatistics.ToString(), new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                    </th>
+                                    <th>
+                                        All time statistics
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.Label("Count analize friends:", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (Model.SpyStatistics.AllTimeStatistic != null)
+                                            {
+                                                @Html.LabelForModel(Model.SpyStatistics.AllTimeStatistic.CountAnalizeFriends.ToString(), new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.Label("Last update statistics:", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (Model.SpyStatistics.AllTimeStatistic != null)
+                                            {
+                                                @Html.LabelForModel(Model.SpyStatistics.AllTimeStatistic.DateTimeUpdateStatistics.ToString(), new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.Label("No data", new { @class = "form-control col-md-7" })
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

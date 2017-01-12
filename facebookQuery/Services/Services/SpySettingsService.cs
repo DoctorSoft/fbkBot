@@ -9,6 +9,7 @@ using DataBase.QueriesAndCommands.Queries.SpyFunctions;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
 using Services.ServiceTools;
+using Services.ViewModels.HomeModels;
 using Services.ViewModels.SpySettingsViewModels;
 
 namespace Services.Services
@@ -18,6 +19,7 @@ namespace Services.Services
         private readonly ISpyAccountManager _spyAccountManager;
         private readonly IAccountManager _accountManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
+        private readonly IStatisticsManager _statisticsManager;
         private IJobService _jobService;
 
         public SpySettingsService(IJobService jobService)
@@ -25,17 +27,19 @@ namespace Services.Services
             _jobService = jobService;
             _spyAccountManager = new SpyAccountManager();
             _accountManager = new AccountManager();
+            _statisticsManager = new StatisticsManager();
             _accountSettingsManager = new AccountSettingsManager();
         }
         public SpySettingsViewModel GetSpySettings(long spyAccountId)
         {
-            /*var statistics = _accountStatisticsManager.GetAccountStatistics(accountId);
+            var statistics = _statisticsManager.GetSpyStatistics(spyAccountId);
 
-            var detailedStatistic = new DetailedStatisticsModel()
+            var detailedStatistic = new DetailedSpyStatisticsModel
             {
-                AllTimeStatistic = _accountStatisticsManager.GetLastHourAccountStatistics(statistics),
-                LastHourStatistic = _accountStatisticsManager.GetAllTimeAccountStatistics(statistics)
-            };*/
+                AllTimeStatistic = _statisticsManager.GetAllTimeSpyStatistics(statistics),
+                LastHourStatistic = _statisticsManager.GetLastHourSpyStatistics(statistics),
+            };
+
             var functions = new GetFunctionsQueryHandler(new DataBaseContext()).Handle(new GetFunctionsQuery
             {
                 ForSpy = true
@@ -48,6 +52,7 @@ namespace Services.Services
             var result = new SpySettingsViewModel
             {
                 SpyId = spyAccountId,
+                SpyStatistics = detailedStatistic,
                 SpyFunctions = functions.Select(func => new SpyFunctionViewModel
                 {
                     Name = func.Name,

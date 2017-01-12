@@ -170,16 +170,6 @@ namespace Services.Services
             {
                 var settingsModel = _accountSettingsManager.GetAccountSettings(analysisFriendData.AccountId);
 
-                if (settingsModel==null)
-                {
-                    continue;    
-                }
-
-                if (settingsModel.LivesPlace == null && settingsModel.Gender == null && settingsModel.SchoolPlace == null && settingsModel.WorkPlace == null) //replace
-                {
-                    continue;
-                }
-
                 var settings = new AccountSettingsModel
                 {
                     AccountId = settingsModel.AccountId,

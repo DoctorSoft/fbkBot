@@ -45,6 +45,11 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                 {
                     continue;
                 }
+
+                if (friendsList.Any(model=>model.FacebookId.Equals(friendDbModel.FacebookId)))
+                {
+                    continue;
+                }
                 friendsList.Add(new AnalysisFriendDbModel
                 {
                     FacebookId = friendDbModel.FacebookId,
