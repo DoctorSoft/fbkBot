@@ -13,6 +13,6 @@ namespace Engines.Engines.GetFriendInfoEngine
 
         public WebProxy Proxy { get; set; }
 
-        public AccountSettingsModel Settings { get; set; }
+        public SettingsModel Settings { get; set; }
     }
 }

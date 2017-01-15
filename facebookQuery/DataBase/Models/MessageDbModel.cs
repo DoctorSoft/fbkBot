@@ -30,6 +30,6 @@ namespace DataBase.Models
 
         public AccountDbModel Account { get; set; }
 
-        public MessageGroupDbModel MessageGroup { get; set; }
+        public GroupSettingsDbModel GroupSettings { get; set; }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using CommonModels;
-using Services.ViewModels.HomeModels;
 
 namespace Services.Core.Interfaces.ServiceTools
 {
     public interface IAccountSettingsManager
     {
-        AccountSettingsModel GetAccountSettings(long accountId);
+        SettingsModel GetSettings(long groupSettingsId);
 
-        void UpdateAccountSettings(AccountSettingsModel newSettings);
+        void UpdateSettings(SettingsModel newSettings);
     }
 }

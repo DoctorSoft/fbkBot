@@ -87,7 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configurations\AccountSettingsConfiguration.cs" />
+    <Compile Include="Configurations\SettingsConfiguration.cs" />
     <Compile Include="Configurations\SpyStatisticsConfiguration.cs" />
     <Compile Include="Configurations\AccountStatisticsConfiguration.cs" />
     <Compile Include="Configurations\CookiesForSpyConfiguration.cs" />
@@ -103,114 +103,18 @@
     <Compile Include="Configurations\GroupFunctionConfiguration.cs" />
     <Compile Include="Configurations\LinkConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
-    <Compile Include="Configurations\MessageGroupConfiguration.cs" />
+    <Compile Include="Configurations\GroupSettingsConfiguration.cs" />
     <Compile Include="Configurations\ExtraMessageConfiguration.cs" />
     <Compile Include="Configurations\StopWordConfiguration.cs" />
     <Compile Include="Configurations\UrlParametersConfiguration.cs" />
     <Compile Include="Constants\NamesUrlParameter.cs" />
     <Compile Include="Context\DataBaseContext.cs" />
-    <Compile Include="Migrations\201611231957513_Init.cs" />
-    <Compile Include="Migrations\201611231957513_Init.Designer.cs">
-      <DependentUpon>201611231957513_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611241947257_AddedFriendDateField.cs" />
-    <Compile Include="Migrations\201611241947257_AddedFriendDateField.Designer.cs">
-      <DependentUpon>201611241947257_AddedFriendDateField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611301928417_AddedMessageRegimeField.cs" />
-    <Compile Include="Migrations\201611301928417_AddedMessageRegimeField.Designer.cs">
-      <DependentUpon>201611301928417_AddedMessageRegimeField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612012058510_RelocateMessageRegime.cs" />
-    <Compile Include="Migrations\201612012058510_RelocateMessageRegime.Designer.cs">
-      <DependentUpon>201612012058510_RelocateMessageRegime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612031403314_AddProxyFields.cs" />
-    <Compile Include="Migrations\201612031403314_AddProxyFields.Designer.cs">
-      <DependentUpon>201612031403314_AddProxyFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612032220172_DeletedUserField.cs" />
-    <Compile Include="Migrations\201612032220172_DeletedUserField.Designer.cs">
-      <DependentUpon>201612032220172_DeletedUserField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612041746079_EditFriendModel.cs" />
-    <Compile Include="Migrations\201612041746079_EditFriendModel.Designer.cs">
-      <DependentUpon>201612041746079_EditFriendModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612072112584_AddExtraMessagesTable.cs" />
-    <Compile Include="Migrations\201612072112584_AddExtraMessagesTable.Designer.cs">
-      <DependentUpon>201612072112584_AddExtraMessagesTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612072117168_AddExtraMessagesTable2.cs" />
-    <Compile Include="Migrations\201612072117168_AddExtraMessagesTable2.Designer.cs">
-      <DependentUpon>201612072117168_AddExtraMessagesTable2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612081934538_ConnectUserToGroup.cs" />
-    <Compile Include="Migrations\201612081934538_ConnectUserToGroup.Designer.cs">
-      <DependentUpon>201612081934538_ConnectUserToGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612082040417_AddGroupFunctionsTable.cs" />
-    <Compile Include="Migrations\201612082040417_AddGroupFunctionsTable.Designer.cs">
-      <DependentUpon>201612082040417_AddGroupFunctionsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612102004263_AddFunctionTypeTable.cs" />
-    <Compile Include="Migrations\201612102004263_AddFunctionTypeTable.Designer.cs">
-      <DependentUpon>201612102004263_AddFunctionTypeTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612191921466_AddAnalisysFriendTable.cs" />
-    <Compile Include="Migrations\201612191921466_AddAnalisysFriendTable.Designer.cs">
-      <DependentUpon>201612191921466_AddAnalisysFriendTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612191926405_FixAnalisysFriendTable.cs" />
-    <Compile Include="Migrations\201612191926405_FixAnalisysFriendTable.Designer.cs">
-      <DependentUpon>201612191926405_FixAnalisysFriendTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.cs" />
-    <Compile Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.Designer.cs">
-      <DependentUpon>201612191947415_FixSyntaxysBugAnalisysFriendTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612201608209_AddSpyAccountsTable.cs" />
-    <Compile Include="Migrations\201612201608209_AddSpyAccountsTable.Designer.cs">
-      <DependentUpon>201612201608209_AddSpyAccountsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612202040360_AddFriendTypeField.cs" />
-    <Compile Include="Migrations\201612202040360_AddFriendTypeField.Designer.cs">
-      <DependentUpon>201612202040360_AddFriendTypeField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612272146224_AddAccountSettingsTable.cs" />
-    <Compile Include="Migrations\201612272146224_AddAccountSettingsTable.Designer.cs">
-      <DependentUpon>201612272146224_AddAccountSettingsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612291928588_ChangedFieldType.cs" />
-    <Compile Include="Migrations\201612291928588_ChangedFieldType.Designer.cs">
-      <DependentUpon>201612291928588_ChangedFieldType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701072044240_CreateAccountStatisticsTable.cs" />
-    <Compile Include="Migrations\201701072044240_CreateAccountStatisticsTable.Designer.cs">
-      <DependentUpon>201701072044240_CreateAccountStatisticsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701101658582_AddFieldForSpyInFunctionsTable.cs" />
-    <Compile Include="Migrations\201701101658582_AddFieldForSpyInFunctionsTable.Designer.cs">
-      <DependentUpon>201701101658582_AddFieldForSpyInFunctionsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701101716516_AddSpyFunctionsTable.cs" />
-    <Compile Include="Migrations\201701101716516_AddSpyFunctionsTable.Designer.cs">
-      <DependentUpon>201701101716516_AddSpyFunctionsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701101719540_FixedNames.cs" />
-    <Compile Include="Migrations\201701101719540_FixedNames.Designer.cs">
-      <DependentUpon>201701101719540_FixedNames.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701102040327_AddSpyStatisticsTable.cs" />
-    <Compile Include="Migrations\201701102040327_AddSpyStatisticsTable.Designer.cs">
-      <DependentUpon>201701102040327_AddSpyStatisticsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701102043311_AddSpyIdInStatisticsTable.cs" />
-    <Compile Include="Migrations\201701102043311_AddSpyIdInStatisticsTable.Designer.cs">
-      <DependentUpon>201701102043311_AddSpyIdInStatisticsTable.cs</DependentUpon>
+    <Compile Include="Migrations\201701141332368_Init.cs" />
+    <Compile Include="Migrations\201701141332368_Init.Designer.cs">
+      <DependentUpon>201701141332368_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
-    <Compile Include="Models\AccountSettingsDbModel.cs" />
+    <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
     <Compile Include="Models\SpyFunctionDbModel.cs" />
@@ -226,7 +130,7 @@
     <Compile Include="Models\LinkDbModel.cs" />
     <Compile Include="Models\MessageDbModel.cs" />
     <Compile Include="Models\FriendMessageDbModel.cs" />
-    <Compile Include="Models\MessageGroupDbModel.cs" />
+    <Compile Include="Models\GroupSettingsDbModel.cs" />
     <Compile Include="Models\SpyStatisticsDbModel.cs" />
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
@@ -235,8 +139,8 @@
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\AccountSettings\AddOrUpdateAccountSettingsCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\AccountSettings\AddOrUpdateAccountSettingsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Settings\AddOrUpdateSettingsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Settings\AddOrUpdateSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\DeleteUserCommand.cs" />
@@ -315,9 +219,9 @@
     <Compile Include="QueriesAndCommands\Queries\AccountStatistics\AccountStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountStatistics\GetAccountStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountStatistics\GetAccountStatisticsQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\AccountSettings\AccountOptionsData.cs" />
-    <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\AccountSettings\GetAccountSettingsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Settings\SettingsData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Settings\GetSettingsByGroupSettingsIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Settings\GetSettingsByGroupSettingsIdHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQuery.cs" />
@@ -420,87 +324,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611231957513_Init.resx">
-      <DependentUpon>201611231957513_Init.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611241947257_AddedFriendDateField.resx">
-      <DependentUpon>201611241947257_AddedFriendDateField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611301928417_AddedMessageRegimeField.resx">
-      <DependentUpon>201611301928417_AddedMessageRegimeField.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612012058510_RelocateMessageRegime.resx">
-      <DependentUpon>201612012058510_RelocateMessageRegime.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612031403314_AddProxyFields.resx">
-      <DependentUpon>201612031403314_AddProxyFields.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612032220172_DeletedUserField.resx">
-      <DependentUpon>201612032220172_DeletedUserField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612041746079_EditFriendModel.resx">
-      <DependentUpon>201612041746079_EditFriendModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612072112584_AddExtraMessagesTable.resx">
-      <DependentUpon>201612072112584_AddExtraMessagesTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612072117168_AddExtraMessagesTable2.resx">
-      <DependentUpon>201612072117168_AddExtraMessagesTable2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612081934538_ConnectUserToGroup.resx">
-      <DependentUpon>201612081934538_ConnectUserToGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612082040417_AddGroupFunctionsTable.resx">
-      <DependentUpon>201612082040417_AddGroupFunctionsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612102004263_AddFunctionTypeTable.resx">
-      <DependentUpon>201612102004263_AddFunctionTypeTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612191921466_AddAnalisysFriendTable.resx">
-      <DependentUpon>201612191921466_AddAnalisysFriendTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612191926405_FixAnalisysFriendTable.resx">
-      <DependentUpon>201612191926405_FixAnalisysFriendTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612191947415_FixSyntaxysBugAnalisysFriendTable.resx">
-      <DependentUpon>201612191947415_FixSyntaxysBugAnalisysFriendTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612201608209_AddSpyAccountsTable.resx">
-      <DependentUpon>201612201608209_AddSpyAccountsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612202040360_AddFriendTypeField.resx">
-      <DependentUpon>201612202040360_AddFriendTypeField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612272146224_AddAccountSettingsTable.resx">
-      <DependentUpon>201612272146224_AddAccountSettingsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612291928588_ChangedFieldType.resx">
-      <DependentUpon>201612291928588_ChangedFieldType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701072044240_CreateAccountStatisticsTable.resx">
-      <DependentUpon>201701072044240_CreateAccountStatisticsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701101658582_AddFieldForSpyInFunctionsTable.resx">
-      <DependentUpon>201701101658582_AddFieldForSpyInFunctionsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701101716516_AddSpyFunctionsTable.resx">
-      <DependentUpon>201701101716516_AddSpyFunctionsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701101719540_FixedNames.resx">
-      <DependentUpon>201701101719540_FixedNames.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701102040327_AddSpyStatisticsTable.resx">
-      <DependentUpon>201701102040327_AddSpyStatisticsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701102043311_AddSpyIdInStatisticsTable.resx">
-      <DependentUpon>201701102043311_AddSpyIdInStatisticsTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701141332368_Init.resx">
+      <DependentUpon>201701141332368_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

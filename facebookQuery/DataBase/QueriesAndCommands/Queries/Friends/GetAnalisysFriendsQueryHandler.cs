@@ -33,7 +33,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                 foreach (var analysisFriendDbModel in analisisFriends)
                 {
                     var dbModel = analysisFriendDbModel;
-                    var settingsModel = context.AccountSettings.FirstOrDefault(model => model.Id == dbModel.AccountId);
+                    var account = context.Accounts.FirstOrDefault(model => model.Id == dbModel.AccountId);
+                    var settingsModel = context.Settings.FirstOrDefault(model => model.Id == account.GroupSettingsId);
 
                     if (settingsModel == null)
                     {
@@ -41,7 +42,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     }
 
                     if (settingsModel.LivesPlace == null && settingsModel.Gender == null &&
-                        settingsModel.SchoolPlace == null && settingsModel.WorkPlace == null) //replace
+                        settingsModel.SchoolPlace == null && settingsModel.WorkPlace == null) //replace only geo fields
                     {
                         continue;
                     }

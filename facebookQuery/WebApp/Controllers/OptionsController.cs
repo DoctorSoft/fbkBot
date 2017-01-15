@@ -24,7 +24,8 @@ namespace WebApp.Controllers
         public ActionResult AddNewMessage(MessageViewModel model)
         {
             messageSettingService.SaveNewMessage(model);
-            return RedirectToAction("Index", new { accountId = model.AccountId, groupId = model.GroupId });
+            return RedirectToAction("Index", new { accountId = model.AccountId});
+            //return RedirectToAction("Index", new { accountId = model.AccountId, groupId = model.GroupId });
         }
 
         public ActionResult RemoveMessage(long messageId, long? accountId, long? groupId)

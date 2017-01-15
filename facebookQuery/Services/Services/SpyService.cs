@@ -132,7 +132,7 @@ namespace Services.Services
 
             return new SpyAccountViewModel
             {
-                Cookie = spyAccount.Cookie.CookieString,
+                Cookie = spyAccount.Cookie == null ? null : spyAccount.Cookie.CookieString,
                 FacebookId = spyAccount.FacebookId,
                 Id = spyAccount.Id,
                 Login = spyAccount.Login,
@@ -147,7 +147,7 @@ namespace Services.Services
 
         public void AnalyzeFriends(AccountViewModel accountViewModel)
         {
-            var account = new AccountModel()
+            var account = new AccountModel
             {
                 Id = accountViewModel.Id,
                 FacebookId = accountViewModel.FacebookId,
@@ -168,16 +168,20 @@ namespace Services.Services
 
             foreach (var analysisFriendData in friendList)
             {
-                var settingsModel = _accountSettingsManager.GetAccountSettings(analysisFriendData.AccountId);
+                var accountAnalysisFriend = _accountManager.GetAccountById(analysisFriendData.AccountId);
+                var settingsModel = accountAnalysisFriend.GroupSettingsId != null
+                    ? _accountSettingsManager.GetSettings((long) accountAnalysisFriend.GroupSettingsId)
+                    : new SettingsModel();
 
-                var settings = new AccountSettingsModel
+                var settings = new SettingsModel
                 {
-                    AccountId = settingsModel.AccountId,
+                    GroupId = settingsModel.GroupId,
                     Gender = settingsModel.Gender,
                     LivesPlace = settingsModel.LivesPlace,
                     SchoolPlace = settingsModel.SchoolPlace,
                     WorkPlace = settingsModel.WorkPlace
                 };
+
                 var friendInfo = new GetFriendInfoEngine().Execute(new GetFriendInfoModel
                 {
                     AccountFacebookId = account.FacebookId,
@@ -196,7 +200,8 @@ namespace Services.Services
                     LivesSection = friendInfo.LivesSection,
                     RelationsSection = friendInfo.RelationsSection,
                     SchoolSection = friendInfo.SchoolSection,
-                    WorkSection = friendInfo.WorkSection
+                    WorkSection = friendInfo.WorkSection,
+                    AccountId = analysisFriendData.AccountId
                 });
 
                 new AddOrUpdateSpyStatisticsCommandHandler(new DataBaseContext()).Handle(

@@ -52,7 +52,7 @@ namespace Services.Services
             new SaveNewMessageCommandHandler(new DataBaseContext()).Handle(new SaveNewMessageCommand
             {
                 AccountId = model.AccountId,
-                GroupId = model.GroupId,
+                GroupId = model.AccountId == null ? model.GroupId : null,
                 OrderNumber = model.OrderNumber,
                 EndTime = model.EndTime,
                 StartTime = model.StartTime,
@@ -128,7 +128,7 @@ namespace Services.Services
             new SetDefaulMessagesCommandHandler(new DataBaseContext()).Handle(new SetDefaulMessagesCommand
             {
                 AccountId = accountId,
-                GroupId = null
+                GroupSettingsId = null
             });
         }
 
@@ -137,7 +137,7 @@ namespace Services.Services
             new SetDefaulMessagesCommandHandler(new DataBaseContext()).Handle(new SetDefaulMessagesCommand
             {
                 AccountId = accountId,
-                GroupId = groupId
+                GroupSettingsId = groupId
             });
         }
     }

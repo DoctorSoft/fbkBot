@@ -14,7 +14,7 @@ namespace DataBase.Context
 
         public DbSet<AccountDbModel> Accounts { get; set; }
 
-        public DbSet<AccountSettingsDbModel> AccountSettings { get; set; }
+        public DbSet<SettingsDbModel> Settings { get; set; }
 
         public DbSet<SpyAccountDbModel> SpyAccounts { get; set; }
 
@@ -36,7 +36,7 @@ namespace DataBase.Context
 
         public DbSet<FriendMessageDbModel> FriendMessages { get; set; }
 
-        public DbSet<MessageGroupDbModel> MessageGroups { get; set; }
+        public DbSet<GroupSettingsDbModel> GroupSettings { get; set; }
 
         public DbSet<StopWordDbModel> StopWords { get; set; }
 
@@ -55,13 +55,14 @@ namespace DataBase.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
-            modelBuilder.Configurations.Add(new AccountSettingsConfiguration());
+            modelBuilder.Configurations.Add(new SettingsConfiguration());
             modelBuilder.Configurations.Add(new SpyAccountConfiguration());
             modelBuilder.Configurations.Add(new SpyStatisticsConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
             modelBuilder.Configurations.Add(new AccountStatisticsConfiguration());
             modelBuilder.Configurations.Add(new CookiesForSpyConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
+            modelBuilder.Configurations.Add(new GroupSettingsConfiguration());
             modelBuilder.Configurations.Add(new UrlParametersConfiguration());
             modelBuilder.Configurations.Add(new FriendConfiguration());
             modelBuilder.Configurations.Add(new AnalysisFriendConfiguration());

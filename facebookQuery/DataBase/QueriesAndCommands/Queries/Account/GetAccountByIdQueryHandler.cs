@@ -35,7 +35,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         FacebookId = model.FacebookId,
                         Proxy = model.Proxy,
                         ProxyLogin = model.ProxyLogin,
-                        ProxyPassword = model.ProxyPassword
+                        ProxyPassword = model.ProxyPassword,
+                        GroupSettingsId = model.GroupSettingsId
                     }).FirstOrDefault();
 
             return models;

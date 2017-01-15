@@ -14,9 +14,9 @@ namespace DataBase.QueriesAndCommands.Commands.Groups
 
         public VoidCommandResponse Handle(RemoveGroupCommand command)
         {
-            var delitingGroup = context.MessageGroups.FirstOrDefault(model => model.Id == command.Id);
+            var delitingGroup = context.GroupSettings.FirstOrDefault(model => model.Id == command.Id);
 
-            context.MessageGroups.Remove(delitingGroup);
+            context.GroupSettings.Remove(delitingGroup);
 
             context.SaveChanges();
 

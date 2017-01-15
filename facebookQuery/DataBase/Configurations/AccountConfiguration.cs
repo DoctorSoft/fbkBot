@@ -23,11 +23,10 @@ namespace DataBase.Configurations
             Property(model => model.ProxyPassword);
 
             HasOptional(it => it.Cookies).WithRequired(m => m.Account);
-            HasOptional(it => it.Settings).WithRequired(m => m.Account);
             HasMany(model => model.Messages).WithOptional(it => it.Account).HasForeignKey(model => model.AccountId);
             HasMany(model => model.Friends).WithRequired(it => it.AccountWithFriend).HasForeignKey(model => model.AccountId);
             HasMany(model => model.AnalysisFriends).WithRequired(it => it.AccountWithFriend).HasForeignKey(model => model.AccountId);
-            HasOptional(it => it.MessageGroup).WithMany(model => model.Accounts).HasForeignKey(model => model.MessageGroupId);
+            HasOptional(it => it.GroupSettings).WithMany(model => model.Accounts).HasForeignKey(model => model.GroupSettingsId);
         }
     }
 }

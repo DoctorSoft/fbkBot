@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Linq.Dynamic;
 using DataBase.Context;
 using DataBase.Models;
 
@@ -16,17 +15,17 @@ namespace DataBase.QueriesAndCommands.Commands.Groups
 
         public VoidCommandResponse Handle(AddNewGroupCommand command)
         {
-            if (context.MessageGroups.Any(model => model.Name.ToUpper() == command.Name.ToUpper()))
+            if (context.GroupSettings.Any(model => model.Name.ToUpper() == command.Name.ToUpper()))
             {
                 return new VoidCommandResponse();
             }
 
-            var group = new MessageGroupDbModel
+            var group = new GroupSettingsDbModel
             {
                 Name = command.Name
             };
 
-            context.MessageGroups.Add(group);
+            context.GroupSettings.Add(group);
 
             context.SaveChanges();
 

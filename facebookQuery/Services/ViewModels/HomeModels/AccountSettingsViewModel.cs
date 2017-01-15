@@ -6,7 +6,7 @@ namespace Services.ViewModels.HomeModels
     {
         public AccountViewModel Account { get; set; }
 
-        public AccountSettingsModel Settings{get; set;}
+        public SettingsModel Settings{get; set;}
 
         public DetailedStatisticsModel Statistics { get; set; }
     }

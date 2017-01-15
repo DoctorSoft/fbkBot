@@ -160,6 +160,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FriendsOutgoingRequestsController.cs" />
     <Compile Include="Controllers\FriendsIncomingRequestsController.cs" />
+    <Compile Include="Controllers\GroupSettingsController.cs" />
     <Compile Include="Controllers\SpyCookiesController.cs" />
     <Compile Include="Controllers\CookiesController.cs" />
     <Compile Include="Controllers\ExtraMessagesController.cs" />
@@ -289,6 +290,7 @@
     <Content Include="Views\SpyCookies\Index.cshtml" />
     <Content Include="Views\FriendsIncomingRequests\Index.cshtml" />
     <Content Include="Views\FriendsOutgoingRequests\Index.cshtml" />
+    <Content Include="Views\GroupSettings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

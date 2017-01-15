@@ -1,18 +1,18 @@
 ﻿using CommonModels;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Commands.AccountSettings;
-using DataBase.QueriesAndCommands.Queries.AccountSettings;
+using DataBase.QueriesAndCommands.Commands.Settings;
+using DataBase.QueriesAndCommands.Queries.Settings;
 using Services.Core.Interfaces.ServiceTools;
 
 namespace Services.ServiceTools
 {
     public class AccountSettingsManager : IAccountSettingsManager
     {
-        public AccountSettingsModel GetAccountSettings(long accountId)
+        public SettingsModel GetSettings(long groupSettingsId)
         {
-            var settings = new GetAccountSettingsQueryHandler(new DataBaseContext()).Handle(new GetAccountSettingsQuery
+            var settings = new GetSettingsByGroupSettingsIdHandler(new DataBaseContext()).Handle(new GetSettingsByGroupSettingsIdQuery
             {
-                AccountId = accountId
+                GroupSettingsId = groupSettingsId
             });
 
             if (settings == null)
@@ -20,25 +20,31 @@ namespace Services.ServiceTools
                 return null;
             }
 
-            return new AccountSettingsModel
+            return new SettingsModel
             {
-                AccountId = settings.AccountId,
+                GroupId = settings.GroupId,
                 Gender = settings.Gender,
                 LivesPlace = settings.LivesPlace,
                 SchoolPlace = settings.SchoolPlace,
-                WorkPlace = settings.WorkPlace
+                WorkPlace = settings.WorkPlace,
+                DelayTimeSendUnanswered = settings.DelayTimeSendUnanswered,
+                DelayTimeSendNewFriend = settings.DelayTimeSendNewFriend,
+                DelayTimeSendUnread = settings.DelayTimeSendUnread
             };
         }
 
-        public void UpdateAccountSettings(AccountSettingsModel newSettings)
+        public void UpdateSettings(SettingsModel newSettings)
         {
-            new AddOrUpdateAccountSettingsCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateAccountSettingsCommand
+            new AddOrUpdateSettingsCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateSettingsCommand
                 {
-                    AccountId = newSettings.AccountId,
+                    GroupId = newSettings.GroupId,
                     Gender = newSettings.Gender,
                     LivesPlace = newSettings.LivesPlace,
                     SchoolPlace = newSettings.SchoolPlace,
-                    WorkPlace = newSettings.WorkPlace
+                    WorkPlace = newSettings.WorkPlace,
+                    DelayTimeSendNewFriend = newSettings.DelayTimeSendNewFriend,
+                    DelayTimeSendUnanswered = newSettings.DelayTimeSendUnanswered,
+                    DelayTimeSendUnread = newSettings.DelayTimeSendUnread
                 });
         }
     }

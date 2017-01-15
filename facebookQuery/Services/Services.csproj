@@ -122,6 +122,7 @@
     <Compile Include="ServiceTools\MessageManager.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendListViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendViewModel.cs" />
+    <Compile Include="ViewModels\GroupModels\GroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\DetailedSpyStatisticsModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\SpyFunctionViewModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\NewSpySettingsViewModel.cs" />

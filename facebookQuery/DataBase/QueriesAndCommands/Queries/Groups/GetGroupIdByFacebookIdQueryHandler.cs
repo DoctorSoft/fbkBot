@@ -18,7 +18,7 @@ namespace DataBase.QueriesAndCommands.Queries.Groups
             var result = context
                 .Accounts
                 .Where(model => model.FacebookId == query.FacebookId && !model.IsDeleted)
-                .Select(model => model.MessageGroupId)
+                .Select(model => model.GroupSettingsId)
                 .FirstOrDefault();
 
             return result;

@@ -43,7 +43,7 @@
     <Compile Include="AccountStatisticsList.cs" />
     <Compile Include="SpyStatisticsModel.cs" />
     <Compile Include="AccountStatisticsModel.cs" />
-    <Compile Include="AccountSettingsModel.cs" />
+    <Compile Include="SettingsModel.cs" />
     <Compile Include="GetFriendsResponseModel.cs" />
     <Compile Include="GetUnreadMessagesResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

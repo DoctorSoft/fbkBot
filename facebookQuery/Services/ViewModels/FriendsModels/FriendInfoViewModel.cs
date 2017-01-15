@@ -8,6 +8,8 @@ namespace Services.ViewModels.FriendsModels
 
         public long FacebookId { get; set; }
 
+        public long AccountId { get; set; }
+
         public string WorkSection { get; set; }
 
         public string SchoolSection { get; set; }

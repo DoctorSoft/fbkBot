@@ -15,7 +15,7 @@ namespace DataBase.QueriesAndCommands.Queries.Groups
 
         public List<GroupData> Handle(GetGroupsQuery query)
         {
-            var groups = context.MessageGroups.Select(model => new GroupData
+            var groups = context.GroupSettings.Select(model => new GroupData
             {
                 Id = model.Id,
                 Name = model.Name

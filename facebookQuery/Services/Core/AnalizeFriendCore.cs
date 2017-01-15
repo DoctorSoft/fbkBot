@@ -12,14 +12,14 @@ namespace Services.Core
 {
     public class AnalizeFriendCore : IAnalyzeFriendCore
     {
-        public void StartAnalyze(AccountSettingsModel settings, FriendInfoViewModel friendInfo)
+        public void StartAnalyze(SettingsModel settings, FriendInfoViewModel friendInfo)
         {
             if (settings.LivesPlace != null && friendInfo.LivesSection != null && friendInfo.LivesSection.Contains(settings.LivesPlace))
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand
                     {
-                        AccountId = settings.AccountId,
+                        AccountId = friendInfo.AccountId,
                         FriendFacebookId = friendInfo.FacebookId,
                         NewStatus = StatusesFriend.ToAdd
                     });
@@ -29,7 +29,7 @@ namespace Services.Core
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                 new ChangeAnalysisFriendStatusCommand
                 {
-                    AccountId = settings.AccountId,
+                    AccountId = friendInfo.AccountId,
                     FriendFacebookId = friendInfo.FacebookId,
                     NewStatus = StatusesFriend.ToAdd
                 });
@@ -39,7 +39,7 @@ namespace Services.Core
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                 new ChangeAnalysisFriendStatusCommand
                 {
-                    AccountId = settings.AccountId,
+                    AccountId = friendInfo.AccountId,
                     FriendFacebookId = friendInfo.FacebookId,
                     NewStatus = StatusesFriend.ToAdd
                 });
@@ -49,7 +49,7 @@ namespace Services.Core
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand
                     {
-                        AccountId = settings.AccountId,
+                        AccountId = friendInfo.AccountId,
                         FriendFacebookId = friendInfo.FacebookId,
                         NewStatus = StatusesFriend.ToAdd
                     });
@@ -60,7 +60,7 @@ namespace Services.Core
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand
                     {
-                        AccountId = settings.AccountId,
+                        AccountId = friendInfo.AccountId,
                         FriendFacebookId = friendInfo.FacebookId,
                         NewStatus = StatusesFriend.ToDelete
                     });
@@ -68,7 +68,7 @@ namespace Services.Core
                 new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
                 {
 
-                    AccountId = settings.AccountId,
+                    AccountId = friendInfo.AccountId,
                     FriendId = friendInfo.Id,
                 });
             }

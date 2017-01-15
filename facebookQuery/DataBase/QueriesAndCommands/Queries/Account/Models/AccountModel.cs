@@ -20,6 +20,8 @@
 
         public string ProxyPassword { get; set; }
 
+        public long? GroupSettingsId { get; set; }
+
         public CookieModel Cookie { get; set; }
     }
 }

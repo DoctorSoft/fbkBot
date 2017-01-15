@@ -21,7 +21,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand
             context.Set<MessageDbModel>().Where(model => model.AccountId == command.AccountId).Delete();
 
             var messagesToCopy = context.Set<MessageDbModel>()
-                .Where(model => model.AccountId == null && command.GroupId == model.MessageGroupId)
+                .Where(model => model.AccountId == null && command.GroupSettingsId == model.MessageGroupId)
                 .ToList()
                 .Select(model => new MessageDbModel
                 {
@@ -40,7 +40,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SetDefaulMessagesCommand
 
             var userToConnect = context.Set<AccountDbModel>().FirstOrDefault(model => model.Id == command.AccountId && !model.IsDeleted);
 
-            userToConnect.MessageGroupId = command.GroupId;
+            userToConnect.GroupSettingsId = command.GroupSettingsId;
 
             context.Set<AccountDbModel>().AddOrUpdate(userToConnect);
 

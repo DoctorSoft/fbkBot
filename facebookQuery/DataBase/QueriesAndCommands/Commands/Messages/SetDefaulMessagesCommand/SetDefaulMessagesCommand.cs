@@ -4,6 +4,6 @@
     {
         public long AccountId { get; set; }
 
-        public long? GroupId { get; set; }
+        public long? GroupSettingsId { get; set; }
     }
 }

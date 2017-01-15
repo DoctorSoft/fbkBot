@@ -207,7 +207,12 @@ namespace Services.Services
         public AccountSettingsViewModel GetAccountSettings(long accountId)
         {
             var account =  _accountManager.GetAccountById(accountId);
-            var settings =  _accountSettingsManager.GetAccountSettings(accountId);
+            var settings = new SettingsModel();
+            if (account.GroupSettingsId != null)
+            {
+                settings = _accountSettingsManager.GetSettings((long)account.GroupSettingsId);
+            }
+            
             var statistics = _accountStatisticsManager.GetAccountStatistics(accountId);
 
             var detailedStatistic = new DetailedStatisticsModel()
@@ -368,9 +373,9 @@ namespace Services.Services
             });
         }
 
-        public void UpdateAccountSettings(AccountSettingsModel newOptions)
+        public void UpdateSettings(SettingsModel newOptions)
         {
-            _accountSettingsManager.UpdateAccountSettings(newOptions);
+            _accountSettingsManager.UpdateSettings(newOptions);
         }
     }
 }

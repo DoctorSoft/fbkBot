@@ -10,6 +10,6 @@
 
         public FunctionDbModel Function { get; set; }
 
-        public MessageGroupDbModel MessageGroup { get; set; }
+        public GroupSettingsDbModel MessageGroup { get; set; }
     }
 }
