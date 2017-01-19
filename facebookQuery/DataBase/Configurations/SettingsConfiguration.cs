@@ -17,6 +17,7 @@ namespace DataBase.Configurations
             Property(model => model.DelayTimeSendUnread);
             Property(model => model.DelayTimeSendUnanswered);
             Property(model => model.DelayTimeSendNewFriend);
+            Property(model => model.UnansweredDelay);
 
             HasRequired(it => it.SettingsGroup).WithOptional(m=>m.Settings);
         }

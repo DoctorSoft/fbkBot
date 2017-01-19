@@ -43,20 +43,40 @@
         <div class="panel-body">
             <div class="panel panel-primary">
                 <div class="panel-heading">Message options</div>
-                <div class="col-md-7 panel-body">
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">Delay time to reply to unread messages:</span>
-                        @Html.TextBoxFor(o => Model.DelayTimeSendUnread, new {@class = "form-control"})
-                    </div>
-                    <br />
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">Delay time to answer the unanswered messages:</span>
-                        @Html.TextBoxFor(o => Model.DelayTimeSendUnanswered, new {@class = "form-control"})
-                    </div>
-                    <br />
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">The delay time for sending messages to new friends:</span>
-                        @Html.TextBoxFor(o => Model.DelayTimeSendNewFriend, new {@class = "form-control"})
+                <div class="panel-body">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Delay time to reply to unread messages (min.):</span>
+                                    @Html.TextBoxFor(o => Model.DelayTimeSendUnread, new { @class = "form-control", @disabled = true })
+                                </div>
+                            </div>
+                            <div class="col-lg-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Delay time to answer the unanswered messages (min.):</span>
+                                    @Html.TextBoxFor(o => Model.DelayTimeSendUnanswered, new { @class = "form-control", @disabled = true })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Time for extra message (min.):</span>
+                                    @Html.TextBoxFor(o => Model.UnansweredDelay, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">The delay time for sending messages to new friends (min.):</span>
+                                    @Html.TextBoxFor(o => Model.DelayTimeSendNewFriend, new { @class = "form-control", @disabled = true })
+                                </div>
+                            </div>
+                            <div class="col-lg-6"></div>
+                        </div>
                     </div>
                 </div>
             </div>

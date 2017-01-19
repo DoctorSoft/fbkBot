@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Jobs.JobsService;
 using Services.Services;
 using Services.ViewModels.GroupModels;
 
@@ -22,7 +23,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult UpdateGroupSettings(GroupSettingsViewModel settings)
         {
-            groupService.UpdateSettings(settings);
+            groupService.UpdateSettings(settings, new JobService());
             return RedirectToAction("Index", "Groups", new { groupId = settings.GroupId });
         }
     }

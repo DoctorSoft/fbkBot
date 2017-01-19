@@ -36,7 +36,9 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         },
                         Proxy = model.Proxy,
                         ProxyLogin = model.ProxyLogin,
-                        ProxyPassword = model.ProxyPassword
+                        ProxyPassword = model.ProxyPassword,
+                        GroupSettingsId = model.GroupSettingsId,
+                        Name = model.Name
                     })
                     .ToList();
 

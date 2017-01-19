@@ -17,7 +17,24 @@
         </div>
     </div>
     <div class="panel-footer">
-        @foreach (var friend in @Model.Friends)
+        <div>Friends (@Model.Friends.Count(model => !model.Deleted))</div>
+        @foreach (var friend in @Model.Friends.Where(model => !model.Deleted))
+        {
+            <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
+                <div class="inline-half-text-left">
+                    <div class="message-list-tittle">
+                        <div class="">@friend.Name</div>
+                    </div>
+                    <div class="inline-actions">
+                        <a href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div>Deleted (@Model.Friends.Count(model => model.Deleted))</div>
+        @foreach (var friend in @Model.Friends.Where(model => model.Deleted))
         {
             <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
                 <div class="inline-half-text-left">

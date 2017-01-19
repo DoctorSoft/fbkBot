@@ -16,12 +16,16 @@ namespace Services.ViewModels.GroupModels
 
         public GenderEnum? Gender { get; set; }
 
-        // Message options
+        // Message options (for jobs)
 
         public long DelayTimeSendUnread { get; set; }
 
         public long DelayTimeSendUnanswered { get; set; }
 
         public long DelayTimeSendNewFriend { get; set; }
+
+        // Message options
+
+        public long UnansweredDelay { get; set; }
     }
 }

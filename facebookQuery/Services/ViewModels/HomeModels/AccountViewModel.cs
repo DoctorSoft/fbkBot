@@ -21,5 +21,7 @@
         public string ProxyLogin { get; set; }
 
         public string ProxyPassword { get; set; }
+
+        public long? GroupSettingsId { get; set; }
     }
 }

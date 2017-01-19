@@ -1,14 +1,19 @@
-﻿using Hangfire;
+﻿using CommonModels;
+using Hangfire;
 using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.MessageJobs;
 using Jobs.Jobs.SpyJobs;
+using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
+using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.JobsService
 {
     public class JobService : IJobService
     {
+        private readonly IAccountSettingsManager _accountSettingsManager;
+        
         const string UnreadMessagesPattern = "Respond to unread messages from {0}";
         const string UnansweredMessagesPattern = "Respond to unanswered messages from {0}";
         const string NewFriendMessagesPattern = "Send message to new friend from {0}";
@@ -18,11 +23,20 @@ namespace Jobs.JobsService
         const string ConfirmFriendshipPattern = "Confirm friendship for account = {0}";
         const string SendRequestFriendshipPattern = "Send request friendship for account = {0}";
 
+        public JobService()
+        {
+            _accountSettingsManager = new AccountSettingsManager();
+        }
+
         public void AddOrUpdateAccountJobs(AccountViewModel accountViewModel)
         {
+            var settings = _accountSettingsManager.GetSettings(accountViewModel.GroupSettingsId != null 
+                ? (long)accountViewModel.GroupSettingsId : 0) 
+                ?? new SettingsModel();
+
             RecurringJob.AddOrUpdate(string.Format(UnreadMessagesPattern, accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
             RecurringJob.AddOrUpdate(string.Format(UnansweredMessagesPattern, accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(NewFriendMessagesPattern, accountViewModel.Login), () => SendMessageToNewFriendsJob.Run(accountViewModel), Cron.Minutely);
+            RecurringJob.AddOrUpdate(string.Format(NewFriendMessagesPattern, accountViewModel.Login), () => SendMessageToNewFriendsJob.Run(accountViewModel), Cron.Hourly);
             RecurringJob.AddOrUpdate(string.Format(RefreshFriendsPattern, accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
             RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel.FacebookId), Cron.Hourly);
             RecurringJob.AddOrUpdate(string.Format(ConfirmFriendshipPattern, accountViewModel.Login), () => ConfirmFriendshipJob.Run(accountViewModel.FacebookId), Cron.Minutely);

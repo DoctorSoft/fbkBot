@@ -227,7 +227,7 @@ namespace Services.Core
                 {
                     new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand()
                     {
-                        AccountId = account.FacebookId,
+                        AccountId = account.Id,
                         FriendId = friend.Id,
                         MessageRegime = MessageRegime.BotFirstMessage
                     });

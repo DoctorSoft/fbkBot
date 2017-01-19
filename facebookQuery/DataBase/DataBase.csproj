@@ -113,6 +113,10 @@
     <Compile Include="Migrations\201701141332368_Init.Designer.cs">
       <DependentUpon>201701141332368_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701192012226_AddUnansweredDelayField.cs" />
+    <Compile Include="Migrations\201701192012226_AddUnansweredDelayField.Designer.cs">
+      <DependentUpon>201701192012226_AddUnansweredDelayField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
@@ -213,6 +217,8 @@
     <Compile Include="QueriesAndCommands\IQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\SpyStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQueryHandler.cs" />
@@ -326,6 +332,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701141332368_Init.resx">
       <DependentUpon>201701141332368_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701192012226_AddUnansweredDelayField.resx">
+      <DependentUpon>201701192012226_AddUnansweredDelayField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

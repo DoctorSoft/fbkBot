@@ -6,6 +6,6 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
     {
         public long AccountId { get; set; }
         
-        public int DelayTime { get; set; }
+        public long DelayTime { get; set; }
     }
 }

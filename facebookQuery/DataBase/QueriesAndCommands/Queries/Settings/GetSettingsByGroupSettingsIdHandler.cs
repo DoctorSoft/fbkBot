@@ -25,7 +25,8 @@ namespace DataBase.QueriesAndCommands.Queries.Settings
                         WorkPlace = model.WorkPlace,
                         DelayTimeSendUnread = model.DelayTimeSendUnread,
                         DelayTimeSendNewFriend = model.DelayTimeSendNewFriend,
-                        DelayTimeSendUnanswered = model.DelayTimeSendUnanswered
+                        DelayTimeSendUnanswered = model.DelayTimeSendUnanswered,
+                        UnansweredDelay = model.UnansweredDelay
                     }).FirstOrDefault();
 
             return settings;

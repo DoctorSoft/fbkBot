@@ -17,6 +17,7 @@ using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
 using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
+using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
 
 namespace Services.Services
@@ -57,7 +58,8 @@ namespace Services.Services
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
                 Cookie = model.Cookie.CookieString,
-                Name = model.Name
+                Name = model.Name,
+                GroupSettingsId = model.GroupSettingsId
             }).ToList();
         }
 

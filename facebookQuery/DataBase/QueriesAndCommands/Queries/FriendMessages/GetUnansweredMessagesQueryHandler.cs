@@ -59,7 +59,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     {
                         if (CheckDelay(lastBotMessageDateTime, query.DelayTime))
                         {
-                            unansweredMessages.Add(new FriendMessageData()
+                            unansweredMessages.Add(new FriendMessageData
                             {
                                 Id = lastBotMessage.Id,
                                 FriendId = lastBotMessage.FriendId,
@@ -101,7 +101,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
             return unansweredMessages;
         }
 
-        private bool CheckDelay(DateTime friendAddedDateTime, int delay)
+        private bool CheckDelay(DateTime friendAddedDateTime, long delay)
         {
             var differenceTime = DateTime.Now - friendAddedDateTime;
             var summ = differenceTime.Days * 24 * 60 + differenceTime.Hours * 60 + differenceTime.Minutes;

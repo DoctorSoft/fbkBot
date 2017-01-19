@@ -15,6 +15,7 @@ using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.ConfirmFriendshipEngine;
+using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
@@ -29,11 +30,13 @@ namespace Services.Services
     {
         private readonly IAccountManager _accountManager;
         private readonly IStatisticsManager _accountStatisticsManager;
+        private readonly ISeleniumManager _seleniumManager;
 
         public FriendsService()
         {
             _accountManager = new AccountManager();
             _accountStatisticsManager = new StatisticsManager();
+            _seleniumManager = new SeleniumManager();
         }
 
         public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
@@ -123,20 +126,27 @@ namespace Services.Services
             {
                 FacebookUserId = accountFacebokId
             });
+            
+//            var friends = new GetFriendsEngine().Execute(new GetFriendsModel()
+//            {
+//                Cookie = account.Cookie.CookieString,
+//                AccountId = accountFacebokId,
+//                UrlParameters = urlParameters,
+//                Proxy = _accountManager.GetAccountProxy(account)
+//            });
 
-            var urlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-            {
-                NameUrlParameter = NamesUrlParameter.GetFriends
-            });
-
-            var friends = new GetFriendsEngine().Execute(new GetFriendsModel()
+            var friends = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
             {
                 Cookie = account.Cookie.CookieString,
-                AccountId = accountFacebokId,
-                UrlParameters = urlParameters,
-                Proxy = _accountManager.GetAccountProxy(account)
+                AccountFacebookId = accountFacebokId,
+                Driver = _seleniumManager.RegisterNewDriver(new AccountViewModel
+                {
+                    Proxy = account.Proxy,
+                    ProxyLogin = account.ProxyLogin,
+                    ProxyPassword = account.ProxyPassword
+                })
             });
-                
+
             new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
             {
                 AccountId = account.Id,

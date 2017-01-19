@@ -1,10 +1,14 @@
 ﻿using System.Linq;
 using DataBase.Context;
+using DataBase.Migrations;
 using DataBase.QueriesAndCommands.Commands.Groups;
 using DataBase.QueriesAndCommands.Commands.Settings;
+using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Groups;
 using DataBase.QueriesAndCommands.Queries.Settings;
+using Services.Interfaces;
 using Services.ViewModels.GroupModels;
+using Services.ViewModels.HomeModels;
 
 namespace Services.Services
 {
@@ -83,11 +87,12 @@ namespace Services.Services
                 WorkPlace = settings.WorkPlace,
                 DelayTimeSendNewFriend = settings.DelayTimeSendNewFriend,
                 DelayTimeSendUnanswered = settings.DelayTimeSendUnanswered,
-                DelayTimeSendUnread = settings.DelayTimeSendUnread
+                DelayTimeSendUnread = settings.DelayTimeSendUnread,
+                UnansweredDelay = settings.UnansweredDelay
             };
         }
 
-        public void UpdateSettings(GroupSettingsViewModel newSettings)
+        public void UpdateSettings(GroupSettingsViewModel newSettings, IJobService jobService)
         {
             new AddOrUpdateSettingsCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateSettingsCommand
             {
@@ -98,8 +103,34 @@ namespace Services.Services
                 WorkPlace = newSettings.WorkPlace,
                 DelayTimeSendNewFriend = newSettings.DelayTimeSendNewFriend,
                 DelayTimeSendUnanswered = newSettings.DelayTimeSendUnanswered,
-                DelayTimeSendUnread = newSettings.DelayTimeSendUnread
+                DelayTimeSendUnread = newSettings.DelayTimeSendUnread,
+                UnansweredDelay = newSettings.UnansweredDelay
             });
+
+            var accountsToChangeJobs =
+                new GetAccountsByGroupSettingsIdQueryHandler(new DataBaseContext()).Handle(
+                    new GetAccountsByGroupSettingsIdQuery
+                    {
+                        GroupSettingsId = newSettings.GroupId
+                    });
+
+            foreach (var account in accountsToChangeJobs)
+            {
+                jobService.AddOrUpdateAccountJobs(new AccountViewModel
+                {
+                    Id = account.Id,
+                    Name = account.Name,
+                    PageUrl = account.PageUrl,
+                    FacebookId = account.FacebookId,
+                    Password = account.Password,
+                    Login = account.Login,
+                    Proxy = account.Proxy,
+                    ProxyLogin = account.ProxyLogin,
+                    ProxyPassword = account.ProxyPassword,
+                    Cookie = account.Cookie.CookieString,
+                    GroupSettingsId = account.GroupSettingsId
+                });
+            }
         }
     }
 }

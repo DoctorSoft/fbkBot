@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Constants.FriendTypesEnum;
 using DataBase.Constants;
@@ -17,10 +19,14 @@ using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.WinkEngine;
 using Jobs.JobsService;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Remote;
 using RequestsHelpers;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Services;
 using Services.ServiceTools;
+using Cookie = OpenQA.Selenium.Cookie;
 
 namespace FacebookApp
 {
@@ -28,9 +34,53 @@ namespace FacebookApp
     {
         private static IAccountManager _accountManager;
 
-        public Program()
+        private static IEnumerable<KeyValuePair<string, string>> ParseCookieString(string cookieString)
         {
+            var cookiesElements = cookieString.Split(';');
+            var cookiesElementsList = new List<KeyValuePair<string, string>>();
+
+            foreach (var cookiesElement in cookiesElements)
+            {
+                var cookiesElementData = cookiesElement.Split('=');
+
+                try
+                {
+                    cookiesElementsList.Add(new KeyValuePair<string, string>(cookiesElementData[0] ?? "", cookiesElementData[1] ?? ""));
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
+
+            return cookiesElementsList;
+            //return s.Select(s1 => s1.Split('=')).Select(s11 => new KeyValuePair<string, string>(s11[0], s11[1])).ToList();
         }
+        private static void ScrollPage(PhantomJSDriver driver)
+        {
+            var js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript(string.Format("window.scrollBy({0}, {1})", 3000, 3000), "");
+
+            Thread.Sleep(1000);
+        }
+
+
+        private static IReadOnlyCollection<IWebElement> GetFriendLinks(PhantomJSDriver driver)
+        {
+            return driver.FindElementsByCssSelector("._6a._6b>.fsl.fwb.fcb>a");
+        }
+
+        private static long ParseFacebookId(string page)
+        {
+            var pattern = new Regex("eng_tid\\\":*?.\".*?.\"");
+            var step1 = pattern.Match(page).ToString();
+
+            var step2 = step1.Remove(0, 10);
+            var step3= step2.Remove(step2.Length-1);
+
+            return Convert.ToInt64(step3);
+        }
+
         private static void Main(string[] args)
         {
             var homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
@@ -50,8 +100,50 @@ namespace FacebookApp
                         FacebookUserId = accountViewModel.FacebookId
                     });
 
+                    var driver = new PhantomJSDriver();
 
-                    //homeService.RefreshCookies(accountViewModel);
+                    //driver.Navigate().GoToUrl("https://www.facebook.com/");
+                    //var currCookies = driver.Manage().Cookies.AllCookies;
+                    var path = "/";
+                    var domain = ".facebook.com";
+
+                    var cookies = ParseCookieString(account.Cookie.CookieString);
+
+                    foreach (var keyValuePair in cookies)
+                    {
+                        driver.Manage().Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
+                    }
+
+                    driver.Navigate().GoToUrl(string.Format("https://www.facebook.com/profile.php?id={0}&sk=friends", account.FacebookId));
+
+                    Thread.Sleep(500);
+
+                    var friends = GetFriendLinks(driver);
+                    var currentCount = friends.Count;
+
+                    while (true)
+                    {
+                        ScrollPage(driver);
+                        friends = GetFriendLinks(driver);
+                        if (friends.Count > currentCount)
+                        {
+                            currentCount = friends.Count;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    friends = GetFriendLinks(driver);
+
+                    foreach (var webElement in friends)
+                    {
+                        var name = webElement.Text;
+                        var id = ParseFacebookId(webElement.GetAttribute("data-gt"));
+                    }
+
+//homeService.RefreshCookies(accountViewModel);
 
 //                    spyService.AnalyzeFriends(accountViewModel);
 
@@ -80,12 +172,12 @@ namespace FacebookApp
 //                                new NetworkCredential(accountViewModel.ProxyLogin, accountViewModel.ProxyPassword)
 //                        };
 
-                    //RequestsHelper.Get("https://www.facebook.com/friends/requests/?fcref=jwl", account.Cookie.CookieString, proxy);
+//RequestsHelper.Get("https://www.facebook.com/friends/requests/?fcref=jwl", account.Cookie.CookieString, proxy);
 
-                    //new HomeService(null, null).RefreshCookies(accountViewModel);
+//new HomeService(null, null).RefreshCookies(accountViewModel);
 
-                    //homeService.RefreshCookies(accountViewModel);
-                    //
+//homeService.RefreshCookies(accountViewModel);
+//
 
 //                    new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel()
 //                    {
@@ -137,10 +229,10 @@ namespace FacebookApp
 //                            })
 //                        });
 
-                    //RequestsHelper.Get("https://www.2ip.ru", "", proxy);
-                    /*var driver = homeService.RegisterNewDriver(accountViewModel);
-                    driver.Navigate().GoToUrl("https://2ip.ru/");
-                    */
+//RequestsHelper.Get("https://www.2ip.ru", "", proxy);
+/*var driver = homeService.RegisterNewDriver(accountViewModel);
+driver.Navigate().GoToUrl("https://2ip.ru/");
+*/
 
                 }
             }

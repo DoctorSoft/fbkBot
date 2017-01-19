@@ -33,6 +33,7 @@ namespace DataBase.QueriesAndCommands.Commands.Settings
             accountSettings.DelayTimeSendNewFriend = command.DelayTimeSendNewFriend;
             accountSettings.DelayTimeSendUnanswered = command.DelayTimeSendUnanswered;
             accountSettings.DelayTimeSendUnread = command.DelayTimeSendUnread;
+            accountSettings.UnansweredDelay = command.UnansweredDelay;
 
             context.Settings.AddOrUpdate(accountSettings);
 

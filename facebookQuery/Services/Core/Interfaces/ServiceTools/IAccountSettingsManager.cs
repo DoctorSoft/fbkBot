@@ -6,6 +6,8 @@ namespace Services.Core.Interfaces.ServiceTools
     {
         SettingsModel GetSettings(long groupSettingsId);
 
+        string GetCronByMinutes(long min);
+
         void UpdateSettings(SettingsModel newSettings);
     }
 }

@@ -26,11 +26,13 @@ namespace Services.Services
     {
         private readonly IFriendManager _friendManager;
         private readonly IAccountManager _accountManager;
+        private readonly IAccountSettingsManager _accountSettingsManager;
 
         public FacebookMessagesService()
         {
             _friendManager = new FriendManager();
             _accountManager = new AccountManager();
+            _accountSettingsManager = new AccountSettingsManager();
         }
 
         public void SendMessageToUnread(AccountViewModel accountViewModel)
@@ -82,7 +84,8 @@ namespace Services.Services
                 Cookie = new CookieModel
                 {
                     CookieString = accountViewModel.Cookie
-                }
+                },
+                GroupSettingsId = accountViewModel.GroupSettingsId
             };
 
             var unreadMessagesList = GetUnreadMessages(account);
@@ -92,9 +95,27 @@ namespace Services.Services
                 return;
             }
 
-            var unansweredMessagesList = new GetUnansweredMessagesQueryHandler(new DataBaseContext()).Handle(new GetUnansweredMessagesQuery()
+            if (account.GroupSettingsId == null)
+            {
+                return;
+            }
+            var settings = _accountSettingsManager.GetSettings((long)account.GroupSettingsId);
+
+            if (settings == null)
+            {
+                return;
+            }
+
+            var delayTime = settings.UnansweredDelay;
+            if (delayTime == null || delayTime < 0)
+            {
+                return;
+            }
+
+            var unansweredMessagesList =
+                new GetUnansweredMessagesQueryHandler(new DataBaseContext()).Handle(new GetUnansweredMessagesQuery
                 {
-                    DelayTime = 2,
+                    DelayTime = delayTime,
                     AccountId = account.Id
                 });
 

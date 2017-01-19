@@ -1,4 +1,5 @@
-﻿using Services.ViewModels.HomeModels;
+﻿using Services.ViewModels.GroupModels;
+using Services.ViewModels.HomeModels;
 
 namespace Services.Interfaces
 {
