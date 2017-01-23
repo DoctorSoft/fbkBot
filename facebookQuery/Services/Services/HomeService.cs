@@ -217,10 +217,10 @@ namespace Services.Services
             
             var statistics = _accountStatisticsManager.GetAccountStatistics(accountId);
 
-            var detailedStatistic = new DetailedStatisticsModel()
+            var detailedStatistic = new DetailedStatisticsModel
             {
-                AllTimeStatistic = _accountStatisticsManager.GetLastHourAccountStatistics(statistics),
-                LastHourStatistic = _accountStatisticsManager.GetAllTimeAccountStatistics(statistics)
+                AllTimeStatistic = _accountStatisticsManager.GetAllTimeAccountStatistics(statistics),
+                LastHourStatistic = _accountStatisticsManager.GetLastHourAccountStatistics(statistics),
             };
             
             var accountViewModel = new AccountSettingsViewModel

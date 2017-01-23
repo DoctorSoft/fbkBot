@@ -12,6 +12,7 @@
         AddFriend = 8,
         AddFriendExtra = 9,
         Wink = 10,
-        ConfirmFriendship = 11
+        ConfirmFriendship = 11,
+        RemoveFriend = 12
     }
 }

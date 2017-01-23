@@ -58,6 +58,7 @@
     <Compile Include="MessageEnums\MessageDirection.cs" />
     <Compile Include="MessageEnums\MessageRegime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlEnums\RemoveFriendEnum.cs" />
     <Compile Include="UrlEnums\ConfirmFriendshipEnum.cs" />
     <Compile Include="UrlEnums\WinkEnum.cs" />
     <Compile Include="UrlEnums\AddFriendExtraEnum.cs" />

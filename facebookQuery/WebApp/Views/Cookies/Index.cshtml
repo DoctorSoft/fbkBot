@@ -2,6 +2,7 @@
     ViewBag.Title = "Index";
 }
 
+@using WebApp.Resources.Views.Cookies
 @model Services.ViewModels.AccountModels.CookiesViewModel
 
 <div class="panel panel-default">
@@ -9,10 +10,10 @@
         <h3>
             <span class="alert-info alert">
                 <span class="inline-half-text-left">
-                    Create/Update Cookies
+                    @CookiesTexts.CookiesTitle
                 </span>
                 <span class="inline-half-text-right">
-                    <a class="btn btn-success" href="@Url.Action("Index", "Users")"><i class="fa fa-arrow-left"></i> Back To List</a>
+                    <a class="btn btn-success" href="@Url.Action("Index", "Users")"><i class="fa fa-arrow-left"></i>@CookiesTexts.ButtonBackToList</a>
                 </span>
             </span>
         </h3>
@@ -23,13 +24,13 @@
             @Html.HiddenFor(model => model.AccountId);
 
             <div class="form-group input-group-sm">
-                Cookies: @Html.TextAreaFor(o => o.Value, new { @class = "form-control cookies-area" })
+                @CookiesTexts.Cookies: @Html.TextAreaFor(o => o.Value, new { @class = "form-control cookies-area" })
             </div>
             <div class="form-group input-group-sm">
-                Create date: @Model.CreateDateTime
+                @CookiesTexts.CreateDate: @Model.CreateDateTime
             </div>
             <div class="">
-                <input type="submit" class="btn btn-success" />
+                <input type="submit" class="btn btn-success" value="@CookiesTexts.ButtonSend" />
             </div>
         }
     </div>

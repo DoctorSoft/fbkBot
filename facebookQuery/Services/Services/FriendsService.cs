@@ -5,8 +5,11 @@ using CommonModels;
 using Constants.FriendTypesEnum;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.AccountStatistics;
+using DataBase.QueriesAndCommands.Commands.AnalysisFriends;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendTypeCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkRemovedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Models;
@@ -18,6 +21,7 @@ using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
+using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
 using Services.Core.Interfaces.ServiceTools;
 using Services.ServiceTools;
@@ -126,14 +130,6 @@ namespace Services.Services
             {
                 FacebookUserId = accountFacebokId
             });
-            
-//            var friends = new GetFriendsEngine().Execute(new GetFriendsModel()
-//            {
-//                Cookie = account.Cookie.CookieString,
-//                AccountId = accountFacebokId,
-//                UrlParameters = urlParameters,
-//                Proxy = _accountManager.GetAccountProxy(account)
-//            });
 
             var friends = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
             {
@@ -147,17 +143,46 @@ namespace Services.Services
                 })
             });
 
-            new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
+            var outgoingFriendships = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
             {
                 AccountId = account.Id,
-                Friends = friends.Select(model => new FriendData()
-                {
-                    FacebookId = model.FacebookId,
-                    FriendName = model.FriendName,
-                    Href = model.Uri,
-                    Gender = model.Gender
-                }).ToList()
+                FriendsType = FriendTypes.Outgoig
             });
+
+            foreach (var newFriend in friends)
+            {
+                if (outgoingFriendships.All(data => data.FacebookId != newFriend.FacebookId))
+                {
+                    continue;
+                }
+
+                new DeleteAnalysisFriendByIdHandler(new DataBaseContext()).Handle(new DeleteAnalysisFriendById
+                {
+                    AnalysisFriendFacebookId = newFriend.FacebookId
+                });
+
+                new AddOrUpdateAccountStatisticsCommandHandler(new DataBaseContext()).Handle(
+                    new AddOrUpdateAccountStatisticsCommand
+                    {
+                        AccountId = account.Id,
+                        CountOrdersConfirmedFriends = 1
+                    });
+            }
+
+            if (friends.Count != 0)
+            {
+                new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
+                {
+                    AccountId = account.Id,
+                    Friends = friends.Select(model => new FriendData()
+                    {
+                        FacebookId = model.FacebookId,
+                        FriendName = model.FriendName,
+                        Href = model.Uri,
+                        Gender = model.Gender
+                    }).ToList()
+                });
+            }
         }
 
         public NewFriendListViewModel GetNewFriendsAndRecommended(long accountFacebokId)
@@ -344,6 +369,41 @@ namespace Services.Services
 //
 //                Thread.Sleep(2000);
 //            }
+        }
+
+        public void RemoveFriend(long accountId, long friendId)
+        {
+            var account =
+            new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            var friend = new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
+            {
+                AccountId = friendId
+            });
+
+            new RemoveFriendEngine().Execute(new RemoveFriendModel
+            {
+                AccountFacebookId = account.FacebookId,
+                Cookie = account.Cookie.CookieString,
+                Proxy = _accountManager.GetAccountProxy(account),
+                FriendFacebookId = friend.FacebookId,
+                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.RemoveFriend
+                })
+            });
+
+            if (true)
+            {
+                new MarkRemovedFriendCommandHandler(new DataBaseContext()).Handle(new MarkRemovedFriendCommand
+                {
+                    AccountId = account.Id,
+                    FriendId = friend.Id
+                });
+            }
         }
     }
 }

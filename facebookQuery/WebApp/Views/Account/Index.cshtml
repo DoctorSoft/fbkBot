@@ -1,9 +1,10 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+@using WebApp.Resources.Views.Accounts
 @model Services.ViewModels.HomeModels.AccountSettingsViewModel
 
-<h2>Account Page</h2>
+<h2>@AccountsTexts.AccountPageTitle</h2>
 
 @using (Html.BeginForm("UpdateOptionsSettings", "Account", FormMethod.Post))
 {
@@ -12,9 +13,9 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Account Information</div>
+                    <div class="panel-heading">@AccountsTexts.AccountInformationTitle</div>
                     <div class="col-md-7 panel-body">
-                        Account has been deleted or moved.
+                        @AccountsTexts.ErrorMessage
                     </div>
                 </div>
             </div>
@@ -26,13 +27,13 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Account Information</div>
-                    <div class="col-md-7 panel-body">
+                    <div class="panel-heading">@AccountsTexts.AccountInformationTitle</div>
+                    <div class="panel-body">
                         <table>
                             <tbody>
                                 <tr>
                                     <td>
-                                        @Html.Label("Login:", new {@class = "form-control col-md-8"})
+                                        @Html.Label(AccountsTexts.Login + ":", new { @class = "form-control col-md-8" })
                                     </td>
                                     <td>
                                         @Html.LabelForModel(Model.Account.Login, new {@class = "form-control"})
@@ -41,7 +42,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label("Name:", new {@class = "form-control col-md-8"})
+                                        @Html.Label(AccountsTexts.Name + ":", new { @class = "form-control col-md-8" })
                                     </td>
                                     <td>
                                         @Html.LabelForModel(Model.Account.Name, new {@class = "form-control"})
@@ -50,7 +51,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label("Home page url:", new {@class = "form-control col-md-8"})
+                                        @Html.Label(AccountsTexts.HomePageUrl + ":", new { @class = "form-control col-md-8" })
                                     </td>
                                     <td>
                                         @Html.LabelForModel(Model.Account.PageUrl, new {@class = "form-control"})
@@ -61,7 +62,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label("Proxy:", new {@class = "form-control col-md-8"})
+                                        @Html.Label(AccountsTexts.Proxy + ":", new { @class = "form-control col-md-8" })
                                     </td>
                                     <td>
                                         @{
@@ -71,7 +72,7 @@
                                             }
                                             else
                                             {
-                                                @Html.Label("No proxy", new {@class = "form-control"})
+                                                @Html.Label(AccountsTexts.NoProxy, new {@class = "form-control"})
                                             }
                                         }
                                     </td>
@@ -87,22 +88,22 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Account Statistics</div>
-                    <div class="col-md-6 panel-body">
+                    <div class="panel-heading">@AccountsTexts.AccountStatisticsTitle</div>
+                    <div class="panel-body">
                         <table>
                             <thead>
                                 <tr>
                                     <th>
                                     </th>
                                     <th>
-                                        Last hour statistics
+                                        @AccountsTexts.LastHourStatistics
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
-                                        @Html.Label("Count of received applications Friend:", new {@class = "form-control col-md-7"})
+                                        @Html.Label(AccountsTexts.CountOfReceivedApplicationsFriend + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
@@ -112,14 +113,14 @@
                                             }
                                             else
                                             {
-                                                @Html.Label("No data", new {@class = "form-control col-md-7"})
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label("Count of requests sent to friends:", new {@class = "form-control col-md-7"})
+                                        @Html.Label(AccountsTexts.CountOfRequestsSentToFriends + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
@@ -129,14 +130,33 @@
                                             }
                                             else
                                             {
-                                                @Html.Label("No data", new {@class = "form-control col-md-7"})
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td>
-                                        @Html.Label("Last update statistics:", new {@class = "form-control col-md-7"})
+                                        @Html.Label(AccountsTexts.CountOrdersConfirmedFriends + ":", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (Model.Statistics.LastHourStatistic != null)
+                                            {
+                                                @Html.LabelForModel(Model.Statistics.LastHourStatistic.CountOrdersConfirmedFriends.ToString(), new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.Label(AccountsTexts.NoData, new { @class = "form-control col-md-7" })
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        @Html.Label(AccountsTexts.LastUpdateStatistics + ":", new { @class = "form-control col-md-7" })
                                     </td>
                                     <td>
                                         @{
@@ -146,7 +166,7 @@
                                             }
                                             else
                                             {
-                                                @Html.Label("No data", new {@class = "form-control col-md-7"})
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
@@ -159,14 +179,14 @@
                                     <th>
                                     </th>
                                     <th>
-                                        All time statistics
+                                        @AccountsTexts.AllTimeStatistics
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
-                                        @Html.Label("Count of received applications Friend:", new {@class = "form-control col-md-7"})
+                                        @Html.Label(AccountsTexts.CountOfReceivedApplicationsFriend + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
@@ -176,14 +196,14 @@
                                             }
                                             else
                                             {
-                                                @Html.Label("No data", new {@class = "form-control col-md-7"})
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label("Count of requests sent to friends:", new {@class = "form-control col-md-7"})
+                                        @Html.Label(AccountsTexts.CountOfRequestsSentToFriends + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
@@ -193,14 +213,32 @@
                                             }
                                             else
                                             {
-                                                @Html.Label("No data", new {@class = "form-control col-md-7"})
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label("Last update statistics:", new {@class = "form-control col-md-7"})
+                                        @Html.Label(AccountsTexts.CountOrdersConfirmedFriends + ":", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (Model.Statistics.AllTimeStatistic != null)
+                                            {
+                                                @Html.LabelForModel(Model.Statistics.AllTimeStatistic.CountOrdersConfirmedFriends.ToString(), new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.Label(AccountsTexts.NoData, new { @class = "form-control col-md-7" })
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        @Html.Label(AccountsTexts.LastUpdateStatistics + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
@@ -210,7 +248,7 @@
                                             }
                                             else
                                             {
-                                                @Html.Label("No data", new {@class = "form-control col-md-7"})
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
@@ -222,66 +260,62 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Geo Options</div>
-                    <div class="col-md-7 panel-body">
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">Current residence:</span>
-                            @Html.LabelForModel(Model.Settings.LivesPlace == null ? "no data" : Model.Settings.LivesPlace, new { @class = "form-control" })
-                        </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">Current place of study:</span>
-                            @Html.LabelForModel(Model.Settings.SchoolPlace == null ? "no data" : Model.Settings.SchoolPlace, new { @class = "form-control" })
-                        </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">Current job:</span>
-                            @Html.LabelForModel(Model.Settings.WorkPlace == null ? "no data" : Model.Settings.WorkPlace, new { @class = "form-control" })
-                        </div>
-                    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel panel-primary">
+                <div class="panel-heading">@AccountsTexts.GeoOptions</div>
+                <div class="panel-body">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>@Html.Label(AccountsTexts.CurrentResidence + ":", new { @class = "form-control col-md-7" })</td>
+                                <td>@Html.LabelForModel(Model.Settings.LivesPlace ?? AccountsTexts.NoData, new { @class = "form-control col-md-7" })</td>
+                            </tr>
+                            <tr>     
+                                <td>@Html.Label(AccountsTexts.CurrentPlaceOfStudy + ":", new { @class = "form-control col-md-7" })</td>                      
+                                <td>@Html.LabelForModel(Model.Settings.SchoolPlace ?? AccountsTexts.NoData, new { @class = "form-control col-md-7" })</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.Label(AccountsTexts.CurrentJob + ":", new { @class = "form-control col-md-7" })</td>
+                                <td>@Html.LabelForModel(Model.Settings.WorkPlace ?? AccountsTexts.NoData, new { @class = "form-control col-md-7" })</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.Label(AccountsTexts.Gender + ":", new { @class = "form-control col-md-7" })</td>
+                                <td>@Html.LabelForModel(Model.Settings.Gender.ToString(), new { @class = "form-control col-md-7" })</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-                    <div class="col-md-4 panel-body">
-                        <div class="input-group">
-                            <span class="input-group-addon">Gender:</span>
-                            @Html.LabelForModel(Model.Settings.Gender.ToString() == "" ? "no data" : Model.Settings.Gender.ToString(), new { @class = "form-control" })
-                        </div>
+        <div class="panel-body">
+            <div class="panel panel-primary">
+                <div class="panel-heading">@AccountsTexts.MessageOptions</div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToReplyToUnreadMessages:</span>
+                        @Html.LabelForModel(Model.Settings.DelayTimeSendUnread.ToString(), new { @class = "form-control" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToAnswerTheUnansweredMessages:</span>
+                        @Html.LabelForModel(Model.Settings.DelayTimeSendUnanswered.ToString(), new { @class = "form-control" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeForSendingMessagesToNewFriends:</span>
+                        @Html.LabelForModel(Model.Settings.DelayTimeSendNewFriend.ToString(), new { @class = "form-control" })
                     </div>
                 </div>
             </div>
-
-            <div class="panel-body">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Message options</div>
-                    <div class="col-md-7 panel-body">
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">Delay time to reply to unread messages:</span>
-                            @Html.LabelForModel(Model.Settings.DelayTimeSendUnread.ToString(), new { @class = "form-control" })
-                        </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">Delay time to answer the unanswered messages:</span>
-                            @Html.LabelForModel(Model.Settings.DelayTimeSendUnanswered.ToString(), new { @class = "form-control" })
-                        </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">The delay time for sending messages to new friends:</span>
-                            @Html.LabelForModel(Model.Settings.DelayTimeSendNewFriend.ToString(), new { @class = "form-control" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-@*            <div class="panel-footer">*@
-@*                <input type="submit" class="btn btn-success" value="Save" />*@
-@*            </div>*@
         </div>
+    </div>
 
-        <div>
-            <a href="@Url.Action("Index", "Users")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Back to list </a>
-        </div>
+    <div>
+        <a href="@Url.Action("Index", "Users")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i>@AccountsTexts.BackToList </a>
+    </div>
     }
     @Html.HiddenFor(x => x.Account.Id)
     //@Html.HiddenFor(x => x.Settings.AccountId)
-}
+    }

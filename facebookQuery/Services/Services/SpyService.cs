@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Commands.SpyAccounts;
 using DataBase.QueriesAndCommands.Commands.SpyStatistics;
@@ -27,6 +28,7 @@ namespace Services.Services
     public class SpyService
     {
         private readonly ISpyAccountManager _spyAccountManager;
+        private readonly IProxyManager _proxyManager;
         private readonly IAccountManager _accountManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
         private IJobService _jobService;
@@ -37,6 +39,7 @@ namespace Services.Services
             _spyAccountManager = new SpyAccountManager();
             _accountManager = new AccountManager();
             _accountSettingsManager = new AccountSettingsManager();
+            _proxyManager = new ProxyManager();
         }
 
         public List<SpyAccountViewModel> GetSpyAccounts()
@@ -106,13 +109,35 @@ namespace Services.Services
             {
                 UserId = accountId
             });
+            if (model.Id == null || model.PageUrl == null || model.FacebookId == 0)
+            {
+                var accountFacebookId = _proxyManager.GetAccountFacebookId(account.Cookie.CookieString);
+                var homePageUrl = _accountManager.CreateHomePageUrl(accountFacebookId);
 
+                new AddOrUpdateSpyAccountCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateSpyAccountCommand
+                {
+                    Id = account.Id,
+                    Name = model.Name,
+                    PageUrl = homePageUrl,
+                    FacebookId = accountFacebookId,
+                    Password = model.Password,
+                    Login = model.Login,
+                    Proxy = model.Proxy,
+                    ProxyLogin = model.ProxyLogin,
+                    ProxyPassword = model.ProxyPassword
+                });
+
+                account = new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
+                {
+                    UserId = accountId
+                });
+            }
             _jobService.AddOrUpdateSpyAccountJobs(new AccountViewModel
             {
                 Id = accountId,
                 Name = model.Name,
                 PageUrl = model.PageUrl,
-                FacebookId = model.FacebookId,
+                FacebookId = account.FacebookId,
                 Password = model.Password,
                 Login = model.Login,
                 Proxy = model.Proxy,

@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
 using Services.Services;
 
 namespace WebApp.Controllers
@@ -17,6 +18,12 @@ namespace WebApp.Controllers
         {
             var friends = friendsService.GetFriendsByAccount(accountId);
             return View(friends);
+        }
+
+        public ActionResult RemoveFriend(long accountId, long friendId)
+        {
+            friendsService.RemoveFriend(accountId, friendId);
+            return RedirectToAction("Index", "Friends", new { accountId });
         }
     }
 }

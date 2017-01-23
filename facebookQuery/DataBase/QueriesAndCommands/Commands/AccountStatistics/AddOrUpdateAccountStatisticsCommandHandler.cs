@@ -26,6 +26,7 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
                     AccountId = command.AccountId,
                     CountReceivedFriends = command.CountReceivedFriends,
                     CountRequestsSentToFriends = command.CountRequestsSentToFriends,
+                    CountOrdersConfirmedFriends = command.CountOrdersConfirmedFriends,
                     DateTimeUpdateStatistics = DateTime.Now,
                     CreateDateTime = DateTime.Now
                 };
@@ -43,6 +44,7 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
                     AccountId = command.AccountId,
                     CountReceivedFriends = command.CountReceivedFriends,
                     CountRequestsSentToFriends = command.CountRequestsSentToFriends,
+                    CountOrdersConfirmedFriends = command.CountOrdersConfirmedFriends,
                     DateTimeUpdateStatistics = DateTime.Now,
                     CreateDateTime = DateTime.Now
                 };
@@ -54,13 +56,18 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
             }
 
             accountStatistics.AccountId = command.AccountId;
-            if (command.CountReceivedFriends != null)
+
+            if (command.CountReceivedFriends != 0)
             {
                 accountStatistics.CountReceivedFriends = command.CountReceivedFriends + accountStatistics.CountReceivedFriends;
             }
-            if (command.CountRequestsSentToFriends != null)
+            if (command.CountRequestsSentToFriends != 0)
             {
                 accountStatistics.CountRequestsSentToFriends = command.CountRequestsSentToFriends + accountStatistics.CountRequestsSentToFriends;
+            }
+            if (command.CountOrdersConfirmedFriends != 0)
+            {
+                accountStatistics.CountOrdersConfirmedFriends = command.CountOrdersConfirmedFriends + accountStatistics.CountOrdersConfirmedFriends;
             }
 
             accountStatistics.DateTimeUpdateStatistics = DateTime.Now;

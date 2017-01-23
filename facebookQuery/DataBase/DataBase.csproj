@@ -117,6 +117,10 @@
     <Compile Include="Migrations\201701192012226_AddUnansweredDelayField.Designer.cs">
       <DependentUpon>201701192012226_AddUnansweredDelayField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701201922272_AddCountOutgoingFriendshipsField.cs" />
+    <Compile Include="Migrations\201701201922272_AddCountOutgoingFriendshipsField.Designer.cs">
+      <DependentUpon>201701201922272_AddCountOutgoingFriendshipsField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
@@ -139,6 +143,10 @@
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommand.cs" />
@@ -275,7 +283,7 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkBlockedFriendCommand\MarkBlockedFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\FunctionData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionsQueryHandler.cs" />
@@ -335,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701192012226_AddUnansweredDelayField.resx">
       <DependentUpon>201701192012226_AddUnansweredDelayField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701201922272_AddCountOutgoingFriendshipsField.resx">
+      <DependentUpon>201701201922272_AddCountOutgoingFriendshipsField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

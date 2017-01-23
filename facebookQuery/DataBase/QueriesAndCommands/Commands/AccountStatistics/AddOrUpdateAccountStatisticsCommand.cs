@@ -10,6 +10,8 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
 
         public long CountRequestsSentToFriends { get; set; }
 
+        public long CountOrdersConfirmedFriends { get; set; }
+
         public DateTime DateTimeUpdateStatistics { get; set; }
 
         public DateTime CreateDateTime { get; set; }

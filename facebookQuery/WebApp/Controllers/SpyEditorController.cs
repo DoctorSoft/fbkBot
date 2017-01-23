@@ -30,7 +30,6 @@ namespace WebApp.Controllers
             {
                 model.Login, 
                 model.Name, 
-                model.PageUrl, 
                 model.Password, 
                 model.Proxy, 
                 model.ProxyLogin, 

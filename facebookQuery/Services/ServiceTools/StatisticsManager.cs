@@ -35,6 +35,7 @@ namespace Services.ServiceTools
                     CountReceivedFriends = data.CountReceivedFriends,
                     Id = data.Id,
                     CountRequestsSentToFriends = data.CountRequestsSentToFriends,
+                    CountOrdersConfirmedFriends = data.CountOrdersConfirmedFriends,
                     DateTimeUpdateStatistics = data.DateTimeUpdateStatistics
                 }).ToList()
             };
@@ -56,8 +57,8 @@ namespace Services.ServiceTools
                 return new AccountStatisticsModel
                 {
                     CountReceivedFriends = allStatistics.StatisticsList.Sum(model => model.CountReceivedFriends),
-                    CountRequestsSentToFriends =
-                        allStatistics.StatisticsList.Sum(model => model.CountRequestsSentToFriends),
+                    CountRequestsSentToFriends = allStatistics.StatisticsList.Sum(model => model.CountRequestsSentToFriends),
+                    CountOrdersConfirmedFriends = allStatistics.StatisticsList.Sum(model => model.CountOrdersConfirmedFriends),
                     AccountId = accountId,
                     CreateDateTime = DateTime.Now,
                     DateTimeUpdateStatistics = updateDateTime
@@ -69,6 +70,7 @@ namespace Services.ServiceTools
             {
                 CountReceivedFriends = allStatistics.StatisticsList.Sum(model => model.CountReceivedFriends),
                 CountRequestsSentToFriends = allStatistics.StatisticsList.Sum(model => model.CountRequestsSentToFriends),
+                CountOrdersConfirmedFriends = allStatistics.StatisticsList.Sum(model => model.CountOrdersConfirmedFriends),
                 AccountId = accountId,
                 CreateDateTime = DateTime.Now,
                 DateTimeUpdateStatistics = updateDateTime

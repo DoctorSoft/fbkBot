@@ -429,5 +429,42 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("confirmFriendshipEnum");
             }
         }
+
+        public static string GetAttributeName(this RemoveFriendEnum removeFriendEnum)
+        {
+            switch (removeFriendEnum)
+            {
+                case RemoveFriendEnum.User:
+                    return "__user=";
+                case RemoveFriendEnum.A:
+                    return "__a=";
+                case RemoveFriendEnum.Dyn:
+                    return "__dyn=";
+                case RemoveFriendEnum.Af:
+                    return "__af=";
+                case RemoveFriendEnum.Req:
+                    return "__req=";
+                case RemoveFriendEnum.Be:
+                    return "__be=";
+                case RemoveFriendEnum.Pc:
+                    return "__pc=";
+                case RemoveFriendEnum.Rev:
+                    return "__rev=";
+                case RemoveFriendEnum.Ttstamp:
+                    return "ttstamp=";
+                case RemoveFriendEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case RemoveFriendEnum.Uid:
+                    return "uid=";
+                case RemoveFriendEnum.Unref:
+                    return "unref=";
+                case RemoveFriendEnum.Floc:
+                    return "floc=";
+                case RemoveFriendEnum.Nctr:
+                    return "nctr[_mod]=";
+                default:
+                    throw new ArgumentOutOfRangeException("removeFriendEnum");
+            }
+        }
     }
 }

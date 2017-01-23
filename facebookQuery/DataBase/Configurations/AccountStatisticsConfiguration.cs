@@ -14,6 +14,7 @@ namespace DataBase.Configurations
             Property(model => model.AccountId);
             Property(model => model.CountReceivedFriends);
             Property(model => model.CountRequestsSentToFriends);
+            Property(model => model.CountOrdersConfirmedFriends);
             Property(model => model.DateTimeUpdateStatistics);
             Property(model => model.CreateDateTime);
         }

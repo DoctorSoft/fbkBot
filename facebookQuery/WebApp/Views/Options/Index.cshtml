@@ -1,4 +1,5 @@
 ﻿@using Services.ViewModels.OptionsModel
+@using WebApp.Resources.Views.MessageOptions
 @{
     ViewBag.Title = "Index";
 }
@@ -25,15 +26,13 @@
 
 }
 
-<h2>Message options</h2>
+<h2>@MessageOptionsTexts.MessageOptionsTitle</h2>
 
 <div class="panel panel-default left-add-message-panel">
     <div class="panel-heading">
-        <h3 class="panel-title">Default message options</h3>
+        <h3 class="panel-title">@MessageOptionsTexts.AddNewMessage</h3>
     </div>
     <div class="panel-body">
-        <h4>Add new message</h4>
-
         @using (Html.BeginForm("AddNewMessage", "Options", FormMethod.Post))
         {
             var model = new MessageViewModel();
@@ -42,29 +41,29 @@
             @Html.HiddenFor(listModel => listModel.GroupId);
 
             <div class="form-group input-group-sm">
-                Text: @Html.TextAreaFor(o => model.Message, new { @class = "form-control" })
+                @MessageOptionsTexts.Text: @Html.TextAreaFor(o => model.Message, new { @class = "form-control" })
             </div>
             <div class="form-group input-group-sm">
-                Time from: @Html.TextBoxFor(o => model.StartTime, new { @class = "form-control datepicker" })
+                @MessageOptionsTexts.TimeFrom: @Html.TextBoxFor(o => model.StartTime, new { @class = "form-control datepicker" })
             </div>
             <div class="form-group input-group-sm">
-                Time to: @Html.TextBoxFor(o => model.EndTime, new { @class = "form-control datepicker" })
+                @MessageOptionsTexts.TimeTo: @Html.TextBoxFor(o => model.EndTime, new { @class = "form-control datepicker" })
             </div>
             <div class="form-group input-group-sm">
-                After stop words: @Html.CheckBoxFor(o => model.IsEmergencyText, new { @class = "form-control" })
+                @MessageOptionsTexts.AfterStopWords: @Html.CheckBoxFor(o => model.IsEmergencyText, new { @class = "form-control" })
             </div>
             <div class="form-group input-group-sm">
-                Number of message: @Html.TextBoxFor(o => model.OrderNumber, new { @class = "form-control" })
+                @MessageOptionsTexts.NumberOfMessage: @Html.TextBoxFor(o => model.OrderNumber, new { @class = "form-control" })
             </div>
             <div class="form-group input-group-sm">
-                Importancy factor: @Html.TextBoxFor(o => model.ImportancyFactor, new { @class = "form-control" })
+                @MessageOptionsTexts.ImportancyFactor: @Html.TextBoxFor(o => model.ImportancyFactor, new { @class = "form-control" })
             </div>
             <div class="form-group input-group-sm">
-                Bot starts talk first: @Html.CheckBoxFor(o => model.IsBotFirst, new { @class = "form-control" })
+                @MessageOptionsTexts.BotStartsTalkFirst: @Html.CheckBoxFor(o => model.IsBotFirst, new { @class = "form-control" })
             </div>
 
             <div class="">
-                <input type="submit" class="btn btn-success" />
+                <input type="submit" class="btn btn-success" value="@MessageOptionsTexts.ButtonAdd" />
             </div>
         }
     </div>
@@ -75,7 +74,7 @@
     <div class="panel-heading">
         <div class="message-list-tittle panel-heading">
             <h3 class="panel-title">
-                Current group: <strong>@(Model.GroupId == null ? "group is not selected" : Model.GroupList.Groups.FirstOrDefault(@group => group.Id == @Model.GroupId).Name)</strong>
+                @MessageOptionsTexts.CurrentGroup: <strong>@(Model.GroupId == null ? MessageOptionsTexts.GroupNotSelected : Model.GroupList.Groups.FirstOrDefault(@group => group.Id == @Model.GroupId).Name)</strong>
             </h3>
         </div>
         @if (Model.AccountId != null)
@@ -86,7 +85,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="settingsDropdownMenu">
-                    <li><a href="#" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa fa-cubes"></i> Set default settings</a></li>
+                    <li><a href="#" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa fa-cubes"></i>@MessageOptionsTexts.SetDefaultSettings</a></li>
                     @foreach (var group in Model.GroupList.Groups)
                     {
                         <li><a href="@Url.Action("SetGroupMessages", "Options", new { accountId = Model.AccountId, groupId = group.Id })"><i class="fa fa-users"></i> @group.Name</a></li>
@@ -98,7 +97,7 @@
     <div class="panel-body">
 
         @{
-            <h4 class="dark-blue-label">If bot starts talking first</h4>
+            <h4 class="dark-blue-label">@MessageOptionsTexts.BotStartsTalkingFirst</h4>
 
             var previousNumber = int.MinValue;
 
@@ -150,7 +149,7 @@
                 }
             }
 
-            <h4 class="dark-blue-label">If bot starts talking second</h4>
+            <h4 class="dark-blue-label">@MessageOptionsTexts.BotStartsTalkingSecond</h4>
 
             previousNumber = int.MinValue;
 
@@ -203,13 +202,13 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-question-circle green-question"></i> Do you really want to set default messages</h4>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-question-circle green-question"></i>@MessageOptionsTexts.ReturnToDefaultMessage?</h4>
             </div>
             <div class="modal-body">
-                <i class="fa fa-warning green-question warning-message"></i> All other messages would be removed.
+                <i class="fa fa-warning green-question warning-message"></i>@MessageOptionsTexts.ReturnToDefaultMessage2.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@MessageOptionsTexts.ButtonCancel</button>
                 <a href="@Url.Action("SetDefaultMessages", "Options", new { accountId = Model.AccountId })" class="btn btn-primary">OK</a>
             </div>
         </div>

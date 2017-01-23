@@ -33,7 +33,9 @@ namespace WebApp.Controllers
         public ActionResult RemoveMessage(long messageId, long? accountId, long? groupId)
         {
             messageSettingService.RemoveMessage(messageId);
-            return RedirectToAction("Index", new { accountId, groupId });
+            return accountId != null
+            ? RedirectToAction("Index", new { accountId })
+            : RedirectToAction("Index", new { groupId });
         }
 
         public ActionResult SetDefaultMessages(long accountId)

@@ -272,12 +272,33 @@ namespace DataBase.Migrations
 
             var js = new JavaScriptSerializer();
             var jsonWink = js.Serialize(confirmFriendshipParameters.Select(pair => pair).ToList());
+            */
+                       
+            var removeFriendParameters = new Dictionary<RemoveFriendEnum, string>
+            {
+                {RemoveFriendEnum.Uid, ""},
+                {RemoveFriendEnum.Unref, "bd_friends_tab"},
+                {RemoveFriendEnum.Floc, "friends_tab"},
+                {RemoveFriendEnum.Nctr, ""},
+                {RemoveFriendEnum.User, ""},
+                {RemoveFriendEnum.A, "1"},
+                {RemoveFriendEnum.Af, "i0"},
+                {RemoveFriendEnum.Req, "2r"},
+                {RemoveFriendEnum.Be, "-1"},
+                {RemoveFriendEnum.Pc, "PHASED:DEFAULT"},
+                {RemoveFriendEnum.Rev, "2789434"},
+                {RemoveFriendEnum.Dyn, "aihoFeyfyGmagngDxyG9giolzkqbxqbAKGiBAy8Z9LFwxBxC9V8CdwIhE98nwgUy22EaUZ7yUJi28y4EnFeex3BKuEjKewzWxaFQEf-um4UpKq4G-FFUkgmVV8-cxnxm3i7oG9ADBy8K48hxGbwYxyr_giAHggyovGi5qh98FoKEWdxyaxrDGVt4gmx2ii49umqnw"},
+                {RemoveFriendEnum.Ttstamp, "2658172851181101199855991021085865816911210076106681001028580"},
+                {RemoveFriendEnum.FbDtsg, ""},
+            };
 
-            var urlParametersList = new List<UrlParametersDbModel>()
+            var js = new JavaScriptSerializer();
+            var jsonWink = js.Serialize(removeFriendParameters.Select(pair => pair).ToList());
+            var urlParametersList = new List<UrlParametersDbModel>
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.ConfirmFriendship,
+                    CodeParameters = (int)NamesUrlParameter.RemoveFriend,
                     ParametersSet = jsonWink
                 },/*
                 new UrlParametersDbModel
@@ -305,12 +326,13 @@ namespace DataBase.Migrations
                     CodeParameters = (int)NamesUrlParameter.GetFriends,
                     ParametersSet = jsonFriends
                 },
+                   */
             };
 
             context.UrlParameters.AddRange(urlParametersList);
              
             context.SaveChanges(); 
-            */
+            
         }
     }
 }

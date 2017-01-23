@@ -27,6 +27,7 @@ namespace DataBase.QueriesAndCommands.Queries.AccountStatistics
                             Id = model.Id,
                             CountReceivedFriends = model.CountReceivedFriends,
                             CountRequestsSentToFriends = model.CountRequestsSentToFriends,
+                            CountOrdersConfirmedFriends = model.CountOrdersConfirmedFriends,
                             DateTimeUpdateStatistics = model.DateTimeUpdateStatistics
                         }).ToList();
 

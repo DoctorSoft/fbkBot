@@ -2,6 +2,7 @@
     ViewBag.Title = "Users";
 }
 
+@using WebApp.Resources.Views.Users
 @model List<Services.ViewModels.HomeModels.AccountViewModel>
 
 @section scripts
@@ -19,7 +20,7 @@
 
 <div class="panel panel-default">
     <div class="page-header">
-        <h3 class="alert-info alert">Accounts <a href="@Url.Action("Index", "UserEditor")"><i class="fa fa-plus-circle"></i></a></h3>
+        <h3 class="alert-info alert"> @UsersTexts.AddNewAccount <a href="@Url.Action("Index", "UserEditor")"><i class="fa fa-plus-circle"></i></a></h3>
     </div>
     <div class="panel-footer">
         @foreach (var account in @Model)
