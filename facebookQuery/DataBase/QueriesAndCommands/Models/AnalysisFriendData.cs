@@ -1,5 +1,6 @@
 ﻿using System;
 using Constants.FriendTypesEnum;
+using Constants.GendersUnums;
 
 namespace DataBase.QueriesAndCommands.Models
 {
@@ -12,6 +13,10 @@ namespace DataBase.QueriesAndCommands.Models
         public string FriendName { get; set; }
 
         public long AccountId { get; set; }
+
+        public string Uri { get; set; }
+
+        public GenderEnum Gender { get; set; }
         
         public DateTime AddedToAnalysDateTime { get; set; }
         

@@ -272,7 +272,7 @@ namespace DataBase.Migrations
 
             var js = new JavaScriptSerializer();
             var jsonWink = js.Serialize(confirmFriendshipParameters.Select(pair => pair).ToList());
-            */
+            
                        
             var removeFriendParameters = new Dictionary<RemoveFriendEnum, string>
             {
@@ -291,14 +291,39 @@ namespace DataBase.Migrations
                 {RemoveFriendEnum.Ttstamp, "2658172851181101199855991021085865816911210076106681001028580"},
                 {RemoveFriendEnum.FbDtsg, ""},
             };
+            */
+
+            var cancelRequestFriendshipParameters = new Dictionary<CancelFriendshipRequestEnum, string>
+            {
+                {CancelFriendshipRequestEnum.A, "1"},
+                {CancelFriendshipRequestEnum.ActionRequest, "1"},
+                {CancelFriendshipRequestEnum.Af, "i0"},
+                {CancelFriendshipRequestEnum.Be, "-1"},
+                {CancelFriendshipRequestEnum.Confirm, ""},
+                {CancelFriendshipRequestEnum.Dyn, "7AmajEzUGByA5Q9UoGya4A5ER6yUmyVbGAEG8zQC-C26m6oDAyoeAq2i5U4e2CEaUZ1ebkwy8xa5WjzEgVrDG4XzEa8iGt0gKum4UpKq4G-FFUkxvDAzUO5u5o5aayp9Voybx24oqyUf8oC_UjDQ6EvDxx4AyByWzE9EG5ECHBQh1q498lBVpFo"},
+                {CancelFriendshipRequestEnum.EgoLog, ""},
+                {CancelFriendshipRequestEnum.FbDtsg, ""},
+                {CancelFriendshipRequestEnum.Inline, "1"},
+                {CancelFriendshipRequestEnum.ListItemId, ""},
+                {CancelFriendshipRequestEnum.Nctr, "pagelet_bluebar"},
+                {CancelFriendshipRequestEnum.Pc, "PHASED:DEFAULT"},
+                {CancelFriendshipRequestEnum.Ref, "jewel"},
+                {CancelFriendshipRequestEnum.Req, "30"},
+                {CancelFriendshipRequestEnum.RequestId, ""},
+                {CancelFriendshipRequestEnum.Rev, "2792309"},
+                {CancelFriendshipRequestEnum.StatusDivId, ""},
+                {CancelFriendshipRequestEnum.Ttstamp, "2658170891138272731008711484586581707990110109109896783106"},
+                {CancelFriendshipRequestEnum.Type, "friend_connect"},
+                {CancelFriendshipRequestEnum.User, ""},
+            };
 
             var js = new JavaScriptSerializer();
-            var jsonWink = js.Serialize(removeFriendParameters.Select(pair => pair).ToList());
+            var jsonWink = js.Serialize(cancelRequestFriendshipParameters.Select(pair => pair).ToList());
             var urlParametersList = new List<UrlParametersDbModel>
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int)NamesUrlParameter.RemoveFriend,
+                    CodeParameters = (int)NamesUrlParameter.CancelRequestFriendship,
                     ParametersSet = jsonWink
                 },/*
                 new UrlParametersDbModel

@@ -18,5 +18,11 @@ namespace WebApp.Controllers
             var friends = friendsService.GetIncomingRequestsFriendshipByAccount(accountId);
             return View(friends);
         }
+
+        public ActionResult CancelFriendship(long accountId, long friendFacebookId)
+        {
+            friendsService.CancelFriendshipRequest(accountId, friendFacebookId);
+            return RedirectToAction("Index", "FriendsIncomingRequests", new { accountId });
+        }
     }
 }

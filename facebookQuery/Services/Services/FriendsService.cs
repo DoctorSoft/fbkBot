@@ -17,6 +17,7 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using Engines.Engines.CancelFriendshipRequestEngine;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
@@ -35,12 +36,14 @@ namespace Services.Services
         private readonly IAccountManager _accountManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly ISeleniumManager _seleniumManager;
+        private readonly IAnalysisFriendsManager _analysisFriendsManager;
 
         public FriendsService()
         {
             _accountManager = new AccountManager();
             _accountStatisticsManager = new StatisticsManager();
             _seleniumManager = new SeleniumManager();
+            _analysisFriendsManager = new AnalysisFriendsManager();
         }
 
         public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
@@ -192,23 +195,28 @@ namespace Services.Services
                 FacebookUserId = accountFacebokId
             });
 
-            var friendList = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
+            var friendListResponseModels = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
             {
                 Cookie = account.Cookie.CookieString,
                 Proxy = _accountManager.GetAccountProxy(account)
             });
 
+            var friendList = friendListResponseModels.Select(model => new AnalysisFriendData
+            {
+                AccountId = account.Id,
+                FacebookId = model.FacebookId,
+                Type = model.Type,
+                Status = StatusesFriend.ToAnalys,
+                FriendName = model.FriendName
+            }).ToList();
+            
+            //Check
+            var certifiedListFriends = _analysisFriendsManager.CheckForAnyInDataBase(account, friendList);
+
             new SaveFriendsForAnalysisCommandHandler(new DataBaseContext()).Handle(new SaveFriendsForAnalysisCommand
             {
                 AccountId = account.Id,
-                Friends = friendList.Select(model => new AnalysisFriendData
-                {
-                    AccountId = account.Id,
-                    FacebookId = model.FacebookId,
-                    Type = model.Type,
-                    Status = StatusesFriend.ToAnalys,
-                    FriendName = model.FriendName
-                }).ToList()
+                Friends = certifiedListFriends
             });
 
             return new NewFriendListViewModel
@@ -373,8 +381,7 @@ namespace Services.Services
 
         public void RemoveFriend(long accountId, long friendId)
         {
-            var account =
-            new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = accountId
             });
@@ -404,6 +411,33 @@ namespace Services.Services
                     FriendId = friend.Id
                 });
             }
+        }
+
+        public void CancelFriendshipRequest(long accountId, long friendFacebookId)
+        {
+            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            {
+                UserId = accountId
+            });
+
+            new CancelFriendshipRequestEngine().Execute(new CancelFriendshipRequestModel
+            {
+                Cookie = account.Cookie.CookieString,
+                Proxy = _accountManager.GetAccountProxy(account),
+                AccountFacebookId = account.FacebookId,
+                FriendFacebookId = friendFacebookId,
+                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.CancelRequestFriendship
+                })
+            });
+
+            new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendStatusCommand
+            {
+               AccountId = accountId,
+               FriendFacebookId = friendFacebookId,
+               NewStatus = StatusesFriend.ToDelete
+            });
         }
     }
 }

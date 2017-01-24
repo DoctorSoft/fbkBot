@@ -17,6 +17,6 @@ namespace Constants
         [Description("https://www.facebook.com/pokes/dialog/")] Wink,
         [Description("https://www.facebook.com/requests/friends/ajax/?dpr=1")] ConfirmFriendship,
         [Description("https://www.facebook.com/ajax/profile/removefriendconfirm.php?dpr=1")] RemoveFriend,
-        
+        [Description("https://www.facebook.com/ajax/reqs.php?dpr=1 ")] CancelFriendshipRequest,
     }
 }

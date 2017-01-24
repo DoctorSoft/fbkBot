@@ -2,6 +2,7 @@
     ViewBag.Title = "Index";
 }
 
+@using WebApp.Resources.Views.Friends
 @model Services.ViewModels.FriendsModels.FriendListViewModel
 
 @section scripts
@@ -20,18 +21,18 @@
 
 <div class="panel panel-default">
     <div class="page-header">
-        <h3 class="alert-info alert">Friends</h3>
+        <h3 class="alert-info alert">@FriendsTexts.FriendsTitle</h3>
     </div>
     <div class="panel-body">
         <div class="inline-actions">
-            <a href="@Url.Action("Index", "FriendsIncomingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">Incoming request friendships</a>
+            <a href="@Url.Action("Index", "FriendsIncomingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">@FriendsTexts.ButtonIncoming</a>
         </div>
         <div class="inline-actions">
-            <a href="@Url.Action("Index", "FriendsOutgoingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">Outgoing request friendships</a>
+            <a href="@Url.Action("Index", "FriendsOutgoingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">@FriendsTexts.ButtonOutgoing</a>
         </div>
     </div>
     <div class="panel-footer">
-        <div>Friends (@Model.Friends.Count(model => !model.Deleted))</div>
+        <div>@FriendsTexts.CurrentFriends (@Model.Friends.Count(model => !model.Deleted))</div>
         @foreach (var friend in @Model.Friends.Where(model => !model.Deleted))
         {
             <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
@@ -54,7 +55,7 @@
         }
     </div>
     <div class="panel-footer">
-        <div>Deleted (@Model.Friends.Count(model => model.Deleted))</div>
+        <div>@FriendsTexts.DeletedFriends (@Model.Friends.Count(model => model.Deleted))</div>
         @foreach (var friend in @Model.Friends.Where(model => model.Deleted))
         {
             <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
@@ -76,14 +77,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Delete Confirmation</h4>
+                <h4 class="modal-title">@FriendsTexts.DeleteConfirmation</h4>
             </div>
             <div class="modal-body">
-                <i class="fa fa-warning warning-message"></i> Are you sure you want to delete this friend?
+                <i class="fa fa-warning warning-message"></i>@FriendsTexts.DeleteConfirmationQuestion?
             </div>
             <div class="modal-footer">
-                <button data-dismiss="modal" type="button" class="btn btn-default">Cancel</button>
-                <button id="btnContinueDelete" type="button" class="btn btn-primary">Delete</button>
+                <button data-dismiss="modal" type="button" class="btn btn-default">@FriendsTexts.ButtonCancel</button>
+                <button id="btnContinueDelete" type="button" class="btn btn-primary">@FriendsTexts.ButtonDelete</button>
             </div>
         </div>
     </div>

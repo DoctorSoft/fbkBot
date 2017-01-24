@@ -466,5 +466,54 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("removeFriendEnum");
             }
         }
+
+        public static string GetAttributeName(this CancelFriendshipRequestEnum cancelFriendshipRequest)
+        {
+            switch (cancelFriendshipRequest)
+            {
+                case CancelFriendshipRequestEnum.Confirm:
+                    return "confirm=";
+                case CancelFriendshipRequestEnum.Type:
+                    return "type=";
+                case CancelFriendshipRequestEnum.RequestId:
+                    return "request_id=";
+                case CancelFriendshipRequestEnum.ListItemId:
+                    return "list_item_id=";
+                case CancelFriendshipRequestEnum.StatusDivId:
+                    return "status_div_id=";
+                case CancelFriendshipRequestEnum.Inline:
+                    return "inline=";
+                case CancelFriendshipRequestEnum.Ref:
+                    return "ref=";
+                case CancelFriendshipRequestEnum.ActionRequest:
+                    return "actions[reject]=";
+                case CancelFriendshipRequestEnum.Nctr:
+                    return "nctr[_mod]=";
+                case CancelFriendshipRequestEnum.EgoLog:
+                    return "ego_log=";
+                case CancelFriendshipRequestEnum.User:
+                    return "__user=";
+                case CancelFriendshipRequestEnum.A:
+                    return "__a=";
+                case CancelFriendshipRequestEnum.Dyn:
+                    return "__dyn=";
+                case CancelFriendshipRequestEnum.Af:
+                    return "__af=";
+                case CancelFriendshipRequestEnum.Req:
+                    return "__req=";
+                case CancelFriendshipRequestEnum.Be:
+                    return "__be=";
+                case CancelFriendshipRequestEnum.Pc:
+                    return "__pc=";
+                case CancelFriendshipRequestEnum.Rev:
+                    return "__rev=";
+                case CancelFriendshipRequestEnum.Ttstamp:
+                    return "ttstamp=";
+                case CancelFriendshipRequestEnum.FbDtsg:
+                    return "fb_dtsg=";
+                default:
+                    throw new ArgumentOutOfRangeException("cancelFriendshipRequest");
+            }
+        }
     }
 }

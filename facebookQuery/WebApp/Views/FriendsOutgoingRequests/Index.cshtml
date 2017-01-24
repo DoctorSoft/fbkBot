@@ -2,21 +2,20 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
 @using Constants.FriendTypesEnum
+@using WebApp.Resources.Views.Buttons
+@using WebApp.Resources.Views.OutgoingFriends
 @model Services.ViewModels.FriendsModels.AnalizeFriendListViewModel
 
 <div class="panel panel-default">
     <div class="page-header">
-        <h3 class="alert-info alert">Outgoing friends requests</h3>
+        <h3 class="alert-info alert">@OutgoingFriendsTexts.OutgoingTitle</h3>
         <div class="inline-actions">
-            <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">Back</a>
+            <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
         </div>
     </div>
     <div class="panel-footer">
-        @{<div>Recommended(@Model.Friends.Count())</div>
+        @{<div>@OutgoingFriendsTexts.Outgoing (@Model.Friends.Count())</div>
             int outcomingFriendCount = 1;
             foreach (var friend in @Model.Friends)
              {
@@ -30,11 +29,10 @@
                  </div>
                 outcomingFriendCount++;
              }
-
         }
     </div>
 
     <div class="inline-actions">
-        <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">Back</a>
+        <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
     </div>
 </div>

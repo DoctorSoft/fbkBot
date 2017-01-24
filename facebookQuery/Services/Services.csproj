@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\IAnalyzeFriendCore.cs" />
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
+    <Compile Include="Core\Interfaces\ServiceTools\IAnalysisFriendsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\ISeleniumManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IStatisticsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IProxyManager.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Core\SendMessageCore.cs" />
     <Compile Include="Interfaces\IJobService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AnalysisFriendsManager.cs" />
     <Compile Include="Services\ExtraMessagesService.cs" />
     <Compile Include="Services\FacebookMessagesService.cs" />
     <Compile Include="Services\FriendMessagesService.cs" />

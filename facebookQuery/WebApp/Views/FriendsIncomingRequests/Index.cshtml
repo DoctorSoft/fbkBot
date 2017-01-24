@@ -3,16 +3,30 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
 @using Constants.FriendTypesEnum
+@using WebApp.Resources.Views.Buttons
+@using WebApp.Resources.Views.IncomingFriends
 @model Services.ViewModels.FriendsModels.AnalizeFriendListViewModel
+
+@section scripts
+{
+    <script>
+        var item_to_delete;
+        $(".deleteItem").click(function(e) {
+            accountId = $(this).data('id');
+            friendFacebookId = $(this).data('fid');
+        });
+        $('#btnContinueDelete').click(function() {
+            window.location = "@Url.Action("CancelFriendship", "FriendsIncomingRequests")" + "?accountId=" + accountId + "&friendFacebookId=" + friendFacebookId;
+        });
+    </script>
+}
 
 <div class="panel panel-default">
     <div class="page-header">
-        <h3 class="alert-info alert">Incoming friends requests</h3> 
+        <h3 class="alert-info alert">@IncomingFriendsTexts.IncomingTitle</h3> 
         <div class="inline-actions">
-            <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">Back</a>
+            <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
         </div>
     </div>
     <div class="panel-footer">
@@ -20,63 +34,86 @@
             <tr>
                 <td>
                     <div class="alert alert-info">
-                        To analize
+                        @IncomingFriendsTexts.HelperAnalize
                     </div>
                 </td>
                 <td>
                     <div class="alert alert-success">
-                        To add
+                        @IncomingFriendsTexts.HelperAdd
                     </div>
                 </td>
                 <td>
                     <div class="alert alert-danger">
-                        To delete
+                        @IncomingFriendsTexts.HelperDelete
                     </div>
                 </td>
             </tr>
         </table>
         @{
-            <div>Incoming (@Model.Friends.Where(model => model.Type == FriendTypes.Incoming).Count())</div>
+            <div>@IncomingFriendsTexts.Incoming (@Model.Friends.Count(model => model.Type == FriendTypes.Incoming))</div>
             int incomingFriendCount = 1;
             foreach (var friend in @Model.Friends)
             {
                 if (friend.Type == FriendTypes.Incoming)
                 {
-                     <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
-                         @incomingFriendCount.
-                         <div class="inline-half-text-left">
-                             <div class="message-list-tittle">
-                                 <div class="">@friend.FriendName (@friend.FacebookId)</div>
-                             </div>
-                         </div>
-                     </div>
-                     incomingFriendCount++;
-                 }
-             }
+                    <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
+                        @incomingFriendCount.
+                        <div class="inline-half-text-left">
+                            <div class="message-list-tittle">
+                                <div class="">@friend.FriendName (@friend.FacebookId)</div>
+                            </div>
+                        </div>
+                        <div class="inline-half-text-right">
+                            <div class="remove-message">
+                                <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@Model.AccountId" data-fid="@friend.FacebookId" href=""><i class="fa fa-close"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    incomingFriendCount++;
+                }
+            }
 
         }
         
-        @{<div>Recommended(@Model.Friends.Where(model => model.Type == FriendTypes.Recommended).Count())</div>
+        @{<div>@IncomingFriendsTexts.Recommended (@Model.Friends.Count(model => model.Type == FriendTypes.Recommended))</div>
             int recommendedFriendCount = 1;
             foreach (var friend in @Model.Friends)
-             {
-                 if (friend.Type == FriendTypes.Recommended)
-                 {
-                     <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
-                         @recommendedFriendCount.
-                         <div class="inline-half-text-left">
-                             <div class="message-list-tittle">
-                                 <div class="">@friend.FriendName (@friend.FacebookId)</div>
-                             </div>
-                         </div>
-                     </div>
-                     recommendedFriendCount++;
-                 }
-             }
+            {
+                if (friend.Type == FriendTypes.Recommended)
+                {
+                    <div class="@(friend.Status == StatusesFriend.ToAdd ? "alert alert-success" : friend.Status == StatusesFriend.ToAnalys ? "alert alert-info" : "alert alert-danger")">
+                        @recommendedFriendCount.
+                        <div class="inline-half-text-left">
+                            <div class="message-list-tittle">
+                                <div class="">@friend.FriendName (@friend.FacebookId)</div>
+                            </div>
+                        </div>
+                    </div>
+                    recommendedFriendCount++;
+                }
+            }
         }
     </div>
 
     <div class="inline-actions">
         <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">Back</a>
+    </div>
+</div>
+
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">@IncomingFriendsTexts.DeleteConfirmation</h4>
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-warning warning-message"></i>@IncomingFriendsTexts.DeleteConfirmationQuestion?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" type="button" class="btn btn-default">@ButtonsTexts.ButtonCancel</button>
+                <button id="btnContinueDelete" type="button" class="btn btn-primary">@ButtonsTexts.ButtonDelete</button>
+            </div>
+        </div>
     </div>
 </div>

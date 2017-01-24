@@ -21,7 +21,6 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
         {
             try
             {
-
                 var analisisFriends = context.AnalisysFriends
                 .Where(model => model.Status == StatusesFriend.ToAnalys)
                 .Where(model => !model.AccountWithFriend.IsDeleted)

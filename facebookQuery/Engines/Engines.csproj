@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\AbstractEngine.cs" />
+    <Compile Include="Engines\CancelFriendshipRequestEngine\CancelFriendshipRequestEngine.cs" />
+    <Compile Include="Engines\CancelFriendshipRequestEngine\CancelFriendshipRequestModel.cs" />
     <Compile Include="Engines\RemoveFriendEngine\RemoveFriendEngine.cs" />
     <Compile Include="Engines\RemoveFriendEngine\RemoveFriendModel.cs" />
     <Compile Include="Engines\GetFriendInfoEngine\GetFriendInfoEngine.cs" />

@@ -227,6 +227,10 @@
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\SpyStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQueryHandler.cs" />
