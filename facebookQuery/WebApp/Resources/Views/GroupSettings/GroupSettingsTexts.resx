@@ -117,25 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ButtonAdd" xml:space="preserve">
-    <value>Добавить</value>
+  <data name="Cities" xml:space="preserve">
+    <value>Cities</value>
   </data>
-  <data name="ButtonBack" xml:space="preserve">
-    <value>Назад</value>
+  <data name="Countries" xml:space="preserve">
+    <value>Countries</value>
   </data>
-  <data name="ButtonBackToList" xml:space="preserve">
-    <value>Назад к списку</value>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
   </data>
-  <data name="ButtonCancel" xml:space="preserve">
-    <value>Отменить</value>
+  <data name="GeoOptions" xml:space="preserve">
+    <value>Geo options</value>
   </data>
-  <data name="ButtonDelete" xml:space="preserve">
-    <value>Удалить</value>
+  <data name="GroupSettingsTitle" xml:space="preserve">
+    <value>Group settings</value>
   </data>
-  <data name="ButtonSave" xml:space="preserve">
-    <value>Сохранить</value>
+  <data name="MessageOptions" xml:space="preserve">
+    <value>Message options</value>
   </data>
-  <data name="ButtonSend" xml:space="preserve">
-    <value>Отправить</value>
+  <data name="Min" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="RetryTimeConfirmFriendships" xml:space="preserve">
+    <value>Confirm every friendship</value>
+  </data>
+  <data name="RetryTimeGetNewAndRecommendedFriends" xml:space="preserve">
+    <value>Get new friends every</value>
+  </data>
+  <data name="RetryTimeRefreshFriends" xml:space="preserve">
+    <value>Update your friends list every</value>
+  </data>
+  <data name="RetryTimeSendNewFriend" xml:space="preserve">
+    <value>Send messages to new friends through</value>
+  </data>
+  <data name="RetryTimeSendRequestFriendships" xml:space="preserve">
+    <value>Send requests to friends every</value>
+  </data>
+  <data name="RetryTimeSendUnanswered" xml:space="preserve">
+    <value>Answer every unanswered posts</value>
+  </data>
+  <data name="RetryTimeSendUnread" xml:space="preserve">
+    <value>Answer unread messages every</value>
+  </data>
+  <data name="UnansweredDelay" xml:space="preserve">
+    <value>Extra-messages sent through</value>
   </data>
 </root>

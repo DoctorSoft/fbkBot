@@ -224,6 +224,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Resources\Views\GroupSettings\GroupSettingsTexts.ru.Designer.cs">
+      <DependentUpon>GroupSettingsTexts.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Views\GroupSettings\GroupSettingsTexts.Designer.cs">
+      <DependentUpon>GroupSettingsTexts.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Resources\Views\OutgoingFriends\OutgoingFriendsTexts.ru.Designer.cs">
       <DependentUpon>OutgoingFriendsTexts.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -483,6 +493,14 @@
     <EmbeddedResource Include="Resources\Views\FriendsBlackList\FriendsBlackListTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>FriendsBlackListTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\GroupSettings\GroupSettingsTexts.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GroupSettingsTexts.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\GroupSettings\GroupSettingsTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GroupSettingsTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Views\OutgoingFriends\OutgoingFriendsTexts.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

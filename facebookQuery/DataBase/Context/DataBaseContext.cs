@@ -53,8 +53,10 @@ namespace DataBase.Context
         public DbSet<GroupFunctionDbModel> GroupFunctions { get; set; }
 
         public DbSet<FunctionTypeDbModel> FunctionTypes { get; set; }
-        
+
         public DbSet<JobQueueDbModel> JobsQueue { get; set; }
+
+        public DbSet<JobStatusDbModel> JobStatus { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -80,6 +82,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new GroupFunctionConfiguration());
             modelBuilder.Configurations.Add(new FunctionTypeConfiguration());
             modelBuilder.Configurations.Add(new JobQueueConfiguration());
+            modelBuilder.Configurations.Add(new JobStatusConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

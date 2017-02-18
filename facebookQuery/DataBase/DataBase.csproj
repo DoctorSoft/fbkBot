@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
     <Compile Include="Configurations\JobQueueConfiguration.cs" />
+    <Compile Include="Configurations\JobStatusConfiguration.cs" />
     <Compile Include="Configurations\SettingsConfiguration.cs" />
     <Compile Include="Configurations\SpyStatisticsConfiguration.cs" />
     <Compile Include="Configurations\AccountStatisticsConfiguration.cs" />
@@ -163,9 +164,14 @@
     <Compile Include="Migrations\201702181656094_ChangedGroupOptionsTable.Designer.cs">
       <DependentUpon>201702181656094_ChangedGroupOptionsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702181843417_AddJobStatusTable.cs" />
+    <Compile Include="Migrations\201702181843417_AddJobStatusTable.Designer.cs">
+      <DependentUpon>201702181843417_AddJobStatusTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
+    <Compile Include="Models\JobStatusDbModel.cs" />
     <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
@@ -203,6 +209,10 @@
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueue\DeleteQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddOrUpdateJobStatusCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddOrUpdateJobStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\FacebookMessageDbModel.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommandHandler.cs" />
@@ -296,6 +306,9 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\JobStatusData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\SpyStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQueryHandler.cs" />
@@ -439,6 +452,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702181656094_ChangedGroupOptionsTable.resx">
       <DependentUpon>201702181656094_ChangedGroupOptionsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702181843417_AddJobStatusTable.resx">
+      <DependentUpon>201702181843417_AddJobStatusTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

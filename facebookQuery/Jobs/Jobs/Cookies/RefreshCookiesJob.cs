@@ -8,13 +8,7 @@ namespace Jobs.Jobs.Cookies
     {
         public static void Run(AccountViewModel account)
         {
-            //var jobStatusService = new JobStatusService();
-
-            //jobStatusService.AddOrUpdateStatus(account.Id, JobNames.RefreshCookies.GetDiscription());
-
             new JobQueueService().AddToQueue(account.Id, FunctionName.RefreshCookies);
-            //jobStatusService.AddOrUpdateStatus(account.Id, JobNames.RefreshCookies.GetDiscription());
-            
         }
     }
 }
