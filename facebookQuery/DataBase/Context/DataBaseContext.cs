@@ -20,6 +20,8 @@ namespace DataBase.Context
 
         public DbSet<CookiesDbModel> Cookies { get; set; }
 
+        public DbSet<FriendsBlackListDbModel> FriendsBlackList { get; set; }
+
         public DbSet<AccountStatisticsDbModel> AccountStatistics { get; set; }
 
         public DbSet<SpyStatisticsDbModel> SpyStatistics { get; set; }
@@ -51,7 +53,9 @@ namespace DataBase.Context
         public DbSet<GroupFunctionDbModel> GroupFunctions { get; set; }
 
         public DbSet<FunctionTypeDbModel> FunctionTypes { get; set; }
-
+        
+        public DbSet<JobQueueDbModel> JobsQueue { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
@@ -59,6 +63,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new SpyAccountConfiguration());
             modelBuilder.Configurations.Add(new SpyStatisticsConfiguration());
             modelBuilder.Configurations.Add(new CookiesConfiguration());
+            modelBuilder.Configurations.Add(new FriendsBlackListConfiguration());
             modelBuilder.Configurations.Add(new AccountStatisticsConfiguration());
             modelBuilder.Configurations.Add(new CookiesForSpyConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
@@ -74,6 +79,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new SpyFunctionConfiguration());
             modelBuilder.Configurations.Add(new GroupFunctionConfiguration());
             modelBuilder.Configurations.Add(new FunctionTypeConfiguration());
+            modelBuilder.Configurations.Add(new JobQueueConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

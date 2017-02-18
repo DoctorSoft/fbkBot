@@ -4,7 +4,6 @@ using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeMessageRegimeCommand;
-using DataBase.QueriesAndCommands.Commands.Friends.MarkBlockedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
@@ -14,12 +13,14 @@ using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.SendMessageEngine;
 using Services.Core.Interfaces;
 using Services.Core.Interfaces.ServiceTools;
+using Services.Hubs;
 using Services.ServiceTools;
 
 namespace Services.Core
 {
     public class SendMessageCore : ISendMessageCore
     {
+        private readonly NotificationHub _notice;
         private readonly IFriendManager _friendManager;
         private readonly IAccountManager _accountManager;
         private readonly IFacebookMessageManager _facebookMessageManager;
@@ -33,26 +34,31 @@ namespace Services.Core
             _facebookMessageManager = new FacebookMessageManager();
             _messageManager = new MessageManager();
             _stopWordsManager = new StopWordsManager();
+            _notice = new NotificationHub();
         }
         
         public void SendMessageToUnread(AccountModel account, FriendData friend)
         {
             if (friend.Deleted || friend.MessagesEnded)
             {
+                _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
                 return;
             }
 
             var message = String.Empty;
             
-            //
             var messageData = friend.MessageRegime == MessageRegime.BotFirstMessage
             ? _messageManager.GetAllMessagesWhereBotWritesFirst(account.Id)
             : _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
 
+            _notice.Add(account.Id, string.Format("Загружаем сообщения для ответа"));
+
             if (messageData.Count == 0)
             {
+                _notice.Add(account.Id, string.Format("У данного пользователя нет сообщений для ответа"));
                 return;
             }
+
             var numberLastBotMessage = _messageManager.GetLasBotMessageOrderNumber(messageData, account.Id);
 
             //
@@ -60,6 +66,7 @@ namespace Services.Core
             var lastFriendMessages = _facebookMessageManager.GetLastFriendMessageModel(account.Id, friend.Id);
             if (lastFriendMessages == null)
             {
+                _notice.Add(account.Id, string.Format("Возникла ошибка при ответе. Сообщение друга не найдено в базе."));
                 return;
             }
 
@@ -74,7 +81,7 @@ namespace Services.Core
             {
                 orderNumber = lastFriendMessages.OrderNumber;
             }
-
+            
             if (orderNumber == 1 && friend.MessageRegime == null)
             {
                 new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand()
@@ -86,13 +93,19 @@ namespace Services.Core
 
                 friend.MessageRegime = MessageRegime.UserFirstMessage;
             }
+            
+            _notice.Add(account.Id, string.Format("Сверяем сообщение друга со стоп-словами"));
 
             var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
+
+            _notice.Add(account.Id, string.Format("Получаем сообщение для ответа с порядковым номером - {0}. (Стоп-фактор - {1})", orderNumber, emergencyFactor));
 
             var messageModel = _messageManager.GetRandomMessage(account.Id, orderNumber, emergencyFactor, friend.MessageRegime);
 
             if (messageModel != null)
             {
+                _notice.Add(account.Id, string.Format("Подставляем значения в сообщение бота"));
+
                 message = new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
                         {
                             TextPattern = messageModel.Message,
@@ -103,6 +116,8 @@ namespace Services.Core
 
             if (message != String.Empty)
             {
+                _notice.Add(account.Id, string.Format("Отправляем сообщение"));
+
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
                     AccountId = account.FacebookId,
@@ -125,22 +140,31 @@ namespace Services.Core
                     Message = message,
                     MessageDateTime = DateTime.Now,
                 });
+
+                _notice.Add(account.Id, string.Format("Сообщение пользователю {0}({1}) отправлено",friend.FriendName,friend.FacebookId));
             }
-            if (messageData != null && orderNumber >= numberLastBotMessage)
+
+            if (messageData == null || orderNumber < numberLastBotMessage)
             {
-                new MarkBlockedFriendCommandHandler(new DataBaseContext()).Handle(new MarkBlockedFriendCommand()
-                {
-                    AccountId = account.Id,
-                    FriendId = lastFriendMessages.FriendId
-                });
+                return;
             }
+
+            if (account.GroupSettingsId == null)
+            {
+                return;
+            }
+
+            _notice.Add(account.Id, string.Format("Переписка завершена. Блокируем пользователя {0}({1})", friend.FriendName, friend.FacebookId));
+
+            _friendManager.AddFriendToBlackList((long)account.GroupSettingsId, friend.FacebookId);
         }
 
         public void SendMessageToUnanswered(AccountModel account, FriendData friend)
         {
             if (friend.MessagesEnded || friend.Deleted)
             {
-                return;
+              _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
+              return;
             }
 
             var allMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
@@ -159,6 +183,8 @@ namespace Services.Core
                 return;
             }
 
+            _notice.Add(account.Id, string.Format("Получаем экстра-сообщение"));
+              
             var messageModel = _messageManager.GetRandomExtraMessage();
 
             if (messageModel == null)
@@ -172,6 +198,8 @@ namespace Services.Core
                 AccountId = account.Id,
                 FriendId = friend.FacebookId
             });
+
+            _notice.Add(account.Id, string.Format("Отправляем экстра сообщение - '{0}'", message));
 
             new SendMessageEngine().Execute(new SendMessageModel
             {
@@ -195,20 +223,27 @@ namespace Services.Core
                 Message = message,
                 MessageDateTime = DateTime.Now,
             });
+
+            _notice.Add(account.Id, string.Format("Отправка экстра сообщения завершена"));
         }
 
         public void SendMessageToNewFriend(AccountModel account, FriendData friend)
         {
             var message = String.Empty;
 
+            _notice.Add(account.Id, string.Format("Отправляем сообщения новым друзьям"));
+
             var messageModel = _messageManager.GetRandomMessage(account.Id, 1, false, MessageRegime.BotFirstMessage);
             if (messageModel != null)
             {
+                _notice.Add(account.Id, string.Format("Ошибка. Нет сообщений для отправки."));
                 message = messageModel.Message;
             }
 
             if (!message.Equals(String.Empty))
             {
+                _notice.Add(account.Id, string.Format("Отправляем сообщение {0}({1})", friend.FriendName, friend.FacebookId));
+
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
                     AccountId = account.FacebookId,
@@ -241,6 +276,8 @@ namespace Services.Core
                     Message = message,
                     MessageDateTime = DateTime.Now
                 });
+
+                _notice.Add(account.Id, string.Format("Сообщение отправлено"));
             }
         }
     }

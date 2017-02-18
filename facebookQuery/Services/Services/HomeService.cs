@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CommonModels;
 using Constants;
@@ -9,9 +8,7 @@ using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
-using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewNoticesEngine;
-using OpenQA.Selenium.PhantomJS;
 using RequestsHelpers;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
@@ -24,11 +21,11 @@ namespace Services.Services
 {
     public class HomeService
     {
-        private IAccountManager _accountManager;
-        private IAccountSettingsManager _accountSettingsManager;
-        private IStatisticsManager _accountStatisticsManager;
-        private IProxyManager _proxyManager;
-        private IJobService _jobService;
+        private readonly IAccountManager _accountManager;
+        private readonly IAccountSettingsManager _accountSettingsManager;
+        private readonly IStatisticsManager _accountStatisticsManager;
+        private readonly IProxyManager _proxyManager;
+        private readonly IJobService _jobService;
 
         public HomeService(IJobService jobService, IAccountManager accountManager, IAccountSettingsManager accountSettingsManager)
         {
@@ -59,7 +56,9 @@ namespace Services.Services
                 ProxyPassword = model.ProxyPassword,
                 Cookie = model.Cookie.CookieString,
                 Name = model.Name,
-                GroupSettingsId = model.GroupSettingsId
+                GroupSettingsId = model.GroupSettingsId,
+                AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
+                ProxyDataIsFailed = model.ProxyDataIsFailed
             }).ToList();
         }
 
@@ -114,7 +113,7 @@ namespace Services.Services
                 UserId = accountId
             });
 
-            RefreshCookies(new AccountViewModel
+            new CookieService().RefreshCookies(new AccountViewModel
             {
                 Id = accountId,
                 Login = account.Login,
@@ -142,41 +141,6 @@ namespace Services.Services
                 ProxyPassword = account.ProxyPassword,
                 Cookie = account.Cookie.CookieString
             });
-        }
-
-        public PhantomJSDriver RegisterNewDriver(AccountViewModel account)
-        {
-            if (string.IsNullOrWhiteSpace(account.Proxy))
-            {
-                return new PhantomJSDriver();
-            }
-
-            var service = PhantomJSDriverService.CreateDefaultService();
-            service.AddArgument(string.Format("--proxy-auth={0}:{1}", account.ProxyLogin, account.ProxyPassword));
-            service.AddArgument(string.Format("--proxy={0}", account.Proxy));
-
-            var driver = new PhantomJSDriver(service);
-
-            return driver;
-        }
-
-        public bool RefreshCookies(AccountViewModel account)
-        {
-            var driver = RegisterNewDriver(account);
-            var newCookie = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
-            {
-                Login = account.Login,
-                Password = account.Password,
-                Driver = driver
-            }).CookiesString;
-
-            new UpdateCookiesHandler(new DataBaseContext()).Handle(new UpdateCookiesCommand()
-            {
-                AccountId = account.Id,
-                NewCookieString = newCookie
-            });
-
-            return true;
         }
 
         public GetNewNoticesResponseModel GetNewNotices(long accountId)
@@ -209,10 +173,10 @@ namespace Services.Services
         public AccountSettingsViewModel GetAccountSettings(long accountId)
         {
             var account =  _accountManager.GetAccountById(accountId);
-            var settings = new SettingsModel();
+            var settings = new GroupSettingsViewModel();
             if (account.GroupSettingsId != null)
             {
-                settings = _accountSettingsManager.GetSettings((long)account.GroupSettingsId);
+                settings = _accountSettingsManager.GetSettings((long)account.GroupSettingsId) ?? new GroupSettingsViewModel();
             }
             
             var statistics = _accountStatisticsManager.GetAccountStatistics(accountId);
@@ -222,7 +186,7 @@ namespace Services.Services
                 AllTimeStatistic = _accountStatisticsManager.GetAllTimeAccountStatistics(statistics),
                 LastHourStatistic = _accountStatisticsManager.GetLastHourAccountStatistics(statistics),
             };
-            
+
             var accountViewModel = new AccountSettingsViewModel
             {
                 Settings = settings,
@@ -286,7 +250,7 @@ namespace Services.Services
                 ProxyPassword = model.ProxyPassword
             });
 
-            RefreshCookies(new AccountViewModel
+            new CookieService().RefreshCookies(new AccountViewModel
             {
                 Id = accountId,
                 Login = model.Login,
@@ -375,10 +339,11 @@ namespace Services.Services
             });
         }
 
-        public void UpdateSettings(SettingsModel newOptions)
+        public void UpdateSettings(GroupSettingsViewModel newOptions)
         {
             _accountSettingsManager.UpdateSettings(newOptions);
         }
+
     }
 }
 

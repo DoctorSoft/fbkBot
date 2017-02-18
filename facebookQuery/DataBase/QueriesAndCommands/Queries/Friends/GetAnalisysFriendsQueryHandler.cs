@@ -40,8 +40,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                         continue;
                     }
 
-                    if (settingsModel.LivesPlace == null && settingsModel.Gender == null &&
-                        settingsModel.SchoolPlace == null && settingsModel.WorkPlace == null) //replace only geo fields
+                    if (settingsModel.Cities == null && settingsModel.Gender == null && settingsModel.Countries == null) //replace only geo fields
                     {
                         continue;
                     }

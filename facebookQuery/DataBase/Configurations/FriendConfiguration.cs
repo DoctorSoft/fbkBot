@@ -15,7 +15,6 @@ namespace DataBase.Configurations
 
             Property(model => model.FriendName);
             Property(model => model.FacebookId);
-            Property(model => model.IsBlocked);
             Property(model => model.MessageRegime);
             Property(model => model.Href);
             Property(model => model.Gender);

@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Remote;
 using Services.Core.Interfaces.ServiceTools;
 using Services.ViewModels.HomeModels;
 
@@ -6,7 +7,7 @@ namespace Services.ServiceTools
 {
     public class SeleniumManager : ISeleniumManager
     {
-        public PhantomJSDriver RegisterNewDriver(AccountViewModel account)
+        public RemoteWebDriver RegisterNewDriver(AccountViewModel account)
         {
             if (string.IsNullOrWhiteSpace(account.Proxy))
             {

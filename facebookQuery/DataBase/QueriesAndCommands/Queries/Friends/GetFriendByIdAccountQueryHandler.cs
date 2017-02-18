@@ -25,7 +25,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,
-                    MessagesEnded = model.IsBlocked,
+                    MessagesEnded = context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId 
+                        && dbModel.GroupId == context.Accounts.FirstOrDefault(accountDbModel => accountDbModel.Id == query.AccountId).GroupSettingsId),
                     MessageRegime = model.MessageRegime
                 }).FirstOrDefault();
 

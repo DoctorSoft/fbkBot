@@ -10,9 +10,8 @@ using DataBase.QueriesAndCommands.Queries.Friends.GetAnalisysFriendsByStatus;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.CancelFriendshipRequestEngine;
 using Services.Core.Interfaces.ServiceTools;
-using Services.ServiceTools;
 
-namespace Services.Services
+namespace Services.ServiceTools
 {
     public class AnalysisFriendsManager : IAnalysisFriendsManager
     {
@@ -33,7 +32,7 @@ namespace Services.Services
 
             foreach (var analysisFriendData in friends)
             {
-                if (friendsInDb.Any(data => data.FacebookId != analysisFriendData.FacebookId) && (analisysFriendsInDb.Any(data => data.FacebookId != analysisFriendData.FacebookId)))
+                if (friendsInDb.Any(data => data.FacebookId == analysisFriendData.FacebookId) != true && (analisysFriendsInDb.Any(data => data.FacebookId != analysisFriendData.FacebookId)) != true)
                 {
                     refreshFriendList.Add(analysisFriendData);
                     continue;

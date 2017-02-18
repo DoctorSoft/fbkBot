@@ -1,4 +1,5 @@
 ﻿using Jobs;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Owin;
 
@@ -11,6 +12,14 @@ namespace WebApp
         {
             ConfigureAuth(app);
             HangfireBootstrapper.RegistreJobs(app);
+
+            var hubConfiguration = new HubConfiguration
+            {
+                EnableDetailedErrors = true, 
+                EnableJavaScriptProxies = true
+            };
+
+            app.MapSignalR("/signalr", hubConfiguration);
         }
     }
 }

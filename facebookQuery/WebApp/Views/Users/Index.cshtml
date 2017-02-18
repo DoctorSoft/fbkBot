@@ -16,6 +16,39 @@
             window.location = "@Url.Action("RemoveAccount", "Users")" + "?accountId=" + item_to_delete;
         });
     </script>
+    
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="/Scripts/jquery.signalR-2.2.1.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.signalR-2.2.1.min.js" type="text/javascript"></script>
+    <script src="~/signalr/hubs" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            //получаем прокси объект чат
+            var chat = $.connection.notificationHub;
+
+            //определяем метод, вызываемый с серверной част,
+            //параметры естественно должы совпадать
+            chat.client.addNotice = function (acccountId, msg) {
+                var text2Stap = $("#messages_" + acccountId + " #span2").text();
+                //$("#messages_" + acccountId + " #span3").text(" ").hide();
+                $("#messages_" + acccountId + " #span3").text(text2Stap).show('slow');
+
+                var text1Stap = $("#messages_" + acccountId + " #span1").text();
+                //$("#messages_" + acccountId + " #span2").text(" ").hide();
+                $("#messages_" + acccountId + " #span2").text(text1Stap).show('slow');
+                
+                $("#messages_" + acccountId + " #span1").text(" ").hide();
+                $("#messages_" + acccountId + " #span1").text(msg).show('slow');
+            };
+            
+            //стартуем все хабы
+            $.connection.hub.start();
+
+
+        });
+    </script>
 }
 
 <div class="panel panel-default">
@@ -25,7 +58,10 @@
     <div class="panel-footer">
         @foreach (var account in @Model)
         {
-            <div class="alert alert-info">
+            var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed ? "alert alert-danger" : "alert alert-info";
+            var errorText = account.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : account.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : null;
+            
+            <div class="@divClass">
                 <div class="inline-half-text-left">
                     <div class="message-list-tittle">
                         <a id="@("group" + account.Id)">@account.Login</a>
@@ -45,10 +81,28 @@
                     <div class="inline-actions">
                         <a href="@Url.Action("Index", "Cookies", new {AccountId = account.Id})"><i class="fa fa-birthday-cake"></i></a>
                     </div>
+                    <div class="inline-actions">
+                        <a href="@Url.Action("Index", "GroupBlackList", new {groupId = account.GroupSettingsId})"><i class="fa fa-user-times"></i></a>
+                    </div>
+                    <div class="inline-actions">
+                        @if (errorText != null)
+                        {
+                            <i class="fa fa-question-circle-o"></i> @errorText
+                        }
+                    </div>
                 </div>
                 <div class="inline-half-text-right">
                     <div class="remove-message">
                         <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@account.Id" href=""><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+                <div class="alert alert-success" style="margin-bottom: 0 !important">
+                    <div class="inline-half">
+                        <div id="messages_@account.Id">
+                            <span id="span1">Аккаунт в режиме ожидания</span><br />
+                            <span id="span2"></span><br />
+                            <span id="span3"></span>
+                        </div>
                     </div>
                 </div>
             </div>

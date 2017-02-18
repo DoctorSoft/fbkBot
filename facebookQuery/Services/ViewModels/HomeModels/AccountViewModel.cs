@@ -23,5 +23,9 @@
         public string ProxyPassword { get; set; }
 
         public long? GroupSettingsId { get; set; }
+
+        public bool ProxyDataIsFailed { get; set; }
+
+        public bool AuthorizationDataIsFailed { get; set; }
     }
 }

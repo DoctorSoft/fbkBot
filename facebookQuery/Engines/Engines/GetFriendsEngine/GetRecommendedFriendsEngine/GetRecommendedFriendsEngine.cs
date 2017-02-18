@@ -25,9 +25,11 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
             var friendsList = new List<GetFriendsResponseModel>();
 
             var incomingPattern = new Regex("clearfix ruUserBox _3-z friendRequestItem\".*?</div></div></div></div></div>");
-            var recommendedPattern = new Regex("friendBrowserListUnit\".*?</div></div></div></div></div>");
+            var recommendedFriendsPattern = new Regex("clearfix ruUserBox _3-z\".*?</div></div></div></div>");
+            var recommendedPattern = new Regex("friendBrowserListUnit\".*?</div></div></div></div>");
 
             var incomingCollection = incomingPattern.Matches(pageRequest);
+            var recommendedFriendsCollection = recommendedFriendsPattern.Matches(pageRequest);
             var recommendedCollection = recommendedPattern.Matches(pageRequest);
 
             foreach (var incomingFriend in incomingCollection)
@@ -47,6 +49,32 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
                     FacebookId = Convert.ToInt64(id),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),
                     Type = FriendTypes.Incoming
+                });
+            }
+
+            foreach (var recommendedFriend in recommendedFriendsCollection)
+            {
+                var firstString = new Regex("user.php.*?</a></div>");
+                var dataStep1 = firstString.Match(recommendedFriend.ToString()).ToString().Remove(0, 12);
+                var dataStep2 = dataStep1.Remove(dataStep1.Length - 10);
+
+                var index1 = dataStep2.IndexOf("\" data", StringComparison.Ordinal);
+                var id = dataStep2.Remove(index1);
+
+                var index2 = dataStep2.IndexOf(">", StringComparison.Ordinal);
+                var name = dataStep2.Remove(0, index2 + 1);
+
+                var index3 = name.IndexOf("<", StringComparison.Ordinal);
+                if (index3 != -1)
+                {
+                    name = name.Remove(index3);
+                }
+
+                friendsList.Add(new GetFriendsResponseModel()
+                {
+                    FacebookId = Convert.ToInt64(id),
+                    FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),
+                    Type = FriendTypes.Recommended
                 });
             }
 

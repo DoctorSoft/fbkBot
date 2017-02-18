@@ -9,7 +9,7 @@ namespace Jobs.Jobs.SpyJobs
 {
     public static class AnalyzeFriendsJob
     {
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail), Queue("analyzefriends", Order = 1)]
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(AccountViewModel account)
         {
            if (!new FunctionPermissionManager().HasPermissionsForSpy(FunctionName.AnalyzeFriends, account.FacebookId))

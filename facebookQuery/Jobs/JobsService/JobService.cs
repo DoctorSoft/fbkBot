@@ -1,11 +1,14 @@
 ﻿using CommonModels;
 using Hangfire;
+using Jobs.Jobs.Cookies;
 using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.MessageJobs;
+using Jobs.Jobs.RunnerJob;
 using Jobs.Jobs.SpyJobs;
 using Services.Core.Interfaces.ServiceTools;
 using Services.Interfaces;
 using Services.ServiceTools;
+using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.JobsService
@@ -22,6 +25,8 @@ namespace Jobs.JobsService
         const string AnalyzeFriendsPattern = "Analyze spy friends account = {0}";
         const string ConfirmFriendshipPattern = "Confirm friendship for account = {0}";
         const string SendRequestFriendshipPattern = "Send request friendship for account = {0}";
+        const string RefreshCookiesPattern = "Refresh cookies for account = {0}";
+        const string RunnerPattern = "Runner for account = {0}";
 
         public JobService()
         {
@@ -30,17 +35,15 @@ namespace Jobs.JobsService
 
         public void AddOrUpdateAccountJobs(AccountViewModel accountViewModel)
         {
-            var settings = _accountSettingsManager.GetSettings(accountViewModel.GroupSettingsId != null 
-                ? (long)accountViewModel.GroupSettingsId : 0) 
-                ?? new SettingsModel();
-
+            RecurringJob.AddOrUpdate(string.Format(RefreshCookiesPattern, accountViewModel.Login), () => RefreshCookiesJob.Run(accountViewModel), Cron.Hourly);
             RecurringJob.AddOrUpdate(string.Format(UnreadMessagesPattern, accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
             RecurringJob.AddOrUpdate(string.Format(UnansweredMessagesPattern, accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);
             RecurringJob.AddOrUpdate(string.Format(NewFriendMessagesPattern, accountViewModel.Login), () => SendMessageToNewFriendsJob.Run(accountViewModel), Cron.Hourly);
-            RecurringJob.AddOrUpdate(string.Format(RefreshFriendsPattern, accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel.FacebookId), "* 0/1 * * *");
-            RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel.FacebookId), Cron.Hourly);
-            RecurringJob.AddOrUpdate(string.Format(ConfirmFriendshipPattern, accountViewModel.Login), () => ConfirmFriendshipJob.Run(accountViewModel.FacebookId), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(SendRequestFriendshipPattern, accountViewModel.Login), () => SendRequestFriendshipJob.Run(accountViewModel.FacebookId), Cron.Minutely);
+            RecurringJob.AddOrUpdate(string.Format(RefreshFriendsPattern, accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel), Cron.Hourly);
+            RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel), Cron.Hourly);
+            RecurringJob.AddOrUpdate(string.Format(ConfirmFriendshipPattern, accountViewModel.Login), () => ConfirmFriendshipJob.Run(accountViewModel), Cron.Minutely);
+            RecurringJob.AddOrUpdate(string.Format(SendRequestFriendshipPattern, accountViewModel.Login), () => SendRequestFriendshipJob.Run(accountViewModel), Cron.Minutely);
+            RecurringJob.AddOrUpdate(string.Format(RunnerPattern, accountViewModel.Login), () => RunnerJob.Run(accountViewModel), Cron.Minutely);
         }
 
         public void AddOrUpdateSpyAccountJobs(AccountViewModel accountViewModel)
@@ -59,6 +62,7 @@ namespace Jobs.JobsService
             RecurringJob.RemoveIfExists(string.Format(AnalyzeFriendsPattern, login));
             RecurringJob.RemoveIfExists(string.Format(ConfirmFriendshipPattern, login));
             RecurringJob.RemoveIfExists(string.Format(SendRequestFriendshipPattern, login));
+            RecurringJob.RemoveIfExists(string.Format(RefreshCookiesPattern, login));
         }
 
         public void RenameAccountJobs(AccountViewModel accountViewModel, string oldLogin)

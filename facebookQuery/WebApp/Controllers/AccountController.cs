@@ -1,6 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using CommonModels;
 using Jobs.JobsService;
+using Services.Hubs;
 using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
@@ -26,9 +28,6 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult UpdateOptionsSettings(AccountSettingsViewModel options)
         {
-            //options.Settings.AccountId = options.Account.Id;
-
-            //homeService.UpdateSettings(options.Settings);
             return RedirectToAction("Index", "Users", new { accountId = options.Account.Id });
         }
     }

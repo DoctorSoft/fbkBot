@@ -26,6 +26,10 @@ namespace DataBase.Models
 
         public long? GroupSettingsId { get; set; }
 
+        public bool ProxyDataIsFailed { get; set; }
+
+        public bool AuthorizationDataIsFailed { get; set; }
+
         public GroupSettingsDbModel GroupSettings { get; set; }
 
         public CookiesDbModel Cookies { get; set; }

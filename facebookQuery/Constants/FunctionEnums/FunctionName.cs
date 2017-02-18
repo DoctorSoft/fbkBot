@@ -13,6 +13,9 @@
         ConfirmFriendship = 103,
         SendRequestFriendship = 104,
         //Spy
-        AnalyzeFriends = 201
+        AnalyzeFriends = 201,
+
+        //Cookies
+        RefreshCookies = 301
     }
 }

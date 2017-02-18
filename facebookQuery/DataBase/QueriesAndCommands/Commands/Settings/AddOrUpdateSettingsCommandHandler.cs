@@ -27,12 +27,15 @@ namespace DataBase.QueriesAndCommands.Commands.Settings
                 accountSettings.Id = command.GroupId;
             }
             accountSettings.Gender = command.Gender;
-            accountSettings.LivesPlace = command.LivesPlace;
-            accountSettings.SchoolPlace = command.SchoolPlace;
-            accountSettings.WorkPlace = command.WorkPlace;
-            accountSettings.DelayTimeSendNewFriend = command.DelayTimeSendNewFriend;
-            accountSettings.DelayTimeSendUnanswered = command.DelayTimeSendUnanswered;
-            accountSettings.DelayTimeSendUnread = command.DelayTimeSendUnread;
+            accountSettings.Countries = command.Countries;
+            accountSettings.Cities = command.Cities;
+            accountSettings.RetryTimeConfirmFriendships = command.RetryTimeConfirmFriendships;
+            accountSettings.RetryTimeGetNewAndRecommendedFriends = command.RetryTimeGetNewAndRecommendedFriends;
+            accountSettings.RetryTimeRefreshFriends = command.RetryTimeRefreshFriends;
+            accountSettings.RetryTimeSendNewFriend = command.RetryTimeSendNewFriend;
+            accountSettings.RetryTimeSendRequestFriendships = command.RetryTimeSendRequestFriendships;
+            accountSettings.RetryTimeSendUnanswered = command.RetryTimeSendUnanswered;
+            accountSettings.RetryTimeSendUnread = command.RetryTimeSendUnread;
             accountSettings.UnansweredDelay = command.UnansweredDelay;
 
             context.Settings.AddOrUpdate(accountSettings);

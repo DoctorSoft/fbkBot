@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using CommonModels;
@@ -14,17 +15,19 @@ using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.Friends;
+using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.CancelFriendshipRequestEngine;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
-using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
 using Services.Core.Interfaces.ServiceTools;
+using Services.Hubs;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
@@ -33,6 +36,8 @@ namespace Services.Services
 {
     public class FriendsService
     {
+        
+        private readonly NotificationHub _notice;
         private readonly IAccountManager _accountManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly ISeleniumManager _seleniumManager;
@@ -40,6 +45,7 @@ namespace Services.Services
 
         public FriendsService()
         {
+            _notice = new NotificationHub();
             _accountManager = new AccountManager();
             _accountStatisticsManager = new StatisticsManager();
             _seleniumManager = new SeleniumManager();
@@ -127,37 +133,72 @@ namespace Services.Services
             return result;
         }
 
-        public void GetFriendsOfFacebook(long accountFacebokId)
+        public bool GetFriendsOfFacebook(AccountViewModel account)
         {
-            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            _notice.Add(account.Id, "Начинаем обновлять список друзей");
+
+            var accountModel_ = _accountManager.GetAccountById(account.Id); //for task in optionController
+
+            var accountModel = new AccountModel
             {
-                FacebookUserId = accountFacebokId
-            });
+                AuthorizationDataIsFailed = accountModel_.AuthorizationDataIsFailed,
+                Cookie = new CookieModel
+                {
+                    CookieString = accountModel_.Cookie.CookieString,
+                    CreateDateTime = accountModel_.Cookie.CreateDateTime
+                },
+                ProxyDataIsFailed = accountModel_.ProxyDataIsFailed,
+                Id = accountModel_.Id,
+                Name = accountModel_.Name,
+                Proxy = accountModel_.Proxy,
+                FacebookId = accountModel_.FacebookId,
+                GroupSettingsId = accountModel_.GroupSettingsId,
+                Login = accountModel_.Login,
+                PageUrl = accountModel_.PageUrl,
+                Password = accountModel_.Password,
+                ProxyLogin = accountModel_.ProxyLogin,
+                ProxyPassword = accountModel_.ProxyPassword
+            };
+
+            _notice.Add(account.Id, "Получаем текущих друзей");
 
             var friends = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
             {
-                Cookie = account.Cookie.CookieString,
-                AccountFacebookId = accountFacebokId,
+                Cookie = accountModel.Cookie.CookieString,
+                AccountFacebookId = accountModel.FacebookId,
                 Driver = _seleniumManager.RegisterNewDriver(new AccountViewModel
                 {
-                    Proxy = account.Proxy,
-                    ProxyLogin = account.ProxyLogin,
-                    ProxyPassword = account.ProxyPassword
+                    Proxy = accountModel.Proxy,
+                    ProxyLogin = accountModel.ProxyLogin,
+                    ProxyPassword = accountModel.ProxyPassword
                 })
             });
 
+            _notice.Add(account.Id, "Список текущих друзей получен, количество - " + friends.Count);
+
+
             var outgoingFriendships = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
             {
-                AccountId = account.Id,
+                AccountId = accountModel.Id,
                 FriendsType = FriendTypes.Outgoig
             });
 
+
+            if (friends.Count == 0)
+            {
+                _notice.Add(account.Id, "Нет друзей. Обновление друзей завершено.");
+                return true;
+            }
+
+            _notice.Add(account.Id, "Сверяем друзей с исходящими заявками");
             foreach (var newFriend in friends)
             {
                 if (outgoingFriendships.All(data => data.FacebookId != newFriend.FacebookId))
                 {
                     continue;
                 }
+
+                _notice.Add(account.Id, newFriend.FriendName + "Добавился в друзья ");
 
                 new DeleteAnalysisFriendByIdHandler(new DataBaseContext()).Handle(new DeleteAnalysisFriendById
                 {
@@ -167,61 +208,103 @@ namespace Services.Services
                 new AddOrUpdateAccountStatisticsCommandHandler(new DataBaseContext()).Handle(
                     new AddOrUpdateAccountStatisticsCommand
                     {
-                        AccountId = account.Id,
+                        AccountId = accountModel.Id,
                         CountOrdersConfirmedFriends = 1
                     });
+
+                _notice.Add(account.Id, "Сверяем друзей с исходящими заявками");
             }
 
-            if (friends.Count != 0)
-            {
-                new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
+            // drop blocked users
+            _notice.Add(account.Id, "Сверяем друзей с черным списком");
+
+            var newFriendList = (from friend in friends
+                let isBlocked = new CheckForFriendBlacklistedQueryHandler().Handle(new CheckForFriendBlacklistedQuery
                 {
-                    AccountId = account.Id,
-                    Friends = friends.Select(model => new FriendData()
-                    {
-                        FacebookId = model.FacebookId,
-                        FriendName = model.FriendName,
-                        Href = model.Uri,
-                        Gender = model.Gender
-                    }).ToList()
-                });
-            }
+                    FriendFacebookId = friend.FacebookId,
+                    GroupSettingsId = (long)accountModel.GroupSettingsId
+                })
+                where !isBlocked
+                select new FriendData
+                {
+                    FacebookId = friend.FacebookId, 
+                    FriendName = friend.FriendName, 
+                    Href = friend.Uri, 
+                    Gender = friend.Gender
+                }).ToList();
+
+            _notice.Add(account.Id, "Совпадений с черным списком - " + (friends.Count - newFriendList.Count));
+
+            _notice.Add(account.Id, "Сохраняем друзей");
+
+            new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
+            {
+                AccountId = accountModel.Id,
+                Friends = newFriendList
+            });
+
+            _notice.Add(account.Id, "Обновление друзей завершено.");
+            return true;
         }
 
-        public NewFriendListViewModel GetNewFriendsAndRecommended(long accountFacebokId)
+        public NewFriendListViewModel GetNewFriendsAndRecommended(AccountViewModel account)
         {
-            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            var accountModel = new AccountModel
             {
-                FacebookUserId = accountFacebokId
-            });
+                AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
+                Cookie = new CookieModel
+                {
+                    CookieString = account.Cookie
+                },
+                ProxyDataIsFailed = account.ProxyDataIsFailed,
+                Id = account.Id,
+                Name = account.Name,
+                Proxy = account.Proxy,
+                FacebookId = account.FacebookId,
+                GroupSettingsId = account.GroupSettingsId,
+                Login = account.Login,
+                PageUrl = account.PageUrl,
+                Password = account.Password,
+                ProxyLogin = account.ProxyLogin,
+                ProxyPassword = account.ProxyPassword
+            };
+
+            _notice.Add(account.Id, "Получаем рекомендованных друзей");
 
             var friendListResponseModels = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
             {
-                Cookie = account.Cookie.CookieString,
-                Proxy = _accountManager.GetAccountProxy(account)
+                Cookie = accountModel.Cookie.CookieString,
+                Proxy = _accountManager.GetAccountProxy(accountModel)
             });
+
+            _notice.Add(account.Id, "Список рекомендованных друзей получен - " + friendListResponseModels.Count);
 
             var friendList = friendListResponseModels.Select(model => new AnalysisFriendData
             {
-                AccountId = account.Id,
+                AccountId = accountModel.Id,
                 FacebookId = model.FacebookId,
                 Type = model.Type,
                 Status = StatusesFriend.ToAnalys,
                 FriendName = model.FriendName
             }).ToList();
-            
+
             //Check
-            var certifiedListFriends = _analysisFriendsManager.CheckForAnyInDataBase(account, friendList);
+            _notice.Add(account.Id, "Проверяем не общались ли мы с этими друзьями");
+
+            var certifiedListFriends = _analysisFriendsManager.CheckForAnyInDataBase(accountModel, friendList);
+
+            _notice.Add(account.Id, "Сохраняем рекомендованных друзей");
 
             new SaveFriendsForAnalysisCommandHandler(new DataBaseContext()).Handle(new SaveFriendsForAnalysisCommand
             {
-                AccountId = account.Id,
+                AccountId = accountModel.Id,
                 Friends = certifiedListFriends
             });
 
+            _notice.Add(account.Id, "Получение рекомендованных друзей завершено.");
             return new NewFriendListViewModel
             {
-                AccountId = account.Id,
+                AccountId = accountModel.Id,
                 NewFriends = friendList.Select(model => new NewFriendViewModel
                 {
                     FacebookId = model.FacebookId,
@@ -233,13 +316,29 @@ namespace Services.Services
             };
         }
 
-        public void ConfirmFriendship(long accountId)
+        public void ConfirmFriendship(AccountViewModel account)
         {
-            var account =
-                new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            var accountModel = new AccountModel
+            {
+                AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
+                Cookie = new CookieModel
                 {
-                    FacebookUserId = accountId
-                });
+                    CookieString = account.Cookie
+                },
+                ProxyDataIsFailed = account.ProxyDataIsFailed,
+                Id = account.Id,
+                Name = account.Name,
+                Proxy = account.Proxy,
+                FacebookId = account.FacebookId,
+                GroupSettingsId = account.GroupSettingsId,
+                Login = account.Login,
+                PageUrl = account.PageUrl,
+                Password = account.Password,
+                ProxyLogin = account.ProxyLogin,
+                ProxyPassword = account.ProxyPassword
+            };
+
+            _notice.Add(account.Id, "Получаем подходящих друзей для подтверждения дружбы");
 
             var friends = new GetFriendsToConfirmQueryHandler(new DataBaseContext()).Handle(new GetFriendsToConfirmQuery
             {
@@ -251,45 +350,75 @@ namespace Services.Services
                 return;
             }
 
+            _notice.Add(account.Id, "Выбираем случайного друга");
+
             var analysisFriendsData = friends.FirstOrDefault();
 
-            new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel
+            if (analysisFriendsData != null)
             {
-                AccountFacebookId = account.FacebookId,
-                FriendFacebookId = analysisFriendsData.FacebookId,
-                Proxy = _accountManager.GetAccountProxy(account),
-                Cookie = account.Cookie.CookieString,
-                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                {
-                    NameUrlParameter = NamesUrlParameter.ConfirmFriendship
-                }),
-            });
+                _notice.Add(account.Id,
+                    string.Format("Подтверждаем дружбу с {0}({1})", analysisFriendsData.FriendName,
+                        analysisFriendsData.FacebookId));
 
-            if (true)
-            {
-                _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel
+                {
+                    AccountFacebookId = account.FacebookId,
+                    FriendFacebookId = analysisFriendsData.FacebookId,
+                    Proxy = _accountManager.GetAccountProxy(accountModel),
+                    Cookie = account.Cookie,
+                    UrlParameters =
+                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                        {
+                            NameUrlParameter = NamesUrlParameter.ConfirmFriendship
+                        }),
+                });
+
+                if (true)
+                {
+                    _notice.Add(account.Id, "Обновляем статистику");
+
+                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                    {
+                        AccountId = account.Id,
+                        CountReceivedFriends = 1
+                    });
+                }
+
+                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
                 {
                     AccountId = account.Id,
-                    CountReceivedFriends = 1
+                    FriendId = analysisFriendsData.Id
                 });
-            }
 
-            new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
-            {
-                AccountId = account.Id,
-                FriendId = analysisFriendsData.Id
-            });
+                _notice.Add(account.Id, "Обновляем статистику");
+            }
 
             Thread.Sleep(2000);
         }
 
-        public void SendRequestFriendship(long accountId)
+        public void SendRequestFriendship(AccountViewModel account)
         {
-            var account =
-                new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            var accountModel = new AccountModel
+            {
+                AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
+                Cookie = new CookieModel
                 {
-                    FacebookUserId = accountId
-                });
+                    CookieString = account.Cookie
+                },
+                ProxyDataIsFailed = account.ProxyDataIsFailed,
+                Id = account.Id,
+                Name = account.Name,
+                Proxy = account.Proxy,
+                FacebookId = account.FacebookId,
+                GroupSettingsId = account.GroupSettingsId,
+                Login = account.Login,
+                PageUrl = account.PageUrl,
+                Password = account.Password,
+                ProxyLogin = account.ProxyLogin,
+                ProxyPassword = account.ProxyPassword
+            };
+
+            _notice.Add(account.Id, "Получаем подходящих друзей для отправки заявки");
 
             var friends = new GetFriendsToRequestQueryHandler(new DataBaseContext()).Handle(new GetFriendsToRequestQuery
             {
@@ -300,83 +429,59 @@ namespace Services.Services
             {
                 return;
             }
-
+            
             var analysisFriendsData = friends.FirstOrDefault();
             try
             {
-                new SendRequestFriendshipEngine().Execute(new SendRequestFriendshipModel
+                if (analysisFriendsData != null)
                 {
-                    AccountFacebookId = account.FacebookId,
-                    FriendFacebookId = analysisFriendsData.FacebookId,
-                    Proxy = _accountManager.GetAccountProxy(account),
-                    Cookie = account.Cookie.CookieString,
-                    AddFriendUrlParameters =
-                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                        {
-                            NameUrlParameter = NamesUrlParameter.AddFriend
-                        }),
-                    AddFriendExtraUrlParameters =
-                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                        {
-                            NameUrlParameter = NamesUrlParameter.AddFriendExtra
-                        }),
-                });
+                    _notice.Add(account.Id,
+                        string.Format("Отправляем заявку {0}({1})", analysisFriendsData.FriendName,
+                            analysisFriendsData.FacebookId));
 
-                if (true)
-                {
-                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                    new SendRequestFriendshipEngine().Execute(new SendRequestFriendshipModel
+                    {
+                        AccountFacebookId = account.FacebookId,
+                        FriendFacebookId = analysisFriendsData.FacebookId,
+                        Proxy = _accountManager.GetAccountProxy(accountModel),
+                        Cookie = accountModel.Cookie.CookieString,
+                        AddFriendUrlParameters =
+                            new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                            {
+                                NameUrlParameter = NamesUrlParameter.AddFriend
+                            }),
+                        AddFriendExtraUrlParameters =
+                            new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                            {
+                                NameUrlParameter = NamesUrlParameter.AddFriendExtra
+                            }),
+                    });
+
+                    if (true)
+                    {
+                        _notice.Add(account.Id, "Обновляем статистику");
+
+                        _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                        {
+                            AccountId = account.Id,
+                            CountRequestsSentToFriends = 1
+                        });
+                    }
+
+                    new ChangeAnalysisFriendTypeCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendTypeCommand
                     {
                         AccountId = account.Id,
-                        CountRequestsSentToFriends = 1
+                        NewType = FriendTypes.Outgoig,
+                        FriendFacebookId = analysisFriendsData.FacebookId
                     });
-                }
 
-                new ChangeAnalysisFriendTypeCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendTypeCommand
-                {
-                    AccountId = account.Id,
-                    NewType = FriendTypes.Outgoig,
-                    FriendFacebookId = analysisFriendsData.FacebookId
-                });
+                    _notice.Add(account.Id, "Отправка заявки в друзья успешно завершена.");
+                }
             }
             catch (Exception ex)
             {
                 
             }
-//            foreach (var analysisFriendsData in friends)
-//            {
-//                new SendRequestFriendshipEngine().Execute(new SendRequestFriendshipModel
-//                {
-//                    AccountFacebookId = account.FacebookId,
-//                    FriendFacebookId = analysisFriendsData.FacebookId,
-//                    Proxy = _accountManager.GetAccountProxy(account),
-//                    Cookie = account.Cookie.CookieString,
-//                    AddFriendUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-//                    {
-//                        NameUrlParameter = NamesUrlParameter.AddFriend
-//                    }),
-//                    AddFriendExtraUrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-//                    {
-//                        NameUrlParameter = NamesUrlParameter.AddFriendExtra
-//                    }),
-//                });
-//
-//                if (true)
-//                {
-//                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
-//                    {
-//                        AccountId = account.Id,
-//                        CountRequestsSentToFriends = 1
-//                    });
-//                }
-//
-//                new ChangeAnalysisFriendTypeCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendTypeCommand
-//                {
-//                    AccountId = account.Id,
-//                    NewType = FriendTypes.Outgoig
-//                });
-//
-//                Thread.Sleep(2000);
-//            }
         }
 
         public void RemoveFriend(long accountId, long friendId)
@@ -386,10 +491,14 @@ namespace Services.Services
                 UserId = accountId
             });
 
+            _notice.Add(account.Id, string.Format("Получаем друга для удаления по id - {0}", friendId));
+
             var friend = new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
             {
                 AccountId = friendId
             });
+
+            _notice.Add(account.Id, string.Format("удаляем друга {0}({1})", friend.FriendName, friend.FacebookId));
 
             new RemoveFriendEngine().Execute(new RemoveFriendModel
             {
@@ -402,6 +511,8 @@ namespace Services.Services
                     NameUrlParameter = NamesUrlParameter.RemoveFriend
                 })
             });
+
+            _notice.Add(account.Id, string.Format("{0}({1}) успешно удалён из друзей", friend.FriendName, friend.FacebookId));
 
             if (true)
             {
@@ -420,6 +531,8 @@ namespace Services.Services
                 UserId = accountId
             });
 
+            _notice.Add(account.Id, string.Format("Отменяем входящую заявку друга {0}", friendFacebookId));
+
             new CancelFriendshipRequestEngine().Execute(new CancelFriendshipRequestModel
             {
                 Cookie = account.Cookie.CookieString,
@@ -431,6 +544,8 @@ namespace Services.Services
                     NameUrlParameter = NamesUrlParameter.CancelRequestFriendship
                 })
             });
+
+            _notice.Add(account.Id, string.Format("Заявка дружбы друга {0} отменена", friendFacebookId));
 
             new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendStatusCommand
             {

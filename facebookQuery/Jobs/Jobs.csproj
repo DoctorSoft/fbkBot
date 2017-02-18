@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Jobs</RootNamespace>
     <AssemblyName>Jobs</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,6 +75,7 @@
     <Compile Include="HangfireBootstrapper.cs" />
     <Compile Include="JobsBootstrapper.cs" />
     <Compile Include="JobsService\JobService.cs" />
+    <Compile Include="Jobs\Cookies\RefreshCookiesJob.cs" />
     <Compile Include="Jobs\FriendJobs\SendRequestFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\GetNewFriendsAndRecommendedJob.cs" />
     <Compile Include="Jobs\FriendJobs\ConfirmFriendshipJob.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Jobs\MessageJobs\SendMessageToUnansweredJob.cs" />
     <Compile Include="Jobs\MessageJobs\SendMessageToNewFriendsJob.cs" />
     <Compile Include="Jobs\MessageJobs\SendMessageToUnreadJob.cs" />
+    <Compile Include="Jobs\RunnerJob\RunnerJob.cs" />
     <Compile Include="Jobs\SpyJobs\AnalyzeFriendsJob.cs" />
     <Compile Include="MyRestrictiveAuthorizationFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +101,10 @@
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
       <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Runner\Runner.csproj">
+      <Project>{7B40E72A-6998-4C41-92B1-5CEC6F2F85A7}</Project>
+      <Name>Runner</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{d6cdd9a2-389b-4cf5-8888-abd4d6905719}</Project>

@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Constants.FriendTypesEnum;
+using Constants.GendersUnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
+using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.SpyAccounts;
 using DataBase.QueriesAndCommands.Commands.SpyStatistics;
 using DataBase.QueriesAndCommands.Queries.Account;
@@ -11,14 +15,17 @@ using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.Account.SpyAccount;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using Engines.Engines.GetFriendInfoEngine;
+using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using OpenQA.Selenium.PhantomJS;
 using Services.Core;
 using Services.Core.Interfaces.ServiceTools;
+using Services.Core.Models;
 using Services.Interfaces;
 using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.FriendsModels;
+using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.SpyAccountModels;
 using CommonModels;
@@ -31,6 +38,7 @@ namespace Services.Services
         private readonly IProxyManager _proxyManager;
         private readonly IAccountManager _accountManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
+        private readonly ISeleniumManager _seleniumManager;
         private IJobService _jobService;
 
         public SpyService(IJobService jobService)
@@ -40,6 +48,7 @@ namespace Services.Services
             _accountManager = new AccountManager();
             _accountSettingsManager = new AccountSettingsManager();
             _proxyManager = new ProxyManager();
+            _seleniumManager = new SeleniumManager();
         }
 
         public List<SpyAccountViewModel> GetSpyAccounts()
@@ -172,7 +181,7 @@ namespace Services.Services
 
         public void AnalyzeFriends(AccountViewModel accountViewModel)
         {
-            var account = new AccountModel
+            var spyAccount = new AccountModel
             {
                 Id = accountViewModel.Id,
                 FacebookId = accountViewModel.FacebookId,
@@ -196,47 +205,57 @@ namespace Services.Services
                 var accountAnalysisFriend = _accountManager.GetAccountById(analysisFriendData.AccountId);
                 var settingsModel = accountAnalysisFriend.GroupSettingsId != null
                     ? _accountSettingsManager.GetSettings((long) accountAnalysisFriend.GroupSettingsId)
-                    : new SettingsModel();
+                    : new GroupSettingsViewModel();
 
-                var settings = new SettingsModel
+                var settings = new GroupSettingsViewModel
                 {
                     GroupId = settingsModel.GroupId,
                     Gender = settingsModel.Gender,
-                    LivesPlace = settingsModel.LivesPlace,
-                    SchoolPlace = settingsModel.SchoolPlace,
-                    WorkPlace = settingsModel.WorkPlace
+                    Countries = settingsModel.Countries,
+                    Cities = settingsModel.Cities
                 };
 
-                var friendInfo = new GetFriendInfoEngine().Execute(new GetFriendInfoModel
+                var infoIsSuccess = false;
+                var genderIsSuccess = false;
+
+                if (settings.Countries != null || settings.Cities != null)
                 {
-                    AccountFacebookId = account.FacebookId,
-                    Proxy = _accountManager.GetAccountProxy(account),
-                    Cookie = account.Cookie.CookieString,
-                    FriendFacebookId = analysisFriendData.FacebookId,
-                    Settings = settings
-                });
+                    infoIsSuccess = new CheckFriendInfoBySeleniumEngine().Execute(new CheckFriendInfoBySeleniumModel
+                    {
+                        AccountFacebookId = spyAccount.FacebookId,
+                        FriendFacebookId = analysisFriendData.FacebookId,
+                        Cities = settings.Cities,
+                        Countries = settings.Countries,
+                        Cookie = spyAccount.Cookie.CookieString,
+                        Driver = _seleniumManager.RegisterNewDriver(new AccountViewModel
+                        {
+                            Proxy = spyAccount.Proxy,
+                            ProxyLogin = spyAccount.ProxyLogin,
+                            ProxyPassword = spyAccount.ProxyPassword
+                        })
+                    });
+                }
 
-
-                new AnalizeFriendCore().StartAnalyze(settings, new FriendInfoViewModel
+                if (settings.Gender != null)
                 {
-                    Id = analysisFriendData.Id,
-                    FacebookId = analysisFriendData.FacebookId,
-                    Gender = friendInfo.Gender,
-                    LivesSection = friendInfo.LivesSection,
-                    RelationsSection = friendInfo.RelationsSection,
-                    SchoolSection = friendInfo.SchoolSection,
-                    WorkSection = friendInfo.WorkSection,
-                    AccountId = analysisFriendData.AccountId
-                });
+                    genderIsSuccess = new CheckFriendGenderEngine().Execute(new CheckFriendGenderModel
+                    {
+                        AccountFacebookId = spyAccount.FacebookId,
+                        FriendFacebookId = analysisFriendData.FacebookId,
+                        Gender = (GenderEnum)settings.Gender,
+                        Cookie = spyAccount.Cookie.CookieString,
+                        Proxy = _accountManager.GetAccountProxy(spyAccount)
+                    });
+                }
 
-                new AddOrUpdateSpyStatisticsCommandHandler(new DataBaseContext()).Handle(
-                new AddOrUpdateSpyStatisticsCommand
+                new AnalizeFriendCore().StartAnalyze(new AnalyzeModel
                 {
-                    CountAnalizeFriends = 1,
-                    SpyAccountId = account.Id
+                    Settings = settings,
+                    AnalysisFriend = analysisFriendData,
+                    GenderIsSuccess = genderIsSuccess,
+                    InfoIsSuccess = infoIsSuccess,
+                    SpyAccountId = spyAccount.Id
                 });
-
-                Thread.Sleep(5000);
             }
         }
 

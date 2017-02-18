@@ -68,5 +68,23 @@ namespace WebApp.Resources.Views.Users {
                 return ResourceManager.GetString("AddNewAccount", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check authorization data.
+        /// </summary>
+        public static string CheckAuthorizationData {
+            get {
+                return ResourceManager.GetString("CheckAuthorizationData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check proxy data.
+        /// </summary>
+        public static string CheckProxyData {
+            get {
+                return ResourceManager.GetString("CheckProxyData", resourceCulture);
+            }
+        }
     }
 }

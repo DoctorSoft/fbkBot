@@ -1,6 +1,8 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Services.Services;
+using Services.ServiceTools;
+using Services.ViewModels.HomeModels;
 using Services.ViewModels.OptionsModel;
 
 namespace WebApp.Controllers
@@ -8,10 +10,14 @@ namespace WebApp.Controllers
     public class OptionsController : Controller
     {
         private readonly MessageSettingService messageSettingService;
+        private readonly FriendsService friendService;
+        private readonly AccountManager _accountManager;
 
         public OptionsController()
         {
             this.messageSettingService = new MessageSettingService();
+            this.friendService = new FriendsService();
+            this._accountManager = new AccountManager();
         }
 
         // GET: Option
@@ -47,6 +53,10 @@ namespace WebApp.Controllers
         public ActionResult SetGroupMessages(long accountId, long groupId)
         {
             messageSettingService.SetGroupMessages(accountId, groupId);
+
+            var refreshFriendsTask = new Task<bool>(() => friendService.GetFriendsOfFacebook(new AccountViewModel{Id = accountId}));
+            refreshFriendsTask.Start();
+
             return RedirectToAction("Index", new { accountId });
         }
      }

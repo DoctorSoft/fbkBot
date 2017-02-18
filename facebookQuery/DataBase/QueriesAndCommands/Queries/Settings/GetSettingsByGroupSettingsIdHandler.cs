@@ -20,12 +20,15 @@ namespace DataBase.QueriesAndCommands.Queries.Settings
                     {
                         GroupId = model.Id,
                         Gender = model.Gender,
-                        LivesPlace = model.LivesPlace,
-                        SchoolPlace = model.SchoolPlace,
-                        WorkPlace = model.WorkPlace,
-                        DelayTimeSendUnread = model.DelayTimeSendUnread,
-                        DelayTimeSendNewFriend = model.DelayTimeSendNewFriend,
-                        DelayTimeSendUnanswered = model.DelayTimeSendUnanswered,
+                        Countries = model.Countries,
+                        Cities = model.Cities,
+                        RetryTimeSendUnread = model.RetryTimeSendUnread,
+                        RetryTimeConfirmFriendships = model.RetryTimeConfirmFriendships,
+                        RetryTimeGetNewAndRecommendedFriends = model.RetryTimeGetNewAndRecommendedFriends,
+                        RetryTimeRefreshFriends = model.RetryTimeRefreshFriends,
+                        RetryTimeSendNewFriend = model.RetryTimeSendNewFriend,
+                        RetryTimeSendRequestFriendships = model.RetryTimeSendRequestFriendships,
+                        RetryTimeSendUnanswered = model.RetryTimeSendUnanswered,
                         UnansweredDelay = model.UnansweredDelay
                     }).FirstOrDefault();
 

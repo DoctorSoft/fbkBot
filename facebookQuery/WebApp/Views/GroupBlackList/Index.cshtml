@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@using WebApp.Resources.Views.Buttons
+@using WebApp.Resources.Views.FriendsBlackList
+@model Services.ViewModels.FrindsBlackListModels.FriendsBlackListViewModel
+
+<div class="panel panel-default">
+    @if (Model == null)
+    {
+        <div class="page-header">
+            <h3 class="alert-info alert">@FriendsBlackListTexts.NotSelected</h3>
+            <div class="inline-actions inline-half-text-left">
+                <a href="@Url.Action("Index", "Users")" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="page-header">
+            <h3 class="alert-info alert">@FriendsBlackListTexts.FriendsBlackListTitle №@Model.GroupId</h3>
+            <div class="inline-actions inline-half-text-left">
+                <a href="@Url.Action("Index", "Groups")" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
+            </div>
+            <div class="inline-actions inline-half-text-right">
+                <a href="@Url.Action("ClearBlackList", "GroupBlackList", new {groupId = Model.GroupId})" class="btn btn-primary">@FriendsBlackListTexts.ClearBlackList</a>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            @{
+                <div>@FriendsBlackListTexts.BlockedFriends (@Model.BlockedFriends.Count())</div>
+                var outcomingFriendCount = 1;
+                foreach (var friend in @Model.BlockedFriends)
+                {
+                    <div class="alert alert-danger">
+                        @outcomingFriendCount.
+                        <div class="inline-half-text-left">
+                            <div class="message-list-tittle">
+                                <div class="">@friend.FriendName (@friend.FriendFacebookId) @FriendsBlackListTexts.Added : @friend.DateAdded</div>
+                            </div>
+                        </div>
+                    </div>
+                    outcomingFriendCount++;
+                }
+            }
+        </div>
+
+        <div class="inline-actions">
+            <a href="@Url.Action("Index", "Groups")" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
+        </div>
+    }
+</div>

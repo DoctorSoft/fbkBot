@@ -46,17 +46,31 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 
                 foreach (var friendDbModel in friendsInDb)
                 {
-                    if (command.Friends.Any(model => model.FacebookId.Equals(friendDbModel.FacebookId))) continue;
+                    if (command.Friends.Any(model => model.FacebookId.Equals(friendDbModel.FacebookId)))
                     {
-                        var deletingFriend = context.Friends
-                            .FirstOrDefault(model => model.AccountId == command.AccountId 
-                                && model.FacebookId == friendDbModel.FacebookId 
-                                && !model.DeleteFromFriends);
+                        continue;
+                    }
 
-                        if (deletingFriend == null) continue;
+                    var deletingFriend = context.Friends
+                        .FirstOrDefault(model => model.AccountId == command.AccountId 
+                            && model.FacebookId == friendDbModel.FacebookId 
+                            && !model.DeleteFromFriends);
+
+                    var isBlocked = context.FriendsBlackList
+                    .Any(model => model.FriendFacebookId == friendDbModel.FacebookId);
+
+                    if (deletingFriend != null)
+                    {
                         deletingFriend.DeleteFromFriends = true;
                         context.SaveChanges();
                     }
+
+                    if (isBlocked && deletingFriend != null)
+                    {
+                        context.Friends.Remove(deletingFriend);
+                        context.SaveChanges();
+                    }
+
                 }
                 
                 foreach (var friend in command.Friends)

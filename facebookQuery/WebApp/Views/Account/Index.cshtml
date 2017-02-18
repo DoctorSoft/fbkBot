@@ -4,6 +4,7 @@
 @using WebApp.Resources.Views.Accounts
 @model Services.ViewModels.HomeModels.AccountSettingsViewModel
 
+
 <h2>@AccountsTexts.AccountPageTitle</h2>
 
 @using (Html.BeginForm("UpdateOptionsSettings", "Account", FormMethod.Post))
@@ -33,7 +34,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        @Html.Label(AccountsTexts.Login + ":", new { @class = "form-control col-md-8" })
+                                        @Html.Label(AccountsTexts.Login + ":", new {@class = "form-control col-md-8"})
                                     </td>
                                     <td>
                                         @Html.LabelForModel(Model.Account.Login, new {@class = "form-control"})
@@ -42,7 +43,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label(AccountsTexts.Name + ":", new { @class = "form-control col-md-8" })
+                                        @Html.Label(AccountsTexts.Name + ":", new {@class = "form-control col-md-8"})
                                     </td>
                                     <td>
                                         @Html.LabelForModel(Model.Account.Name, new {@class = "form-control"})
@@ -51,7 +52,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label(AccountsTexts.HomePageUrl + ":", new { @class = "form-control col-md-8" })
+                                        @Html.Label(AccountsTexts.HomePageUrl + ":", new {@class = "form-control col-md-8"})
                                     </td>
                                     <td>
                                         @Html.LabelForModel(Model.Account.PageUrl, new {@class = "form-control"})
@@ -62,7 +63,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label(AccountsTexts.Proxy + ":", new { @class = "form-control col-md-8" })
+                                        @Html.Label(AccountsTexts.Proxy + ":", new {@class = "form-control col-md-8"})
                                     </td>
                                     <td>
                                         @{
@@ -82,6 +83,7 @@
                         </table>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -138,17 +140,17 @@
 
                                 <tr>
                                     <td>
-                                        @Html.Label(AccountsTexts.CountOrdersConfirmedFriends + ":", new { @class = "form-control col-md-7" })
+                                        @Html.Label(AccountsTexts.CountOrdersConfirmedFriends + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
                                             if (Model.Statistics.LastHourStatistic != null)
                                             {
-                                                @Html.LabelForModel(Model.Statistics.LastHourStatistic.CountOrdersConfirmedFriends.ToString(), new { @class = "form-control" })
+                                                @Html.LabelForModel(Model.Statistics.LastHourStatistic.CountOrdersConfirmedFriends.ToString(), new {@class = "form-control"})
                                             }
                                             else
                                             {
-                                                @Html.Label(AccountsTexts.NoData, new { @class = "form-control col-md-7" })
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
@@ -156,7 +158,7 @@
 
                                 <tr>
                                     <td>
-                                        @Html.Label(AccountsTexts.LastUpdateStatistics + ":", new { @class = "form-control col-md-7" })
+                                        @Html.Label(AccountsTexts.LastUpdateStatistics + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
@@ -220,17 +222,17 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @Html.Label(AccountsTexts.CountOrdersConfirmedFriends + ":", new { @class = "form-control col-md-7" })
+                                        @Html.Label(AccountsTexts.CountOrdersConfirmedFriends + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
                                         @{
                                             if (Model.Statistics.AllTimeStatistic != null)
                                             {
-                                                @Html.LabelForModel(Model.Statistics.AllTimeStatistic.CountOrdersConfirmedFriends.ToString(), new { @class = "form-control" })
+                                                @Html.LabelForModel(Model.Statistics.AllTimeStatistic.CountOrdersConfirmedFriends.ToString(), new {@class = "form-control"})
                                             }
                                             else
                                             {
-                                                @Html.Label(AccountsTexts.NoData, new { @class = "form-control col-md-7" })
+                                                @Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"})
                                             }
                                         }
                                     </td>
@@ -260,62 +262,60 @@
             </div>
         </div>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="panel panel-primary">
-                <div class="panel-heading">@AccountsTexts.GeoOptions</div>
-                <div class="panel-body">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>@Html.Label(AccountsTexts.CurrentResidence + ":", new { @class = "form-control col-md-7" })</td>
-                                <td>@Html.LabelForModel(Model.Settings.LivesPlace ?? AccountsTexts.NoData, new { @class = "form-control col-md-7" })</td>
-                            </tr>
-                            <tr>     
-                                <td>@Html.Label(AccountsTexts.CurrentPlaceOfStudy + ":", new { @class = "form-control col-md-7" })</td>                      
-                                <td>@Html.LabelForModel(Model.Settings.SchoolPlace ?? AccountsTexts.NoData, new { @class = "form-control col-md-7" })</td>
-                            </tr>
-                            <tr>
-                                <td>@Html.Label(AccountsTexts.CurrentJob + ":", new { @class = "form-control col-md-7" })</td>
-                                <td>@Html.LabelForModel(Model.Settings.WorkPlace ?? AccountsTexts.NoData, new { @class = "form-control col-md-7" })</td>
-                            </tr>
-                            <tr>
-                                <td>@Html.Label(AccountsTexts.Gender + ":", new { @class = "form-control col-md-7" })</td>
-                                <td>@Html.LabelForModel(Model.Settings.Gender.ToString(), new { @class = "form-control col-md-7" })</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">@AccountsTexts.GeoOptions</div>
+                    <div class="col-md-6 panel-body">
+                        <div class="input-group">
+                            <span class="width-200 input-group-addon"> Sities</span>
+                            @Html.TextAreaFor(o => Model.Settings.Cities, new { @class = "form-control", cols = "40", rows = "15", @disabled = true })
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon">Gender:</span>
+                            @Html.EnumDropDownListFor(model => model.Settings.Gender, null, new { @class = "form-control", @disabled = true })
+                        </div>
+                        <br />
+                    </div>
+                    <div class="col-md-6 panel-body">
+                        <div class="input-group">
+                            <span class="width-200 input-group-addon">Countries:</span>
+                            @Html.TextAreaFor(o => Model.Settings.Countries, new { @class = "form-control", cols = "40", rows = "15", @disabled = true })
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">@AccountsTexts.MessageOptions</div>
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToReplyToUnreadMessages:</span>
+                            @Html.LabelForModel(Model.Settings.DelayTimeSendUnread.ToString(), new {@class = "form-control"})
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToAnswerTheUnansweredMessages:</span>
+                            @Html.LabelForModel(Model.Settings.DelayTimeSendUnanswered.ToString(), new {@class = "form-control"})
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeForSendingMessagesToNewFriends:</span>
+                            @Html.LabelForModel(Model.Settings.DelayTimeSendNewFriend.ToString(), new {@class = "form-control"})
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="panel-body">
-            <div class="panel panel-primary">
-                <div class="panel-heading">@AccountsTexts.MessageOptions</div>
-                <div class="panel-body">
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToReplyToUnreadMessages:</span>
-                        @Html.LabelForModel(Model.Settings.DelayTimeSendUnread.ToString(), new { @class = "form-control" })
-                    </div>
-                    <br />
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToAnswerTheUnansweredMessages:</span>
-                        @Html.LabelForModel(Model.Settings.DelayTimeSendUnanswered.ToString(), new { @class = "form-control" })
-                    </div>
-                    <br />
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeForSendingMessagesToNewFriends:</span>
-                        @Html.LabelForModel(Model.Settings.DelayTimeSendNewFriend.ToString(), new { @class = "form-control" })
-                    </div>
-                </div>
-            </div>
+        <div>
+            <a href="@Url.Action("Index", "Users")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i>@AccountsTexts.BackToList </a>
         </div>
-    </div>
-
-    <div>
-        <a href="@Url.Action("Index", "Users")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i>@AccountsTexts.BackToList </a>
-    </div>
     }
     @Html.HiddenFor(x => x.Account.Id)
-    //@Html.HiddenFor(x => x.Settings.AccountId)
-    }
+}
+
+            

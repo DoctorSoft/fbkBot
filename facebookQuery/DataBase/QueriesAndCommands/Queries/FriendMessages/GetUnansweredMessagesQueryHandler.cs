@@ -21,7 +21,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
             try
             {
                 if (!context.FriendMessages
-                    .Where(model => model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false)
+                    .Where(model => model.Friend.AccountId == query.AccountId && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.Friend.FacebookId && dbModel.GroupId == query.AccountId))
                     .Any(model => model.MessageDirection == MessageDirection.ToFriend))
                 {
                     return unansweredMessages;
@@ -33,7 +33,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     var lastBotMessage = context
                         .FriendMessages.Where(
                             model =>
-                                model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false &&
+                                model.Friend.AccountId == query.AccountId && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.Friend.FacebookId && dbModel.GroupId == query.AccountId) &&
                                 model.FriendId == friendMessageDbModel.FriendId)
                         .Where(model => model.MessageDirection == MessageDirection.ToFriend)
                         .OrderByDescending(model => model.MessageDateTime)
@@ -49,7 +49,7 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     var lastFriendMessage = context
                         .FriendMessages.Where(
                             model =>
-                                model.Friend.AccountId == query.AccountId && model.Friend.IsBlocked == false &&
+                                model.Friend.AccountId == query.AccountId && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.Friend.FacebookId && dbModel.GroupId == query.AccountId) &&
                                 model.FriendId == friendMessageDbModel.FriendId)
                         .Where(model => model.MessageDirection == MessageDirection.FromFriend)
                         .OrderByDescending(model => model.MessageDateTime).FirstOrDefault();

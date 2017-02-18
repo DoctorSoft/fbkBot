@@ -19,7 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account
             var models = 
                 context.Accounts.Include(model => model.Cookies)
                 .Where(model => model.FacebookId == query.FacebookUserId)
-                .Where(model => !model.IsDeleted)
+                .Where(model => !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId))
                 .Select(model => new AccountModel
                 {
                     Id = model.Id,
@@ -34,7 +34,10 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                     Name = model.Name,
                     Proxy = model.Proxy,
                     ProxyLogin = model.ProxyLogin,
-                    ProxyPassword = model.ProxyPassword
+                    ProxyPassword = model.ProxyPassword,
+                    GroupSettingsId = model.GroupSettingsId,
+                    AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
+                    ProxyDataIsFailed = model.ProxyDataIsFailed
                 }).FirstOrDefault();
 
             return models;

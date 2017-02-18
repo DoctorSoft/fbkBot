@@ -22,6 +22,10 @@
 
         public long? GroupSettingsId { get; set; }
 
+        public bool ProxyDataIsFailed { get; set; }
+
+        public bool AuthorizationDataIsFailed { get; set; }
+
         public CookieModel Cookie { get; set; }
     }
 }

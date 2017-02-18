@@ -4,22 +4,28 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
+using CommonModels;
 using Constants.FriendTypesEnum;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.AccountStatistics;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
+using DataBase.QueriesAndCommands.Commands.FriendsBlackList.AddToFriendsBlackListCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendInfoEngine;
 using Engines.Engines.GetFriendsByCriteriesEngine;
+using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.WinkEngine;
 using Jobs.JobsService;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
 using RequestsHelpers;
@@ -32,7 +38,7 @@ namespace FacebookApp
 {
     internal class Program
     {
-        private static IAccountManager _accountManager;
+        private static IAccountSettingsManager _accountSettingsManager;
 
         private static IEnumerable<KeyValuePair<string, string>> ParseCookieString(string cookieString)
         {
@@ -45,20 +51,22 @@ namespace FacebookApp
 
                 try
                 {
-                    cookiesElementsList.Add(new KeyValuePair<string, string>(cookiesElementData[0] ?? "", cookiesElementData[1] ?? ""));
+                    cookiesElementsList.Add(new KeyValuePair<string, string>(cookiesElementData[0] ?? "",
+                        cookiesElementData[1] ?? ""));
                 }
                 catch (Exception)
                 {
-                    
+
                 }
             }
 
             return cookiesElementsList;
             //return s.Select(s1 => s1.Split('=')).Select(s11 => new KeyValuePair<string, string>(s11[0], s11[1])).ToList();
         }
+
         private static void ScrollPage(PhantomJSDriver driver)
         {
-            var js = (IJavaScriptExecutor)driver;
+            var js = (IJavaScriptExecutor) driver;
             js.ExecuteScript(string.Format("window.scrollBy({0}, {1})", 3000, 3000), "");
 
             Thread.Sleep(1000);
@@ -76,34 +84,63 @@ namespace FacebookApp
             var step1 = pattern.Match(page).ToString();
 
             var step2 = step1.Remove(0, 10);
-            var step3= step2.Remove(step2.Length-1);
+            var step3 = step2.Remove(step2.Length - 1);
 
             return Convert.ToInt64(step3);
         }
 
         private static void Main(string[] args)
         {
+
             var homeService = new HomeService(new JobService(), new AccountManager(), new AccountSettingsManager());
-            //var spyService = new SpyService();
 
             var accounts = homeService.GetAccounts();
 
-            _accountManager = new AccountManager();
-            
+            _accountSettingsManager = new AccountSettingsManager();
+
+
+            /*new AddToFriendsBlackListCommandHandler(new DataBaseContext()).Handle(new AddToFriendsBlackListCommand
+            {
+                GroupSettingsId = 3,
+                FriendName = "tesd",
+                FriendFacebookId = 23232323
+            });
+
+            */
 
             foreach (var accountViewModel in accounts)
             {
                 if (accountViewModel.Id == 1)
                 {
-                    var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+                    var settings = _accountSettingsManager.GetSettings((long)accountViewModel.GroupSettingsId);
+
+                    var start = DateTime.Now;
+
+                    var status = new CheckFriendInfoBySeleniumEngine().Execute(new CheckFriendInfoBySeleniumModel
                     {
-                        FacebookUserId = accountViewModel.FacebookId
+                        FriendFacebookId = 100000229094306,
+                        AccountFacebookId = 100013726390504,
+                        Cookie = accountViewModel.Cookie,
+                        Driver = new PhantomJSDriver(),
+                        Cities = settings.Cities,
+                        Countries = settings.Countries
                     });
 
-                    var driver = new PhantomJSDriver();
+                    Console.WriteLine("Start {0} End {1}", start, DateTime.Now);
 
-                    //driver.Navigate().GoToUrl("https://www.facebook.com/");
-                    //var currCookies = driver.Manage().Cookies.AllCookies;
+                    var s = 4*1;
+
+
+                    /* var account =
+                        new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+                        {
+                            FacebookUserId = accountViewModel.FacebookId
+                        });
+
+                    var driver = new ChromeDriver();
+
+                    driver.Navigate().GoToUrl("https://www.facebook.com/");
+                    var currCookies = driver.Manage().Cookies.AllCookies;
                     var path = "/";
                     var domain = ".facebook.com";
 
@@ -111,13 +148,112 @@ namespace FacebookApp
 
                     foreach (var keyValuePair in cookies)
                     {
-                        driver.Manage().Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
+                        driver.Manage()
+                            .Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
                     }
 
-                    driver.Navigate().GoToUrl(string.Format("https://www.facebook.com/profile.php?id={0}&sk=friends", account.FacebookId));
+                    driver.Navigate()
+                        .GoToUrl(
+                            string.Format(
+                                "https://www.facebook.com/profile.php?id=100008195580815&lst={0}%3A100008195580815%3A1485883089&sk=about",
+                                account.FacebookId));
 
                     Thread.Sleep(500);
 
+                    var divs = driver.FindElements(By.CssSelector(".uiList._1pi3._4kg._6-h._703._4ks>li"));
+                    var links = driver.FindElements(By.CssSelector("._c24._50f4>.profileLink"));
+
+                    var action = new Actions(driver);
+
+                    _userInfo = new UserInfo();
+                    int i = 0;
+                    foreach (var webElement in divs)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                            {
+                                if (webElement.GetCssValue("Class") != null && webElement.GetCssValue("Id") == null)
+                                {
+                                    _userInfo.Work = null;
+                                }
+                                else
+                                {
+                                    action.MoveToElement(links[0]);
+                                    Thread.Sleep(3000);
+
+                                    action.Perform();
+                                    Thread.Sleep(2000);
+
+                                    var t1 = new Task(() => GetCity(driver, i));
+
+                                    t1.Start();
+                                }
+                                break;
+                            }
+                            case 1:
+                            {
+                                if (webElement.GetCssValue("Class") != null && webElement.GetCssValue("Id") == null)
+                                {
+                                    _userInfo.Study = null;
+                                }
+                                else
+                                {
+                                    action.MoveToElement(links[1]);
+                                    Thread.Sleep(3000);
+
+                                    action.Perform();
+                                    Thread.Sleep(2000);
+
+                                    var t1 = new Task(() => GetCity(driver, i));
+
+                                    t1.Start();
+                                }
+                                break;
+                            }
+                            case 3:
+                            {
+                                if (webElement.GetCssValue("Class") != null && webElement.GetCssValue("Id") == null)
+                                {
+                                    _userInfo.Live = null;
+                                }
+                                else
+                                {
+                                    action.MoveToElement(links[1]);
+                                    Thread.Sleep(3000);
+
+                                    action.Perform();
+                                    Thread.Sleep(2000);
+
+                                    var t1 = new Task(() => GetCity(driver, i));
+
+                                    t1.Start();
+                                }
+                                break;
+                            }
+                        }
+                        i++;
+                    }
+
+
+                    foreach (var webElement in links)
+                    {
+                        action.MoveToElement(webElement);
+                        Thread.Sleep(3000);
+
+                        action.Perform();
+                        Thread.Sleep(2000);
+
+
+                        var city = "";
+                        //var t1 = new Task(() => GetCity(driver));
+
+                        //t1.Start();
+
+                        //Thread.Sleep(3000);
+                    }
+
+                    /*
                     var friends = GetFriendLinks(driver);
                     var currentCount = friends.Count;
 
@@ -142,7 +278,7 @@ namespace FacebookApp
                         var name = webElement.Text;
                         var id = ParseFacebookId(webElement.GetAttribute("data-gt"));
                     }
-
+            */
 //homeService.RefreshCookies(accountViewModel);
 
 //                    spyService.AnalyzeFriends(accountViewModel);
@@ -232,13 +368,19 @@ namespace FacebookApp
 //RequestsHelper.Get("https://www.2ip.ru", "", proxy);
 /*var driver = homeService.RegisterNewDriver(accountViewModel);
 driver.Navigate().GoToUrl("https://2ip.ru/");
-*/
 
+
+        }
+        }
+ }*/
                 }
             }
         }
     }
 }
+
+
+
 
 /*
            CheckPatternChanges();

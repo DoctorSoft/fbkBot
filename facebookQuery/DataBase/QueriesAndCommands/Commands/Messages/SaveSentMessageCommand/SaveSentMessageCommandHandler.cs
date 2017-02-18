@@ -20,10 +20,12 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand
         {
             var friendId = command.FriendId;
 
+            var account = context.Accounts.FirstOrDefault(model => model.Id == command.AccountId);
+
             var friend =
                 context.Friends.FirstOrDefault(
                     model => model.AccountId == command.AccountId && model.FacebookId.Equals(friendId));
-            if (friend == null || friend.IsBlocked || friend.DeleteFromFriends)
+            if (friend == null || context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == friend.FacebookId && dbModel.GroupId == account.GroupSettingsId) || friend.DeleteFromFriends)
             {
                 return new VoidCommandResponse();
             }

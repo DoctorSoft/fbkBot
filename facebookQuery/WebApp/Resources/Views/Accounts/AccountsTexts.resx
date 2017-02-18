@@ -162,6 +162,9 @@
   <data name="ErrorMessage" xml:space="preserve">
     <value>Account has been deleted or moved.</value>
   </data>
+  <data name="FinichDate" xml:space="preserve">
+    <value>End time</value>
+  </data>
   <data name="Gender" xml:space="preserve">
     <value>Gender</value>
   </data>
@@ -170,6 +173,15 @@
   </data>
   <data name="HomePageUrl" xml:space="preserve">
     <value>Home page Url</value>
+  </data>
+  <data name="JobName" xml:space="preserve">
+    <value>Job name</value>
+  </data>
+  <data name="JobStatus" xml:space="preserve">
+    <value>Event log</value>
+  </data>
+  <data name="JobWork" xml:space="preserve">
+    <value>Worked</value>
   </data>
   <data name="LastHourStatistics" xml:space="preserve">
     <value>Last hour statistics</value>
@@ -194,5 +206,8 @@
   </data>
   <data name="Proxy" xml:space="preserve">
     <value>Proxy</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start time</value>
   </data>
 </root>

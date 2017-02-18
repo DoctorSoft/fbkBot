@@ -1,16 +1,19 @@
 ﻿using System;
-using CommonModels;
+using System.Collections.Generic;
+using System.Linq;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Settings;
 using DataBase.QueriesAndCommands.Queries.Settings;
 using Hangfire;
+using Newtonsoft.Json;
 using Services.Core.Interfaces.ServiceTools;
+using Services.ViewModels.GroupModels;
 
 namespace Services.ServiceTools
 {
     public class AccountSettingsManager : IAccountSettingsManager
     {
-        public SettingsModel GetSettings(long groupSettingsId)
+        public GroupSettingsViewModel GetSettings(long groupSettingsId)
         {
             var settings = new GetSettingsByGroupSettingsIdHandler(new DataBaseContext()).Handle(new GetSettingsByGroupSettingsIdQuery
             {
@@ -22,16 +25,19 @@ namespace Services.ServiceTools
                 return null;
             }
 
-            return new SettingsModel
+            return new GroupSettingsViewModel
             {
                 GroupId = settings.GroupId,
                 Gender = settings.Gender,
-                LivesPlace = settings.LivesPlace,
-                SchoolPlace = settings.SchoolPlace,
-                WorkPlace = settings.WorkPlace,
-                DelayTimeSendUnanswered = settings.DelayTimeSendUnanswered,
-                DelayTimeSendNewFriend = settings.DelayTimeSendNewFriend,
-                DelayTimeSendUnread = settings.DelayTimeSendUnread,
+                Cities = ConvertJsonToString(settings.Cities),
+                Countries = ConvertJsonToString(settings.Countries),
+                RetryTimeSendUnread = settings.RetryTimeSendUnread,
+                RetryTimeConfirmFriendships = settings.RetryTimeConfirmFriendships,
+                RetryTimeGetNewAndRecommendedFriends = settings.RetryTimeGetNewAndRecommendedFriends,
+                RetryTimeRefreshFriends = settings.RetryTimeRefreshFriends,
+                RetryTimeSendNewFriend = settings.RetryTimeSendNewFriend,
+                RetryTimeSendRequestFriendships = settings.RetryTimeSendRequestFriendships,
+                RetryTimeSendUnanswered = settings.RetryTimeSendUnanswered,
                 UnansweredDelay = settings.UnansweredDelay
             };
         }
@@ -64,19 +70,39 @@ namespace Services.ServiceTools
             return Cron.Hourly(); 
         }
 
-        public void UpdateSettings(SettingsModel newSettings)
+        public void UpdateSettings(GroupSettingsViewModel newSettings)
         {
             new AddOrUpdateSettingsCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateSettingsCommand
                 {
                     GroupId = newSettings.GroupId,
                     Gender = newSettings.Gender,
-                    LivesPlace = newSettings.LivesPlace,
-                    SchoolPlace = newSettings.SchoolPlace,
-                    WorkPlace = newSettings.WorkPlace,
-                    DelayTimeSendNewFriend = newSettings.DelayTimeSendNewFriend,
-                    DelayTimeSendUnanswered = newSettings.DelayTimeSendUnanswered,
-                    DelayTimeSendUnread = newSettings.DelayTimeSendUnread
+                    Cities = newSettings.Cities,
+                    Countries = newSettings.Countries,
+                    RetryTimeSendUnread = newSettings.RetryTimeSendUnread,
+                    RetryTimeConfirmFriendships = newSettings.RetryTimeConfirmFriendships,
+                    RetryTimeGetNewAndRecommendedFriends = newSettings.RetryTimeGetNewAndRecommendedFriends,
+                    RetryTimeRefreshFriends = newSettings.RetryTimeRefreshFriends,
+                    RetryTimeSendNewFriend = newSettings.RetryTimeSendNewFriend,
+                    RetryTimeSendRequestFriendships = newSettings.RetryTimeSendRequestFriendships,
+                    RetryTimeSendUnanswered = newSettings.RetryTimeSendUnanswered,
+                    UnansweredDelay = newSettings.UnansweredDelay
                 });
+        }
+        
+        private string ConvertJsonToString(string jsonData)
+        {
+            try
+            {
+                var words = JsonConvert.DeserializeObject<List<string>>(jsonData);
+
+                var result = string.Join("\r\n", words.Select(s => s));
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
     }
 }

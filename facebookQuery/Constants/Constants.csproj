@@ -54,6 +54,8 @@
     <Compile Include="FunctionEnums\FunctionName.cs" />
     <Compile Include="FunctionEnums\FunctionTypeName.cs" />
     <Compile Include="GendersUnums\GenderEnum.cs" />
+    <Compile Include="JobsEnums\JobNames.cs" />
+    <Compile Include="JobStatusesEnum\JobStatuses.cs" />
     <Compile Include="KeyValue.cs" />
     <Compile Include="MessageEnums\MessageDirection.cs" />
     <Compile Include="MessageEnums\MessageRegime.cs" />
@@ -77,7 +79,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

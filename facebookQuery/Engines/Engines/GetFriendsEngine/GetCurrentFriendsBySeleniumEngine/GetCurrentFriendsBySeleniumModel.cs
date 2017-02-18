@@ -1,10 +1,11 @@
 ﻿using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Remote;
 
 namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 {
     public class GetCurrentFriendsBySeleniumModel
     {
-        public PhantomJSDriver Driver { get; set; }
+        public RemoteWebDriver Driver { get; set; }
         
         public long AccountFacebookId { get; set; }
 

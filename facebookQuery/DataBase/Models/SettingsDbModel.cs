@@ -9,21 +9,30 @@ namespace DataBase.Models
         public GroupSettingsDbModel SettingsGroup { get; set; }
 
         //GEO options
-        public string LivesPlace { get; set; }
+        public string Cities { get; set; }
 
-        public string SchoolPlace { get; set; }
-
-        public string WorkPlace { get; set; }
-
+        public string Countries { get; set; }
+        
         public GenderEnum? Gender { get; set; }
         
-        // Message options (for jobs)
+        // jobs
+        // Message options
 
-        public long DelayTimeSendUnread { get; set; }
+        public long RetryTimeSendUnread { get; set; }
 
-        public long DelayTimeSendUnanswered { get; set; }
+        public long RetryTimeSendUnanswered { get; set; }
 
-        public long DelayTimeSendNewFriend { get; set; }
+        public long RetryTimeSendNewFriend { get; set; }
+
+        // Friends options
+
+        public long RetryTimeConfirmFriendships { get; set; }
+
+        public long RetryTimeGetNewAndRecommendedFriends { get; set; }
+
+        public long RetryTimeRefreshFriends { get; set; }
+
+        public long RetryTimeSendRequestFriendships { get; set; }
 
         // Message options
 

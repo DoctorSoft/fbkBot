@@ -15,8 +15,6 @@ namespace DataBase.Models
 
         public bool DeleteFromFriends { get; set; }
         
-        public bool IsBlocked { get; set; }
-
         public long AccountId { get; set; }
 
         public GenderEnum Gender { get; set; }

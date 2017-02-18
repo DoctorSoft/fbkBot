@@ -8,12 +8,10 @@ namespace CommonModels
 
         //Geo options
 
-        public string LivesPlace { get; set; }
+        public string Cities { get; set; }
 
-        public string SchoolPlace { get; set; }
-
-        public string WorkPlace { get; set; }
-
+        public string Countries { get; set; }
+        
         public GenderEnum? Gender { get; set; }
 
         // Message options (for jobs)

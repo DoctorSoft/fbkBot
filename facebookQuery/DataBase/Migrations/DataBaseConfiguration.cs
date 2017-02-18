@@ -291,7 +291,6 @@ namespace DataBase.Migrations
                 {RemoveFriendEnum.Ttstamp, "2658172851181101199855991021085865816911210076106681001028580"},
                 {RemoveFriendEnum.FbDtsg, ""},
             };
-            */
 
             var cancelRequestFriendshipParameters = new Dictionary<CancelFriendshipRequestEnum, string>
             {
@@ -351,13 +350,14 @@ namespace DataBase.Migrations
                     CodeParameters = (int)NamesUrlParameter.GetFriends,
                     ParametersSet = jsonFriends
                 },
-                   */
+                   
             };
 
             context.UrlParameters.AddRange(urlParametersList);
              
             context.SaveChanges(); 
             
+            */
         }
     }
 }

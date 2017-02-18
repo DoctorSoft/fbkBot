@@ -196,6 +196,15 @@ namespace WebApp.Resources.Views.Accounts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End time.
+        /// </summary>
+        public static string FinichDate {
+            get {
+                return ResourceManager.GetString("FinichDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gender.
         /// </summary>
         public static string Gender {
@@ -219,6 +228,33 @@ namespace WebApp.Resources.Views.Accounts {
         public static string HomePageUrl {
             get {
                 return ResourceManager.GetString("HomePageUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job name.
+        /// </summary>
+        public static string JobName {
+            get {
+                return ResourceManager.GetString("JobName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event log.
+        /// </summary>
+        public static string JobStatus {
+            get {
+                return ResourceManager.GetString("JobStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Worked.
+        /// </summary>
+        public static string JobWork {
+            get {
+                return ResourceManager.GetString("JobWork", resourceCulture);
             }
         }
         
@@ -291,6 +327,15 @@ namespace WebApp.Resources.Views.Accounts {
         public static string Proxy {
             get {
                 return ResourceManager.GetString("Proxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start time.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
             }
         }
     }

@@ -162,6 +162,9 @@
   <data name="ErrorMessage" xml:space="preserve">
     <value>Аккаунт был удален, либо перемещен :(</value>
   </data>
+  <data name="FinichDate" xml:space="preserve">
+    <value>Выполнен</value>
+  </data>
   <data name="Gender" xml:space="preserve">
     <value>Пол</value>
   </data>
@@ -170,6 +173,15 @@
   </data>
   <data name="HomePageUrl" xml:space="preserve">
     <value>Домашняя страницы</value>
+  </data>
+  <data name="JobName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="JobStatus" xml:space="preserve">
+    <value>Журнал событий</value>
+  </data>
+  <data name="JobWork" xml:space="preserve">
+    <value>Выполняется</value>
   </data>
   <data name="LastHourStatistics" xml:space="preserve">
     <value>За последний час</value>
@@ -194,5 +206,8 @@
   </data>
   <data name="Proxy" xml:space="preserve">
     <value>Прокси</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Запущен</value>
   </data>
 </root>

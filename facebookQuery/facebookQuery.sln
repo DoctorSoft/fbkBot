@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonModels", "CommonModels\CommonModels.csproj", "{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runner", "Runner\Runner.csproj", "{7B40E72A-6998-4C41-92B1-5CEC6F2F85A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B40E72A-6998-4C41-92B1-5CEC6F2F85A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B40E72A-6998-4C41-92B1-5CEC6F2F85A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B40E72A-6998-4C41-92B1-5CEC6F2F85A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B40E72A-6998-4C41-92B1-5CEC6F2F85A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

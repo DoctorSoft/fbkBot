@@ -36,5 +36,19 @@ namespace Services.ServiceTools
         {
             return "https://www.facebook.com/profile.php?id=" + accountFacebookId;
         }
+
+        public bool HasAWorkingProxy(long accountId)
+        {
+            var account = GetAccountById(accountId);
+
+            return !account.ProxyDataIsFailed;
+        }
+
+        public bool HasAWorkingAuthorizationData(long accountId)
+        {
+            var account = GetAccountById(accountId);
+
+            return !account.AuthorizationDataIsFailed;
+        }
     }
 }

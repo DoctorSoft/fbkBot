@@ -1,13 +1,13 @@
-﻿using CommonModels;
+﻿using Services.ViewModels.GroupModels;
 
 namespace Services.Core.Interfaces.ServiceTools
 {
     public interface IAccountSettingsManager
     {
-        SettingsModel GetSettings(long groupSettingsId);
+        GroupSettingsViewModel GetSettings(long groupSettingsId);
 
         string GetCronByMinutes(long min);
 
-        void UpdateSettings(SettingsModel newSettings);
+        void UpdateSettings(GroupSettingsViewModel newSettings);
     }
 }

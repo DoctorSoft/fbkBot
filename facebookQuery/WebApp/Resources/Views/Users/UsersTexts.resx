@@ -120,4 +120,10 @@
   <data name="AddNewAccount" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="CheckAuthorizationData" xml:space="preserve">
+    <value>Check authorization data</value>
+  </data>
+  <data name="CheckProxyData" xml:space="preserve">
+    <value>Check proxy data</value>
+  </data>
 </root>

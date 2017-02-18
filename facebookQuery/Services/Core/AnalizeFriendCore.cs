@@ -1,77 +1,80 @@
-﻿using CommonModels;
+﻿using System.Threading;
+using CommonModels;
 using Constants.FriendTypesEnum;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Commands.SpyStatistics;
 using Services.Core.Interfaces;
+using Services.Core.Models;
 using Services.ViewModels.FriendsModels;
-using Services.ViewModels.HomeModels;
 
 namespace Services.Core
 {
     public class AnalizeFriendCore : IAnalyzeFriendCore
     {
-        public void StartAnalyze(SettingsModel settings, FriendInfoViewModel friendInfo)
+        public void StartAnalyze(AnalyzeModel model)
         {
-            if (settings.LivesPlace != null && friendInfo.LivesSection != null && friendInfo.LivesSection.Contains(settings.LivesPlace))
+            if (model.GenderIsSuccess && model.InfoIsSuccess && model.Settings.Gender != null && (model.Settings.Countries != null || model.Settings.Cities != null))
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand
                     {
-                        AccountId = friendInfo.AccountId,
-                        FriendFacebookId = friendInfo.FacebookId,
+                        AccountId = model.AnalysisFriend.AccountId,
+                        FriendFacebookId = model.AnalysisFriend.FacebookId,
                         NewStatus = StatusesFriend.ToAdd
+
                     });
             }
-            else if (settings.SchoolPlace != null && friendInfo.SchoolSection != null && friendInfo.SchoolSection.Contains(settings.SchoolPlace))
-            {
-                new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
-                new ChangeAnalysisFriendStatusCommand
-                {
-                    AccountId = friendInfo.AccountId,
-                    FriendFacebookId = friendInfo.FacebookId,
-                    NewStatus = StatusesFriend.ToAdd
-                });
-            }
-            else if (settings.WorkPlace != null && friendInfo.WorkSection != null && friendInfo.WorkSection.Contains(settings.WorkPlace))
-            {
-                new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
-                new ChangeAnalysisFriendStatusCommand
-                {
-                    AccountId = friendInfo.AccountId,
-                    FriendFacebookId = friendInfo.FacebookId,
-                    NewStatus = StatusesFriend.ToAdd
-                });
-            }
-            else if (friendInfo.Gender!= null && friendInfo.Gender == settings.Gender)
+            if (model.GenderIsSuccess && model.Settings.Gender != null && model.Settings.Countries == null && model.Settings.Cities == null)
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand
                     {
-                        AccountId = friendInfo.AccountId,
-                        FriendFacebookId = friendInfo.FacebookId,
+                        AccountId = model.AnalysisFriend.AccountId,
+                        FriendFacebookId = model.AnalysisFriend.FacebookId,
                         NewStatus = StatusesFriend.ToAdd
                     });
             }
-            //FINALLY
+
+            if (model.InfoIsSuccess && model.Settings.Gender == null && (model.Settings.Countries != null || model.Settings.Cities != null))
+            {
+                new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
+                    new ChangeAnalysisFriendStatusCommand
+                    {
+                        AccountId = model.AnalysisFriend.AccountId,
+                        FriendFacebookId = model.AnalysisFriend.FacebookId,
+                        NewStatus = StatusesFriend.ToAdd
+
+                    });
+            }
             else
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand
                     {
-                        AccountId = friendInfo.AccountId,
-                        FriendFacebookId = friendInfo.FacebookId,
+                        AccountId = model.AnalysisFriend.AccountId,
+                        FriendFacebookId = model.AnalysisFriend.FacebookId,
                         NewStatus = StatusesFriend.ToDelete
                     });
 
-                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
-                {
-
-                    AccountId = friendInfo.AccountId,
-                    FriendId = friendInfo.Id,
-                });
+                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(
+                    new RemoveAnalyzedFriendCommand
+                    {
+                        AccountId = model.AnalysisFriend.AccountId,
+                        FriendId = model.AnalysisFriend.Id,
+                    });
             }
+
+
+            new AddOrUpdateSpyStatisticsCommandHandler(new DataBaseContext()).Handle(
+            new AddOrUpdateSpyStatisticsCommand
+            {
+                CountAnalizeFriends = 1,
+                SpyAccountId = model.SpyAccountId
+            });
+
+            Thread.Sleep(5000);
         }
     }
 }

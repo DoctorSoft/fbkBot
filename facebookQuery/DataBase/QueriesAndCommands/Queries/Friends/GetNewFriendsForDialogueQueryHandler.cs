@@ -21,8 +21,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
             try
             {
                 var friends =
-                    context.Friends.Where(model => model.AccountId == query.AccountId 
-                        && !model.IsBlocked 
+                    context.Friends.Where(model => model.AccountId == query.AccountId
+                        && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.AccountId) 
                         && !model.DeleteFromFriends 
                         && !model.FriendMessages.Any()).ToList();
 
@@ -44,7 +44,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     }
                     if (CheckDelay(friendDbModel.AddedDateTime, query.DelayTime))
                     {
-                        newFriends.Add(new FriendData()
+                        newFriends.Add(new FriendData
                         {
                             AccountId = friendDbModel.AccountId,
                             FacebookId = friendDbModel.FacebookId,

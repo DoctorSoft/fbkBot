@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Constants.FriendInfoEnums;
 using Constants.GendersUnums;
-using Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine;
 using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendInfoEngine
@@ -14,7 +13,7 @@ namespace Engines.Engines.GetFriendInfoEngine
         {
             var result = new FriendInfoSection();
 
-            if (model.Settings.LivesPlace != null || model.Settings.SchoolPlace != null || model.Settings.WorkPlace != null)
+            //if (model.Settings.LivesPlace != null || model.Settings.SchoolPlace != null || model.Settings.WorkPlace != null)
             {
                 var stringResponse = RequestsHelper.Get("https://www.facebook.com/profile.php?id="
                                     + model.FriendFacebookId

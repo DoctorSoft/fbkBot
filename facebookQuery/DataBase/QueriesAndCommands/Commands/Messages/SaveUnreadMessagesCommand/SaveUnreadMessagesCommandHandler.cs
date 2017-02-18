@@ -40,7 +40,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                             FriendName = unreadMessageInformation.Name,
                         };
 
-                if (friend.IsBlocked || friend.DeleteFromFriends)
+                if (context.FriendsBlackList.Any(model => model.FriendFacebookId == friend.FacebookId && model.GroupId == context.Accounts.FirstOrDefault(dbModel => dbModel.Id == command.AccountId).GroupSettingsId || friend.DeleteFromFriends))
                 {
                     continue;
                 }
@@ -130,19 +130,6 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
                     context.SaveChanges();
                     return new VoidCommandResponse();
                 }
-                
-                /* context.FriendMessages.Add(new FriendMessageDbModel
-                {
-                    FriendId = unreadMessageInformation.FriendFacebookId,
-                    MessageDirection = MessageDirection.FromFriend,
-                    Message = unreadMessageInformation.LastMessage,
-                    MessageDateTime = unreadMessageInformation.LastUnreadMessageDateTime,
-                    OrderNumber = lastBotMessage.OrderNumber,
-                    Friend = friend
-                });
-
-                context.SaveChanges();
-                return new VoidCommandResponse();*/
             }
 
             return new VoidCommandResponse();

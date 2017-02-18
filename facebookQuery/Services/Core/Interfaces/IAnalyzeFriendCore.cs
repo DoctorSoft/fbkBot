@@ -1,10 +1,9 @@
-﻿using CommonModels;
-using Services.ViewModels.FriendsModels;
+﻿using Services.Core.Models;
 
 namespace Services.Core.Interfaces
 {
     public interface IAnalyzeFriendCore
     {
-        void StartAnalyze(SettingsModel settings, FriendInfoViewModel friendInfo);
+        void StartAnalyze(AnalyzeModel model);
     }
 }

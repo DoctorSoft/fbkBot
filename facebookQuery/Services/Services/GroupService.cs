@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Script.Serialization;
+using Constants.UrlEnums;
 using DataBase.Context;
 using DataBase.Migrations;
 using DataBase.QueriesAndCommands.Commands.Groups;
@@ -6,6 +10,7 @@ using DataBase.QueriesAndCommands.Commands.Settings;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Groups;
 using DataBase.QueriesAndCommands.Queries.Settings;
+using Newtonsoft.Json;
 using Services.Interfaces;
 using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
@@ -65,10 +70,11 @@ namespace Services.Services
 
         public GroupSettingsViewModel GetSettings(long groupId)
         {
-            var settings = new GetSettingsByGroupSettingsIdHandler(new DataBaseContext()).Handle(new GetSettingsByGroupSettingsIdQuery
-            {
-                GroupSettingsId = groupId
-            });
+            var settings =
+                new GetSettingsByGroupSettingsIdHandler(new DataBaseContext()).Handle(new GetSettingsByGroupSettingsIdQuery
+                {
+                    GroupSettingsId = groupId
+                });
 
             if (settings == null)
             {
@@ -82,12 +88,15 @@ namespace Services.Services
             {
                 GroupId = settings.GroupId,
                 Gender = settings.Gender,
-                LivesPlace = settings.LivesPlace,
-                SchoolPlace = settings.SchoolPlace,
-                WorkPlace = settings.WorkPlace,
-                DelayTimeSendNewFriend = settings.DelayTimeSendNewFriend,
-                DelayTimeSendUnanswered = settings.DelayTimeSendUnanswered,
-                DelayTimeSendUnread = settings.DelayTimeSendUnread,
+                Cities = ConvertJsonToString(settings.Cities),
+                Countries = ConvertJsonToString(settings.Countries),
+                RetryTimeSendUnread = settings.RetryTimeSendUnread,
+                RetryTimeConfirmFriendships = settings.RetryTimeConfirmFriendships,
+                RetryTimeGetNewAndRecommendedFriends = settings.RetryTimeGetNewAndRecommendedFriends,
+                RetryTimeRefreshFriends = settings.RetryTimeRefreshFriends,
+                RetryTimeSendNewFriend = settings.RetryTimeSendNewFriend,
+                RetryTimeSendRequestFriendships = settings.RetryTimeSendRequestFriendships,
+                RetryTimeSendUnanswered = settings.RetryTimeSendUnanswered,
                 UnansweredDelay = settings.UnansweredDelay
             };
         }
@@ -98,12 +107,15 @@ namespace Services.Services
             {
                 Gender = newSettings.Gender,
                 GroupId = newSettings.GroupId,
-                LivesPlace = newSettings.LivesPlace,
-                SchoolPlace = newSettings.SchoolPlace,
-                WorkPlace = newSettings.WorkPlace,
-                DelayTimeSendNewFriend = newSettings.DelayTimeSendNewFriend,
-                DelayTimeSendUnanswered = newSettings.DelayTimeSendUnanswered,
-                DelayTimeSendUnread = newSettings.DelayTimeSendUnread,
+                Cities = ConvertToJson(newSettings.Cities),
+                Countries = ConvertToJson(newSettings.Countries),
+                RetryTimeSendUnread = newSettings.RetryTimeSendUnread,
+                RetryTimeConfirmFriendships = newSettings.RetryTimeConfirmFriendships,
+                RetryTimeGetNewAndRecommendedFriends = newSettings.RetryTimeGetNewAndRecommendedFriends,
+                RetryTimeRefreshFriends = newSettings.RetryTimeRefreshFriends,
+                RetryTimeSendNewFriend = newSettings.RetryTimeSendNewFriend,
+                RetryTimeSendRequestFriendships = newSettings.RetryTimeSendRequestFriendships,
+                RetryTimeSendUnanswered = newSettings.RetryTimeSendUnanswered,
                 UnansweredDelay = newSettings.UnansweredDelay
             });
 
@@ -130,6 +142,43 @@ namespace Services.Services
                     Cookie = account.Cookie.CookieString,
                     GroupSettingsId = account.GroupSettingsId
                 });
+            }
+        }
+
+        private string ConvertToJson(string startData)
+        {
+            try
+            {
+                var stringSeparators = new[] {"\r\n"};
+                var lines = startData.Split(stringSeparators, StringSplitOptions.None);
+
+                var cancelRequestFriendshipParameters = lines.Select(s => s).ToList();
+
+                var js = new JavaScriptSerializer();
+                var jsonWink = js.Serialize(cancelRequestFriendshipParameters.Select(pair => pair).ToList());
+
+                return jsonWink;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+
+
+        private string ConvertJsonToString(string jsonData)
+        {
+            try
+            {
+                var words = JsonConvert.DeserializeObject<List<string>>(jsonData);
+
+                var result = string.Join("\r\n", words.Select(s => s));
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return "";
             }
         }
     }

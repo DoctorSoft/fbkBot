@@ -1,5 +1,4 @@
 ﻿using DataBase.QueriesAndCommands.Models;
-using DataBase.QueriesAndCommands.Queries.Friends;
 
 namespace Services.Core.Interfaces.ServiceTools
 {
@@ -8,5 +7,7 @@ namespace Services.Core.Interfaces.ServiceTools
         FriendData GetFriendByFacebookId(long friendFacebookId);
 
         FriendData GetFriendById(long friendAccountId);
+
+        void AddFriendToBlackList(long groupSettingsId, long friendFacebookId);
     }
 }

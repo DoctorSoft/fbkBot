@@ -25,7 +25,7 @@ namespace Jobs
                 Authorization = new[] { new MyRestrictiveAuthorizationFilter() }
             });
 
-            app.UseHangfireServer(options);
+            app.UseHangfireServer();
 
             JobsBootstrapper.SetUpJobs();
         }

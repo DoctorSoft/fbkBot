@@ -14,10 +14,10 @@ namespace DataBase.QueriesAndCommands.Models
         public GenderEnum Gender { get; set; }
 
         public string Href { get; set; }
-        
-        public string FriendName { get; set; }
 
         public bool Deleted { get; set; }
+        
+        public string FriendName { get; set; }
 
         public bool MessagesEnded { get; set; }
 

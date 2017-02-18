@@ -5,6 +5,7 @@ using System.Threading;
 using CommonModels;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Remote;
 
 namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 {
@@ -85,7 +86,7 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 
             return cookiesElementsList;
         }
-        private static void ScrollPage(PhantomJSDriver driver)
+        private static void ScrollPage(RemoteWebDriver driver)
         {
             var js = (IJavaScriptExecutor)driver;
             js.ExecuteScript(string.Format("window.scrollBy({0}, {1})", 3000, 3000), "");
@@ -94,7 +95,7 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
         }
 
 
-        private static IReadOnlyCollection<IWebElement> GetFriendLinks(PhantomJSDriver driver)
+        private static IReadOnlyCollection<IWebElement> GetFriendLinks(RemoteWebDriver driver)
         {
             return driver.FindElementsByCssSelector("._6a._6b>.fsl.fwb.fcb>a");
         }
