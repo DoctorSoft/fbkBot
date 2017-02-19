@@ -1,9 +1,7 @@
-﻿using Constants.FunctionEnums;
-
-namespace DataBase.QueriesAndCommands.Commands.JobStatus
+﻿namespace DataBase.QueriesAndCommands.Commands.JobStatus
 {
     public class DeleteJobStatusCommand : ICommand<VoidCommandResponse>
     {
-        public FunctionName FunctionName { get; set; }
+        public long AccountId { get; set; }
     }
 }

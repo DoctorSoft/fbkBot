@@ -1,5 +1,6 @@
 ﻿using Constants.FunctionEnums;
 using Hangfire;
+using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
@@ -25,14 +26,18 @@ namespace Jobs.Jobs.FriendJobs
                 return;
             }
 
-            //var jobStatusService = new JobStatusService();
+            if (!new SettingsManager().HasARetryTimePermission(FunctionName.GetNewFriendsAndRecommended, account))
+            {
+                return;
+            }
 
-            //jobStatusService.AddOrUpdateStatus(account.Id, JobNames.ConfirmFriendship.GetDiscription());
+            var jobStatusService = new JobStatusService();
+
+            jobStatusService.AddOrUpdateJobStatus(FunctionName.ConfirmFriendship, account.Id);
 
             new JobQueueService().AddToQueue(account.Id, FunctionName.ConfirmFriendship);
 
-            //jobStatusService.AddOrUpdateStatus(account.Id, JobNames.ConfirmFriendship.GetDiscription());
-            
+            new JobQueueService().AddToQueue(account.Id, FunctionName.ConfirmFriendship);
         }
     }
 }

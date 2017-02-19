@@ -86,7 +86,7 @@ namespace Services.Services
                 AccountId = spyAccountId
             });
 
-            _jobService.RemoveAccountJobs(spyAccount.Login);
+            _jobService.RemoveAccountJobs(spyAccount.Login, null);
         }
 
         public void AddOrUpdateSpyAccount(SpyAccountViewModel model)

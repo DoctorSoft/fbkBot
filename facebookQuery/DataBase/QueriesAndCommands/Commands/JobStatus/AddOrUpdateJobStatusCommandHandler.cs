@@ -17,8 +17,12 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
 
         public long Handle(AddOrUpdateJobStatusCommand command)
         {
-            var jobStatus = context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName) ??
-                            new JobStatusDbModel();
+            var jobStatus = context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId) ??
+                            new JobStatusDbModel
+                            {
+                                AccountId = command.AccountId,
+                                FunctionName = command.FunctionName
+                            };
 
             jobStatus.LastLaunchDateTime = command.LaunchDateTime;
 

@@ -1,5 +1,4 @@
-﻿using Services.ViewModels.GroupModels;
-using Services.ViewModels.HomeModels;
+﻿using Services.ViewModels.HomeModels;
 
 namespace Services.Interfaces
 {
@@ -9,7 +8,7 @@ namespace Services.Interfaces
 
         void AddOrUpdateSpyAccountJobs(AccountViewModel accountViewModel);
 
-        void RemoveAccountJobs(string login);
+        void RemoveAccountJobs(string login, long? accountId);
 
         void RenameAccountJobs(AccountViewModel accountViewModel, string oldLogin);
     }

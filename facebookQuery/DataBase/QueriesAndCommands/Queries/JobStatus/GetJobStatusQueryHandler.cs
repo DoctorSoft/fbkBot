@@ -14,7 +14,7 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
 
         public JobStatusData Handle(GetJobStatusQuery command)
         {
-            var jobStatus = _context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName);
+            var jobStatus = _context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId);
 
             if (jobStatus == null)
             {
@@ -25,7 +25,8 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
             {
                 LastLaunchDateTime = jobStatus.LastLaunchDateTime,
                 Id = jobStatus.Id,
-                FunctionName = jobStatus.FunctionName
+                FunctionName = jobStatus.FunctionName,
+                AccountId = jobStatus.AccountId
             };
         }
     }

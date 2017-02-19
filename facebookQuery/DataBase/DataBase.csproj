@@ -168,6 +168,10 @@
     <Compile Include="Migrations\201702181843417_AddJobStatusTable.Designer.cs">
       <DependentUpon>201702181843417_AddJobStatusTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702191103163_AddAccountIdField.cs" />
+    <Compile Include="Migrations\201702191103163_AddAccountIdField.Designer.cs">
+      <DependentUpon>201702191103163_AddAccountIdField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
@@ -317,7 +321,7 @@
     <Compile Include="QueriesAndCommands\Queries\AccountStatistics\GetAccountStatisticsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Settings\SettingsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Settings\GetSettingsByGroupSettingsIdQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Settings\GetSettingsByGroupSettingsIdHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Settings\GetSettingsByGroupSettingsIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetDeletedAccountsQuery.cs" />
@@ -455,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702181843417_AddJobStatusTable.resx">
       <DependentUpon>201702181843417_AddJobStatusTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702191103163_AddAccountIdField.resx">
+      <DependentUpon>201702191103163_AddAccountIdField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

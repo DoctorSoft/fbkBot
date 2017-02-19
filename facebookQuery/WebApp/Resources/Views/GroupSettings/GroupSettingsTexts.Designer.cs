@@ -79,6 +79,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Friends.
+        /// </summary>
+        public static string Friends {
+            get {
+                return ResourceManager.GetString("Friends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gender.
         /// </summary>
         public static string Gender {
@@ -106,11 +115,11 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Message options.
+        ///   Looks up a localized string similar to Messages.
         /// </summary>
-        public static string MessageOptions {
+        public static string Messages {
             get {
-                return ResourceManager.GetString("MessageOptions", resourceCulture);
+                return ResourceManager.GetString("Messages", resourceCulture);
             }
         }
         
@@ -120,6 +129,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         public static string Min {
             get {
                 return ResourceManager.GetString("Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry options.
+        /// </summary>
+        public static string RetryOptions {
+            get {
+                return ResourceManager.GetString("RetryOptions", resourceCulture);
             }
         }
         

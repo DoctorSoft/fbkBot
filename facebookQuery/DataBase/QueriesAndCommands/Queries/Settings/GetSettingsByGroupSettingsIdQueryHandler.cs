@@ -3,11 +3,11 @@ using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Queries.Settings
 {
-    public class GetSettingsByGroupSettingsIdHandler : IQueryHandler<GetSettingsByGroupSettingsIdQuery, SettingsData>
+    public class GetSettingsByGroupSettingsIdQueryHandler : IQueryHandler<GetSettingsByGroupSettingsIdQuery, SettingsData>
     {
         private readonly DataBaseContext context;
 
-        public GetSettingsByGroupSettingsIdHandler(DataBaseContext context)
+        public GetSettingsByGroupSettingsIdQueryHandler(DataBaseContext context)
         {
             this.context = context;
         }

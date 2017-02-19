@@ -123,6 +123,9 @@
   <data name="Countries" xml:space="preserve">
     <value>Countries</value>
   </data>
+  <data name="Friends" xml:space="preserve">
+    <value>Friends</value>
+  </data>
   <data name="Gender" xml:space="preserve">
     <value>Gender</value>
   </data>
@@ -132,11 +135,14 @@
   <data name="GroupSettingsTitle" xml:space="preserve">
     <value>Group settings</value>
   </data>
-  <data name="MessageOptions" xml:space="preserve">
-    <value>Message options</value>
+  <data name="Messages" xml:space="preserve">
+    <value>Messages</value>
   </data>
   <data name="Min" xml:space="preserve">
     <value>min</value>
+  </data>
+  <data name="RetryOptions" xml:space="preserve">
+    <value>Retry options</value>
   </data>
   <data name="RetryTimeConfirmFriendships" xml:space="preserve">
     <value>Confirm every friendship</value>

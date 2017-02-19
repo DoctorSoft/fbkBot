@@ -1,5 +1,6 @@
 ﻿using Constants.FunctionEnums;
 using Hangfire;
+using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
@@ -25,13 +26,16 @@ namespace Jobs.Jobs.MessageJobs
                 return;
             }
 
-            //var jobStatusService = new JobStatusService();
+            if (!new SettingsManager().HasARetryTimePermission(FunctionName.SendMessageToUnread, account))
+            {
+                return;
+            }
 
-            //jobStatusService.AddOrUpdateStatus(account.Id, JobNames.SendMessageToUnread.GetDiscription());
+            var jobStatusService = new JobStatusService();
+
+            jobStatusService.AddOrUpdateJobStatus(FunctionName.SendMessageToUnread, account.Id);
 
             new JobQueueService().AddToQueue(account.Id, FunctionName.SendMessageToUnread);
-
-            //jobStatusService.AddOrUpdateStatus(account.Id, JobNames.SendMessageToUnread.GetDiscription());
         }
     }
 }

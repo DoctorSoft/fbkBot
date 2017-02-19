@@ -2,6 +2,7 @@
     ViewBag.Title = "Index";
 }
 @using WebApp.Resources.Views.Accounts
+@using WebApp.Resources.Views.GroupSettings
 @model Services.ViewModels.HomeModels.AccountSettingsViewModel
 
 
@@ -292,19 +293,79 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">@AccountsTexts.MessageOptions</div>
                     <div class="panel-body">
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToReplyToUnreadMessages:</span>
-                            @Html.LabelForModel(Model.Settings.DelayTimeSendUnread.ToString(), new {@class = "form-control"})
-                        </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeToAnswerTheUnansweredMessages:</span>
-                            @Html.LabelForModel(Model.Settings.DelayTimeSendUnanswered.ToString(), new {@class = "form-control"})
-                        </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="width-200 input-group-addon">@AccountsTexts.DelayTimeForSendingMessagesToNewFriends:</span>
-                            @Html.LabelForModel(Model.Settings.DelayTimeSendNewFriend.ToString(), new {@class = "form-control"})
+                        <div class="panel-body">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.RetryTimeSendUnread:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.RetryTimeSendUnread, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.RetryTimeSendUnanswered:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.RetryTimeSendUnanswered, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.UnansweredDelay:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.UnansweredDelay, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.RetryTimeSendNewFriend:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.RetryTimeSendNewFriend, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.RetryTimeConfirmFriendships:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.RetryTimeConfirmFriendships, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.RetryTimeGetNewAndRecommendedFriends:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.RetryTimeGetNewAndRecommendedFriends, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.RetryTimeRefreshFriends:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.RetryTimeRefreshFriends, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@GroupSettingsTexts.RetryTimeSendRequestFriendships:</span>
+                                            @Html.TextBoxFor(o => Model.Settings.RetryTimeSendRequestFriendships, new { @class = "form-control", disabled = "true" })
+                                            <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

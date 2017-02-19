@@ -6,7 +6,7 @@ using DataBase.QueriesAndCommands.Commands.JobQueue.DeleteQueue;
 using DataBase.QueriesAndCommands.Queries.Account.JobQueue.AddQueue;
 using Services.ViewModels.QueueViewModels;
 
-namespace Services.ServiceTools
+namespace Services.Services
 {
     public class JobQueueService
     {

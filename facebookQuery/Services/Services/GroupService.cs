@@ -71,7 +71,7 @@ namespace Services.Services
         public GroupSettingsViewModel GetSettings(long groupId)
         {
             var settings =
-                new GetSettingsByGroupSettingsIdHandler(new DataBaseContext()).Handle(new GetSettingsByGroupSettingsIdQuery
+                new GetSettingsByGroupSettingsIdQueryHandler(new DataBaseContext()).Handle(new GetSettingsByGroupSettingsIdQuery
                 {
                     GroupSettingsId = groupId
                 });

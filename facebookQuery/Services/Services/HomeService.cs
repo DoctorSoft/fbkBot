@@ -98,7 +98,7 @@ namespace Services.Services
                 AccountId = accountId
             });
 
-            _jobService.RemoveAccountJobs(account.Login);
+            _jobService.RemoveAccountJobs(account.Login, account.Id);
         }
 
         public void RecoverAccount(long accountId)

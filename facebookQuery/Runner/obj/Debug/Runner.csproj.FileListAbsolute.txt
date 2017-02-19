@@ -1,3 +1,4 @@
+D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.csprojResolveAssemblyReference.cache
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Runner.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Runner.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Constants.dll
@@ -33,6 +34,5 @@ D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\WebDriver.Support.xml
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.MappingAPI.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\es\Hangfire.Core.resources.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\zh\Hangfire.Core.resources.dll
-D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.csprojResolveAssemblyReference.cache
 D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.dll
 D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.pdb

@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\IAnalyzeFriendCore.cs" />
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
+    <Compile Include="Core\Interfaces\ServiceTools\ISettingsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IAnalysisFriendsManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\IFriendsBlackListManager.cs" />
     <Compile Include="Core\Interfaces\ServiceTools\ISeleniumManager.cs" />
@@ -152,8 +153,9 @@
     <Compile Include="Services\MessageSettingService.cs" />
     <Compile Include="Services\SpyService.cs" />
     <Compile Include="ServiceTools\FriendsBlackListManager.cs" />
-    <Compile Include="ServiceTools\JobQueueService.cs" />
+    <Compile Include="Services\JobQueueService.cs" />
     <Compile Include="ServiceTools\SeleniumManager.cs" />
+    <Compile Include="ServiceTools\SettingsManager.cs" />
     <Compile Include="ServiceTools\StatisticsManager.cs" />
     <Compile Include="ServiceTools\ProxyManager.cs" />
     <Compile Include="ServiceTools\SpyAccountManager.cs" />

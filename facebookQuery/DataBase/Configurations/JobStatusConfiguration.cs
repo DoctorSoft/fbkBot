@@ -14,6 +14,7 @@ namespace DataBase.Configurations
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(model => model.FunctionName);
+            Property(model => model.AccountId);
             Property(model => model.LastLaunchDateTime);
         }
     }

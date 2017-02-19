@@ -24,20 +24,21 @@ namespace Services.Services
             };
         }
 
-        public void AddOrUpdateJobStatus(FunctionName functionName)
+        public void AddOrUpdateJobStatus(FunctionName functionName, long accountId)
         {
             new AddOrUpdateJobStatusCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateJobStatusCommand
             {
+                AccountId = accountId,
                 FunctionName = functionName,
                 LaunchDateTime = DateTime.Now
             });
         }
 
-        public void DeleteJobStatus(FunctionName functionName)
+        public void DeleteJobStatuses(long accountId)
         {
             new DeleteJobStatusCommandHandler(new DataBaseContext()).Handle(new DeleteJobStatusCommand
             {
-                FunctionName = functionName
+                AccountId = accountId
             });
         }
     }

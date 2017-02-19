@@ -54,7 +54,6 @@
     <Compile Include="FunctionEnums\FunctionName.cs" />
     <Compile Include="FunctionEnums\FunctionTypeName.cs" />
     <Compile Include="GendersUnums\GenderEnum.cs" />
-    <Compile Include="JobsEnums\JobNames.cs" />
     <Compile Include="JobStatusesEnum\JobStatuses.cs" />
     <Compile Include="KeyValue.cs" />
     <Compile Include="MessageEnums\MessageDirection.cs" />
