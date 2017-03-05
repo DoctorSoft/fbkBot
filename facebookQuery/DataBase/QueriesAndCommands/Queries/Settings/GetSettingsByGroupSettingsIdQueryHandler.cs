@@ -1,38 +1,59 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Web.Script.Serialization;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Models.JsonModels;
 
 namespace DataBase.QueriesAndCommands.Queries.Settings
 {
-    public class GetSettingsByGroupSettingsIdQueryHandler : IQueryHandler<GetSettingsByGroupSettingsIdQuery, SettingsData>
+    public class GetSettingsByGroupSettingsIdQueryHandler :
+        IQueryHandler<GetSettingsByGroupSettingsIdQuery, SettingsData>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetSettingsByGroupSettingsIdQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public SettingsData Handle(GetSettingsByGroupSettingsIdQuery query)
         {
             var settings =
-                context.Settings.Where(model => model.Id == query.GroupSettingsId)
-                    .Select(model => new SettingsData
-                    {
-                        GroupId = model.Id,
-                        Gender = model.Gender,
-                        Countries = model.Countries,
-                        Cities = model.Cities,
-                        RetryTimeSendUnread = model.RetryTimeSendUnread,
-                        RetryTimeConfirmFriendships = model.RetryTimeConfirmFriendships,
-                        RetryTimeGetNewAndRecommendedFriends = model.RetryTimeGetNewAndRecommendedFriends,
-                        RetryTimeRefreshFriends = model.RetryTimeRefreshFriends,
-                        RetryTimeSendNewFriend = model.RetryTimeSendNewFriend,
-                        RetryTimeSendRequestFriendships = model.RetryTimeSendRequestFriendships,
-                        RetryTimeSendUnanswered = model.RetryTimeSendUnanswered,
-                        UnansweredDelay = model.UnansweredDelay
-                    }).FirstOrDefault();
+                _context.Settings.FirstOrDefault(model => model.Id == query.GroupSettingsId);
 
-            return settings;
+            if (settings == null)
+            {
+                return null;
+            }
+            try
+            {
+                var jsDeserializator = new JavaScriptSerializer();
+
+                var friendOptionsModel = jsDeserializator.Deserialize<FriendOptionsDbModel>(settings.FriendsOptions);
+                var geoOptionsModel = jsDeserializator.Deserialize<GeoOptionsDbModel>(settings.GeoOptions);
+                var messageOptionsModel = jsDeserializator.Deserialize<MessageOptionsDbModel>(settings.MessageOptions);
+                var limitsOptionsModel = jsDeserializator.Deserialize<LimitsOptionsDbModel>(settings.LimitsOptions);
+                var communityOptionsModel = jsDeserializator.Deserialize<CommunityOptionsDbModel>(settings.CommunityOptions);
+
+
+                return new SettingsData
+                {
+                    Id = settings.Id,
+                    GroupId = query.GroupSettingsId,
+                    FriendsOptions = friendOptionsModel,
+                    GeoOptions = geoOptionsModel,
+                    MessageOptions = messageOptionsModel,
+                    LimitsOptions = limitsOptionsModel,
+                    CommunityOptions = communityOptionsModel
+                };
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
         }
     }
 }
+

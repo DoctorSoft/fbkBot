@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using CommonModels;
@@ -26,8 +25,8 @@ using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
-using Services.Core.Interfaces.ServiceTools;
-using Services.Hubs;
+using Services.Interfaces.Notices;
+using Services.Interfaces.ServiceTools;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
@@ -36,16 +35,15 @@ namespace Services.Services
 {
     public class FriendsService
     {
-        
-        private readonly NotificationHub _notice;
+        private readonly INoticesProxy _notice;
         private readonly IAccountManager _accountManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly ISeleniumManager _seleniumManager;
         private readonly IAnalysisFriendsManager _analysisFriendsManager;
 
-        public FriendsService()
+        public FriendsService(INoticesProxy noticeProxy)
         {
-            _notice = new NotificationHub();
+            _notice = noticeProxy;
             _accountManager = new AccountManager();
             _accountStatisticsManager = new StatisticsManager();
             _seleniumManager = new SeleniumManager();
@@ -135,7 +133,7 @@ namespace Services.Services
 
         public bool GetFriendsOfFacebook(AccountViewModel account)
         {
-            _notice.Add(account.Id, "Начинаем обновлять список друзей");
+            _notice.AddNotice(account.Id, "Начинаем обновлять список друзей");
 
             var accountModel_ = _accountManager.GetAccountById(account.Id); //for task in optionController
 
@@ -160,7 +158,7 @@ namespace Services.Services
                 ProxyPassword = accountModel_.ProxyPassword
             };
 
-            _notice.Add(account.Id, "Получаем текущих друзей");
+            _notice.AddNotice(account.Id, "Получаем текущих друзей");
 
             var friends = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
             {
@@ -174,7 +172,7 @@ namespace Services.Services
                 })
             });
 
-            _notice.Add(account.Id, "Список текущих друзей получен, количество - " + friends.Count);
+            _notice.AddNotice(account.Id, "Список текущих друзей получен, количество - " + friends.Count);
 
 
             var outgoingFriendships = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
@@ -186,11 +184,11 @@ namespace Services.Services
 
             if (friends.Count == 0)
             {
-                _notice.Add(account.Id, "Нет друзей. Обновление друзей завершено.");
+                _notice.AddNotice(account.Id, "Нет друзей. Обновление друзей завершено.");
                 return true;
             }
 
-            _notice.Add(account.Id, "Сверяем друзей с исходящими заявками");
+            _notice.AddNotice(account.Id, "Сверяем друзей с исходящими заявками");
             foreach (var newFriend in friends)
             {
                 if (outgoingFriendships.All(data => data.FacebookId != newFriend.FacebookId))
@@ -198,7 +196,7 @@ namespace Services.Services
                     continue;
                 }
 
-                _notice.Add(account.Id, newFriend.FriendName + "Добавился в друзья ");
+                _notice.AddNotice(account.Id, newFriend.FriendName + "Добавился в друзья ");
 
                 new DeleteAnalysisFriendByIdHandler(new DataBaseContext()).Handle(new DeleteAnalysisFriendById
                 {
@@ -212,11 +210,11 @@ namespace Services.Services
                         CountOrdersConfirmedFriends = 1
                     });
 
-                _notice.Add(account.Id, "Сверяем друзей с исходящими заявками");
+                _notice.AddNotice(account.Id, "Сверяем друзей с исходящими заявками");
             }
 
             // drop blocked users
-            _notice.Add(account.Id, "Сверяем друзей с черным списком");
+            _notice.AddNotice(account.Id, "Сверяем друзей с черным списком");
 
             var newFriendList = (from friend in friends
                 let isBlocked = new CheckForFriendBlacklistedQueryHandler().Handle(new CheckForFriendBlacklistedQuery
@@ -233,9 +231,9 @@ namespace Services.Services
                     Gender = friend.Gender
                 }).ToList();
 
-            _notice.Add(account.Id, "Совпадений с черным списком - " + (friends.Count - newFriendList.Count));
+            _notice.AddNotice(account.Id, "Совпадений с черным списком - " + (friends.Count - newFriendList.Count));
 
-            _notice.Add(account.Id, "Сохраняем друзей");
+            _notice.AddNotice(account.Id, "Сохраняем друзей");
 
             new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
             {
@@ -243,7 +241,7 @@ namespace Services.Services
                 Friends = newFriendList
             });
 
-            _notice.Add(account.Id, "Обновление друзей завершено.");
+            _notice.AddNotice(account.Id, "Обновление друзей завершено.");
             return true;
         }
 
@@ -269,7 +267,7 @@ namespace Services.Services
                 ProxyPassword = account.ProxyPassword
             };
 
-            _notice.Add(account.Id, "Получаем рекомендованных друзей");
+            _notice.AddNotice(account.Id, "Получаем рекомендованных друзей");
 
             var friendListResponseModels = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
             {
@@ -277,7 +275,7 @@ namespace Services.Services
                 Proxy = _accountManager.GetAccountProxy(accountModel)
             });
 
-            _notice.Add(account.Id, "Список рекомендованных друзей получен - " + friendListResponseModels.Count);
+            _notice.AddNotice(account.Id, "Список рекомендованных друзей получен - " + friendListResponseModels.Count);
 
             var friendList = friendListResponseModels.Select(model => new AnalysisFriendData
             {
@@ -289,11 +287,11 @@ namespace Services.Services
             }).ToList();
 
             //Check
-            _notice.Add(account.Id, "Проверяем не общались ли мы с этими друзьями");
+            _notice.AddNotice(account.Id, "Проверяем не общались ли мы с этими друзьями");
 
             var certifiedListFriends = _analysisFriendsManager.CheckForAnyInDataBase(accountModel, friendList);
 
-            _notice.Add(account.Id, "Сохраняем рекомендованных друзей");
+            _notice.AddNotice(account.Id, "Сохраняем рекомендованных друзей");
 
             new SaveFriendsForAnalysisCommandHandler(new DataBaseContext()).Handle(new SaveFriendsForAnalysisCommand
             {
@@ -301,7 +299,7 @@ namespace Services.Services
                 Friends = certifiedListFriends
             });
 
-            _notice.Add(account.Id, "Получение рекомендованных друзей завершено.");
+            _notice.AddNotice(account.Id, "Получение рекомендованных друзей завершено.");
             return new NewFriendListViewModel
             {
                 AccountId = accountModel.Id,
@@ -338,7 +336,7 @@ namespace Services.Services
                 ProxyPassword = account.ProxyPassword
             };
 
-            _notice.Add(account.Id, "Получаем подходящих друзей для подтверждения дружбы");
+            _notice.AddNotice(account.Id, "Получаем подходящих друзей для подтверждения дружбы");
 
             var friends = new GetFriendsToConfirmQueryHandler(new DataBaseContext()).Handle(new GetFriendsToConfirmQuery
             {
@@ -350,13 +348,13 @@ namespace Services.Services
                 return;
             }
 
-            _notice.Add(account.Id, "Выбираем случайного друга");
+            _notice.AddNotice(account.Id, "Выбираем случайного друга");
 
             var analysisFriendsData = friends.FirstOrDefault();
 
             if (analysisFriendsData != null)
             {
-                _notice.Add(account.Id,
+                _notice.AddNotice(account.Id,
                     string.Format("Подтверждаем дружбу с {0}({1})", analysisFriendsData.FriendName,
                         analysisFriendsData.FacebookId));
 
@@ -375,7 +373,7 @@ namespace Services.Services
 
                 if (true)
                 {
-                    _notice.Add(account.Id, "Обновляем статистику");
+                    _notice.AddNotice(account.Id, "Обновляем статистику");
 
                     _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
                     {
@@ -390,7 +388,7 @@ namespace Services.Services
                     FriendId = analysisFriendsData.Id
                 });
 
-                _notice.Add(account.Id, "Обновляем статистику");
+                _notice.AddNotice(account.Id, "Обновляем статистику");
             }
 
             Thread.Sleep(2000);
@@ -418,7 +416,7 @@ namespace Services.Services
                 ProxyPassword = account.ProxyPassword
             };
 
-            _notice.Add(account.Id, "Получаем подходящих друзей для отправки заявки");
+            _notice.AddNotice(account.Id, "Получаем подходящих друзей для отправки заявки");
 
             var friends = new GetFriendsToRequestQueryHandler(new DataBaseContext()).Handle(new GetFriendsToRequestQuery
             {
@@ -435,7 +433,7 @@ namespace Services.Services
             {
                 if (analysisFriendsData != null)
                 {
-                    _notice.Add(account.Id,
+                    _notice.AddNotice(account.Id,
                         string.Format("Отправляем заявку {0}({1})", analysisFriendsData.FriendName,
                             analysisFriendsData.FacebookId));
 
@@ -459,7 +457,7 @@ namespace Services.Services
 
                     if (true)
                     {
-                        _notice.Add(account.Id, "Обновляем статистику");
+                        _notice.AddNotice(account.Id, "Обновляем статистику");
 
                         _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
                         {
@@ -475,7 +473,7 @@ namespace Services.Services
                         FriendFacebookId = analysisFriendsData.FacebookId
                     });
 
-                    _notice.Add(account.Id, "Отправка заявки в друзья успешно завершена.");
+                    _notice.AddNotice(account.Id, "Отправка заявки в друзья успешно завершена.");
                 }
             }
             catch (Exception ex)
@@ -491,14 +489,14 @@ namespace Services.Services
                 UserId = accountId
             });
 
-            _notice.Add(account.Id, string.Format("Получаем друга для удаления по id - {0}", friendId));
+            _notice.AddNotice(account.Id, string.Format("Получаем друга для удаления по id - {0}", friendId));
 
             var friend = new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
             {
                 AccountId = friendId
             });
 
-            _notice.Add(account.Id, string.Format("удаляем друга {0}({1})", friend.FriendName, friend.FacebookId));
+            _notice.AddNotice(account.Id, string.Format("удаляем друга {0}({1})", friend.FriendName, friend.FacebookId));
 
             new RemoveFriendEngine().Execute(new RemoveFriendModel
             {
@@ -512,7 +510,7 @@ namespace Services.Services
                 })
             });
 
-            _notice.Add(account.Id, string.Format("{0}({1}) успешно удалён из друзей", friend.FriendName, friend.FacebookId));
+            _notice.AddNotice(account.Id, string.Format("{0}({1}) успешно удалён из друзей", friend.FriendName, friend.FacebookId));
 
             if (true)
             {
@@ -531,7 +529,7 @@ namespace Services.Services
                 UserId = accountId
             });
 
-            _notice.Add(account.Id, string.Format("Отменяем входящую заявку друга {0}", friendFacebookId));
+            _notice.AddNotice(account.Id, string.Format("Отменяем входящую заявку друга {0}", friendFacebookId));
 
             new CancelFriendshipRequestEngine().Execute(new CancelFriendshipRequestModel
             {
@@ -545,7 +543,7 @@ namespace Services.Services
                 })
             });
 
-            _notice.Add(account.Id, string.Format("Заявка дружбы друга {0} отменена", friendFacebookId));
+            _notice.AddNotice(account.Id, string.Format("Заявка дружбы друга {0} отменена", friendFacebookId));
 
             new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(new ChangeAnalysisFriendStatusCommand
             {

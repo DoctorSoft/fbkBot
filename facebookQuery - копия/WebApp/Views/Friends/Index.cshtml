@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@using WebApp.Resources.Views.Friends
+@model Services.ViewModels.FriendsModels.FriendListViewModel
+
+@section scripts
+{
+    <script>
+        var item_to_delete;
+        $(".deleteItem").click(function(e) {
+            accountId = $(this).data('id');
+            friendId = $(this).data('fid');
+        });
+        $('#btnContinueDelete').click(function() {
+            window.location = "@Url.Action("RemoveFriend", "Friends")" + "?accountId=" + accountId + "&friendId=" + friendId;
+        });
+    </script>
+}
+
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3 class="alert-info alert">@FriendsTexts.FriendsTitle</h3>
+    </div>
+    <div class="panel-body">
+        <div class="inline-actions">
+            <a href="@Url.Action("Index", "FriendsIncomingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">@FriendsTexts.ButtonIncoming</a>
+        </div>
+        <div class="inline-actions">
+            <a href="@Url.Action("Index", "FriendsOutgoingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">@FriendsTexts.ButtonOutgoing</a>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div>@FriendsTexts.CurrentFriends (@Model.Friends.Count(model => !model.Deleted))</div>
+        @foreach (var friend in @Model.Friends.Where(model => !model.Deleted))
+        {
+            <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
+                <div class="inline-half-text-left">
+                    <div class="message-list-tittle">
+                        <div class="">@friend.Name</div>
+                    </div>
+                    <div class="inline-half-text-left">
+                        <div class="inline-actions">
+                            <a href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="inline-half-text-right">
+                    <div class="remove-message">
+                        <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@Model.AccountId" data-fid="@friend.Id" href=""><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div>@FriendsTexts.DeletedFriends (@Model.Friends.Count(model => model.Deleted))</div>
+        @foreach (var friend in @Model.Friends.Where(model => model.Deleted))
+        {
+            <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
+                <div class="inline-half-text-left">
+                    <div class="message-list-tittle">
+                        <div class="">@friend.Name</div>
+                    </div>
+                    <div class="inline-actions">
+                        <a href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">@FriendsTexts.DeleteConfirmation</h4>
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-warning warning-message"></i>@FriendsTexts.DeleteConfirmationQuestion?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" type="button" class="btn btn-default">@FriendsTexts.ButtonCancel</button>
+                <button id="btnContinueDelete" type="button" class="btn btn-primary">@FriendsTexts.ButtonDelete</button>
+            </div>
+        </div>
+    </div>
+</div>

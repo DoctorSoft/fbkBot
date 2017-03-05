@@ -40,6 +40,8 @@ namespace DataBase.Context
 
         public DbSet<GroupSettingsDbModel> GroupSettings { get; set; }
 
+        public DbSet<NewSettingsDbModel> NewSettings { get; set; }
+
         public DbSet<StopWordDbModel> StopWords { get; set; }
 
         public DbSet<ExtraMessageDbModel> ExtraMessages { get; set; }
@@ -70,6 +72,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new CookiesForSpyConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
             modelBuilder.Configurations.Add(new GroupSettingsConfiguration());
+            modelBuilder.Configurations.Add(new NewSettingsConfiguration());
             modelBuilder.Configurations.Add(new UrlParametersConfiguration());
             modelBuilder.Configurations.Add(new FriendConfiguration());
             modelBuilder.Configurations.Add(new AnalysisFriendConfiguration());

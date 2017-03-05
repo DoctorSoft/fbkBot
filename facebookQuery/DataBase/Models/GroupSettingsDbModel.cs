@@ -14,6 +14,8 @@ namespace DataBase.Models
         
         public ICollection<AccountDbModel> Accounts { get; set; }
 
-        public ICollection<GroupFunctionDbModel> GroupFunctions { get; set; } 
+        public ICollection<GroupFunctionDbModel> GroupFunctions { get; set; }
+
+        public ICollection<NewSettingsDbModel> NewSettings { get; set; } 
     }
 }

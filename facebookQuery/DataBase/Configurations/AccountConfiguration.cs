@@ -29,6 +29,7 @@ namespace DataBase.Configurations
             HasMany(model => model.Friends).WithRequired(it => it.AccountWithFriend).HasForeignKey(model => model.AccountId);
             HasMany(model => model.AnalysisFriends).WithRequired(it => it.AccountWithFriend).HasForeignKey(model => model.AccountId);
             HasOptional(it => it.GroupSettings).WithMany(model => model.Accounts).HasForeignKey(model => model.GroupSettingsId);
+            HasMany(model => model.NewSettings).WithRequired(it => it.Account).HasForeignKey(model => model.AccountId);
         }
     }
 }

@@ -1,0 +1,7 @@
+D:\Project\fbkBot\facebookQuery\CommonModels\bin\Debug\CommonModels.dll
+D:\Project\fbkBot\facebookQuery\CommonModels\bin\Debug\CommonModels.pdb
+D:\Project\fbkBot\facebookQuery\CommonModels\bin\Debug\Constants.dll
+D:\Project\fbkBot\facebookQuery\CommonModels\bin\Debug\Constants.pdb
+D:\Project\fbkBot\facebookQuery\CommonModels\obj\Debug\CommonModels.csprojResolveAssemblyReference.cache
+D:\Project\fbkBot\facebookQuery\CommonModels\obj\Debug\CommonModels.dll
+D:\Project\fbkBot\facebookQuery\CommonModels\obj\Debug\CommonModels.pdb

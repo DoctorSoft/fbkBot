@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web.Script.Serialization;
 using DataBase.Context;
 using DataBase.Models;
 
@@ -7,42 +8,52 @@ namespace DataBase.QueriesAndCommands.Commands.Settings
 {
     public class AddOrUpdateSettingsCommandHandler : ICommandHandler<AddOrUpdateSettingsCommand, long>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public AddOrUpdateSettingsCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public long Handle(AddOrUpdateSettingsCommand command)
         {
-            var accountSettings = context.Settings.FirstOrDefault(model => model.Id == command.GroupId);
+            var groupSettings = _context.Settings.FirstOrDefault(model => model.Id == command.GroupId);
+            var toUpdate = true;
 
-            if (accountSettings == null)
+            if (groupSettings == null)
             {
-                accountSettings = new SettingsDbModel();
+                groupSettings = new SettingsDbModel();
+                toUpdate = false;
             }
-            if (command.GroupId != null)
+                
+            var jsSerializator = new JavaScriptSerializer();
+            var geoOptionsJson = jsSerializator.Serialize(command.GeoOptions);
+            var friendOptionsJson = jsSerializator.Serialize(command.FriendsOptions);
+            var messageOptionsJson = jsSerializator.Serialize(command.MessageOptions);
+            var limitsOptionsJson = jsSerializator.Serialize(command.LimitsOptions);
+            var communityOptionsJson = jsSerializator.Serialize(command.CommunityOptions);
+
+
+            groupSettings.Id = command.GroupId;
+
+            groupSettings.GeoOptions = geoOptionsJson;
+            groupSettings.FriendsOptions = friendOptionsJson;
+            groupSettings.MessageOptions = messageOptionsJson;
+            groupSettings.LimitsOptions = limitsOptionsJson;
+            groupSettings.CommunityOptions = communityOptionsJson;
+
+            if (toUpdate)
             {
-                accountSettings.Id = command.GroupId;
+                _context.Settings.AddOrUpdate(groupSettings);
             }
-            accountSettings.Gender = command.Gender;
-            accountSettings.Countries = command.Countries;
-            accountSettings.Cities = command.Cities;
-            accountSettings.RetryTimeConfirmFriendships = command.RetryTimeConfirmFriendships;
-            accountSettings.RetryTimeGetNewAndRecommendedFriends = command.RetryTimeGetNewAndRecommendedFriends;
-            accountSettings.RetryTimeRefreshFriends = command.RetryTimeRefreshFriends;
-            accountSettings.RetryTimeSendNewFriend = command.RetryTimeSendNewFriend;
-            accountSettings.RetryTimeSendRequestFriendships = command.RetryTimeSendRequestFriendships;
-            accountSettings.RetryTimeSendUnanswered = command.RetryTimeSendUnanswered;
-            accountSettings.RetryTimeSendUnread = command.RetryTimeSendUnread;
-            accountSettings.UnansweredDelay = command.UnansweredDelay;
+            else
+            {
+                _context.Settings.Add(groupSettings);
+            }
 
-            context.Settings.AddOrUpdate(accountSettings);
+            _context.SaveChanges();
 
-            context.SaveChanges();
-
-            return accountSettings.Id;
+            return groupSettings.Id;
         }
     }
 }

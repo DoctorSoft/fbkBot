@@ -21,45 +21,57 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 
             var cookies = ParseCookieString(model.Cookie);
 
-            foreach (var keyValuePair in cookies)
+            try
             {
-                driver.Manage().Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
-            }
+                foreach (var keyValuePair in cookies)
+                {
+                    driver.Manage()
+                        .Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
+                }
 
-            driver.Navigate().GoToUrl(string.Format("https://www.facebook.com/profile.php?id={0}&sk=friends", model.AccountFacebookId));
+                driver.Navigate()
+                    .GoToUrl(string.Format("https://www.facebook.com/profile.php?id={0}&sk=friends",
+                        model.AccountFacebookId));
 
-            Thread.Sleep(500);
+                Thread.Sleep(500);
 
-            var friends = GetFriendLinks(driver);
-            var currentCount = friends.Count;
+                var friends = GetFriendLinks(driver);
+                var currentCount = friends.Count;
 
-            while (true)
-            {
-                ScrollPage(driver);
+                while (true)
+                {
+                    ScrollPage(driver);
+                    friends = GetFriendLinks(driver);
+                    if (friends.Count > currentCount)
+                    {
+                        currentCount = friends.Count;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
                 friends = GetFriendLinks(driver);
-                if (friends.Count > currentCount)
+
+                foreach (var webElement in friends)
                 {
-                    currentCount = friends.Count;
+                    var name = webElement.Text;
+                    var id = ParseFacebookId(webElement.GetAttribute("data-gt"));
+                    var uri = "https://www.facebook.com/profile.php?id=" + id;
+                    friendsList.Add(new GetFriendsResponseModel
+                    {
+                        FacebookId = id,
+                        FriendName = name,
+                        Uri = uri
+                    });
                 }
-                else
-                {
-                    break;
-                }
+
+                driver.Quit();
             }
-
-            friends = GetFriendLinks(driver);
-
-            foreach (var webElement in friends)
+            catch (Exception ex)
             {
-                var name = webElement.Text;
-                var id = ParseFacebookId(webElement.GetAttribute("data-gt"));
-                var uri = "https://www.facebook.com/profile.php?id=" + id;
-                friendsList.Add(new GetFriendsResponseModel
-                {
-                    FacebookId = id,
-                    FriendName = name,
-                    Uri = uri
-                });
+                driver.Quit();
             }
 
             return friendsList;

@@ -1,0 +1,10 @@
+D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\RequestsHelpers.dll.config
+D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\RequestsHelpers.dll
+D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\RequestsHelpers.pdb
+D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\EntityFramework.dll
+D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\EntityFramework.SqlServer.dll
+D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\EntityFramework.xml
+D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\EntityFramework.SqlServer.xml
+D:\Project\fbkBot\facebookQuery\RequestsHelper\obj\Debug\RequestsHelpers.dll
+D:\Project\fbkBot\facebookQuery\RequestsHelper\obj\Debug\RequestsHelpers.pdb
+D:\Project\fbkBot\facebookQuery\RequestsHelper\obj\Debug\RequestsHelpers.csprojResolveAssemblyReference.cache

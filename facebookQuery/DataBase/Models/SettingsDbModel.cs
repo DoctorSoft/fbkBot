@@ -1,42 +1,19 @@
-﻿using Constants.GendersUnums;
-
-namespace DataBase.Models
+﻿namespace DataBase.Models
 {
     public class SettingsDbModel
     {
         public long Id { get; set; }
 
         public GroupSettingsDbModel SettingsGroup { get; set; }
-
-        //GEO options
-        public string Cities { get; set; }
-
-        public string Countries { get; set; }
         
-        public GenderEnum? Gender { get; set; }
+        public string GeoOptions { get; set; }
         
-        // jobs
-        // Message options
+        public string MessageOptions { get; set; }
 
-        public long RetryTimeSendUnread { get; set; }
+        public string FriendsOptions { get; set; }
 
-        public long RetryTimeSendUnanswered { get; set; }
+        public string LimitsOptions { get; set; }
 
-        public long RetryTimeSendNewFriend { get; set; }
-
-        // Friends options
-
-        public long RetryTimeConfirmFriendships { get; set; }
-
-        public long RetryTimeGetNewAndRecommendedFriends { get; set; }
-
-        public long RetryTimeRefreshFriends { get; set; }
-
-        public long RetryTimeSendRequestFriendships { get; set; }
-
-        // Message options
-
-        public long UnansweredDelay { get; set; }
-
+        public string CommunityOptions { get; set; }
     }
 }

@@ -120,6 +120,12 @@
   <data name="Cities" xml:space="preserve">
     <value>Города</value>
   </data>
+  <data name="CountMaxFriends" xml:space="preserve">
+    <value>Максимальное количество друзей</value>
+  </data>
+  <data name="CountMinFriends" xml:space="preserve">
+    <value>Минимальное количество друзей</value>
+  </data>
   <data name="Countries" xml:space="preserve">
     <value>Страны</value>
   </data>
@@ -132,14 +138,26 @@
   <data name="GeoOptions" xml:space="preserve">
     <value>Гео опции</value>
   </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Группы</value>
+  </data>
   <data name="GroupSettingsTitle" xml:space="preserve">
     <value>Настройки группы</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>час(ов)</value>
+  </data>
+  <data name="LimitsSettingsTitle" xml:space="preserve">
+    <value>Настройка лимитов</value>
   </data>
   <data name="Messages" xml:space="preserve">
     <value>Сообщения</value>
   </data>
   <data name="Min" xml:space="preserve">
     <value>мин</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Страницы</value>
   </data>
   <data name="RetryOptions" xml:space="preserve">
     <value>Настройки повторов</value>
@@ -165,7 +183,13 @@
   <data name="RetryTimeSendUnread" xml:space="preserve">
     <value>Отвечать на непрочитанные сообщения каждые</value>
   </data>
+  <data name="Sec" xml:space="preserve">
+    <value>сек</value>
+  </data>
   <data name="UnansweredDelay" xml:space="preserve">
     <value>Отправлять экстра-сообщение через</value>
+  </data>
+  <data name="GroupsTitle" xml:space="preserve">
+    <value>Группы и страницы</value>
   </data>
 </root>

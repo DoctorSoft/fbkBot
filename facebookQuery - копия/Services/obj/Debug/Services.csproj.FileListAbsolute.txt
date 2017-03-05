@@ -1,0 +1,124 @@
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Services.dll.config
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Services.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Services.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\CommonModels.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Constants.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\DataBase.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Engines.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.SqlServer.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Hangfire.Core.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.Owin.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.Owin.Security.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Newtonsoft.Json.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Owin.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\RequestsHelpers.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.Helpers.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.Mvc.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.Razor.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.WebPages.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.WebPages.Razor.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\WebDriver.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.Extended.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.BulkInsert.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\WebDriver.Support.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.MappingAPI.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\CommonModels.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Constants.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\DataBase.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Engines.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\RequestsHelpers.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.SqlServer.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Hangfire.Core.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.Owin.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.Owin.Security.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Newtonsoft.Json.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.Helpers.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.Mvc.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.Razor.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.WebPages.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.WebPages.Deployment.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\System.Web.WebPages.Razor.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\WebDriver.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.Extended.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.BulkInsert.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\WebDriver.Support.xml
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\EntityFramework.MappingAPI.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\es\Hangfire.Core.resources.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\zh\Hangfire.Core.resources.dll
+D:\Project\fbkBot\facebookQuery\Services\obj\Debug\Services.csprojResolveAssemblyReference.cache
+D:\Project\fbkBot\facebookQuery\Services\obj\Debug\Services.dll
+D:\Project\fbkBot\facebookQuery\Services\obj\Debug\Services.pdb
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+D:\Project\fbkBot\facebookQuery\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Services.dll.config
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Services.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Services.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\CommonModels.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Constants.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\DataBase.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Engines.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.SqlServer.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Hangfire.Core.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.Owin.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.Owin.Security.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.Web.Infrastructure.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Newtonsoft.Json.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Owin.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\RequestsHelpers.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.Helpers.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.Mvc.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.Razor.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.WebPages.Deployment.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.WebPages.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.WebPages.Razor.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\WebDriver.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.Extended.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.BulkInsert.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\WebDriver.Support.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.MappingAPI.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\CommonModels.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Constants.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\DataBase.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Engines.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\RequestsHelpers.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.SqlServer.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Hangfire.Core.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.Owin.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Microsoft.Owin.Security.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\Newtonsoft.Json.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.Helpers.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.Mvc.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.Razor.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.WebPages.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.WebPages.Deployment.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\System.Web.WebPages.Razor.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\WebDriver.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.Extended.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.BulkInsert.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\WebDriver.Support.xml
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\EntityFramework.MappingAPI.pdb
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\es\Hangfire.Core.resources.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\bin\Debug\zh\Hangfire.Core.resources.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\obj\Debug\Services.csprojResolveAssemblyReference.cache
+d:\Project\fbkBot\facebookQuery - копия\Services\obj\Debug\Services.dll
+d:\Project\fbkBot\facebookQuery - копия\Services\obj\Debug\Services.pdb

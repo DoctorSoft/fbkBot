@@ -1,7 +1,8 @@
-﻿using Constants.FunctionEnums;
+﻿using System;
+using Constants.FunctionEnums;
 using Hangfire;
+using Jobs.JobsService;
 using Services.Services;
-using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.Jobs.FriendJobs
@@ -11,29 +12,16 @@ namespace Jobs.Jobs.FriendJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)] 
         public static void Run(AccountViewModel account)
         {
-            if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.SendRequestFriendship, account.FacebookId))
+            if (account.GroupSettingsId == null)
             {
                 return;
             }
 
-            if (!new AccountManager().HasAWorkingProxy(account.Id))
-            {
-                return;
-            }
+            var settings = new GroupService().GetSettings((long)account.GroupSettingsId);
+            var sendRequestFriendshipsLaunchTime = new TimeSpan(settings.RetryTimeSendRequestFriendshipsHour, settings.RetryTimeSendRequestFriendshipsMin, settings.RetryTimeSendRequestFriendshipsSec);
+            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.SendRequestFriendship, sendRequestFriendshipsLaunchTime, true);
 
-            if (!new AccountManager().HasAWorkingAuthorizationData(account.Id))
-            {
-                return;
-            }
-
-            if (!new SettingsManager().HasARetryTimePermission(FunctionName.SendRequestFriendship, account))
-            {
-                return;
-            }
-
-            var jobStatusService = new JobStatusService();
-
-            jobStatusService.AddOrUpdateJobStatus(FunctionName.SendRequestFriendship, account.Id);
+            new JobStatusService().AddOrUpdateJobStatus(FunctionName.SendRequestFriendship, account.Id);
 
             new JobQueueService().AddToQueue(account.Id, FunctionName.SendRequestFriendship);
         }

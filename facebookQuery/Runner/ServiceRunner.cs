@@ -4,6 +4,7 @@ using Runner.Context;
 using Runner.Runners.Cookies;
 using Runner.Runners.Friends;
 using Runner.Runners.Messages;
+using Runner.Runners.Settings;
 using Services.ViewModels.HomeModels;
 
 namespace Runner
@@ -54,6 +55,11 @@ namespace Runner
                 case FunctionName.RefreshCookies:
                 {
                     context = new RunnerContext(new RefreshCookiesRunner());
+                    break;
+                }
+                case FunctionName.JoinTheNewGroup:
+                {
+                    context = new RunnerContext(new JoinTheNewGroupRunner());
                     break;
                 }
                 default:

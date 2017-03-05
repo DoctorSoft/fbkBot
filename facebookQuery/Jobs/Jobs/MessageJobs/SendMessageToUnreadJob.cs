@@ -1,7 +1,8 @@
-﻿using Constants.FunctionEnums;
+﻿using System;
+using Constants.FunctionEnums;
 using Hangfire;
+using Jobs.JobsService;
 using Services.Services;
-using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.Jobs.MessageJobs
@@ -11,29 +12,16 @@ namespace Jobs.Jobs.MessageJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(AccountViewModel account)
         {
-            if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.SendMessageToUnread, account.FacebookId))
-            {
-                return;
-            }
-            
-            if (!new AccountManager().HasAWorkingProxy(account.Id))
+            if (account.GroupSettingsId == null)
             {
                 return;
             }
 
-            if (!new AccountManager().HasAWorkingAuthorizationData(account.Id))
-            {
-                return;
-            }
+            var settings = new GroupService().GetSettings((long)account.GroupSettingsId);
+            var sendUnreadLaunchTime = new TimeSpan(settings.RetryTimeSendUnreadHour, settings.RetryTimeSendUnreadMin, settings.RetryTimeSendUnreadSec);
+            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.SendMessageToUnread, sendUnreadLaunchTime, true);
 
-            if (!new SettingsManager().HasARetryTimePermission(FunctionName.SendMessageToUnread, account))
-            {
-                return;
-            }
-
-            var jobStatusService = new JobStatusService();
-
-            jobStatusService.AddOrUpdateJobStatus(FunctionName.SendMessageToUnread, account.Id);
+            new JobStatusService().AddOrUpdateJobStatus(FunctionName.SendMessageToUnread, account.Id);
 
             new JobQueueService().AddToQueue(account.Id, FunctionName.SendMessageToUnread);
         }

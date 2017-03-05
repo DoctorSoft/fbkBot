@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts
+{
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+
+    @foreach (var link in @Model.Links)
+    {
+        <script type="text/javascript">
+
+            $('#@("link" + link.Id)').editable({
+                type: 'text',
+                pk: function() {
+                    return $('#@("link" + link.Id)').text();
+                },
+                title: 'Enter Link',
+                success: function () {
+                    setTimeout(function () {
+                        var address = '@Url.Action("UpdateLink", "Links", new { linkId = @link.Id })';
+                        var name = $('#@("link" + link.Id)').text();
+
+                        address = address + "&name=" + name;
+
+                        window.location.href = address;
+                    }, 250);
+                }
+            });
+        </script>
+    }
+}
+@model Services.ViewModels.LinksModels.LinkList
+
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3 class="alert-info alert">Links</h3>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("AddLink", "Links", FormMethod.Post))
+        {
+            <div class="input-group-section">
+                <input name="Name" id="name" placeholder="New link" class="form-control"/>
+            </div>
+            <div class="submit-section">
+                <input type="submit" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        @foreach (var link in @Model.Links)
+        {
+            <div class="alert alert-info">
+                <div class="inline-half-text-left">
+                    <div class="message-list-tittle">
+                        <a id="@("link" + link.Id)">@link.Name</a>
+                    </div>
+                    <div class="inline-actions">
+                        @if (link.Name.ToLower().StartsWith("http"))
+                        {
+                            <a href="@link.Name" target="_blank"><i class="fa fa-hand-pointer-o"></i></a>
+                        }
+                        else
+                        {
+                            <a href="@("https://" + link.Name)" target="_blank"><i class="fa fa-hand-pointer-o"></i></a>
+                        }
+                    </div>
+                </div>
+                <div class="inline-half-text-right">
+                    <div class="remove-message">
+                        <a href="@Url.Action("RemoveLink", "Links", new { linkId = link.Id })"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+

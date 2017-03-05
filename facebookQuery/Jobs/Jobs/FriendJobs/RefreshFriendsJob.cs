@@ -1,7 +1,8 @@
-﻿using Constants.FunctionEnums;
+﻿using System;
+using Constants.FunctionEnums;
 using Hangfire;
+using Jobs.JobsService;
 using Services.Services;
-using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.Jobs.FriendJobs
@@ -11,29 +12,16 @@ namespace Jobs.Jobs.FriendJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(AccountViewModel account)
         {
-            if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.RefreshFriends, account.FacebookId))
-            {
-                return;
-            }
-             
-            if (!new AccountManager().HasAWorkingProxy(account.Id))
+            if (account.GroupSettingsId == null)
             {
                 return;
             }
 
-            if (!new AccountManager().HasAWorkingAuthorizationData(account.Id))
-            {
-                return;
-            }
+            var settings = new GroupService().GetSettings((long)account.GroupSettingsId);
+            var refreshFriendsLaunchTime = new TimeSpan(settings.RetryTimeRefreshFriendsHour, settings.RetryTimeRefreshFriendsMin, settings.RetryTimeRefreshFriendsSec);
+            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.RefreshFriends, refreshFriendsLaunchTime, true);
 
-            if (!new SettingsManager().HasARetryTimePermission(FunctionName.RefreshFriends, account))
-            {
-                return;
-            }
-
-            var jobStatusService = new JobStatusService();
-
-            jobStatusService.AddOrUpdateJobStatus(FunctionName.RefreshFriends, account.Id);
+            new JobStatusService().AddOrUpdateJobStatus(FunctionName.RefreshFriends, account.Id);
 
             new JobQueueService().AddToQueue(account.Id, FunctionName.RefreshFriends);
         }

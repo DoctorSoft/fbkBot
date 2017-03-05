@@ -1,4 +1,4 @@
-﻿using Constants.GendersUnums;
+﻿using DataBase.QueriesAndCommands.Models.JsonModels;
 
 namespace DataBase.QueriesAndCommands.Commands.Settings
 {
@@ -6,35 +6,14 @@ namespace DataBase.QueriesAndCommands.Commands.Settings
     {
         public long GroupId { get; set; }
 
-        //Geo options
+        public GeoOptionsDbModel GeoOptions { get; set; }
 
-        public string Cities { get; set; }
+        public MessageOptionsDbModel MessageOptions { get; set; }
 
-        public string Countries { get; set; }
-        
-        public GenderEnum? Gender { get; set; }
+        public FriendOptionsDbModel FriendsOptions { get; set; }
 
-        // jobs
-        // Message options
+        public LimitsOptionsDbModel LimitsOptions { get; set; }
 
-        public long RetryTimeSendUnread { get; set; }
-
-        public long RetryTimeSendUnanswered { get; set; }
-
-        public long RetryTimeSendNewFriend { get; set; }
-
-        // Friends options
-
-        public long RetryTimeConfirmFriendships { get; set; }
-
-        public long RetryTimeGetNewAndRecommendedFriends { get; set; }
-
-        public long RetryTimeRefreshFriends { get; set; }
-
-        public long RetryTimeSendRequestFriendships { get; set; }
-
-        // Message options
-
-        public long UnansweredDelay { get; set; }
+        public CommunityOptionsDbModel CommunityOptions { get; set; }
     }
 }

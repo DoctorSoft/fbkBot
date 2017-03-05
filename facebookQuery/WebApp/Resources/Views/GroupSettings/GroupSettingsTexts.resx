@@ -120,6 +120,12 @@
   <data name="Cities" xml:space="preserve">
     <value>Cities</value>
   </data>
+  <data name="CountMaxFriends" xml:space="preserve">
+    <value>Count max friends</value>
+  </data>
+  <data name="CountMinFriends" xml:space="preserve">
+    <value>Count min friends</value>
+  </data>
   <data name="Countries" xml:space="preserve">
     <value>Countries</value>
   </data>
@@ -132,14 +138,26 @@
   <data name="GeoOptions" xml:space="preserve">
     <value>Geo options</value>
   </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
   <data name="GroupSettingsTitle" xml:space="preserve">
     <value>Group settings</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>hour(s)</value>
+  </data>
+  <data name="LimitsSettingsTitle" xml:space="preserve">
+    <value>Limits settings</value>
   </data>
   <data name="Messages" xml:space="preserve">
     <value>Messages</value>
   </data>
   <data name="Min" xml:space="preserve">
-    <value>min</value>
+    <value>min(s)</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Pages</value>
   </data>
   <data name="RetryOptions" xml:space="preserve">
     <value>Retry options</value>
@@ -165,7 +183,13 @@
   <data name="RetryTimeSendUnread" xml:space="preserve">
     <value>Answer unread messages every</value>
   </data>
+  <data name="Sec" xml:space="preserve">
+    <value>sec(s)</value>
+  </data>
   <data name="UnansweredDelay" xml:space="preserve">
     <value>Extra-messages sent through</value>
+  </data>
+  <data name="GroupsTitle" xml:space="preserve">
+    <value>Groups and pages</value>
   </data>
 </root>

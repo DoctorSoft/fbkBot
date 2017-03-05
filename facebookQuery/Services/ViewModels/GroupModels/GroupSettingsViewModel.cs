@@ -6,6 +6,17 @@ namespace Services.ViewModels.GroupModels
     {
         public long GroupId { get; set; }
 
+        //Limits options
+        public long CountMinFriends { get; set; }
+
+        public long CountMaxFriends { get; set; }
+       
+        //Community options
+
+        public string FacebookGroups { get; set; }
+
+        public string FacebookPages { get; set; }
+
         //Geo options
 
         public string Cities { get; set; }
@@ -13,28 +24,60 @@ namespace Services.ViewModels.GroupModels
         public string Countries { get; set; }
 
         public GenderEnum? Gender { get; set; }
-
-        // jobs
+        
         // Message options
 
-        public long RetryTimeSendUnread { get; set; }
+        public int RetryTimeSendUnreadHour { get; set; }
 
-        public long RetryTimeSendUnanswered { get; set; }
+        public int RetryTimeSendUnreadMin { get; set; }
 
-        public long RetryTimeSendNewFriend { get; set; }
+        public int RetryTimeSendUnreadSec { get; set; }
 
+
+        public int RetryTimeSendUnansweredHour { get; set; }
+
+        public int RetryTimeSendUnansweredMin { get; set; }
+
+        public int RetryTimeSendUnansweredSec { get; set; }
+
+
+        public int RetryTimeSendNewFriendHour { get; set; }
+
+        public int RetryTimeSendNewFriendMin { get; set; }
+
+        public int RetryTimeSendNewFriendSec { get; set; }
+
+
+        public int UnansweredDelay { get; set; }
+        
         // Friends options
 
-        public long RetryTimeConfirmFriendships { get; set; }
+        public int RetryTimeConfirmFriendshipsHour { get; set; }
 
-        public long RetryTimeGetNewAndRecommendedFriends { get; set; }
+        public int RetryTimeConfirmFriendshipsMin { get; set; }
 
-        public long RetryTimeRefreshFriends { get; set; }
+        public int RetryTimeConfirmFriendshipsSec { get; set; }
 
-        public long RetryTimeSendRequestFriendships { get; set; }
 
-        // Message options
+        public int RetryTimeGetNewAndRecommendedFriendsHour { get; set; }
 
-        public long UnansweredDelay { get; set; }
+        public int RetryTimeGetNewAndRecommendedFriendsMin { get; set; }
+
+        public int RetryTimeGetNewAndRecommendedFriendsSec { get; set; }
+
+
+        public int RetryTimeRefreshFriendsHour{ get; set; }
+
+        public int RetryTimeRefreshFriendsMin { get; set; }
+
+        public int RetryTimeRefreshFriendsSec { get; set; }
+
+
+        public int RetryTimeSendRequestFriendshipsHour { get; set; }
+
+        public int RetryTimeSendRequestFriendshipsMin { get; set; }
+
+        public int RetryTimeSendRequestFriendshipsSec { get; set; }
+
     }
 }

@@ -16,6 +16,9 @@
         AnalyzeFriends = 201,
 
         //Cookies
-        RefreshCookies = 301
+        RefreshCookies = 301,
+
+        //Community
+        JoinTheNewGroup = 401,
     }
 }

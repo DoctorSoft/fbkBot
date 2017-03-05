@@ -1,7 +1,8 @@
-﻿using Constants.FunctionEnums;
+﻿using System;
+using Constants.FunctionEnums;
 using Hangfire;
+using Jobs.JobsService;
 using Services.Services;
-using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.Jobs.MessageJobs
@@ -11,29 +12,16 @@ namespace Jobs.Jobs.MessageJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(AccountViewModel account)
         {
-            if (!new FunctionPermissionManager().HasPermissionsByFacebookId(FunctionName.SendMessageToNewFriends, account.FacebookId))
+            if (account.GroupSettingsId == null)
             {
                 return;
             }
 
-            if (!new AccountManager().HasAWorkingProxy(account.Id))
-            {
-                return;
-            }
+            var settings = new GroupService().GetSettings((long)account.GroupSettingsId);
+            var sendNewFriendLaunchTime = new TimeSpan(settings.RetryTimeSendNewFriendHour, settings.RetryTimeSendNewFriendMin, settings.RetryTimeSendNewFriendSec);
+            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.SendMessageToNewFriends, sendNewFriendLaunchTime, true);
 
-            if (!new AccountManager().HasAWorkingAuthorizationData(account.Id))
-            {
-                return;
-            }
-
-            if (!new SettingsManager().HasARetryTimePermission(FunctionName.SendMessageToNewFriends, account))
-            {
-                return;
-            }
-
-            var jobStatusService = new JobStatusService();
-
-            jobStatusService.AddOrUpdateJobStatus(FunctionName.SendMessageToNewFriends, account.Id);
+            new JobStatusService().AddOrUpdateJobStatus(FunctionName.SendMessageToNewFriends, account.Id);
 
             new JobQueueService().AddToQueue(account.Id, FunctionName.SendMessageToNewFriends);
         }

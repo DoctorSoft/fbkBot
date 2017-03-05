@@ -7,23 +7,23 @@ namespace WebApp.Controllers
 {
     public class GroupSettingsController : Controller
     {       
-        private readonly GroupService groupService;
+        private readonly GroupService _groupService;
 
         public GroupSettingsController()
         {
-            this.groupService = new GroupService();
+            this._groupService = new GroupService();
         }
         // GET: GroupSettings
         public ActionResult Index(long groupId)
         {
-            var groups = groupService.GetSettings(groupId);
+            var groups = _groupService.GetSettings(groupId);
             return View(groups);
         }
 
         [HttpPost]
         public ActionResult UpdateGroupSettings(GroupSettingsViewModel settings)
         {
-            groupService.UpdateSettings(settings, new JobService());
+            _groupService.UpdateSettings(settings, new BackgroundJobService());
             return RedirectToAction("Index", "Groups", new { groupId = settings.GroupId });
         }
     }

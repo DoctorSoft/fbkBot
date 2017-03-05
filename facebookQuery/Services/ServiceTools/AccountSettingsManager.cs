@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonModels;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Settings;
+using DataBase.QueriesAndCommands.Models.JsonModels;
 using DataBase.QueriesAndCommands.Queries.Settings;
 using Hangfire;
 using Newtonsoft.Json;
-using Services.Core.Interfaces.ServiceTools;
+using Services.Interfaces.ServiceTools;
 using Services.ViewModels.GroupModels;
 
 namespace Services.ServiceTools
@@ -28,18 +30,44 @@ namespace Services.ServiceTools
             return new GroupSettingsViewModel
             {
                 GroupId = settings.GroupId,
-                Gender = settings.Gender,
-                Cities = ConvertJsonToString(settings.Cities),
-                Countries = ConvertJsonToString(settings.Countries),
-                RetryTimeSendUnread = settings.RetryTimeSendUnread,
-                RetryTimeConfirmFriendships = settings.RetryTimeConfirmFriendships,
-                RetryTimeGetNewAndRecommendedFriends = settings.RetryTimeGetNewAndRecommendedFriends,
-                RetryTimeRefreshFriends = settings.RetryTimeRefreshFriends,
-                RetryTimeSendNewFriend = settings.RetryTimeSendNewFriend,
-                RetryTimeSendRequestFriendships = settings.RetryTimeSendRequestFriendships,
-                RetryTimeSendUnanswered = settings.RetryTimeSendUnanswered,
-                UnansweredDelay = settings.UnansweredDelay
+                Gender = settings.GeoOptions.Gender,
+                FacebookGroups = ConvertListToString(settings.CommunityOptions.Groups),
+                FacebookPages = ConvertListToString(settings.CommunityOptions.Pages),
+                Cities = ConvertJsonToString(settings.GeoOptions.Cities),
+                Countries = ConvertJsonToString(settings.GeoOptions.Countries),
+                RetryTimeSendUnreadHour = settings.MessageOptions.RetryTimeSendUnread.Hours,
+                RetryTimeSendUnreadMin = settings.MessageOptions.RetryTimeSendUnread.Minutes,
+                RetryTimeSendUnreadSec = settings.MessageOptions.RetryTimeSendUnread.Seconds,
+                RetryTimeConfirmFriendshipsHour = settings.FriendsOptions.RetryTimeConfirmFriendships.Hours,
+                RetryTimeConfirmFriendshipsMin = settings.FriendsOptions.RetryTimeConfirmFriendships.Minutes,
+                RetryTimeConfirmFriendshipsSec = settings.FriendsOptions.RetryTimeConfirmFriendships.Seconds,
+                RetryTimeGetNewAndRecommendedFriendsHour = settings.FriendsOptions.RetryTimeGetNewAndRecommendedFriends.Hours,
+                RetryTimeGetNewAndRecommendedFriendsMin = settings.FriendsOptions.RetryTimeGetNewAndRecommendedFriends.Minutes,
+                RetryTimeGetNewAndRecommendedFriendsSec = settings.FriendsOptions.RetryTimeGetNewAndRecommendedFriends.Seconds,
+                RetryTimeRefreshFriendsHour = settings.FriendsOptions.RetryTimeRefreshFriends.Hours,
+                RetryTimeRefreshFriendsMin = settings.FriendsOptions.RetryTimeRefreshFriends.Minutes,
+                RetryTimeRefreshFriendsSec = settings.FriendsOptions.RetryTimeRefreshFriends.Seconds,
+                RetryTimeSendNewFriendHour = settings.MessageOptions.RetryTimeSendNewFriend.Hours,
+                RetryTimeSendNewFriendMin = settings.MessageOptions.RetryTimeSendNewFriend.Minutes,
+                RetryTimeSendNewFriendSec = settings.MessageOptions.RetryTimeSendNewFriend.Seconds,
+                RetryTimeSendRequestFriendshipsHour = settings.FriendsOptions.RetryTimeSendRequestFriendships.Hours,
+                RetryTimeSendRequestFriendshipsMin = settings.FriendsOptions.RetryTimeSendRequestFriendships.Minutes,
+                RetryTimeSendRequestFriendshipsSec = settings.FriendsOptions.RetryTimeSendRequestFriendships.Seconds,
+                RetryTimeSendUnansweredHour = settings.MessageOptions.RetryTimeSendUnanswered.Hours,
+                RetryTimeSendUnansweredMin = settings.MessageOptions.RetryTimeSendUnanswered.Minutes,
+                RetryTimeSendUnansweredSec = settings.MessageOptions.RetryTimeSendUnanswered.Seconds,
+                UnansweredDelay = settings.MessageOptions.UnansweredDelay
             };
+        }
+
+        private static string ConvertListToString(IEnumerable<string> arrayString)
+        {
+            if (arrayString == null)
+            {
+                return string.Empty;
+            }
+
+            return arrayString.Aggregate("", (current, element) => current + (element + "\n"));
         }
 
         public string GetCronByMinutes(long min)
@@ -73,20 +101,64 @@ namespace Services.ServiceTools
         public void UpdateSettings(GroupSettingsViewModel newSettings)
         {
             new AddOrUpdateSettingsCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateSettingsCommand
+            {
+                GroupId = newSettings.GroupId,
+                GeoOptions = new GeoOptionsDbModel
                 {
-                    GroupId = newSettings.GroupId,
-                    Gender = newSettings.Gender,
                     Cities = newSettings.Cities,
                     Countries = newSettings.Countries,
-                    RetryTimeSendUnread = newSettings.RetryTimeSendUnread,
-                    RetryTimeConfirmFriendships = newSettings.RetryTimeConfirmFriendships,
-                    RetryTimeGetNewAndRecommendedFriends = newSettings.RetryTimeGetNewAndRecommendedFriends,
-                    RetryTimeRefreshFriends = newSettings.RetryTimeRefreshFriends,
-                    RetryTimeSendNewFriend = newSettings.RetryTimeSendNewFriend,
-                    RetryTimeSendRequestFriendships = newSettings.RetryTimeSendRequestFriendships,
-                    RetryTimeSendUnanswered = newSettings.RetryTimeSendUnanswered,
+                    Gender = newSettings.Gender
+                },
+                FriendsOptions = new FriendOptionsDbModel
+                {
+                    RetryTimeConfirmFriendships = new TimeModel
+                    {
+                        Hours = newSettings.RetryTimeConfirmFriendshipsHour,
+                        Minutes = newSettings.RetryTimeConfirmFriendshipsMin,
+                        Seconds = newSettings.RetryTimeConfirmFriendshipsSec
+                    },
+                    RetryTimeGetNewAndRecommendedFriends = new TimeModel
+                    {
+                        Hours = newSettings.RetryTimeGetNewAndRecommendedFriendsHour,
+                        Minutes = newSettings.RetryTimeGetNewAndRecommendedFriendsMin,
+                        Seconds = newSettings.RetryTimeGetNewAndRecommendedFriendsSec
+                    },
+                    RetryTimeRefreshFriends = new TimeModel
+                    {
+                        Hours = newSettings.RetryTimeRefreshFriendsHour,
+                        Minutes = newSettings.RetryTimeRefreshFriendsMin,
+                        Seconds = newSettings.RetryTimeRefreshFriendsSec
+                    },
+                    RetryTimeSendRequestFriendships = new TimeModel
+                    {
+                        Hours = newSettings.RetryTimeSendRequestFriendshipsHour,
+                        Minutes = newSettings.RetryTimeSendRequestFriendshipsMin,
+                        Seconds = newSettings.RetryTimeSendRequestFriendshipsSec
+                    },
+                },
+                MessageOptions = new MessageOptionsDbModel
+                {
+                    RetryTimeSendNewFriend =
+                    {
+                        Hours = newSettings.RetryTimeSendUnreadHour,
+                        Minutes = newSettings.RetryTimeSendUnreadMin,
+                        Seconds = newSettings.RetryTimeSendUnreadSec
+                    },
+                    RetryTimeSendUnanswered =
+                    {
+                        Hours = newSettings.RetryTimeSendUnansweredHour,
+                        Minutes = newSettings.RetryTimeSendUnansweredMin,
+                        Seconds = newSettings.RetryTimeSendUnansweredSec
+                    },
+                    RetryTimeSendUnread =
+                    {
+                        Hours = newSettings.RetryTimeSendUnreadHour,
+                        Minutes = newSettings.RetryTimeSendUnreadMin,
+                        Seconds = newSettings.RetryTimeSendUnreadSec
+                    },
                     UnansweredDelay = newSettings.UnansweredDelay
-                });
+                }
+            });
         }
         
         private string ConvertJsonToString(string jsonData)

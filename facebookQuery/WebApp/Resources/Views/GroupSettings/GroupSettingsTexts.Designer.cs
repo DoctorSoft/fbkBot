@@ -70,6 +70,24 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count max friends.
+        /// </summary>
+        public static string CountMaxFriends {
+            get {
+                return ResourceManager.GetString("CountMaxFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count min friends.
+        /// </summary>
+        public static string CountMinFriends {
+            get {
+                return ResourceManager.GetString("CountMinFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Countries.
         /// </summary>
         public static string Countries {
@@ -106,11 +124,47 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Groups.
+        /// </summary>
+        public static string Groups {
+            get {
+                return ResourceManager.GetString("Groups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group settings.
         /// </summary>
         public static string GroupSettingsTitle {
             get {
                 return ResourceManager.GetString("GroupSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Groups and pages.
+        /// </summary>
+        public static string GroupsTitle {
+            get {
+                return ResourceManager.GetString("GroupsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hour(s).
+        /// </summary>
+        public static string Hour {
+            get {
+                return ResourceManager.GetString("Hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limits settings.
+        /// </summary>
+        public static string LimitsSettingsTitle {
+            get {
+                return ResourceManager.GetString("LimitsSettingsTitle", resourceCulture);
             }
         }
         
@@ -124,11 +178,20 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to min.
+        ///   Looks up a localized string similar to min(s).
         /// </summary>
         public static string Min {
             get {
                 return ResourceManager.GetString("Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pages.
+        /// </summary>
+        public static string Pages {
+            get {
+                return ResourceManager.GetString("Pages", resourceCulture);
             }
         }
         
@@ -201,6 +264,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         public static string RetryTimeSendUnread {
             get {
                 return ResourceManager.GetString("RetryTimeSendUnread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sec(s).
+        /// </summary>
+        public static string Sec {
+            get {
+                return ResourceManager.GetString("Sec", resourceCulture);
             }
         }
         

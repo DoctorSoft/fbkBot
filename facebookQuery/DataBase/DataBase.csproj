@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
+    <Compile Include="Configurations\NewSettingsConfiguration.cs" />
     <Compile Include="Configurations\JobQueueConfiguration.cs" />
     <Compile Include="Configurations\JobStatusConfiguration.cs" />
     <Compile Include="Configurations\SettingsConfiguration.cs" />
@@ -172,10 +173,43 @@
     <Compile Include="Migrations\201702191103163_AddAccountIdField.Designer.cs">
       <DependentUpon>201702191103163_AddAccountIdField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702211816170_OptionModelWasChanged.cs" />
+    <Compile Include="Migrations\201702211816170_OptionModelWasChanged.Designer.cs">
+      <DependentUpon>201702211816170_OptionModelWasChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702211939322_FixKey.cs" />
+    <Compile Include="Migrations\201702211939322_FixKey.Designer.cs">
+      <DependentUpon>201702211939322_FixKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702211944199_FixSettings.cs" />
+    <Compile Include="Migrations\201702211944199_FixSettings.Designer.cs">
+      <DependentUpon>201702211944199_FixSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702211945287_FixSettingsAddTable.cs" />
+    <Compile Include="Migrations\201702211945287_FixSettingsAddTable.Designer.cs">
+      <DependentUpon>201702211945287_FixSettingsAddTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702211950205_FixSettingsAddTable1.cs" />
+    <Compile Include="Migrations\201702211950205_FixSettingsAddTable1.Designer.cs">
+      <DependentUpon>201702211950205_FixSettingsAddTable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702261107550_AddLimitsOptions.cs" />
+    <Compile Include="Migrations\201702261107550_AddLimitsOptions.Designer.cs">
+      <DependentUpon>201702261107550_AddLimitsOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703011942421_AddNewSettingsTable.cs" />
+    <Compile Include="Migrations\201703011942421_AddNewSettingsTable.Designer.cs">
+      <DependentUpon>201703011942421_AddNewSettingsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703041027311_AddCommunicationField.cs" />
+    <Compile Include="Migrations\201703041027311_AddCommunicationField.Designer.cs">
+      <DependentUpon>201703041027311_AddCommunicationField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
     <Compile Include="Models\JobStatusDbModel.cs" />
+    <Compile Include="Models\NewSettingsDbModel.cs" />
     <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
@@ -218,6 +252,8 @@
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\AddOrUpdateJobStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\FacebookMessageDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommand.cs" />
@@ -297,9 +333,16 @@
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
     <Compile Include="QueriesAndCommands\Models\BlockedFriendData.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\AddQueue\GetJobModelFromQueueCommand.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\AddQueue\GetJobModelFromQueueCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\AddQueue\JobQueueModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\CommunityOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\LimitsOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\FriendOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\GeoOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\MessageOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\JobQueueModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\CheckForFriendBlacklisted\CheckForFriendBlacklistedQueryHandler.cs" />
@@ -310,9 +353,16 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\JobStatusData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\NewSettings\NewSettingsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\SpyStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQueryHandler.cs" />
@@ -402,7 +452,9 @@
     <Compile Include="QueriesAndCommands\VoidCommandResponse.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -462,6 +514,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702191103163_AddAccountIdField.resx">
       <DependentUpon>201702191103163_AddAccountIdField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211816170_OptionModelWasChanged.resx">
+      <DependentUpon>201702211816170_OptionModelWasChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211939322_FixKey.resx">
+      <DependentUpon>201702211939322_FixKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211944199_FixSettings.resx">
+      <DependentUpon>201702211944199_FixSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211945287_FixSettingsAddTable.resx">
+      <DependentUpon>201702211945287_FixSettingsAddTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211950205_FixSettingsAddTable1.resx">
+      <DependentUpon>201702211950205_FixSettingsAddTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702261107550_AddLimitsOptions.resx">
+      <DependentUpon>201702261107550_AddLimitsOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703011942421_AddNewSettingsTable.resx">
+      <DependentUpon>201703011942421_AddNewSettingsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041027311_AddCommunicationField.resx">
+      <DependentUpon>201703041027311_AddCommunicationField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
