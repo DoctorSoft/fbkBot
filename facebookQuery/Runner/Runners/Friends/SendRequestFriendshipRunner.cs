@@ -1,9 +1,7 @@
 ﻿using Runner.Interfaces;
 using Runner.Notices;
-using Services.Hubs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
-using NoticesProxy = Runner.Notices.NoticesProxy;
 
 namespace Runner.Runners.Friends
 {

@@ -164,6 +164,7 @@
     <Compile Include="Services\SpyService.cs" />
     <Compile Include="ServiceTools\FriendsBlackListManager.cs" />
     <Compile Include="Services\JobQueueService.cs" />
+    <Compile Include="ServiceTools\JobQueueManager.cs" />
     <Compile Include="ServiceTools\SeleniumManager.cs" />
     <Compile Include="ServiceTools\SettingsManager.cs" />
     <Compile Include="ServiceTools\StatisticsManager.cs" />
@@ -183,7 +184,7 @@
     <Compile Include="ViewModels\FrindsBlackListModels\FriendsBlackListViewModel.cs" />
     <Compile Include="ViewModels\GroupModels\GroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountSettingsViewModel.cs" />
-    <Compile Include="ViewModels\JobStatusModels\JobStatusModel.cs" />
+    <Compile Include="ViewModels\JobStatusModels\JobStatusViewModel.cs" />
     <Compile Include="ViewModels\NewSettingsModels\CommunityOptionsViewModel.cs" />
     <Compile Include="ViewModels\NewSettingsModels\NewSettingsViewModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\FriendsOptionsModel.cs" />

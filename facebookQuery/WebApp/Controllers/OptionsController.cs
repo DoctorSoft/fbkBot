@@ -72,7 +72,7 @@ namespace WebApp.Controllers
         }
         private static void RefreshJobs(AccountViewModel account, long groupId)
         {
-            var settings = new GroupService().GetSettings(groupId);
+            var settings = new GroupService(null).GetSettings(groupId);
 
             var refreshJobsTask = new Task<bool>(() => new BackgroundJobService().AddOrUpdateAccountJobs(account, settings, null));
             refreshJobsTask.Start();

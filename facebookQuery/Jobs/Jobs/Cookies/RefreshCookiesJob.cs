@@ -15,10 +15,10 @@ namespace Jobs.Jobs.Cookies
                 return;
             }
 
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.RefreshCookies);
+
             new BackgroundJobService().CreateBackgroundJob(account, FunctionName.RefreshCookies, new TimeSpan(2, 0, 0), false);
-
-            new JobStatusService().AddOrUpdateJobStatus(FunctionName.RefreshCookies, account.Id);
-
+            
             new JobQueueService().AddToQueue(account.Id, FunctionName.RefreshCookies);
         }
     }

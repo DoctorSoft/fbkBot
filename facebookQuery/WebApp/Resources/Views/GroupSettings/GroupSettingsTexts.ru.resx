@@ -192,4 +192,34 @@
   <data name="GroupsTitle" xml:space="preserve">
     <value>Группы и страницы</value>
   </data>
+  <data name="IsJoinToAllGroups" xml:space="preserve">
+    <value>Пригласить во все группы сразу</value>
+  </data>
+  <data name="RetryTimeJoinGroups" xml:space="preserve">
+    <value>Приглашать в группы каждые</value>
+  </data>
+  <data name="RetryTimeJoinGroupsEnable" xml:space="preserve">
+    <value>Вкл./Выкл. приглашение в группы</value>
+  </data>
+  <data name="CountAddedInGroupsInDay" xml:space="preserve">
+    <value>Кол-во добавлений в группу в день</value>
+  </data>
+  <data name="CountAddedInGroupsInHour" xml:space="preserve">
+    <value>Кол-во добавлений в группу в час</value>
+  </data>
+  <data name="CountAddedInPagesInDay" xml:space="preserve">
+    <value>Кол-во добавлений в сообщество  в день</value>
+  </data>
+  <data name="CountAddedInPagesInHour" xml:space="preserve">
+    <value>Кол-во добавлений в сообщество в час</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>от</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>до</value>
+  </data>
+  <data name="RetryTimeJoinPage" xml:space="preserve">
+    <value>Приглашать в сообщества каждые</value>
+  </data>
 </root>

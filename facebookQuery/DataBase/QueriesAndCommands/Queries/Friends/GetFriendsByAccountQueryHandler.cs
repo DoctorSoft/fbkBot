@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CommonModels;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Models;
 
@@ -8,16 +7,16 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
 {
     public class GetFriendsByAccountQueryHandler : IQueryHandler<GetFriendsByAccountQuery, List<FriendData>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetFriendsByAccountQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<FriendData> Handle(GetFriendsByAccountQuery query)
         {
-            var result = context.Friends
+            var result = _context.Friends
                 .Where(model => model.AccountId == query.AccountId)
                 .Select(model => new FriendData
                 {
@@ -26,8 +25,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,
-                    MessagesEnded = context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId
-                        && dbModel.GroupId == context.Accounts.FirstOrDefault(accountDbModel => accountDbModel.Id == query.AccountId).GroupSettingsId),
+                    DialogIsCompleted = model.DialogIsCompleted,
                     MessageRegime = model.MessageRegime
                 }).ToList();
 

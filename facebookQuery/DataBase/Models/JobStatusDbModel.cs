@@ -9,8 +9,12 @@ namespace DataBase.Models
 
         public long AccountId { get; set; }
 
+        public string JobId { get; set; }
+
         public FunctionName FunctionName { get; set; }
 
-        public DateTime LastLaunchDateTime { get; set; }
+        public TimeSpan LaunchDateTime { get; set; }
+
+        public DateTime AddDateTime { get; set; }
     }
 }

@@ -8,11 +8,11 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
 {
     public class GetNewFriendsForDialogueQueryHandler : IQueryHandler<GetNewFriendsForDialogueQuery, List<FriendData>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetNewFriendsForDialogueQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<FriendData> Handle(GetNewFriendsForDialogueQuery query)
@@ -21,12 +21,12 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
             try
             {
                 var friends =
-                    context.Friends.Where(model => model.AccountId == query.AccountId
-                        && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.AccountId) 
+                    _context.Friends.Where(model => model.AccountId == query.AccountId
+                        && !_context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.AccountId) 
                         && !model.DeleteFromFriends 
                         && !model.FriendMessages.Any()).ToList();
 
-                var allMessages = context.FriendMessages.Select(model => model);
+                var allMessages = _context.FriendMessages.Select(model => model);
 
                 if (!friends.Any())
                 {

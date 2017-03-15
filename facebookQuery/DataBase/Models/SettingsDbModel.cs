@@ -15,5 +15,7 @@
         public string LimitsOptions { get; set; }
 
         public string CommunityOptions { get; set; }
+
+        public string DeleteFriendsOptions { get; set; }
     }
 }

@@ -1,4 +1,0 @@
-D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\RequestsHelper.dll
-D:\Project\fbkBot\facebookQuery\RequestsHelper\bin\Debug\RequestsHelper.pdb
-D:\Project\fbkBot\facebookQuery\RequestsHelper\obj\Debug\RequestsHelper.dll
-D:\Project\fbkBot\facebookQuery\RequestsHelper\obj\Debug\RequestsHelper.pdb

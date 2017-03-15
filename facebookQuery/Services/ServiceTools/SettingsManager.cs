@@ -2,46 +2,13 @@
 using CommonModels;
 using Constants.FunctionEnums;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.JobStatus;
 using DataBase.QueriesAndCommands.Queries.Settings;
 using Services.Interfaces.ServiceTools;
-using Services.ViewModels.HomeModels;
 
 namespace Services.ServiceTools
 {
     public class SettingsManager : ISettingsManager
     {
-        public bool HasARetryTimePermission(FunctionName functionName, AccountViewModel account)
-        {
-            if (account.GroupSettingsId == null)
-            {
-                return false;
-            }
-
-            var delay = GetDelay(functionName, (long) account.GroupSettingsId);
-
-            var jobStatus = new GetJobStatusQueryHandler(new DataBaseContext()).Handle(new GetJobStatusQuery
-            {
-                FunctionName = functionName,
-                AccountId = account.Id
-            });
-
-            if (jobStatus == null)
-            {
-                return true;
-            }
-
-            return CheckDelay(jobStatus.LastLaunchDateTime, delay);
-        }
-
-        private static bool CheckDelay(DateTime lastLaunchDateTime, TimeModel delay)
-        {
-            var differenceTime = DateTime.Now - lastLaunchDateTime;
-            var summ = differenceTime.Days * 24 * 60 + differenceTime.Hours * 60 + differenceTime.Minutes;
-            //return summ >= delay;
-
-            return false;
-        }
 
         public TimeModel GetDelay(FunctionName functionName, long groupSettingsId)
         {
@@ -140,6 +107,22 @@ namespace Services.ServiceTools
                     var sendRequestFriendshipTimeModel = groupSettings.FriendsOptions.RetryTimeSendRequestFriendships;
                     return new TimeSpan(sendRequestFriendshipTimeModel.Hours, sendRequestFriendshipTimeModel.Minutes,
                         sendRequestFriendshipTimeModel.Seconds);
+                }
+                case FunctionName.JoinTheNewGroupsAndPages:
+                {
+                    return new TimeSpan(0, 0, 10);
+                }
+                case FunctionName.InviteToGroups:
+                {
+                    var inviteToGroupsTimeModel = groupSettings.CommunityOptions.RetryTimeInviteTheGroups;
+                    return new TimeSpan(inviteToGroupsTimeModel.Hours, inviteToGroupsTimeModel.Minutes,
+                        inviteToGroupsTimeModel.Seconds);
+                }
+                case FunctionName.InviteToPages:
+                {
+                    var inviteToPagesTimeModel = groupSettings.CommunityOptions.RetryTimeInviteThePages;
+                    return new TimeSpan(inviteToPagesTimeModel.Hours, inviteToPagesTimeModel.Minutes,
+                        inviteToPagesTimeModel.Seconds);
                 }
                 default:
                     throw new ArgumentOutOfRangeException("functionName");

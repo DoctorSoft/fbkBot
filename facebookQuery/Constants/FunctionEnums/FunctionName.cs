@@ -19,6 +19,9 @@
         RefreshCookies = 301,
 
         //Community
-        JoinTheNewGroup = 401,
+        JoinTheNewGroupsAndPages = 401,
+
+        InviteToGroups = 403,
+        InviteToPages = 404,
     }
 }

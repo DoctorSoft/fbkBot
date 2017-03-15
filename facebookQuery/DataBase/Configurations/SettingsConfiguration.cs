@@ -15,6 +15,7 @@ namespace DataBase.Configurations
             Property(model => model.GeoOptions);
             Property(model => model.MessageOptions);
             Property(model => model.LimitsOptions);
+            Property(model => model.DeleteFriendsOptions);
 
             HasRequired(it => it.SettingsGroup).WithOptional(m=>m.Settings);
         }

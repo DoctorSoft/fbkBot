@@ -1,10 +1,10 @@
 ﻿using System;
 using Constants.FunctionEnums;
 using Runner.Context;
+using Runner.Runners.Community;
 using Runner.Runners.Cookies;
 using Runner.Runners.Friends;
 using Runner.Runners.Messages;
-using Runner.Runners.Settings;
 using Services.ViewModels.HomeModels;
 
 namespace Runner
@@ -57,9 +57,19 @@ namespace Runner
                     context = new RunnerContext(new RefreshCookiesRunner());
                     break;
                 }
-                case FunctionName.JoinTheNewGroup:
+                case FunctionName.JoinTheNewGroupsAndPages:
                 {
-                    context = new RunnerContext(new JoinTheNewGroupRunner());
+                    context = new RunnerContext(new JoinTheNewGroupsAndPagesRunner());
+                    break;
+                }
+                case FunctionName.InviteToGroups:
+                {
+                    context = new RunnerContext(new InvaitTheNewGroupRunner());
+                    break;
+                }
+                case FunctionName.InviteToPages:
+                {
+                    context = new RunnerContext(new InvaitTheNewPageRunner());
                     break;
                 }
                 default:

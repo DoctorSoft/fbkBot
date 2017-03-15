@@ -8,17 +8,17 @@ namespace DataBase.QueriesAndCommands.Queries.Account
 {
     public class GetAccountsQueryHandler : IQueryHandler<GetAccountsQuery, List<AccountModel>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetAccountsQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<AccountModel> Handle(GetAccountsQuery query)
         {
             var models =
-                context.Accounts.Include(model => model.Cookies)
+                _context.Accounts.Include(model => model.Cookies)
                     .Where(model => !model.IsDeleted)
                     .OrderBy(model => model.Id)
                     //.Skip(query.Count*query.Page)

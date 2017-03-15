@@ -11,7 +11,7 @@ namespace WebApp.Controllers
 
         public GroupSettingsController()
         {
-            this._groupService = new GroupService();
+            this._groupService = new GroupService(null);
         }
         // GET: GroupSettings
         public ActionResult Index(long groupId)

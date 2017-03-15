@@ -5,36 +5,36 @@ namespace WebApp.Controllers
 {
     public class GroupsController : Controller
     {
-        private readonly GroupService groupService;
+        private readonly GroupService _groupService;
 
         public GroupsController()
         {
-            this.groupService = new GroupService();
+            this._groupService = new GroupService(null);
         }
 
         // GET: Groups
         public ActionResult Index()
         {
-            var groups = groupService.GetGroups();
+            var groups = _groupService.GetGroups();
             return View(groups);
         }
 
         [HttpPost]
         public ActionResult AddGroup(string name)
         {
-            groupService.AddNewGroup(name);
+            _groupService.AddNewGroup(name);
             return RedirectToAction("Index", "Groups");
         }
 
         public ActionResult RemoveGroup(long groupId)
         {
-            groupService.RemoveGroup(groupId);
+            _groupService.RemoveGroup(groupId);
             return RedirectToAction("Index", "Groups");
         }
 
         public ActionResult UpdateGroup(long groupId, string name)
         {
-            groupService.UpdateGroup(groupId, name);
+            _groupService.UpdateGroup(groupId, name);
             return RedirectToAction("Index", "Groups");
         }
     }

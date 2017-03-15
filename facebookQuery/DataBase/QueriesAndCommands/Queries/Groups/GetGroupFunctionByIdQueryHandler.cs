@@ -5,16 +5,16 @@ namespace DataBase.QueriesAndCommands.Queries.Groups
 {
     public class GetGroupFunctionByIdQueryHandler : IQueryHandler<GetGroupFunctionByIdQuery, GroupFunctionData>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetGroupFunctionByIdQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public GroupFunctionData Handle(GetGroupFunctionByIdQuery query)
         {
-            var result = context.GroupFunctions.Select(model => new GroupFunctionData
+            var result = _context.GroupFunctions.Select(model => new GroupFunctionData
             {
                 Name = model.Function.Name,
                 FunctionName = model.Function.FunctionName,

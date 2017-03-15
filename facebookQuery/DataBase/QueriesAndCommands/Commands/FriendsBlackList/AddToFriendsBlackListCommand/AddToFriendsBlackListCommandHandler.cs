@@ -8,23 +8,23 @@ namespace DataBase.QueriesAndCommands.Commands.FriendsBlackList.AddToFriendsBlac
 {
     public class AddToFriendsBlackListCommandHandler : ICommandHandler<AddToFriendsBlackListCommand, VoidCommandResponse>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public AddToFriendsBlackListCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public VoidCommandResponse Handle(AddToFriendsBlackListCommand command)
         {
-            var friendDbModel = context.FriendsBlackList.FirstOrDefault(model => model.FriendFacebookId == command.FriendFacebookId);
+            var friendDbModel = _context.FriendsBlackList.FirstOrDefault(model => model.FriendFacebookId == command.FriendFacebookId);
 
             if (friendDbModel!=null)
             {
                 friendDbModel.DateAdded = DateTime.Now;
 
-                context.FriendsBlackList.AddOrUpdate(friendDbModel);
-                context.SaveChanges();
+                _context.FriendsBlackList.AddOrUpdate(friendDbModel);
+                _context.SaveChanges();
                 
                 return new VoidCommandResponse();
             }
@@ -37,9 +37,9 @@ namespace DataBase.QueriesAndCommands.Commands.FriendsBlackList.AddToFriendsBlac
                 DateAdded = DateTime.Now
             };
 
-            context.FriendsBlackList.AddOrUpdate(friendDbModel);
+            _context.FriendsBlackList.AddOrUpdate(friendDbModel);
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
             return new VoidCommandResponse();
         }

@@ -66,6 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\AbstractEngine.cs" />
+    <Compile Include="Engines\AddToPageEngine\AddToPageEngine.cs" />
+    <Compile Include="Engines\AddToPageEngine\AddToPageModel.cs" />
+    <Compile Include="Engines\AddToGroupEngine\AddToGroupEngine.cs" />
+    <Compile Include="Engines\AddToGroupEngine\AddToGroupModel.cs" />
+    <Compile Include="Engines\AddToGroupEngine\FriendModel.cs" />
     <Compile Include="Engines\CancelFriendshipRequestEngine\CancelFriendshipRequestEngine.cs" />
     <Compile Include="Engines\CancelFriendshipRequestEngine\CancelFriendshipRequestModel.cs" />
     <Compile Include="Engines\CheckProxyEngine\CheckProxyEngine.cs" />
@@ -74,6 +79,10 @@
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendGenderModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendInfoBySeleniumEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendInfoBySeleniumModel.cs" />
+    <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinThePagesBySeleniumEngine\JoinThePagesBySeleniumEngine.cs" />
+    <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinThePagesBySeleniumEngine\JoinThePagesBySeleniumModel.cs" />
+    <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinTheGroupsBySeleniumEngine\JoinTheGroupsBySeleniumEngine.cs" />
+    <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinTheGroupsBySeleniumEngine\JoinTheGroupsBySeleniumModel.cs" />
     <Compile Include="Engines\RemoveFriendEngine\RemoveFriendEngine.cs" />
     <Compile Include="Engines\RemoveFriendEngine\RemoveFriendModel.cs" />
     <Compile Include="Engines\GetFriendInfoEngine\GetFriendInfoEngine.cs" />

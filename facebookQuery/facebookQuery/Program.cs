@@ -14,13 +14,17 @@ using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Commands.FriendsBlackList.AddToFriendsBlackListCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using Engines.Engines.AddToGroupEngine;
+using Engines.Engines.AddToPageEngine;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendInfoEngine;
 using Engines.Engines.GetFriendsByCriteriesEngine;
 using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.GetNewCookiesEngine;
+using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinThePagesBySeleniumEngine;
 using Engines.Engines.WinkEngine;
 using Jobs.JobsService;
 using OpenQA.Selenium;
@@ -39,56 +43,9 @@ namespace FacebookApp
     internal class Program
     {
         private static IAccountSettingsManager _accountSettingsManager;
+        private static IAccountManager _accountManager;
 
-        private static IEnumerable<KeyValuePair<string, string>> ParseCookieString(string cookieString)
-        {
-            var cookiesElements = cookieString.Split(';');
-            var cookiesElementsList = new List<KeyValuePair<string, string>>();
-
-            foreach (var cookiesElement in cookiesElements)
-            {
-                var cookiesElementData = cookiesElement.Split('=');
-
-                try
-                {
-                    cookiesElementsList.Add(new KeyValuePair<string, string>(cookiesElementData[0] ?? "",
-                        cookiesElementData[1] ?? ""));
-                }
-                catch (Exception)
-                {
-
-                }
-            }
-
-            return cookiesElementsList;
-            //return s.Select(s1 => s1.Split('=')).Select(s11 => new KeyValuePair<string, string>(s11[0], s11[1])).ToList();
-        }
-
-        private static void ScrollPage(PhantomJSDriver driver)
-        {
-            var js = (IJavaScriptExecutor) driver;
-            js.ExecuteScript(string.Format("window.scrollBy({0}, {1})", 3000, 3000), "");
-
-            Thread.Sleep(1000);
-        }
-
-
-        private static IReadOnlyCollection<IWebElement> GetFriendLinks(PhantomJSDriver driver)
-        {
-            return driver.FindElementsByCssSelector("._6a._6b>.fsl.fwb.fcb>a");
-        }
-
-        private static long ParseFacebookId(string page)
-        {
-            var pattern = new Regex("eng_tid\\\":*?.\".*?.\"");
-            var step1 = pattern.Match(page).ToString();
-
-            var step2 = step1.Remove(0, 10);
-            var step3 = step2.Remove(step2.Length - 1);
-
-            return Convert.ToInt64(step3);
-        }
-
+ 
         private static void Main(string[] args)
         {
 
@@ -97,7 +54,7 @@ namespace FacebookApp
             var accounts = homeService.GetAccounts();
 
             _accountSettingsManager = new AccountSettingsManager();
-
+            _accountManager = new AccountManager();
 
             /*new AddToFriendsBlackListCommandHandler(new DataBaseContext()).Handle(new AddToFriendsBlackListCommand
             {
@@ -112,26 +69,48 @@ namespace FacebookApp
             {
                 if (accountViewModel.Id == 1)
                 {
-                    var settings = _accountSettingsManager.GetSettings((long)accountViewModel.GroupSettingsId);
+                    //new GroupService(null).InviteToGroup(accountViewModel);
 
-                    var start = DateTime.Now;
+                    var seleniumManager = new SeleniumManager();
 
-                    var status = new CheckFriendInfoBySeleniumEngine().Execute(new CheckFriendInfoBySeleniumModel
+                    new JoinThePagesBySeleniumEngine().Execute(new JoinThePagesBySeleniumModel
                     {
-                        FriendFacebookId = 100000229094306,
-                        AccountFacebookId = 100013726390504,
+                        Driver = seleniumManager.RegisterNewDriver(accountViewModel),
                         Cookie = accountViewModel.Cookie,
-                        Driver = new PhantomJSDriver(),
-                        Cities = settings.Cities,
-                        Countries = settings.Countries
+                        Pages = new List<string>
+                        {
+                            "https://www.facebook.com/belbeercom/",
+                            "https://www.facebook.com/etradeconf/"
+                        }
                     });
 
-                    Console.WriteLine("Start {0} End {1}", start, DateTime.Now);
+                    /*
+                    new AddToPageEngine().Execute(new AddToPageModel
+                    {
+                        Cookie = accountViewModel.Cookie,
+                        Proxy = _accountManager.GetAccountProxy(new AccountModel()
+                        {
+                            Proxy = accountViewModel.Proxy,
+                            ProxyLogin = accountViewModel.ProxyLogin,
+                            ProxyPassword = accountViewModel.ProxyPassword
+                        }),
+                        FacebookId = accountViewModel.FacebookId,
+                        FacebookPageUrl = "https://www.facebook.com/hc.neman/",
+                        Friend = 
+                        new FriendModel
+                            {
+                                FacebookId = 100015663996105,
+                                FriendName = "Loly"
+                        },
+                        UrlParameters =
+                            new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                            {
+                                NameUrlParameter = NamesUrlParameter.AddFriendsToPage
+                            }),
+                    });
+                
 
-                    var s = 4*1;
-
-
-                    /* var account =
+                /* var account =
                         new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
                         {
                             FacebookUserId = accountViewModel.FacebookId

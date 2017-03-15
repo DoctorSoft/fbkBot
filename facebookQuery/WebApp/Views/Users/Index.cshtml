@@ -31,12 +31,16 @@
             //определяем метод, вызываемый с серверной част,
             //параметры естественно должы совпадать
             chat.client.addNotice = function (acccountId, msg) {
+                var text4Stap = $("#messages_" + acccountId + " #span4").text();
+                $("#messages_" + acccountId + " #span5").text(text4Stap).show('slow');
+                
+                var text3Stap = $("#messages_" + acccountId + " #span3").text();
+                $("#messages_" + acccountId + " #span4").text(text3Stap).show('slow');
+                
                 var text2Stap = $("#messages_" + acccountId + " #span2").text();
-                //$("#messages_" + acccountId + " #span3").text(" ").hide();
                 $("#messages_" + acccountId + " #span3").text(text2Stap).show('slow');
 
                 var text1Stap = $("#messages_" + acccountId + " #span1").text();
-                //$("#messages_" + acccountId + " #span2").text(" ").hide();
                 $("#messages_" + acccountId + " #span2").text(text1Stap).show('slow');
                 
                 $("#messages_" + acccountId + " #span1").text(" ").hide();
@@ -101,7 +105,9 @@
                         <div id="messages_@account.Id">
                             <span id="span1">Аккаунт в режиме ожидания</span><br />
                             <span id="span2"></span><br />
-                            <span id="span3"></span>
+                            <span id="span3"></span><br />
+                            <span id="span4"></span><br />
+                            <span id="span5"></span>
                         </div>
                     </div>
                 </div>

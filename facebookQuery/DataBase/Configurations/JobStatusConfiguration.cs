@@ -13,9 +13,11 @@ namespace DataBase.Configurations
             HasKey(model => model.Id);
             Property(model => model.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            Property(model => model.FunctionName);
             Property(model => model.AccountId);
-            Property(model => model.LastLaunchDateTime);
+            Property(model => model.JobId);
+            Property(model => model.FunctionName);
+            Property(model => model.LaunchDateTime);
+            Property(model => model.AddDateTime);
         }
     }
 }

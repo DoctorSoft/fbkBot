@@ -56,7 +56,26 @@ namespace Services.ServiceTools
                 RetryTimeSendUnansweredHour = settings.MessageOptions.RetryTimeSendUnanswered.Hours,
                 RetryTimeSendUnansweredMin = settings.MessageOptions.RetryTimeSendUnanswered.Minutes,
                 RetryTimeSendUnansweredSec = settings.MessageOptions.RetryTimeSendUnanswered.Seconds,
-                UnansweredDelay = settings.MessageOptions.UnansweredDelay
+                UnansweredDelay = settings.MessageOptions.UnansweredDelay,
+                MaxFriendsJoinGroupInDay = settings.CommunityOptions.MaxFriendsJoinGroupInDay,
+                MaxFriendsJoinGroupInHour = settings.CommunityOptions.MaxFriendsJoinGroupInHour,
+                MinFriendsJoinGroupInDay = settings.CommunityOptions.MinFriendsJoinGroupInDay,
+                MinFriendsJoinGroupInHour = settings.CommunityOptions.MinFriendsJoinGroupInHour,
+                MaxFriendsJoinPageInDay = settings.CommunityOptions.MaxFriendsJoinPageInDay,
+                MaxFriendsJoinPageInHour = settings.CommunityOptions.MaxFriendsJoinPageInHour,
+                MinFriendsJoinPageInDay = settings.CommunityOptions.MinFriendsJoinPageInDay,
+                MinFriendsJoinPageInHour = settings.CommunityOptions.MinFriendsJoinPageInHour,
+
+
+                //delete friends options
+                DialogIsOverTimer = settings.DeleteFriendsOptions == null ? 0 : settings.DeleteFriendsOptions.DialogIsOverTimer,
+                EnableDialogIsOver = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableDialogIsOver,
+                EnableIsAddedToGroupsAndPages = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableIsAddedToGroupsAndPages,
+                EnableIsWink = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableIsWink,
+                EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableIsWinkFriendsOfFriends,
+                IsAddedToGroupsAndPagesTimer = settings.DeleteFriendsOptions == null ? 0 : settings.DeleteFriendsOptions.IsAddedToGroupsAndPagesTimer,
+                IsWinkFriendsOfFriendsTimer = settings.DeleteFriendsOptions == null ? 0 : settings.DeleteFriendsOptions.IsWinkFriendsOfFriendsTimer,
+                IsWinkTimer = settings.DeleteFriendsOptions == null ? 0 : settings.DeleteFriendsOptions.IsWinkTimer
             };
         }
 

@@ -15,5 +15,7 @@ namespace DataBase.QueriesAndCommands.Commands.Settings
         public LimitsOptionsDbModel LimitsOptions { get; set; }
 
         public CommunityOptionsDbModel CommunityOptions { get; set; }
+
+        public DeleteFriendsOptionsDbModel DeleteFriendsOptions { get; set; }
     }
 }

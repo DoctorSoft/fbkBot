@@ -8,5 +8,7 @@ namespace Services.Interfaces.ServiceTools
         void ClearFriendsBlackListByGroupId(long groupSettingsId);
 
         List<BlockedFriendData> GetFriendsBlockedListByGroupId(long groupSettingsId);
+
+        bool CheckForFriendBlacklist(long friendFacebookId, long groupSettingsId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Jobs.JobsService;
+using Runner.Notices;
 using Services.Services;
 
 namespace Jobs
@@ -9,7 +10,7 @@ namespace Jobs
         {
             //todo: uncomment it back
             var accounts = new HomeService().GetAccounts();
-            var groupService = new GroupService();
+            var groupService = new GroupService(new NoticesProxy());
 
             foreach (var account in accounts)
             {
@@ -20,6 +21,7 @@ namespace Jobs
                 }
 
                 var settings = groupService.GetSettings((long)account.GroupSettingsId);
+                //new JobService().AddOrUpdateAccountJobs(account);
                 new BackgroundJobService().AddOrUpdateAccountJobs(account, settings, null);
             }
         }

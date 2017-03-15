@@ -1,7 +1,0 @@
-D:\Project\fbkBot\facebookQuery\CommonModels\bin\Release\CommonModels.dll
-D:\Project\fbkBot\facebookQuery\CommonModels\bin\Release\CommonModels.pdb
-D:\Project\fbkBot\facebookQuery\CommonModels\bin\Release\Constants.dll
-D:\Project\fbkBot\facebookQuery\CommonModels\bin\Release\Constants.pdb
-D:\Project\fbkBot\facebookQuery\CommonModels\obj\Release\CommonModels.csprojResolveAssemblyReference.cache
-D:\Project\fbkBot\facebookQuery\CommonModels\obj\Release\CommonModels.dll
-D:\Project\fbkBot\facebookQuery\CommonModels\obj\Release\CommonModels.pdb

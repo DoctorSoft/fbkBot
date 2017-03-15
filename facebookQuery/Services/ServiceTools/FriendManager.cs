@@ -41,12 +41,6 @@ namespace Services.ServiceTools
                 FriendName = friend.FriendName,
                 GroupSettingsId = groupSettingsId
             });
-
-            new DeleteFriendByIdCommandHandler(context).Handle(new DeleteFriendByIdCommand
-            {
-                AccountId = friend.AccountId,
-                FriendId = friend.Id
-            });
         }
     }
 }

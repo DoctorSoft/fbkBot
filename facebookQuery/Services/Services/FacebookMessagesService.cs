@@ -320,8 +320,7 @@ namespace Services.Services
                 }).ToList()
             };
         }
-
-
+        
         public List<GetMessagesResponseModel> GetAllMessages(long accountId)
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery

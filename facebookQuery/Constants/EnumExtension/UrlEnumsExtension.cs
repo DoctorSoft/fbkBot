@@ -515,5 +515,77 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("cancelFriendshipRequest");
             }
         }
+
+        public static string GetAttributeName(this AddFriendsToGroupEnum addFriendsToGroupEnum)
+        {
+            switch (addFriendsToGroupEnum)
+            {
+                case AddFriendsToGroupEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case AddFriendsToGroupEnum.Members:
+                    return "members[0]=";
+                case AddFriendsToGroupEnum.TextMembers:
+                    return "text_members[0]=";
+                case AddFriendsToGroupEnum.User:
+                    return "__user=";
+                case AddFriendsToGroupEnum.A:
+                    return "__a=";
+                case AddFriendsToGroupEnum.Dyn:
+                    return "__dyn=";
+                case AddFriendsToGroupEnum.Af:
+                    return "__af=";
+                case AddFriendsToGroupEnum.Req:
+                    return "__req=";
+                case AddFriendsToGroupEnum.Be:
+                    return "__be=";
+                case AddFriendsToGroupEnum.Pc:
+                    return "__pc=";
+                case AddFriendsToGroupEnum.Rev:
+                    return "__rev=";
+                case AddFriendsToGroupEnum.Ttstamp:
+                    return "ttstamp=";
+                default:
+                    throw new ArgumentOutOfRangeException("addFriendsToGroupEnum");
+            }
+        }
+
+        public static string GetAttributeName(this AddFriendsToPageEnum addFriendsToPageEnum)
+        {
+            switch (addFriendsToPageEnum)
+            {
+                case AddFriendsToPageEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case AddFriendsToPageEnum.PageId:
+                    return "page_id=";
+                case AddFriendsToPageEnum.Invitee:
+                    return "invitee=";
+                case AddFriendsToPageEnum.User:
+                    return "__user=";
+                case AddFriendsToPageEnum.A:
+                    return "__a=";
+                case AddFriendsToPageEnum.Dyn:
+                    return "__dyn=";
+                case AddFriendsToPageEnum.Af:
+                    return "__af=";
+                case AddFriendsToPageEnum.Req:
+                    return "__req=";
+                case AddFriendsToPageEnum.Be:
+                    return "__be=";
+                case AddFriendsToPageEnum.Pc:
+                    return "__pc=";
+                case AddFriendsToPageEnum.Rev:
+                    return "__rev=";
+                case AddFriendsToPageEnum.Ttstamp:
+                    return "ttstamp=";
+                case AddFriendsToPageEnum.ElemId:
+                    return "elem_id=";
+                case AddFriendsToPageEnum.Action:
+                    return "action=";
+                case AddFriendsToPageEnum.Ref:
+                    return "ref=";
+                default:
+                    throw new ArgumentOutOfRangeException("addFriendsToPageEnum");
+            }
+        }
     }
 }

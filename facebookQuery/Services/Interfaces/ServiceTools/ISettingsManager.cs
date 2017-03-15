@@ -5,6 +5,5 @@ namespace Services.Interfaces.ServiceTools
 {
     public interface ISettingsManager
     {
-        bool HasARetryTimePermission(FunctionName functionName, AccountViewModel account);
-    }
+   }
 }

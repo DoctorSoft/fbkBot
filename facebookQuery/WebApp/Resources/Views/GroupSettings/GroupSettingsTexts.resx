@@ -192,4 +192,34 @@
   <data name="GroupsTitle" xml:space="preserve">
     <value>Groups and pages</value>
   </data>
+  <data name="IsJoinToAllGroups" xml:space="preserve">
+    <value>Join to all groups</value>
+  </data>
+  <data name="RetryTimeJoinGroupsEnable" xml:space="preserve">
+    <value>Enable join the groups and pages</value>
+  </data>
+  <data name="RetryTimeJoinGroups" xml:space="preserve">
+    <value>Retry time join the groups</value>
+  </data>
+  <data name="CountAddedInGroupsInDay" xml:space="preserve">
+    <value>Count added in groups in day</value>
+  </data>
+  <data name="CountAddedInGroupsInHour" xml:space="preserve">
+    <value>Count add in groups in hour</value>
+  </data>
+  <data name="CountAddedInPagesInDay" xml:space="preserve">
+    <value>Count add in pages in day</value>
+  </data>
+  <data name="CountAddedInPagesInHour" xml:space="preserve">
+    <value>Count add in pages in hour</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="RetryTimeJoinPage" xml:space="preserve">
+    <value>Retry time join page</value>
+  </data>
 </root>

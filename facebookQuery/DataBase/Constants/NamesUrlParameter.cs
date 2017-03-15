@@ -14,6 +14,8 @@
         Wink = 10,
         ConfirmFriendship = 11,
         RemoveFriend = 12,
-        CancelRequestFriendship = 13
+        CancelRequestFriendship = 13,
+        AddFriendsToGroup = 14,
+        AddFriendsToPage= 15,
     }
 }

@@ -2,6 +2,7 @@
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
+using Runner.Notices;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 
@@ -17,12 +18,12 @@ namespace Jobs.Jobs.MessageJobs
                 return;
             }
 
-            var settings = new GroupService().GetSettings((long)account.GroupSettingsId);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.SendMessageToUnread);
+
+            var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
             var sendUnreadLaunchTime = new TimeSpan(settings.RetryTimeSendUnreadHour, settings.RetryTimeSendUnreadMin, settings.RetryTimeSendUnreadSec);
             new BackgroundJobService().CreateBackgroundJob(account, FunctionName.SendMessageToUnread, sendUnreadLaunchTime, true);
-
-            new JobStatusService().AddOrUpdateJobStatus(FunctionName.SendMessageToUnread, account.Id);
-
+            
             new JobQueueService().AddToQueue(account.Id, FunctionName.SendMessageToUnread);
         }
     }

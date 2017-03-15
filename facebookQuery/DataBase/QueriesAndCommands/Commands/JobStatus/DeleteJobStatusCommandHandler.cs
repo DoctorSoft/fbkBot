@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Commands.JobStatus
@@ -14,11 +15,19 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
 
         public VoidCommandResponse Handle(DeleteJobStatusCommand command)
         {
-            var jobStatus = _context.JobStatus.FirstOrDefault(model => model.AccountId == command.AccountId);
-            
-            _context.JobStatus.Remove(jobStatus);
+            var jobStatus = _context.JobStatus.Where(model => model.AccountId == command.AccountId 
+                && model.FunctionName == command.FunctionName);
+            try
+            {
+                _context.JobStatus.RemoveRange(jobStatus);
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
 
             return new VoidCommandResponse();
         }

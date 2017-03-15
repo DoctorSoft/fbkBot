@@ -66,7 +66,7 @@ namespace Services.Services
                     Name = model.FriendName,
                     Deleted = model.Deleted,
                     Id = model.Id,
-                    MessagesEnded = model.MessagesEnded
+                    MessagesEnded = model.DialogIsCompleted
                 }).ToList()
             };
 

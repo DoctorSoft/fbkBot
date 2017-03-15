@@ -18,6 +18,10 @@ namespace DataBase.Configurations
             Property(model => model.MessageRegime);
             Property(model => model.Href);
             Property(model => model.Gender);
+            Property(model => model.DialogIsCompleted);
+            Property(model => model.IsAddedToGroups);
+            Property(model => model.IsAddedToPages);
+            Property(model => model.IsWinked);
 
             HasRequired(it => it.AccountWithFriend).WithMany(m => m.Friends).HasForeignKey(model => model.AccountId);
             HasMany(it => it.FriendMessages).WithRequired(model => model.Friend).HasForeignKey(model => model.FriendId);

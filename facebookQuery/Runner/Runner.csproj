@@ -88,7 +88,9 @@
     <Compile Include="Interfaces\IRunner.cs" />
     <Compile Include="Notices\NoticesProxy.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Runners\Settings\JoinTheNewGroupRunner.cs" />
+    <Compile Include="Runners\Community\InvaitTheNewPageRunner.cs" />
+    <Compile Include="Runners\Community\InvaitTheNewGroupRunner.cs" />
+    <Compile Include="Runners\Community\JoinTheNewGroupsAndPagesRunner.cs" />
     <Compile Include="ServiceRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runners\Cookies\RefreshCookiesRunner.cs" />

@@ -1,4 +1,5 @@
-﻿using Constants.GendersUnums;
+﻿using CommonModels;
+using Constants.GendersUnums;
 
 namespace Services.ViewModels.GroupModels
 {
@@ -10,12 +11,61 @@ namespace Services.ViewModels.GroupModels
         public long CountMinFriends { get; set; }
 
         public long CountMaxFriends { get; set; }
+
+        //Delete friends options
+
+        public bool EnableDialogIsOver { get; set; }
+
+        public bool EnableIsAddedToGroupsAndPages { get; set; }
+
+        public bool EnableIsWink { get; set; }
+
+        public bool EnableIsWinkFriendsOfFriends { get; set; }
+
+        public int DialogIsOverTimer { get; set; }
+
+        public int IsAddedToGroupsAndPagesTimer { get; set; }
+
+        public int IsWinkTimer { get; set; }
+
+        public int IsWinkFriendsOfFriendsTimer { get; set; }
+
        
         //Community options
 
+        public bool IsJoinToAllGroups { get; set; }
+
+        public int RetryTimeInviteTheGroupsHour { get; set; }
+
+        public int RetryTimeInviteTheGroupsMin { get; set; }
+
+        public int RetryTimeInviteTheGroupsSec { get; set; }
+
+        public int RetryTimeInviteThePagesHour { get; set; }
+
+        public int RetryTimeInviteThePagesMin { get; set; }
+
+        public int RetryTimeInviteThePagesSec { get; set; }
+        
         public string FacebookGroups { get; set; }
 
         public string FacebookPages { get; set; }
+
+        public int MinFriendsJoinGroupInDay { get; set; }
+
+        public int MaxFriendsJoinGroupInDay { get; set; }
+
+        public int MinFriendsJoinGroupInHour { get; set; }
+
+        public int MaxFriendsJoinGroupInHour { get; set; }
+
+        public int MinFriendsJoinPageInDay { get; set; }
+
+        public int MaxFriendsJoinPageInDay { get; set; }
+
+        public int MinFriendsJoinPageInHour { get; set; }
+
+        public int MaxFriendsJoinPageInHour { get; set; }
 
         //Geo options
 

@@ -3,7 +3,7 @@ using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Queries.JobStatus
 {
-    public class GetJobStatusQueryHandler : IQueryHandler<GetJobStatusQuery, JobStatusData>
+    public class GetJobStatusQueryHandler : IQueryHandler<GetJobStatusQuery, JobStatusModel>
     {
         private readonly DataBaseContext _context;
 
@@ -12,7 +12,7 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
             this._context = context;
         }
 
-        public JobStatusData Handle(GetJobStatusQuery command)
+        public JobStatusModel Handle(GetJobStatusQuery command)
         {
             var jobStatus = _context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId);
 
@@ -21,12 +21,14 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
                 return null;
             }
 
-            return new JobStatusData
+            return new JobStatusModel
             {
-                LastLaunchDateTime = jobStatus.LastLaunchDateTime,
+                AccountId = jobStatus.AccountId,
                 Id = jobStatus.Id,
                 FunctionName = jobStatus.FunctionName,
-                AccountId = jobStatus.AccountId
+                AddDateTime = jobStatus.AddDateTime,
+                LaunchDateTime = jobStatus.LaunchDateTime,
+                JobId = jobStatus.JobId
             };
         }
     }

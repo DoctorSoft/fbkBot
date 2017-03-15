@@ -2,7 +2,9 @@
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
+using Runner.Notices;
 using Services.Services;
+using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.Jobs.FriendJobs
@@ -17,12 +19,12 @@ namespace Jobs.Jobs.FriendJobs
                 return;
             }
 
-            var settings = new GroupService().GetSettings((long)account.GroupSettingsId);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.SendRequestFriendship);
+
+            var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
             var sendRequestFriendshipsLaunchTime = new TimeSpan(settings.RetryTimeSendRequestFriendshipsHour, settings.RetryTimeSendRequestFriendshipsMin, settings.RetryTimeSendRequestFriendshipsSec);
             new BackgroundJobService().CreateBackgroundJob(account, FunctionName.SendRequestFriendship, sendRequestFriendshipsLaunchTime, true);
-
-            new JobStatusService().AddOrUpdateJobStatus(FunctionName.SendRequestFriendship, account.Id);
-
+            
             new JobQueueService().AddToQueue(account.Id, FunctionName.SendRequestFriendship);
         }
     }

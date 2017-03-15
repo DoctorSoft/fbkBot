@@ -70,6 +70,42 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count added in groups in day.
+        /// </summary>
+        public static string CountAddedInGroupsInDay {
+            get {
+                return ResourceManager.GetString("CountAddedInGroupsInDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count add in groups in hour.
+        /// </summary>
+        public static string CountAddedInGroupsInHour {
+            get {
+                return ResourceManager.GetString("CountAddedInGroupsInHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count add in pages in day.
+        /// </summary>
+        public static string CountAddedInPagesInDay {
+            get {
+                return ResourceManager.GetString("CountAddedInPagesInDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count add in pages in hour.
+        /// </summary>
+        public static string CountAddedInPagesInHour {
+            get {
+                return ResourceManager.GetString("CountAddedInPagesInHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Count max friends.
         /// </summary>
         public static string CountMaxFriends {
@@ -102,6 +138,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         public static string Friends {
             get {
                 return ResourceManager.GetString("Friends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        public static string From {
+            get {
+                return ResourceManager.GetString("From", resourceCulture);
             }
         }
         
@@ -156,6 +201,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         public static string Hour {
             get {
                 return ResourceManager.GetString("Hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Join to all groups.
+        /// </summary>
+        public static string IsJoinToAllGroups {
+            get {
+                return ResourceManager.GetString("IsJoinToAllGroups", resourceCulture);
             }
         }
         
@@ -223,6 +277,33 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retry time join the groups.
+        /// </summary>
+        public static string RetryTimeJoinGroups {
+            get {
+                return ResourceManager.GetString("RetryTimeJoinGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable join the groups and pages.
+        /// </summary>
+        public static string RetryTimeJoinGroupsEnable {
+            get {
+                return ResourceManager.GetString("RetryTimeJoinGroupsEnable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry time join page.
+        /// </summary>
+        public static string RetryTimeJoinPage {
+            get {
+                return ResourceManager.GetString("RetryTimeJoinPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update your friends list every.
         /// </summary>
         public static string RetryTimeRefreshFriends {
@@ -273,6 +354,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         public static string Sec {
             get {
                 return ResourceManager.GetString("Sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
             }
         }
         

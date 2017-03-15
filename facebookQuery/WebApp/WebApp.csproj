@@ -224,6 +224,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Resources\Views\GroupSettings\DeleteFriends\DeleteFriendsTexts.ru.Designer.cs">
+      <DependentUpon>DeleteFriendsTexts.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Views\GroupSettings\DeleteFriends\DeleteFriendsTexts.Designer.cs">
+      <DependentUpon>DeleteFriendsTexts.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Resources\Views\GroupSettings\GroupSettingsTexts.ru.Designer.cs">
       <DependentUpon>GroupSettingsTexts.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -498,6 +508,14 @@
     <EmbeddedResource Include="Resources\Views\FriendsBlackList\FriendsBlackListTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>FriendsBlackListTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\GroupSettings\DeleteFriends\DeleteFriendsTexts.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DeleteFriendsTexts.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\GroupSettings\DeleteFriends\DeleteFriendsTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DeleteFriendsTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Views\GroupSettings\GroupSettingsTexts.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

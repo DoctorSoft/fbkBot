@@ -26,5 +26,14 @@ namespace RequestsHelpers
 
             return value != null ? value.Remove(0, 7) : null;
         }
+
+        public static string GetGroupId(string pageRequest)
+        {
+            var regexForValue = new Regex("entity_id\":\"\"*[^\")]*");
+            var values = regexForValue.Matches(pageRequest);
+            var value = (from Match m in values select m.Groups[0].Value).FirstOrDefault();
+
+            return value != null ? value.Remove(0, 12) : null;
+        }
     }
 }

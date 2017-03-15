@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Constants.FunctionEnums;
 using Hangfire;
+using Hangfire.Server;
+using Jobs.Jobs.CommunityJobs;
 using Jobs.Jobs.Cookies;
 using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.MessageJobs;
-using Jobs.Jobs.SettingsJobs;
+using Runner.Notices;
 using Services.Hubs;
 using Services.Interfaces;
 using Services.Services;
@@ -34,8 +37,14 @@ namespace Jobs.JobsService
             }
             
             //community
-            var joinTheGroupLaunchTime = new TimeSpan(0, 0, 1);
-            CreateBackgroundJob(account, FunctionName.JoinTheNewGroup, joinTheGroupLaunchTime, false);
+            var joinTheGroupLaunchTime = new TimeSpan(0, 0, 10);
+            var inviteToGroupLaunchTime = SetLaunchTime(FunctionName.InviteToGroups, newSettings, oldSettings);
+            var inviteToPageLaunchTime = SetLaunchTime(FunctionName.InviteToPages, newSettings, oldSettings);
+
+
+            CreateBackgroundJob(account, FunctionName.JoinTheNewGroupsAndPages, joinTheGroupLaunchTime, true);
+            CreateBackgroundJob(account, FunctionName.InviteToGroups, inviteToGroupLaunchTime, true);
+            CreateBackgroundJob(account, FunctionName.InviteToPages, inviteToPageLaunchTime, true);
 
             //friends
             var refreshFriendsLaunchTime = SetLaunchTime(FunctionName.RefreshFriends, newSettings, oldSettings);
@@ -66,7 +75,7 @@ namespace Jobs.JobsService
             {
                 if (!FunctionHasPermisions(functionName, account))
                 {
-                return;
+                    return;
                 }
             }
             if (!TimeIsSet(launchTime))
@@ -74,72 +83,120 @@ namespace Jobs.JobsService
                 return;
             }
 
+            if (JobIsRun(functionName, account))
+            {
+                var jobStatus = new JobStatusService().GetJobStatus(account.Id, functionName);
+
+                BackgroundJob.Delete(jobStatus.JobId);
+
+                new JobStatusService().DeleteJobStatus(account.Id, functionName);
+            }
+
             switch (functionName)
             {
                 case FunctionName.SendMessageToNewFriends:
                 {
-                    BackgroundJob.Schedule(() => SendMessageToNewFriendsJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendMessageToNewFriendsJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.SendMessageToUnanswered:
                 {
-                    BackgroundJob.Schedule(() => SendMessageToUnansweredJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendMessageToUnansweredJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.SendMessageToUnread:
                 {
-                    BackgroundJob.Schedule(() => SendMessageToUnreadJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendMessageToUnreadJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.RefreshFriends:
                 {
-                    BackgroundJob.Schedule(() => RefreshFriendsJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => RefreshFriendsJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.GetNewFriendsAndRecommended:
                 {
-                    BackgroundJob.Schedule(() => GetNewFriendsAndRecommendedJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => GetNewFriendsAndRecommendedJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.ConfirmFriendship:
                 {
-                    BackgroundJob.Schedule(() => ConfirmFriendshipJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => ConfirmFriendshipJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.SendRequestFriendship:
                 {
-                    BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.AnalyzeFriends:
                 {
-                    BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 case FunctionName.RefreshCookies:
                 {
-                    BackgroundJob.Schedule(() => RefreshCookiesJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => RefreshCookiesJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
-                case FunctionName.JoinTheNewGroup:
+                case FunctionName.JoinTheNewGroupsAndPages:
                 {
                     if (account.GroupSettingsId == null)
                     {
                         break;
                     }
-                    var newGroups = new GroupService().GetNewSettings(account.Id, (long) account.GroupSettingsId);
+                    var newGroups = new GroupService(new NoticesProxy()).GetNewSettings(account.Id, (long) account.GroupSettingsId);
 
                     if (newGroups == null || newGroups.Count == 0)
                     {
                         break;
                     }
 
-                    BackgroundJob.Schedule(() => JoinTheNewGroupJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => JoinTheNewGroupsAndPagesJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
+                    break;
+                }
+                case FunctionName.InviteToGroups:
+                {
+                    var jobId = BackgroundJob.Schedule(() => InviteTheNewGroupJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
+                    break;
+                }
+                case FunctionName.InviteToPages:
+                {
+                    var jobId = BackgroundJob.Schedule(() => InviteTheNewPageJob.Run(account), launchTime);
+                    //Помечаем запуск джоба
+                    AddJobStatus(functionName, account.Id, launchTime, jobId);
                     break;
                 }
                 default:
                     throw new ArgumentOutOfRangeException("functionName");
             }
+        }
+
+        private void AddJobStatus(FunctionName functionName, long accountId, TimeSpan launchTime, string jobId)
+        {
+            new JobStatusService().AddJobStatus(accountId, functionName, launchTime, jobId);
         }
 
         private static bool TimeIsSet(TimeSpan launchTime)
@@ -170,6 +227,15 @@ namespace Jobs.JobsService
             }
 
             return true;
+        }
+        private static bool JobIsRun(FunctionName functionName, AccountViewModel account)
+        {
+            if (new JobStatusService().JobIsInRun(account.Id, functionName))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private static TimeSpan SetLaunchTime(FunctionName functionName, GroupSettingsViewModel newSettings, GroupSettingsViewModel oldSettings)
@@ -303,6 +369,44 @@ namespace Jobs.JobsService
 
                     var oldTime = new TimeSpan(oldSettings.RetryTimeSendRequestFriendshipsHour,
                         oldSettings.RetryTimeSendRequestFriendshipsMin, oldSettings.RetryTimeSendRequestFriendshipsSec);
+
+                    if (SettingsAreEqual(newTime, oldTime))
+                    {
+                        return new TimeSpan(0, 0, 0);
+                    }
+                    return newTime;
+                }
+                case FunctionName.InviteToGroups:
+                {
+                    var newTime = new TimeSpan(newSettings.RetryTimeInviteTheGroupsHour,
+                        newSettings.RetryTimeInviteTheGroupsMin, newSettings.RetryTimeInviteTheGroupsSec);
+
+                    if (oldSettings == null)
+                    {
+                        return newTime;
+                    }
+
+                    var oldTime = new TimeSpan(oldSettings.RetryTimeInviteTheGroupsHour,
+                        oldSettings.RetryTimeInviteTheGroupsMin, oldSettings.RetryTimeInviteTheGroupsSec);
+
+                    if (SettingsAreEqual(newTime, oldTime))
+                    {
+                        return new TimeSpan(0, 0, 0);
+                    }
+                    return newTime;
+                }
+                case FunctionName.InviteToPages:
+                {
+                    var newTime = new TimeSpan(newSettings.RetryTimeInviteThePagesHour,
+                        newSettings.RetryTimeInviteThePagesMin, newSettings.RetryTimeInviteThePagesSec);
+
+                    if (oldSettings == null)
+                    {
+                        return newTime;
+                    }
+
+                    var oldTime = new TimeSpan(oldSettings.RetryTimeInviteThePagesHour,
+                        oldSettings.RetryTimeInviteThePagesMin, oldSettings.RetryTimeInviteThePagesSec);
 
                     if (SettingsAreEqual(newTime, oldTime))
                     {

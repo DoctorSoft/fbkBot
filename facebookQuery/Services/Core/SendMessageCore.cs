@@ -4,10 +4,12 @@ using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeMessageRegimeCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToEndDialogCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
+using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
 using DataBase.QueriesAndCommands.Queries.Message;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.SendMessageEngine;
@@ -26,9 +28,11 @@ namespace Services.Core
         private readonly IFacebookMessageManager _facebookMessageManager;
         private readonly IMessageManager _messageManager;
         private readonly IStopWordsManager _stopWordsManager;
+        private readonly IFriendsBlackListManager _friendsBlackListManager;
 
         public SendMessageCore()
         {
+            _friendsBlackListManager = new FriendsBlackListManager();
             _friendManager = new FriendManager();
             _accountManager = new AccountManager();
             _facebookMessageManager = new FacebookMessageManager();
@@ -39,9 +43,22 @@ namespace Services.Core
         
         public void SendMessageToUnread(AccountModel account, FriendData friend)
         {
-            if (friend.Deleted || friend.MessagesEnded)
+            if (friend.Deleted || friend.DialogIsCompleted)
             {
                 _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
+                return;
+            }
+
+            if (account.GroupSettingsId == null)
+            {
+                _notice.Add(account.Id, string.Format("Ошибка! Не указана группа настроек."));
+               return;
+            }
+
+            var friendIsBlocked = _friendsBlackListManager.CheckForFriendBlacklist(friend.FacebookId, (long)account.GroupSettingsId);
+            if (friendIsBlocked)
+            {
+                _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
                 return;
             }
 
@@ -156,15 +173,34 @@ namespace Services.Core
 
             _notice.Add(account.Id, string.Format("Переписка завершена. Блокируем пользователя {0}({1})", friend.FriendName, friend.FacebookId));
 
+            new MarkAddToEndDialogCommandHandler(new DataBaseContext()).Handle(new MarkAddToEndDialogCommand
+            {
+                AccountId = account.Id,
+                FriendId = friend.FacebookId
+            });
+
             _friendManager.AddFriendToBlackList((long)account.GroupSettingsId, friend.FacebookId);
         }
 
         public void SendMessageToUnanswered(AccountModel account, FriendData friend)
         {
-            if (friend.MessagesEnded || friend.Deleted)
+            if (friend.DialogIsCompleted || friend.Deleted)
             {
               _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
               return;
+            }
+
+            if (account.GroupSettingsId == null)
+            {
+                _notice.Add(account.Id, string.Format("Ошибка! Не указана группа настроек."));
+                return;
+            }
+
+            var friendIsBlocked = _friendsBlackListManager.CheckForFriendBlacklist(friend.FacebookId, (long)account.GroupSettingsId);
+            if (friendIsBlocked)
+            {
+                _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
+                return;
             }
 
             var allMessages = new GetFriendMessagesQueryHandler(new DataBaseContext()).Handle(new GetFriendMessagesQuery()
@@ -229,6 +265,25 @@ namespace Services.Core
 
         public void SendMessageToNewFriend(AccountModel account, FriendData friend)
         {
+            if (friend.DialogIsCompleted || friend.Deleted)
+            {
+                _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
+                return;
+            }
+
+            if (account.GroupSettingsId == null)
+            {
+                _notice.Add(account.Id, string.Format("Ошибка! Не указана группа настроек."));
+                return;
+            }
+
+            var friendIsBlocked = _friendsBlackListManager.CheckForFriendBlacklist(friend.FacebookId, (long)account.GroupSettingsId);
+            if (friendIsBlocked)
+            {
+                _notice.Add(account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
+                return;
+            }
+
             var message = String.Empty;
 
             _notice.Add(account.Id, string.Format("Отправляем сообщения новым друзьям"));

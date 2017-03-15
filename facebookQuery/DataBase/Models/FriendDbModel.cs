@@ -28,5 +28,13 @@ namespace DataBase.Models
         public AccountDbModel AccountWithFriend { get; set; }
 
         public ICollection<FriendMessageDbModel> FriendMessages { get; set; }
+
+        public bool DialogIsCompleted { get; set; }
+
+        public bool IsAddedToGroups { get; set; }
+
+        public bool IsAddedToPages { get; set; }
+
+        public bool IsWinked { get; set; }
     }
 }

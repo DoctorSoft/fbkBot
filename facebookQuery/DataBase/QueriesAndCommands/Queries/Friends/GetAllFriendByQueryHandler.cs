@@ -7,16 +7,16 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
 {
     public class GetAllFriendByQueryHandler : IQueryHandler<GetAllFriendByQuery, List<FriendData>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetAllFriendByQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<FriendData> Handle(GetAllFriendByQuery query)
         {
-            var result = context.Friends
+            var result = _context.Friends
                 .Select(model => new FriendData
                 {
                     FacebookId = model.FacebookId,
@@ -24,8 +24,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,
-                    MessagesEnded = context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId
-                        && dbModel.GroupId == context.Accounts.FirstOrDefault(accountDbModel => accountDbModel.Id == model.AccountId).GroupSettingsId),
+                    DialogIsCompleted = model.DialogIsCompleted,
                     MessageRegime = model.MessageRegime
                 }).ToList();
 

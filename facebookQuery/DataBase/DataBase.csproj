@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
     <Compile Include="Configurations\NewSettingsConfiguration.cs" />
     <Compile Include="Configurations\JobQueueConfiguration.cs" />
@@ -205,7 +206,40 @@
     <Compile Include="Migrations\201703041027311_AddCommunicationField.Designer.cs">
       <DependentUpon>201703041027311_AddCommunicationField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703081214237_Fix.cs" />
+    <Compile Include="Migrations\201703081214237_Fix.Designer.cs">
+      <DependentUpon>201703081214237_Fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703081757338_AddStatusFieldsInFriendTable.cs" />
+    <Compile Include="Migrations\201703081757338_AddStatusFieldsInFriendTable.Designer.cs">
+      <DependentUpon>201703081757338_AddStatusFieldsInFriendTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703081935278_AddStatusFieldsInFriendsBlackListTable.cs" />
+    <Compile Include="Migrations\201703081935278_AddStatusFieldsInFriendsBlackListTable.Designer.cs">
+      <DependentUpon>201703081935278_AddStatusFieldsInFriendsBlackListTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703091734187_DropFieldsInFriendBlackListTable.cs" />
+    <Compile Include="Migrations\201703091734187_DropFieldsInFriendBlackListTable.Designer.cs">
+      <DependentUpon>201703091734187_DropFieldsInFriendBlackListTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703111137196_AddCommunityStatisticTable.cs" />
+    <Compile Include="Migrations\201703111137196_AddCommunityStatisticTable.Designer.cs">
+      <DependentUpon>201703111137196_AddCommunityStatisticTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703111905125_AddGroupIdField.cs" />
+    <Compile Include="Migrations\201703111905125_AddGroupIdField.Designer.cs">
+      <DependentUpon>201703111905125_AddGroupIdField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703141905367_JobStatusTableHasBeenChanged.cs" />
+    <Compile Include="Migrations\201703141905367_JobStatusTableHasBeenChanged.Designer.cs">
+      <DependentUpon>201703141905367_JobStatusTableHasBeenChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703151954591_AddDeleteFriendsOptions.cs" />
+    <Compile Include="Migrations\201703151954591_AddDeleteFriendsOptions.Designer.cs">
+      <DependentUpon>201703151954591_AddDeleteFriendsOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
+    <Compile Include="Models\CommunityStatisticsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
     <Compile Include="Models\JobStatusDbModel.cs" />
@@ -235,12 +269,22 @@
     <Compile Include="QueriesAndCommands\Commands\Accounts\UpdateFailAccountInformationCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\CommunityStatistics\AddCommunityStatisticsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\CommunityStatistics\AddCommunityStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\ClearFriendsBlackListByGroupIdCommand\ClearFriendsBlackListByGroupIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\ClearFriendsBlackListByGroupIdCommand\ClearFriendsBlackListByGroupIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\AddToFriendsBlackListCommand\AddToFriendsBlackListCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\AddToFriendsBlackListCommand\AddToFriendsBlackListCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\DeleteFriendByIdCommand\DeleteFriendByIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\DeleteFriendByIdCommand\DeleteFriendByIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendCommand\MarkWinkedFriendCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendCommand\MarkWinkedFriendCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToEndDialogCommand\MarkAddToEndDialogCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToEndDialogCommand\MarkAddToEndDialogCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToPageFriendCommand\MarkAddToPageFriendCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToPageFriendCommand\MarkAddToPageFriendCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToGroupFriendCommand\MarkAddToGroupFriendCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToGroupFriendCommand\MarkAddToGroupFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueue\DeleteQueueCommand.cs" />
@@ -248,11 +292,13 @@
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddOrUpdateJobStatusCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddOrUpdateJobStatusCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\FacebookMessageDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Commands\NewSettings\DeleteNewSettingsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\NewSettings\DeleteNewSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommandHandler.cs" />
@@ -334,6 +380,7 @@
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
     <Compile Include="QueriesAndCommands\Models\BlockedFriendData.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\CommunityOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\DeleteFriendsOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\LimitsOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\FriendOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\GeoOptionsDbModel.cs" />
@@ -345,6 +392,9 @@
     <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\JobQueueModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\CommunityStatistics\CommunityStatisticsData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\CommunityStatistics\GetCommunityStatisticsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\CommunityStatistics\GetCommunityStatisticsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\CheckForFriendBlacklisted\CheckForFriendBlacklistedQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\CheckForFriendBlacklisted\CheckForFriendBlacklistedQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\GetFriendsBlackList\GetFriendsBlackListByGroupIdQuery.cs" />
@@ -353,13 +403,19 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsForAddedToGroup\GetFriendsForAddedToGroupQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsForAddedToGroup\GetFriendsForAddedToGroupQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\CheckJobStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\JobStatusData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\CheckJobStatusQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\JobStatusModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\NewSettingsData.cs" />
@@ -538,6 +594,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703041027311_AddCommunicationField.resx">
       <DependentUpon>201703041027311_AddCommunicationField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081214237_Fix.resx">
+      <DependentUpon>201703081214237_Fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081757338_AddStatusFieldsInFriendTable.resx">
+      <DependentUpon>201703081757338_AddStatusFieldsInFriendTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081935278_AddStatusFieldsInFriendsBlackListTable.resx">
+      <DependentUpon>201703081935278_AddStatusFieldsInFriendsBlackListTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703091734187_DropFieldsInFriendBlackListTable.resx">
+      <DependentUpon>201703091734187_DropFieldsInFriendBlackListTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703111137196_AddCommunityStatisticTable.resx">
+      <DependentUpon>201703111137196_AddCommunityStatisticTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703111905125_AddGroupIdField.resx">
+      <DependentUpon>201703111905125_AddGroupIdField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703141905367_JobStatusTableHasBeenChanged.resx">
+      <DependentUpon>201703141905367_JobStatusTableHasBeenChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703151954591_AddDeleteFriendsOptions.resx">
+      <DependentUpon>201703151954591_AddDeleteFriendsOptions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

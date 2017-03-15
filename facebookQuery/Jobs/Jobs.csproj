@@ -84,6 +84,8 @@
     <Compile Include="JobsBootstrapper.cs" />
     <Compile Include="JobsService\BackgroundJobService.cs" />
     <Compile Include="JobsService\JobService.cs" />
+    <Compile Include="Jobs\CommunityJobs\InviteTheNewPageJob.cs" />
+    <Compile Include="Jobs\CommunityJobs\InviteTheNewGroupJob.cs" />
     <Compile Include="Jobs\Cookies\RefreshCookiesJob.cs" />
     <Compile Include="Jobs\FriendJobs\SendRequestFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\GetNewFriendsAndRecommendedJob.cs" />
@@ -94,7 +96,7 @@
     <Compile Include="Jobs\MessageJobs\SendMessageToNewFriendsJob.cs" />
     <Compile Include="Jobs\MessageJobs\SendMessageToUnreadJob.cs" />
     <Compile Include="Jobs\RunnerJob\RunnerJob.cs" />
-    <Compile Include="Jobs\SettingsJobs\JoinTheNewGroupJob.cs" />
+    <Compile Include="Jobs\CommunityJobs\JoinTheNewGroupsAndPagesJob.cs" />
     <Compile Include="Jobs\SpyJobs\AnalyzeFriendsJob.cs" />
     <Compile Include="MyRestrictiveAuthorizationFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

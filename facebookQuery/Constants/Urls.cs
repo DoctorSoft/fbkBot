@@ -18,5 +18,7 @@ namespace Constants
         [Description("https://www.facebook.com/requests/friends/ajax/?dpr=1")] ConfirmFriendship,
         [Description("https://www.facebook.com/ajax/profile/removefriendconfirm.php?dpr=1")] RemoveFriend,
         [Description("https://www.facebook.com/ajax/reqs.php?dpr=1 ")] CancelFriendshipRequest,
+        [Description("https://www.facebook.com/ajax/groups/members/add_post.php?source=dialog_typeahead&group_id={0}&refresh=1")] AddFriendToGroup,
+        [Description("https://www.facebook.com/ajax/pages/invite/send_single/?dpr=1")] AddFriendToPage,
     }
 }

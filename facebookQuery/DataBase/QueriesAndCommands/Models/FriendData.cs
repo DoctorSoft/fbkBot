@@ -19,8 +19,14 @@ namespace DataBase.QueriesAndCommands.Models
         
         public string FriendName { get; set; }
 
-        public bool MessagesEnded { get; set; }
+        public bool DialogIsCompleted { get; set; }
 
+        public bool IsAddedToGroups { get; set; }
+
+        public bool IsAddedToPages { get; set; }
+
+        public bool IsWinked { get; set; }
+        
         public MessageRegime? MessageRegime { get; set; }
     }
 }

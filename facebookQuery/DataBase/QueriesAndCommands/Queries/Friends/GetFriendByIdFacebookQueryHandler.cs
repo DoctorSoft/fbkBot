@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Models;
 
@@ -7,16 +6,16 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
 {
     public class GetFriendByIdFacebookQueryHandler : IQueryHandler<GetFriendByIdFacebookQuery, FriendData>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetFriendByIdFacebookQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public FriendData Handle(GetFriendByIdFacebookQuery query)
         {
-            var result = context.Friends
+            var result = _context.Friends
                 .Where(model => model.FacebookId == query.FacebookId)
                 .Select(model => new FriendData
                 {
@@ -25,9 +24,13 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     FriendName = model.FriendName,
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,
-                    MessagesEnded = context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId 
-                        && dbModel.GroupId == context.Accounts.FirstOrDefault(accountDbModel => accountDbModel.Id == model.AccountId).GroupSettingsId),
-                    MessageRegime = model.MessageRegime
+                    DialogIsCompleted = model.DialogIsCompleted,
+                    Gender = model.Gender,
+                    Href = model.Href,
+                    MessageRegime = model.MessageRegime,
+                    IsAddedToGroups = model.IsAddedToGroups,
+                    IsAddedToPages = model.IsAddedToPages,
+                    IsWinked = model.IsWinked
                 }).FirstOrDefault();
 
             return result;
