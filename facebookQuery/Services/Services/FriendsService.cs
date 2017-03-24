@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using CommonInterfaces.Interfaces.Services;
 using CommonModels;
 using Constants.FriendTypesEnum;
+using Constants.FunctionEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.AccountStatistics;
@@ -12,11 +14,13 @@ using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendTypeComma
 using DataBase.QueriesAndCommands.Commands.Friends.MarkRemovedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
+using DataBase.QueriesAndCommands.Commands.ScheduleDeleteFriends;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.Friends;
+using DataBase.QueriesAndCommands.Queries.Friends.DeleteSchedule;
 using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.CancelFriendshipRequestEngine;
@@ -25,8 +29,10 @@ using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
+using Services.Interfaces;
 using Services.Interfaces.Notices;
 using Services.Interfaces.ServiceTools;
+using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
@@ -37,6 +43,7 @@ namespace Services.Services
     {
         private readonly INoticesProxy _notice;
         private readonly IAccountManager _accountManager;
+        private readonly IAccountSettingsManager _accountSettingsManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly ISeleniumManager _seleniumManager;
         private readonly IAnalysisFriendsManager _analysisFriendsManager;
@@ -45,6 +52,7 @@ namespace Services.Services
         {
             _notice = noticeProxy;
             _accountManager = new AccountManager();
+            _accountSettingsManager = new AccountSettingsManager();
             _accountStatisticsManager = new StatisticsManager();
             _seleniumManager = new SeleniumManager();
             _analysisFriendsManager = new AnalysisFriendsManager();
@@ -245,8 +253,98 @@ namespace Services.Services
             return true;
         }
 
-        public NewFriendListViewModel GetNewFriendsAndRecommended(AccountViewModel account)
+        public void GetFriendsToQueueDeletion(AccountViewModel account)
         {
+            if (account.GroupSettingsId == null)
+            {
+                return;
+            }
+
+            var settings = _accountSettingsManager.GetSettings((long) account.GroupSettingsId);
+
+            var friendsToCreateJob = new GetFriendsToQueueDeletionQueryHandler(new DataBaseContext()).Handle(
+                new GetFriendsToQueueDeletionQuery
+                {
+                    AccountId = account.Id
+                });
+
+            foreach (var friend in friendsToCreateJob)
+            {
+                _notice.AddNotice(account.Id, "Создаем задания для удаления из друзей...");
+                if (settings.EnableDialogIsOver)
+                {
+                    _notice.AddNotice(account.Id,
+                        string.Format("Создаем задания для удаления {0}({1}) из друзей после окончания диалога.",
+                            friend.FriendName, friend.FacebookId));
+                    var model = new AddScheduleCommand
+                    {
+                        AccountId = account.Id,
+                        FunctionName = FunctionName.DialogIsOver,
+                        FriendId = friend.Id,
+                        AddedDateTime = friend.AddedDateTime
+                    };
+
+                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                }
+                if (settings.EnableIsAddedToGroupsAndPages)
+                {
+                    _notice.AddNotice(account.Id,
+                        string.Format(
+                            "Создаем задания для удаления  {0}({1}) из друзей после добавления в группы и страницы.",
+                            friend.FriendName, friend.FacebookId));
+                    var model = new AddScheduleCommand
+                    {
+                        AccountId = account.Id,
+                        FunctionName = FunctionName.IsAddedToGroupsAndPages,
+                        FriendId = friend.Id,
+                        AddedDateTime = friend.AddedDateTime
+                    };
+
+                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                }
+                if (settings.EnableIsWink)
+                {
+                    _notice.AddNotice(account.Id,
+                        string.Format("Создаем задания для удаления  {0}({1}) из друзей после подмигивания.",
+                            friend.FriendName, friend.FacebookId));
+                    var model = new AddScheduleCommand
+                    {
+                        AccountId = account.Id,
+                        FunctionName = FunctionName.IsWink,
+                        FriendId = friend.Id,
+                        AddedDateTime = friend.AddedDateTime
+                    };
+
+                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                }
+                if (settings.EnableIsWinkFriendsOfFriends)
+                {
+                    _notice.AddNotice(account.Id,
+                        string.Format(
+                            "Создаем задания для удаления  {0}({1}) из друзей после подмигивания друзьям друга.",
+                            friend.FriendName, friend.FacebookId));
+                    var model = new AddScheduleCommand
+                    {
+                        AccountId = account.Id,
+                        FunctionName = FunctionName.IsWinkFriendsOfFriends,
+                        FriendId = friend.Id,
+                        AddedDateTime = friend.AddedDateTime
+                    };
+
+                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                }
+            }
+
+        }
+
+        public NewFriendListViewModel GetNewFriendsAndRecommended(AccountViewModel account, IBackgroundJobService backgroundJobService)
+        {
+            if (account.GroupSettingsId == null)
+            {
+                _notice.AddNotice(account.Id, "Ошибка! Не выбрана группа настрект.");
+                return null;
+            }
+
             var accountModel = new AccountModel
             {
                 AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
@@ -298,7 +396,7 @@ namespace Services.Services
                 AccountId = accountModel.Id,
                 Friends = certifiedListFriends
             });
-
+            
             _notice.AddNotice(account.Id, "Получение рекомендованных друзей завершено.");
             return new NewFriendListViewModel
             {

@@ -1,5 +1,6 @@
 ﻿using Jobs.JobsService;
-using Runner.Notices;
+using Jobs.Notices;
+using Services.Models.BackgroundJobs;
 using Services.Services;
 
 namespace Jobs
@@ -21,8 +22,17 @@ namespace Jobs
                 }
 
                 var settings = groupService.GetSettings((long)account.GroupSettingsId);
-                //new JobService().AddOrUpdateAccountJobs(account);
-                new BackgroundJobService().AddOrUpdateAccountJobs(account, settings, null);
+
+                var model = new AddOrUpdateAccountModel
+                {
+                    Account = account,
+                    NewSettings = settings,
+                    OldSettings = null
+                };
+
+                new JobService().AddOrUpdateAccountJobs(model);
+
+                new BackgroundJobService().AddOrUpdateAccountJobs(model);
             }
         }
     }

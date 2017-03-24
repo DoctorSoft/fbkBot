@@ -467,6 +467,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{BC6918EB-1494-4EBA-A325-C2927E185DB4}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonModels\CommonModels.csproj">
       <Project>{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}</Project>
       <Name>CommonModels</Name>

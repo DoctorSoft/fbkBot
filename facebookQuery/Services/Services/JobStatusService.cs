@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Constants.FunctionEnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.JobStatus;
 using DataBase.QueriesAndCommands.Queries.JobStatus;
-using Hangfire.Common;
 using Services.ViewModels.JobStatusModels;
 
 namespace Services.Services
@@ -21,41 +21,50 @@ namespace Services.Services
             return jobStatus;
         }
 
-        public void AddJobStatus(long accountId, FunctionName functionName, TimeSpan launchTime, string jobId)
+        public void AddJobStatus(JobStatusViewModel model)
         {
             new AddJobStatusCommandHandler(new DataBaseContext()).Handle(new AddJobStatusCommand
             {
-                AccountId = accountId,
-                FunctionName = functionName,
-                LaunchDateTime = launchTime,
-                JobId = jobId
+                AccountId = model.AccountId,
+                FunctionName = model.FunctionName,
+                LaunchDateTime = model.LaunchDateTime,
+                JobId = model.JobId,
+                FriendId = model.FriendId
             });
         }
 
-        public JobStatusViewModel GetJobStatus(long accountId, FunctionName functionName)
+        public List<JobStatusViewModel> GetJobStatus(long accountId, FunctionName functionName, long? friendId)
         {
-            var jobStatus = new GetJobStatusQueryHandler(new DataBaseContext()).Handle(new GetJobStatusQuery
+            var jobStatusList = new GetJobStatusQueryHandler(new DataBaseContext()).Handle(new GetJobStatusQuery
             {
                 AccountId = accountId,
-                FunctionName = functionName
+                FunctionName = functionName,
+                FriendId = friendId
             });
 
-            return new JobStatusViewModel
+            if (jobStatusList == null || jobStatusList.Count == 0)
+            {
+                return null;
+            }
+
+            return jobStatusList.Select(jobStatus => new JobStatusViewModel
             {
                 AccountId = jobStatus.AccountId,
                 Id = jobStatus.Id,
                 FunctionName = jobStatus.FunctionName,
                 AddDateTime = jobStatus.AddDateTime,
                 JobId = jobStatus.JobId,
-                LaunchDateTime = jobStatus.LaunchDateTime
-            };
+                LaunchDateTime = jobStatus.LaunchDateTime,
+                FriendId = jobStatus.FriendId
+            }).ToList();
         }
-        public void DeleteJobStatus(long accountId, FunctionName functionName)
+        public void DeleteJobStatus(long accountId, FunctionName functionName, long? friendId)
         {
             new DeleteJobStatusCommandHandler(new DataBaseContext()).Handle(new DeleteJobStatusCommand
             {
                 AccountId = accountId,
-                FunctionName = functionName
+                FunctionName = functionName,
+                FriendId = friendId
             });
         }
     }

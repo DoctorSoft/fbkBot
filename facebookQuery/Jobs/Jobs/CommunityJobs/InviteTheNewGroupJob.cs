@@ -2,7 +2,8 @@
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
-using Runner.Notices;
+using Jobs.Notices;
+using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
@@ -24,13 +25,21 @@ namespace Jobs.Jobs.CommunityJobs
                 return;
             }
 
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.InviteToGroups);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.InviteToGroups, null);
 
             var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
             var inviteTheNewGroupLaunchTime = new TimeSpan(settings.RetryTimeInviteTheGroupsHour, settings.RetryTimeInviteTheGroupsMin, settings.RetryTimeInviteTheGroupsSec);
-            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.InviteToGroups, inviteTheNewGroupLaunchTime, true);
 
+            var model = new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.InviteToGroups,
+                LaunchTime = inviteTheNewGroupLaunchTime,
+                CheckPermissions = true
+            };
 
+            new BackgroundJobService().CreateBackgroundJob(model);
+            
             new JobQueueService().AddToQueue(account.Id, FunctionName.InviteToGroups);
         }
     }

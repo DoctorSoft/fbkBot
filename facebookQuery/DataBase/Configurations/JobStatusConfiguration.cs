@@ -18,6 +18,7 @@ namespace DataBase.Configurations
             Property(model => model.FunctionName);
             Property(model => model.LaunchDateTime);
             Property(model => model.AddDateTime);
+            Property(model => model.FriendId);
         }
     }
 }

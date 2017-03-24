@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runner", "Runner\Runner.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnerService", "RunnerService\RunnerService.csproj", "{05F7A129-A4A5-43AB-A6A2-A0B1C5089C12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonInterfaces", "CommonInterfaces\CommonInterfaces.csproj", "{BC6918EB-1494-4EBA-A325-C2927E185DB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{05F7A129-A4A5-43AB-A6A2-A0B1C5089C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05F7A129-A4A5-43AB-A6A2-A0B1C5089C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05F7A129-A4A5-43AB-A6A2-A0B1C5089C12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC6918EB-1494-4EBA-A325-C2927E185DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC6918EB-1494-4EBA-A325-C2927E185DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC6918EB-1494-4EBA-A325-C2927E185DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC6918EB-1494-4EBA-A325-C2927E185DB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,6 +17,11 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
         {
             var jobStatus = _context.JobStatus.Where(model => model.AccountId == command.AccountId 
                 && model.FunctionName == command.FunctionName);
+
+            if (command.FriendId!=null)
+            {
+                jobStatus = jobStatus.Where(model => model.FriendId == command.FriendId);
+            }
             try
             {
                 _context.JobStatus.RemoveRange(jobStatus);

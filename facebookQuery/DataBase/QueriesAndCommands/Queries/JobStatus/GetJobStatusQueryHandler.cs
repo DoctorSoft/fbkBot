@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Queries.JobStatus
 {
-    public class GetJobStatusQueryHandler : IQueryHandler<GetJobStatusQuery, JobStatusModel>
+    public class GetJobStatusQueryHandler : IQueryHandler<GetJobStatusQuery, List<JobStatusModel>>
     {
         private readonly DataBaseContext _context;
 
@@ -12,24 +13,32 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
             this._context = context;
         }
 
-        public JobStatusModel Handle(GetJobStatusQuery command)
+        public List<JobStatusModel> Handle(GetJobStatusQuery command)
         {
-            var jobStatus = _context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId);
+            var jobStatusList = _context.JobStatus.Where(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId && model.FriendId == command.FriendId).ToList();
 
-            if (jobStatus == null)
+            if (jobStatusList.Count == 0)
             {
                 return null;
             }
 
-            return new JobStatusModel
+            var result = new List<JobStatusModel>();
+            
+            foreach (var jobStatusDbModel in jobStatusList)
             {
-                AccountId = jobStatus.AccountId,
-                Id = jobStatus.Id,
-                FunctionName = jobStatus.FunctionName,
-                AddDateTime = jobStatus.AddDateTime,
-                LaunchDateTime = jobStatus.LaunchDateTime,
-                JobId = jobStatus.JobId
-            };
+                result.Add(new JobStatusModel
+                {
+                    AccountId = jobStatusDbModel.AccountId,
+                    Id = jobStatusDbModel.Id,
+                    FunctionName = jobStatusDbModel.FunctionName,
+                    AddDateTime = jobStatusDbModel.AddDateTime,
+                    LaunchDateTime = jobStatusDbModel.LaunchDateTime,
+                    JobId = jobStatusDbModel.JobId,
+                    FriendId = jobStatusDbModel.FriendId
+                });
+            }
+
+            return result;
         }
     }
 }

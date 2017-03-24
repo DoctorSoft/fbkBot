@@ -2,7 +2,8 @@
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
-using Runner.Notices;
+using Jobs.Notices;
+using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 
@@ -17,11 +18,20 @@ namespace Jobs.Jobs.FriendJobs
             {
                 return;
             }
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.RefreshFriends);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.RefreshFriends, null);
 
             var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
             var refreshFriendsLaunchTime = new TimeSpan(settings.RetryTimeRefreshFriendsHour, settings.RetryTimeRefreshFriendsMin, settings.RetryTimeRefreshFriendsSec);
-            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.RefreshFriends, refreshFriendsLaunchTime, true);
+
+            var model = new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.RefreshFriends,
+                LaunchTime = refreshFriendsLaunchTime,
+                CheckPermissions = true
+            };
+
+            new BackgroundJobService().CreateBackgroundJob(model);
             
             new JobQueueService().AddToQueue(account.Id, FunctionName.RefreshFriends);
         }

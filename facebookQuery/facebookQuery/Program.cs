@@ -26,7 +26,9 @@ using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinThePagesBySeleniumEngine;
 using Engines.Engines.WinkEngine;
+using Jobs.Jobs.FriendJobs;
 using Jobs.JobsService;
+using Jobs.Notices;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -73,7 +75,9 @@ namespace FacebookApp
 
                     var seleniumManager = new SeleniumManager();
 
-                    new JoinThePagesBySeleniumEngine().Execute(new JoinThePagesBySeleniumModel
+                    new FriendsService(new NoticesProxy()).GetNewFriendsAndRecommended(accountViewModel, new BackgroundJobService());
+
+                    /*new JoinThePagesBySeleniumEngine().Execute(new JoinThePagesBySeleniumModel
                     {
                         Driver = seleniumManager.RegisterNewDriver(accountViewModel),
                         Cookie = accountViewModel.Cookie,

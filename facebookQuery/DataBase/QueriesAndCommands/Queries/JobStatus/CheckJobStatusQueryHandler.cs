@@ -14,14 +14,16 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
 
         public bool Handle(CheckJobStatusQuery command)
         {
-            var jobStatus = _context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId);
+            var jobStatus = command.FriendId != null
+                ? _context.JobStatus.FirstOrDefault(
+                    model =>
+                        model.FunctionName == command.FunctionName && model.AccountId == command.AccountId &&
+                        model.FriendId == command.FriendId)
+                : _context.JobStatus.FirstOrDefault(
+                    model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId);
 
-            if (jobStatus == null)
-            {
-                return false;
-            }
 
-            return true;
+            return jobStatus != null;
         }
     }
 }

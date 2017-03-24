@@ -126,7 +126,6 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\IAnalyzeFriendCore.cs" />
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
-    <Compile Include="Interfaces\IBackgroundJobService.cs" />
     <Compile Include="Interfaces\Notices\INoticesProxy.cs" />
     <Compile Include="Interfaces\ServiceTools\ISettingsManager.cs" />
     <Compile Include="Interfaces\ServiceTools\IAnalysisFriendsManager.cs" />
@@ -145,10 +144,28 @@
     <Compile Include="Core\Models\AnalyzeModel.cs" />
     <Compile Include="Core\SendMessageCore.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
-    <Compile Include="Interfaces\IJobService.cs" />
+    <Compile Include="Models\BackgroundJobs\AddOrUpdateAccountModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\BackgroundJobs\CreateBackgroundJobForDeleteFriendsModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\BackgroundJobs\CreateBackgroundJobModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Jobs\AddOrUpdateAccountModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Jobs\RemoveAccountJobsModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Jobs\RenameAccountJobsModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CookieService.cs" />
     <Compile Include="Services\JobStatusService.cs" />
+    <Compile Include="Services\ScheduleDeleteFriendsSerice.cs" />
     <Compile Include="ServiceTools\AnalysisFriendsManager.cs" />
     <Compile Include="Services\ExtraMessagesService.cs" />
     <Compile Include="Services\FacebookMessagesService.cs" />
@@ -184,6 +201,7 @@
     <Compile Include="ViewModels\FrindsBlackListModels\FriendsBlackListViewModel.cs" />
     <Compile Include="ViewModels\GroupModels\GroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountSettingsViewModel.cs" />
+    <Compile Include="ViewModels\JobStatusModels\JobInformationModel.cs" />
     <Compile Include="ViewModels\JobStatusModels\JobStatusViewModel.cs" />
     <Compile Include="ViewModels\NewSettingsModels\CommunityOptionsViewModel.cs" />
     <Compile Include="ViewModels\NewSettingsModels\NewSettingsViewModel.cs" />
@@ -191,6 +209,7 @@
     <Compile Include="ViewModels\OptionsModel\JsonModels\GeoOptionsModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\MessageOptionsModel.cs" />
     <Compile Include="ViewModels\QueueViewModels\QueueViewModel.cs" />
+    <Compile Include="ViewModels\ScheduleDeleteFriendsModels\ScheduleDeleteFriendsModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\DetailedSpyStatisticsModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\SpyFunctionViewModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\NewSpySettingsViewModel.cs" />
@@ -227,6 +246,10 @@
     <Compile Include="ViewModels\StopWordsModels\StopWordList.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{BC6918EB-1494-4EBA-A325-C2927E185DB4}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonModels\CommonModels.csproj">
       <Project>{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}</Project>
       <Name>CommonModels</Name>

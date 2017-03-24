@@ -45,6 +45,10 @@
       <HintPath>..\packages\Hangfire.SqlServer.1.6.6\lib\net45\Hangfire.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
       <Private>True</Private>
@@ -87,6 +91,12 @@
     <Compile Include="Jobs\CommunityJobs\InviteTheNewPageJob.cs" />
     <Compile Include="Jobs\CommunityJobs\InviteTheNewGroupJob.cs" />
     <Compile Include="Jobs\Cookies\RefreshCookiesJob.cs" />
+    <Compile Include="Jobs\DeleteFriendsJobs\IsWinkFriendsOfFriendsConditionJob.cs" />
+    <Compile Include="Jobs\DeleteFriendsJobs\IsWinkConditionJob.cs" />
+    <Compile Include="Jobs\DeleteFriendsJobs\IsAddedToGroupsAndPagesConditionJob.cs" />
+    <Compile Include="Jobs\DeleteFriendsJobs\DialogIsOverConditionJob.cs" />
+    <Compile Include="Jobs\FriendJobs\AddToScheduleDeleteFromFriendsJob.cs" />
+    <Compile Include="Jobs\FriendJobs\CreateTaskToDeleteFromFriendsJob.cs" />
     <Compile Include="Jobs\FriendJobs\SendRequestFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\GetNewFriendsAndRecommendedJob.cs" />
     <Compile Include="Jobs\FriendJobs\ConfirmFriendshipJob.cs" />
@@ -99,6 +109,7 @@
     <Compile Include="Jobs\CommunityJobs\JoinTheNewGroupsAndPagesJob.cs" />
     <Compile Include="Jobs\SpyJobs\AnalyzeFriendsJob.cs" />
     <Compile Include="MyRestrictiveAuthorizationFilter.cs" />
+    <Compile Include="Notices\NoticesProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +117,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{BC6918EB-1494-4EBA-A325-C2927E185DB4}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonModels\CommonModels.csproj">
       <Project>{A64A27F4-6CF0-4936-8CB2-BC0E8F1609CB}</Project>
       <Name>CommonModels</Name>
@@ -113,10 +128,6 @@
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
       <Name>Constants</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Runner\Runner.csproj">
-      <Project>{7B40E72A-6998-4C41-92B1-5CEC6F2F85A7}</Project>
-      <Name>Runner</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{d6cdd9a2-389b-4cf5-8888-abd4d6905719}</Project>

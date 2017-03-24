@@ -12,6 +12,8 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
 
         public string JobId { get; set; }
 
+        public long? FriendId { get; set; }
+
         public FunctionName FunctionName { get; set; }
 
         public TimeSpan LaunchDateTime { get; set; }

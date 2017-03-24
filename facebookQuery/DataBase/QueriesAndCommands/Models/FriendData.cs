@@ -1,4 +1,5 @@
-﻿using Constants.GendersUnums;
+﻿using System;
+using Constants.GendersUnums;
 using Constants.MessageEnums;
 
 namespace DataBase.QueriesAndCommands.Models
@@ -12,6 +13,8 @@ namespace DataBase.QueriesAndCommands.Models
         public long AccountId { get; set; }
 
         public GenderEnum Gender { get; set; }
+
+        public DateTime AddedDateTime { get; set; }
 
         public string Href { get; set; }
 

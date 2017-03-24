@@ -44,6 +44,24 @@ namespace Services.Services
                 AddedDateTime = model.AddedDateTime
             }).ToList();
         }
+
+        public List<QueueViewModel> GetQueuesByAccountAndFunctionName(long accountId, FunctionName functionName)
+        {
+            var queuesDbModels = new GetJobQueuesByAccountIdCommandHandler().Handle(new GetJobQueuesByAccountIdCommand
+            {
+                AccountId = accountId,
+                FunctionName = functionName
+            });
+
+            return queuesDbModels.Select(model => new QueueViewModel
+            {
+                AccountId = model.AccountId,
+                Id = model.Id,
+                FunctionName = model.FunctionName,
+                AddedDateTime = model.AddedDateTime
+            }).ToList();
+        }
+
         public List<QueueViewModel> GetAllQueues()
         {
             var queuesDbModels = new GetAllQueuesCommandHandler().Handle(new GetAllQueuesCommand());

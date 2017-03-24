@@ -2,7 +2,8 @@
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
-using Runner.Notices;
+using Jobs.Notices;
+using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
@@ -24,11 +25,20 @@ namespace Jobs.Jobs.CommunityJobs
                 return;
             }
 
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.InviteToPages);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.InviteToPages, null);
             
             var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
             var inviteTheNewPageLaunchTime = new TimeSpan(settings.RetryTimeInviteThePagesHour, settings.RetryTimeInviteThePagesMin, settings.RetryTimeInviteThePagesSec);
-            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.InviteToPages, inviteTheNewPageLaunchTime, true);
+
+            var model = new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.InviteToPages,
+                LaunchTime = inviteTheNewPageLaunchTime,
+                CheckPermissions = true
+            };
+
+            new BackgroundJobService().CreateBackgroundJob(model);
             
             new JobQueueService().AddToQueue(account.Id, FunctionName.InviteToPages);
         }

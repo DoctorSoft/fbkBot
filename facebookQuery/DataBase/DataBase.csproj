@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
+    <Compile Include="Configurations\ScheduleRemovalOfFriendsConfiguration.cs" />
     <Compile Include="Configurations\NewSettingsConfiguration.cs" />
     <Compile Include="Configurations\JobQueueConfiguration.cs" />
     <Compile Include="Configurations\JobStatusConfiguration.cs" />
@@ -238,12 +239,25 @@
     <Compile Include="Migrations\201703151954591_AddDeleteFriendsOptions.Designer.cs">
       <DependentUpon>201703151954591_AddDeleteFriendsOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703162115138_AddJobInformation.cs" />
+    <Compile Include="Migrations\201703162115138_AddJobInformation.Designer.cs">
+      <DependentUpon>201703162115138_AddJobInformation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703211914189_AddScheaduleForDeletingFriends.cs" />
+    <Compile Include="Migrations\201703211914189_AddScheaduleForDeletingFriends.Designer.cs">
+      <DependentUpon>201703211914189_AddScheaduleForDeletingFriends.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703232005489_AddFriendIdFromJobStatusTable.cs" />
+    <Compile Include="Migrations\201703232005489_AddFriendIdFromJobStatusTable.Designer.cs">
+      <DependentUpon>201703232005489_AddFriendIdFromJobStatusTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
     <Compile Include="Models\JobStatusDbModel.cs" />
     <Compile Include="Models\NewSettingsDbModel.cs" />
+    <Compile Include="Models\ScheduleRemovalOfFriendsDbModel.cs" />
     <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
@@ -291,6 +305,10 @@
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueue\DeleteQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\AddScheduleCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\AddScheduleCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\DeleteScheduleByIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\DeleteScheduleByIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
@@ -379,12 +397,21 @@
     <Compile Include="QueriesAndCommands\IVoidCommand.cs" />
     <Compile Include="QueriesAndCommands\Models\AnalysisFriendData.cs" />
     <Compile Include="QueriesAndCommands\Models\BlockedFriendData.cs" />
+    <Compile Include="QueriesAndCommands\Models\ConditionModels\ConditionModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\ConditionModels\IsWinkFriendsOfFriendsModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\ConditionModels\IsWinkModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\ConditionModels\IsAddedToGroupsAndPagesModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\ConditionModels\DialogIsOverModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\CommunityOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\DeleteFriendsOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\JobInformationModel\JobInformationDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\LimitsOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\FriendOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\GeoOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\MessageOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\ScheduleRemovalOfFriendsModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommand.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommand.cs" />
@@ -399,6 +426,8 @@
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\CheckForFriendBlacklisted\CheckForFriendBlacklistedQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\GetFriendsBlackList\GetFriendsBlackListByGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\GetFriendsBlackList\GetFriendsBlackListByGroupIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\DeleteSchedule\GetFriendsToQueueDeletionQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\DeleteSchedule\GetFriendsToQueueDeletionQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusQuery.cs" />
@@ -409,6 +438,8 @@
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\ScheduleDeleteFriends\GetScheduleDeleteFriendsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\ScheduleDeleteFriends\GetScheduleDeleteFriendsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQuery.cs" />
@@ -618,6 +649,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703151954591_AddDeleteFriendsOptions.resx">
       <DependentUpon>201703151954591_AddDeleteFriendsOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703162115138_AddJobInformation.resx">
+      <DependentUpon>201703162115138_AddJobInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703211914189_AddScheaduleForDeletingFriends.resx">
+      <DependentUpon>201703211914189_AddScheaduleForDeletingFriends.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703232005489_AddFriendIdFromJobStatusTable.resx">
+      <DependentUpon>201703232005489_AddFriendIdFromJobStatusTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

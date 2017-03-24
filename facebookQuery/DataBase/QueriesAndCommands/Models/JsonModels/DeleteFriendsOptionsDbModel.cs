@@ -1,21 +1,15 @@
-﻿namespace DataBase.QueriesAndCommands.Models.JsonModels
+﻿using DataBase.QueriesAndCommands.Models.ConditionModels;
+
+namespace DataBase.QueriesAndCommands.Models.JsonModels
 {
     public class DeleteFriendsOptionsDbModel
     {
-        public bool EnableDialogIsOver { get; set; }
+        public DialogIsOverModel DialogIsOver { get; set; }
 
-        public bool EnableIsAddedToGroupsAndPages { get; set; }
+        public IsAddedToGroupsAndPagesModel IsAddedToGroupsAndPages { get; set; }
 
-        public bool EnableIsWink { get; set; }
+        public IsWinkModel IsWink { get; set; }
 
-        public bool EnableIsWinkFriendsOfFriends { get; set; }
-
-        public int DialogIsOverTimer { get; set; }
-
-        public int IsAddedToGroupsAndPagesTimer { get; set; }
-
-        public int IsWinkTimer { get; set; }
-
-        public int IsWinkFriendsOfFriendsTimer { get; set; }
+        public IsWinkFriendsOfFriendsModel IsWinkFriendsOfFriends { get; set; }
     }
 }

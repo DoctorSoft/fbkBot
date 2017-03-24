@@ -18,14 +18,15 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
         public long Handle(AddJobStatusCommand command)
         {
             var jobStatus = _context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName 
-                            && model.AccountId == command.AccountId) ??
+                            && model.AccountId == command.AccountId && model.FriendId == command.FriendId) ??
                             new JobStatusDbModel
                             {
                                 AccountId = command.AccountId,
                                 FunctionName = command.FunctionName,
                                 AddDateTime = DateTime.Now,
                                 LaunchDateTime = command.LaunchDateTime,
-                                JobId = command.JobId
+                                JobId = command.JobId,
+                                FriendId = command.FriendId
                             };
             
             _context.JobStatus.AddOrUpdate(jobStatus);

@@ -23,5 +23,11 @@
 
         InviteToGroups = 403,
         InviteToPages = 404,
+
+        // Conditions
+        DialogIsOver = 1001,
+        IsAddedToGroupsAndPages = 1002,
+        IsWink = 1003,
+        IsWinkFriendsOfFriends = 1004
     }
 }

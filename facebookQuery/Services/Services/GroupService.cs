@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonInterfaces.Interfaces.Services;
 using CommonModels;
 using DataBase.Constants;
 using DataBase.Context;
@@ -11,6 +12,7 @@ using DataBase.QueriesAndCommands.Commands.Groups;
 using DataBase.QueriesAndCommands.Commands.NewSettings;
 using DataBase.QueriesAndCommands.Commands.Settings;
 using DataBase.QueriesAndCommands.Models;
+using DataBase.QueriesAndCommands.Models.ConditionModels;
 using DataBase.QueriesAndCommands.Models.JsonModels;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
@@ -26,6 +28,7 @@ using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinTheGroupsBySeleniumEngine;
 using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinThePagesBySeleniumEngine;
 using Services.Interfaces;
 using Services.Interfaces.Notices;
+using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
@@ -464,14 +467,14 @@ namespace Services.Services
                 CountMinFriends = settings.LimitsOptions.CountMinFriends,
 
                 //delete friends settings 
-                DialogIsOverTimer = settings.DeleteFriendsOptions == null ? 0 : settings.DeleteFriendsOptions.DialogIsOverTimer,
-                EnableDialogIsOver = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableDialogIsOver,
-                EnableIsAddedToGroupsAndPages = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableIsAddedToGroupsAndPages,
-                EnableIsWink = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableIsWink,
-                EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions != null && settings.DeleteFriendsOptions.EnableIsWinkFriendsOfFriends,
-                IsAddedToGroupsAndPagesTimer = settings.DeleteFriendsOptions== null ? 0 : settings.DeleteFriendsOptions.IsAddedToGroupsAndPagesTimer,
-                IsWinkFriendsOfFriendsTimer = settings.DeleteFriendsOptions== null ? 0 : settings.DeleteFriendsOptions.IsWinkFriendsOfFriendsTimer,
-                IsWinkTimer = settings.DeleteFriendsOptions== null ? 0 : settings.DeleteFriendsOptions.IsWinkTimer
+                DialogIsOverTimer = settings.DeleteFriendsOptions.DialogIsOver == null ? 0 : settings.DeleteFriendsOptions.DialogIsOver.Timer,
+                EnableDialogIsOver = settings.DeleteFriendsOptions.DialogIsOver != null && settings.DeleteFriendsOptions.DialogIsOver.IsEnabled,
+                IsAddedToGroupsAndPagesTimer = settings.DeleteFriendsOptions.IsAddedToGroupsAndPages == null ? 0 : settings.DeleteFriendsOptions.IsAddedToGroupsAndPages.Timer,
+                EnableIsAddedToGroupsAndPages = settings.DeleteFriendsOptions.IsAddedToGroupsAndPages != null && settings.DeleteFriendsOptions.IsAddedToGroupsAndPages.IsEnabled,
+                IsWinkTimer = settings.DeleteFriendsOptions.IsWink == null ? 0 : settings.DeleteFriendsOptions.IsWink.Timer,
+                EnableIsWink = settings.DeleteFriendsOptions.IsWink != null && settings.DeleteFriendsOptions.IsWink.IsEnabled,
+                IsWinkFriendsOfFriendsTimer = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends == null ? 0 : settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.Timer,
+                EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends != null && settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.IsEnabled
             };
         }
 
@@ -569,17 +572,29 @@ namespace Services.Services
                 CountMaxFriends = newSettings.CountMaxFriends,
                 CountMinFriends = newSettings.CountMinFriends
             };
-
+            
             var deleteFriendsOptions = new DeleteFriendsOptionsDbModel
             {
-                DialogIsOverTimer = newSettings.DialogIsOverTimer,
-                EnableDialogIsOver = newSettings.EnableDialogIsOver,
-                EnableIsAddedToGroupsAndPages = newSettings.EnableIsAddedToGroupsAndPages,
-                EnableIsWink = newSettings.EnableIsWink,
-                EnableIsWinkFriendsOfFriends = newSettings.EnableIsWinkFriendsOfFriends,
-                IsAddedToGroupsAndPagesTimer = newSettings.IsAddedToGroupsAndPagesTimer,
-                IsWinkFriendsOfFriendsTimer = newSettings.IsWinkFriendsOfFriendsTimer,
-                IsWinkTimer = newSettings.IsWinkTimer
+                DialogIsOver = new DialogIsOverModel
+                {
+                    IsEnabled = newSettings.EnableDialogIsOver,
+                    Timer = newSettings.DialogIsOverTimer
+                },
+                IsAddedToGroupsAndPages = new IsAddedToGroupsAndPagesModel
+                {
+                    IsEnabled = newSettings.EnableIsAddedToGroupsAndPages,
+                    Timer = newSettings.IsAddedToGroupsAndPagesTimer
+                },
+                IsWink = new IsWinkModel
+                {
+                    IsEnabled = newSettings.EnableIsWink,
+                    Timer = newSettings.IsWinkTimer
+                },
+                IsWinkFriendsOfFriends = new IsWinkFriendsOfFriendsModel
+                {
+                    IsEnabled = newSettings.EnableIsWinkFriendsOfFriends,
+                    Timer = newSettings.IsWinkFriendsOfFriendsTimer
+                }
             };
 
             var command = new AddOrUpdateSettingsCommand
@@ -645,7 +660,14 @@ namespace Services.Services
 
         private static void UpdateJobsTask(IBackgroundJobService backgroundJobService, AccountViewModel account, GroupSettingsViewModel newSettings, GroupSettingsViewModel oldSettings)
         {
-            backgroundJobService.AddOrUpdateAccountJobs(account, newSettings, oldSettings);
+            var model = new AddOrUpdateAccountModel
+            {
+                Account = account,
+                NewSettings = newSettings,
+                OldSettings = oldSettings
+            };
+
+            backgroundJobService.AddOrUpdateAccountJobs(model);
         }
 
         private static string ConvertListToString(IEnumerable<string> arrayString)

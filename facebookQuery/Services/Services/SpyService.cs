@@ -1,20 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using Constants.FriendTypesEnum;
+using CommonInterfaces.Interfaces.Services;
 using Constants.GendersUnums;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
-using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
-using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.SpyAccounts;
-using DataBase.QueriesAndCommands.Commands.SpyStatistics;
-using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.Account.SpyAccount;
 using DataBase.QueriesAndCommands.Queries.Friends;
-using Engines.Engines.GetFriendInfoEngine;
 using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using OpenQA.Selenium.PhantomJS;
@@ -22,13 +15,12 @@ using Services.Core;
 using Services.Core.Models;
 using Services.Interfaces;
 using Services.Interfaces.ServiceTools;
+using Services.Models.Jobs;
 using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
-using Services.ViewModels.FriendsModels;
 using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.SpyAccountModels;
-using CommonModels;
 
 namespace Services.Services
 {
@@ -86,7 +78,13 @@ namespace Services.Services
                 AccountId = spyAccountId
             });
 
-            _jobService.RemoveAccountJobs(spyAccount.Login, null);
+            var model = new RemoveAccountJobsModel
+            {
+                Login = spyAccount.Login,
+                AccountId = null
+            };
+
+            _jobService.RemoveAccountJobs(model);
         }
 
         public void AddOrUpdateSpyAccount(SpyAccountViewModel model)
@@ -141,19 +139,25 @@ namespace Services.Services
                     UserId = accountId
                 });
             }
-            _jobService.AddOrUpdateSpyAccountJobs(new AccountViewModel
+
+            var jobModel = new AddOrUpdateAccountModel
             {
-                Id = accountId,
-                Name = model.Name,
-                PageUrl = model.PageUrl,
-                FacebookId = account.FacebookId,
-                Password = model.Password,
-                Login = model.Login,
-                Proxy = model.Proxy,
-                ProxyLogin = model.ProxyLogin,
-                ProxyPassword = model.ProxyPassword,
-                Cookie = account.Cookie.CookieString
-            });
+                Account = new AccountViewModel
+                {
+                    Id = accountId,
+                    Name = model.Name,
+                    PageUrl = model.PageUrl,
+                    FacebookId = account.FacebookId,
+                    Password = model.Password,
+                    Login = model.Login,
+                    Proxy = model.Proxy,
+                    ProxyLogin = model.ProxyLogin,
+                    ProxyPassword = model.ProxyPassword,
+                    Cookie = account.Cookie.CookieString
+                }
+            };
+
+            _jobService.AddOrUpdateSpyAccountJobs(jobModel);
         }
 
         public SpyAccountViewModel GetSpyAccountById(long? spyAccountId)

@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Services.Interfaces.ServiceTools;
 
@@ -26,10 +28,15 @@ namespace Services.ServiceTools
 
         public AccountModel GetAccountByFacebookId(long accountFacebookId)
         {
-            return new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery()
+            return new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 FacebookUserId = accountFacebookId
             });
+        }
+
+        public List<AccountModel> GetWorkAccounts()
+        {
+            return new GetWorkAccountsQueryHandler(new DataBaseContext()).Handle(new GetWorkAccountsQuery());
         }
 
         public string CreateHomePageUrl(long accountFacebookId)

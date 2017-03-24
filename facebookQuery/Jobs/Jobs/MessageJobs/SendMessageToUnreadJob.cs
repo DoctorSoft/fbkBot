@@ -2,7 +2,8 @@
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
-using Runner.Notices;
+using Jobs.Notices;
+using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 
@@ -18,11 +19,20 @@ namespace Jobs.Jobs.MessageJobs
                 return;
             }
 
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.SendMessageToUnread);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.SendMessageToUnread, null);
 
             var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
             var sendUnreadLaunchTime = new TimeSpan(settings.RetryTimeSendUnreadHour, settings.RetryTimeSendUnreadMin, settings.RetryTimeSendUnreadSec);
-            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.SendMessageToUnread, sendUnreadLaunchTime, true);
+
+            var model = new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.SendMessageToUnread,
+                LaunchTime = sendUnreadLaunchTime,
+                CheckPermissions = true
+            };
+
+            new BackgroundJobService().CreateBackgroundJob(model);
             
             new JobQueueService().AddToQueue(account.Id, FunctionName.SendMessageToUnread);
         }

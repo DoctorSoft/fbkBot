@@ -1,5 +1,4 @@
-﻿using CommonModels;
-using Constants.GendersUnums;
+﻿using Constants.GendersUnums;
 
 namespace Services.ViewModels.GroupModels
 {

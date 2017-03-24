@@ -18,7 +18,23 @@ namespace DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetQueue
         {
             var queues = _context.JobsQueue
                 .Where(model=>model.AccountId == command.AccountId)
-                .OrderByDescending(model => model.AddedDateTime)
+                .OrderByDescending(model => model.AddedDateTime);
+            List<JobQueueModel> result;
+
+            if (command.FunctionName != null)
+            {
+                result = queues.Where(model => model.FunctionName == command.FunctionName)
+                    .Select(model => new JobQueueModel
+                    {
+                        AccountId = model.AccountId,
+                        Id = model.Id,
+                        AddedDateTime = model.AddedDateTime,
+                        FunctionName = model.FunctionName
+                    }).ToList();
+            }
+            else
+            {
+                result = queues
                 .Select(model => new JobQueueModel
                 {
                     AccountId = model.AccountId,
@@ -26,8 +42,9 @@ namespace DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetQueue
                     AddedDateTime = model.AddedDateTime,
                     FunctionName = model.FunctionName
                 }).ToList();
+            }
 
-            return queues;
+            return result;
         }
     }
 }

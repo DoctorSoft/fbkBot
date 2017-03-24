@@ -1,4 +1,6 @@
-﻿namespace Services.ViewModels.FriendsModels
+﻿using System;
+
+namespace Services.ViewModels.FriendsModels
 {
     public class FriendViewModel
     {
@@ -11,5 +13,7 @@
         public long Id { get; set; }
 
         public bool MessagesEnded { get; set; }
+
+        public DateTime AddDateTime { get; set; }
     }
 }

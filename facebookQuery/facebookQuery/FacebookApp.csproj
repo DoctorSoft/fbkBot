@@ -79,6 +79,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{BC6918EB-1494-4EBA-A325-C2927E185DB4}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonModels\CommonModels.csproj">
       <Project>{a64a27f4-6cf0-4936-8cb2-bc0e8f1609cb}</Project>
       <Name>CommonModels</Name>

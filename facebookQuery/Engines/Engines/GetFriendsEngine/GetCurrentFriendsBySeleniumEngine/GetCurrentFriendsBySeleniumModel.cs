@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.PhantomJS;
-using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium.Remote;
 
 namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 {

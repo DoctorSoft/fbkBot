@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CommonInterfaces.Interfaces.Services;
 using Constants;
 using Constants.EnumExtension;
 using DataBase.Context;
@@ -11,6 +12,7 @@ using Engines.Engines.GetNewNoticesEngine;
 using RequestsHelpers;
 using Services.Interfaces;
 using Services.Interfaces.ServiceTools;
+using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.GroupModels;
@@ -145,7 +147,14 @@ namespace Services.Services
                 ProxyPassword = account.ProxyPassword
             };
 
-            backgroundJobService.AddOrUpdateAccountJobs(accountViewModel, settings, null);
+            var model = new AddOrUpdateAccountModel()
+            {
+                Account = accountViewModel,
+                NewSettings = settings,
+                OldSettings = null
+            };
+
+            backgroundJobService.AddOrUpdateAccountJobs(model);
         }
 
         public GetNewNoticesResponseModel GetNewNotices(long accountId)

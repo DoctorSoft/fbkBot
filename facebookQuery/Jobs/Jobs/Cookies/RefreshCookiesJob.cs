@@ -1,6 +1,7 @@
 ﻿using System;
 using Constants.FunctionEnums;
 using Jobs.JobsService;
+using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 
@@ -15,9 +16,17 @@ namespace Jobs.Jobs.Cookies
                 return;
             }
 
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.RefreshCookies);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.RefreshCookies, null);
 
-            new BackgroundJobService().CreateBackgroundJob(account, FunctionName.RefreshCookies, new TimeSpan(2, 0, 0), false);
+            var model = new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.RefreshCookies,
+                LaunchTime = new TimeSpan(2, 0, 0),
+                CheckPermissions = false
+            };
+
+            new BackgroundJobService().CreateBackgroundJob(model);
             
             new JobQueueService().AddToQueue(account.Id, FunctionName.RefreshCookies);
         }

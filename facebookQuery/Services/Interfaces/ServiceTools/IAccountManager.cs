@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 
 namespace Services.Interfaces.ServiceTools
@@ -10,6 +11,8 @@ namespace Services.Interfaces.ServiceTools
         WebProxy GetAccountProxy(AccountModel account);
 
         AccountModel GetAccountByFacebookId(long accountFacebookId);
+
+        List<AccountModel> GetWorkAccounts();
 
         string CreateHomePageUrl(long accountFacebookId);
     }

@@ -86,7 +86,6 @@
   <ItemGroup>
     <Compile Include="Context\RunnerContext.cs" />
     <Compile Include="Interfaces\IRunner.cs" />
-    <Compile Include="Notices\NoticesProxy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runners\Community\InvaitTheNewPageRunner.cs" />
     <Compile Include="Runners\Community\InvaitTheNewGroupRunner.cs" />
@@ -103,9 +102,17 @@
     <Compile Include="Runners\Messages\SendMessageToNewFriendsRunner.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{BC6918EB-1494-4EBA-A325-C2927E185DB4}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{4AEE6581-5166-4756-97BC-A0535AAFBD38}</Project>
       <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jobs\Jobs.csproj">
+      <Project>{DA5E57AC-C85D-4738-9CA5-BDD1CA482F23}</Project>
+      <Name>Jobs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{d6cdd9a2-389b-4cf5-8888-abd4d6905719}</Project>

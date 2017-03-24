@@ -16,7 +16,7 @@ namespace Jobs.Jobs.CommunityJobs
                 return;
             }
             
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.JoinTheNewGroupsAndPages);
+            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.JoinTheNewGroupsAndPages, null);
 
             new JobQueueService().AddToQueue(account.Id, FunctionName.JoinTheNewGroupsAndPages);
         }

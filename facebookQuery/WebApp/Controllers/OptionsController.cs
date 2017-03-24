@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Jobs.JobsService;
+using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.OptionsModel;
@@ -73,8 +74,14 @@ namespace WebApp.Controllers
         private static void RefreshJobs(AccountViewModel account, long groupId)
         {
             var settings = new GroupService(null).GetSettings(groupId);
+            var model = new AddOrUpdateAccountModel
+            {
+                Account = account,
+                OldSettings = null,
+                NewSettings = settings
+            };
 
-            var refreshJobsTask = new Task<bool>(() => new BackgroundJobService().AddOrUpdateAccountJobs(account, settings, null));
+            var refreshJobsTask = new Task<bool>(() => new BackgroundJobService().AddOrUpdateAccountJobs(model));
             refreshJobsTask.Start();
         }
      }

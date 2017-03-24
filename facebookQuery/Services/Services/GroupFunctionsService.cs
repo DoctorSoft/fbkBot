@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CommonInterfaces.Interfaces.Services;
 using Constants.FunctionEnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Groups;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Functions;
 using DataBase.QueriesAndCommands.Queries.Groups;
-using Services.Interfaces;
+using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.GroupFunctionsModels;
 using Services.ViewModels.HomeModels;
@@ -112,7 +113,16 @@ namespace Services.Services
                     foreach (var function in functionsIdForRun)
                     {
                         var delayTime = _settingsManager.GetTimeSpanByFunctionName(function, groupId);
-                        backgroundJobService.CreateBackgroundJob(accountModel, function, delayTime, true);
+
+                        var model = new CreateBackgroundJobModel()
+                        {
+                            Account = accountModel,
+                            CheckPermissions = true,
+                            FunctionName = function,
+                            LaunchTime = delayTime
+                        };
+
+                        backgroundJobService.CreateBackgroundJob(model);
                     }
                 }
             }

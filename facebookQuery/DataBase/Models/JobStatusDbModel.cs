@@ -13,6 +13,8 @@ namespace DataBase.Models
 
         public FunctionName FunctionName { get; set; }
 
+        public long? FriendId { get; set; }
+
         public TimeSpan LaunchDateTime { get; set; }
 
         public DateTime AddDateTime { get; set; }

@@ -7,5 +7,7 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
         public long AccountId { get; set; }
 
         public FunctionName FunctionName { get; set; }
+
+        public long? FriendId { get; set; }
     }
 }

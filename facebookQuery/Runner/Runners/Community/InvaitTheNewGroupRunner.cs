@@ -1,5 +1,5 @@
-﻿using Runner.Interfaces;
-using Runner.Notices;
+﻿using Jobs.Notices;
+using Runner.Interfaces;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 

@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using CommonInterfaces.Interfaces.Services;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Commands.Groups;
 using DataBase.QueriesAndCommands.Commands.SpyOptions;
 using DataBase.QueriesAndCommands.Queries.Functions;
-using DataBase.QueriesAndCommands.Queries.Groups;
 using DataBase.QueriesAndCommands.Queries.SpyFunctions;
 using Services.Interfaces;
 using Services.Interfaces.ServiceTools;
 using Services.ServiceTools;
-using Services.ViewModels.HomeModels;
 using Services.ViewModels.SpySettingsViewModels;
 
 namespace Services.Services
@@ -75,7 +72,5 @@ namespace Services.Services
                 Functions = newSettings.functions
             });
         }
-
-
     }
 }

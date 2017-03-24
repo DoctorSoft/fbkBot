@@ -7,19 +7,19 @@ namespace DataBase.QueriesAndCommands.Queries.Account
 {
     public class GetAccountByFacebookIdQueryHandler : IQueryHandler<GetAccountByFacebookIdQuery, AccountModel>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetAccountByFacebookIdQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public AccountModel Handle(GetAccountByFacebookIdQuery query)
         {
             var models = 
-                context.Accounts.Include(model => model.Cookies)
+                _context.Accounts.Include(model => model.Cookies)
                 .Where(model => model.FacebookId == query.FacebookUserId)
-                .Where(model => !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId))
+                .Where(model => !_context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId))
                 .Select(model => new AccountModel
                 {
                     Id = model.Id,
