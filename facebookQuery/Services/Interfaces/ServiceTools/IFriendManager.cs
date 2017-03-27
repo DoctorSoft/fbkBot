@@ -1,4 +1,5 @@
-﻿using DataBase.QueriesAndCommands.Models;
+﻿using System;
+using DataBase.QueriesAndCommands.Models;
 
 namespace Services.Interfaces.ServiceTools
 {
@@ -9,5 +10,7 @@ namespace Services.Interfaces.ServiceTools
         FriendData GetFriendById(long friendAccountId);
 
         void AddFriendToBlackList(long groupSettingsId, long friendFacebookId);
+
+        bool CheckConditionTime(DateTime addedDateTime, int settingsHours);
     }
 }

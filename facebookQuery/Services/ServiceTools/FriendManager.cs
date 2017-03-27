@@ -1,8 +1,9 @@
-﻿using DataBase.Context;
-using DataBase.QueriesAndCommands.Commands.Friends.DeleteFriendByIdCommand;
+﻿using System;
+using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.FriendsBlackList.AddToFriendsBlackListCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Friends;
+using DataBase.QueriesAndCommands.Queries.Friends.GetFriendById;
 using Services.Interfaces.ServiceTools;
 
 namespace Services.ServiceTools
@@ -17,11 +18,11 @@ namespace Services.ServiceTools
             });
         }
 
-        public FriendData GetFriendById(long friendAccountId)
+        public FriendData GetFriendById(long friendId)
         {
-            return new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
+            return new GetFriendByIdQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdQuery
             {
-                AccountId = friendAccountId
+                FriendId = friendId
             });
         }
 
@@ -41,6 +42,19 @@ namespace Services.ServiceTools
                 FriendName = friend.FriendName,
                 GroupSettingsId = groupSettingsId
             });
+        }
+
+        public bool CheckConditionTime(DateTime addedDateTime, int settingsHours)
+        {
+            var passedTime = DateTime.Now - addedDateTime;
+            var passedHour = ConvertDateTimeToHours(passedTime);
+            
+            return passedHour > settingsHours;
+        }
+
+        private static int ConvertDateTimeToHours(TimeSpan date)
+        {
+            return date.Days * 24 + date.Hours;
         }
     }
 }

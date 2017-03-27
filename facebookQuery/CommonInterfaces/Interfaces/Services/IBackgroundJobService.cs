@@ -6,8 +6,8 @@ namespace CommonInterfaces.Interfaces.Services
     {
         bool AddOrUpdateAccountJobs(IAddOrUpdateAccountJobs model);
 
+        void RemoveJobById(string jobId);
+        
         void CreateBackgroundJob(ICreateBackgroundJob model);
-
-        void CreateBackgroundJobForDeleteFriends(ICreateBackgroundJobForDeleteFriends model);
     }
 }

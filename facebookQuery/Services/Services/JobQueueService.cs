@@ -3,7 +3,6 @@ using System.Linq;
 using Constants.FunctionEnums;
 using DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue;
 using DataBase.QueriesAndCommands.Commands.JobQueue.DeleteQueue;
-using DataBase.QueriesAndCommands.Queries.Account.JobQueue.AddQueue;
 using DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetAllQueues;
 using DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetQueuesByAccountId;
 using Services.ViewModels.QueueViewModels;
@@ -18,6 +17,16 @@ namespace Services.Services
             {
                 AccountId = accountId,
                 FunctionName = functionName
+            });
+        }
+
+        public void AddToQueue(long accountId, FunctionName functionName, long friendId)
+        {
+            new AddToQueueCommandHandler().Handle(new AddToQueueCommand
+            {
+                AccountId = accountId,
+                FunctionName = functionName,
+                FriendId = friendId
             });
         }
 

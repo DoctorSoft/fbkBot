@@ -10,6 +10,8 @@ namespace DataBase.QueriesAndCommands.Models
         public long AccountId { get; set; }
 
         public long FriendId { get; set; }
+
+        public bool ToDelete { get; set; }
         
         public FunctionName FunctionName { get; set; }
 

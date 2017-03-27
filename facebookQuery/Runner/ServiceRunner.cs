@@ -1,17 +1,17 @@
 ﻿using System;
 using Constants.FunctionEnums;
 using Runner.Context;
+using Runner.Interfaces;
 using Runner.Runners.Community;
 using Runner.Runners.Cookies;
 using Runner.Runners.Friends;
 using Runner.Runners.Messages;
-using Services.ViewModels.HomeModels;
 
 namespace Runner
 {
     public class ServiceRunner
     {
-        public void RunService(FunctionName functionName, AccountViewModel account)
+        public void RunService(FunctionName functionName, IRunnerModel model)
         {
             RunnerContext context;
 
@@ -72,13 +72,18 @@ namespace Runner
                     context = new RunnerContext(new InvaitTheNewPageRunner());
                     break;
                 }
+                case FunctionName.RemoveFromFriends:
+                {
+                    context = new RunnerContext(new InvaitTheNewPageRunner());
+                    break;
+                }
                 default:
                 {
                     throw new ArgumentOutOfRangeException("functionName");
                 }
             }
 
-            context.Execute(account);
+            context.Execute(model);
         }
     }
 }

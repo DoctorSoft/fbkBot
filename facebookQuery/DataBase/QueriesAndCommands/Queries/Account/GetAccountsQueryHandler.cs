@@ -20,8 +20,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
             var models =
                 _context.Accounts.Include(model => model.Cookies)
                     .Where(model => !model.IsDeleted)
-                    .Where(model => !model.AuthorizationDataIsFailed)
-                    .Where(model => !model.ProxyDataIsFailed)
+                    //.Where(model => !model.AuthorizationDataIsFailed)
+                    //.Where(model => !model.ProxyDataIsFailed)
                     .OrderBy(model => model.Id)
                     //.Skip(query.Count*query.Page)
                     //.Take(query.Count)

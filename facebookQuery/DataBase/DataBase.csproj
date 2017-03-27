@@ -89,7 +89,6 @@
   <ItemGroup>
     <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
-    <Compile Include="Configurations\ScheduleRemovalOfFriendsConfiguration.cs" />
     <Compile Include="Configurations\NewSettingsConfiguration.cs" />
     <Compile Include="Configurations\JobQueueConfiguration.cs" />
     <Compile Include="Configurations\JobStatusConfiguration.cs" />
@@ -251,13 +250,36 @@
     <Compile Include="Migrations\201703232005489_AddFriendIdFromJobStatusTable.Designer.cs">
       <DependentUpon>201703232005489_AddFriendIdFromJobStatusTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703251729495_AddFriendIdInJobQueueTable.cs" />
+    <Compile Include="Migrations\201703251729495_AddFriendIdInJobQueueTable.Designer.cs">
+      <DependentUpon>201703251729495_AddFriendIdInJobQueueTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703251943346_AddFriendIdInJobQueueTableFix.cs" />
+    <Compile Include="Migrations\201703251943346_AddFriendIdInJobQueueTableFix.Designer.cs">
+      <DependentUpon>201703251943346_AddFriendIdInJobQueueTableFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703252044334_AddFriendIdInJobQueueTableFix2.cs" />
+    <Compile Include="Migrations\201703252044334_AddFriendIdInJobQueueTableFix2.Designer.cs">
+      <DependentUpon>201703252044334_AddFriendIdInJobQueueTableFix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703261023407_TypeLaunchTimeHasBeenChanged.cs" />
+    <Compile Include="Migrations\201703261023407_TypeLaunchTimeHasBeenChanged.Designer.cs">
+      <DependentUpon>201703261023407_TypeLaunchTimeHasBeenChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703261813290_AddFieldToDelete.cs" />
+    <Compile Include="Migrations\201703261813290_AddFieldToDelete.Designer.cs">
+      <DependentUpon>201703261813290_AddFieldToDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703272001007_RemoveOldTables.cs" />
+    <Compile Include="Migrations\201703272001007_RemoveOldTables.Designer.cs">
+      <DependentUpon>201703272001007_RemoveOldTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
     <Compile Include="Models\JobStatusDbModel.cs" />
     <Compile Include="Models\NewSettingsDbModel.cs" />
-    <Compile Include="Models\ScheduleRemovalOfFriendsDbModel.cs" />
     <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
     <Compile Include="Models\CookiesForSpyDbModel.cs" />
@@ -305,10 +327,6 @@
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueue\DeleteQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\AddScheduleCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\AddScheduleCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\DeleteScheduleByIdCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\ScheduleDeleteFriends\DeleteScheduleByIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
@@ -426,20 +444,20 @@
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\CheckForFriendBlacklisted\CheckForFriendBlacklistedQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\GetFriendsBlackList\GetFriendsBlackListByGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendsBlackList\GetFriendsBlackList\GetFriendsBlackListByGroupIdQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Friends\DeleteSchedule\GetFriendsToQueueDeletionQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Friends\DeleteSchedule\GetFriendsToQueueDeletionQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\CheckAllConditions\CheckAllConditionsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\CheckAllConditions\CheckAllConditionsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAllFriendByQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsForAddedToGroup\GetFriendsForAddedToGroupQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsForAddedToGroup\GetFriendsForAddedToGroupQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToQueueDeletion\GetFriendsToQueueDeletionQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToQueueDeletion\GetFriendsToQueueDeletionQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\ScheduleDeleteFriends\GetScheduleDeleteFriendsQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\ScheduleDeleteFriends\GetScheduleDeleteFriendsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQuery.cs" />
@@ -501,9 +519,9 @@
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\FriendMessages\GetUnansweredMessagesQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Models\FriendData.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdAccountQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendById\GetFriendByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendByIdAccountQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendById\GetFriendByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByAccountQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\FunctionData.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionsQuery.cs" />
@@ -658,6 +676,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703232005489_AddFriendIdFromJobStatusTable.resx">
       <DependentUpon>201703232005489_AddFriendIdFromJobStatusTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703251729495_AddFriendIdInJobQueueTable.resx">
+      <DependentUpon>201703251729495_AddFriendIdInJobQueueTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703251943346_AddFriendIdInJobQueueTableFix.resx">
+      <DependentUpon>201703251943346_AddFriendIdInJobQueueTableFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703252044334_AddFriendIdInJobQueueTableFix2.resx">
+      <DependentUpon>201703252044334_AddFriendIdInJobQueueTableFix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703261023407_TypeLaunchTimeHasBeenChanged.resx">
+      <DependentUpon>201703261023407_TypeLaunchTimeHasBeenChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703261813290_AddFieldToDelete.resx">
+      <DependentUpon>201703261813290_AddFieldToDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703272001007_RemoveOldTables.resx">
+      <DependentUpon>201703272001007_RemoveOldTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

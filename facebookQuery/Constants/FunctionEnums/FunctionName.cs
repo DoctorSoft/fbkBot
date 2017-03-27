@@ -12,6 +12,8 @@
         GetNewFriendsAndRecommended = 102,
         ConfirmFriendship = 103,
         SendRequestFriendship = 104,
+        RemoveFromFriends = 105,
+
         //Spy
         AnalyzeFriends = 201,
 

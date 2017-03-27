@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Jobs.Notices;
+using Runner.Models;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.QueueViewModels;
@@ -39,12 +41,11 @@ namespace Runner
                     Console.WriteLine(string.Format("{0} задач в очереди для аккаунта {1}", queues.Count, firstElement.AccountId));
 
                     var account = accounts.FirstOrDefault(model => model.Id == firstElement.AccountId);
-
                     foreach (var currentQueue in queue)
                     {
                         _queueService.RemoveQueue(currentQueue.Id);
                     }
-
+                    
                     var queueData = queue;
                     var runnerTask = new Task(() => RunnerTask(queueData, account));
 
@@ -63,7 +64,12 @@ namespace Runner
 
             foreach (var queue in queues)
             {
-                runner.RunService(queue.FunctionName, account);
+                var friend = queue.FriendId != null ? new FriendsService(new NoticesProxy()).GetFriendById((long)queue.FriendId) : null;
+                runner.RunService(queue.FunctionName, new RunnerModel
+                {
+                    Account = account,
+                    Friend = friend
+                });
             }
         }
     }

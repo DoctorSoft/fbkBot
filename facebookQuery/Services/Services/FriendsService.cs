@@ -4,23 +4,27 @@ using System.Threading;
 using CommonInterfaces.Interfaces.Services;
 using CommonModels;
 using Constants.FriendTypesEnum;
-using Constants.FunctionEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.AccountStatistics;
 using DataBase.QueriesAndCommands.Commands.AnalysisFriends;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendTypeCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToEndDialogCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToGroupFriendCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToPageFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkRemovedFriendCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkWinkedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
-using DataBase.QueriesAndCommands.Commands.ScheduleDeleteFriends;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.Friends;
-using DataBase.QueriesAndCommands.Queries.Friends.DeleteSchedule;
+using DataBase.QueriesAndCommands.Queries.Friends.CheckAllConditions;
+using DataBase.QueriesAndCommands.Queries.Friends.GetFriendById;
+using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion;
 using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.CancelFriendshipRequestEngine;
@@ -29,10 +33,8 @@ using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
-using Services.Interfaces;
 using Services.Interfaces.Notices;
 using Services.Interfaces.ServiceTools;
-using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
@@ -43,6 +45,7 @@ namespace Services.Services
     {
         private readonly INoticesProxy _notice;
         private readonly IAccountManager _accountManager;
+        private readonly IFriendManager _friendManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly ISeleniumManager _seleniumManager;
@@ -52,6 +55,7 @@ namespace Services.Services
         {
             _notice = noticeProxy;
             _accountManager = new AccountManager();
+            _friendManager = new FriendManager();
             _accountSettingsManager = new AccountSettingsManager();
             _accountStatisticsManager = new StatisticsManager();
             _seleniumManager = new SeleniumManager();
@@ -79,6 +83,28 @@ namespace Services.Services
             };
 
             return result;
+        }
+        public FriendViewModel GetFriendById(long friendId)
+        {
+            var friend = new GetFriendByIdQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdQuery
+            {
+                FriendId = friendId
+            });
+
+            return new FriendViewModel
+            {
+                AddDateTime = friend.AddedDateTime,
+                Id = friend.Id,
+                Deleted = friend.Deleted,
+                FacebookId = friend.FacebookId,
+                MessagesEnded = friend.DialogIsCompleted,
+                Name = friend.FriendName,
+                Href = friend.Href,
+                IsAddedToGroups = friend.IsAddedToGroups,
+                IsAddedToPages = friend.IsAddedToPages,
+                IsWinked = friend.IsWinked,
+                MessageRegime = friend.MessageRegime
+            };
         }
 
         public AnalizeFriendListViewModel GetIncomingRequestsFriendshipByAccount(long accountId)
@@ -253,7 +279,7 @@ namespace Services.Services
             return true;
         }
 
-        public void GetFriendsToQueueDeletion(AccountViewModel account)
+        public void CheckFriendsAtTheEndTimeConditions(AccountViewModel account)
         {
             if (account.GroupSettingsId == null)
             {
@@ -262,79 +288,94 @@ namespace Services.Services
 
             var settings = _accountSettingsManager.GetSettings((long) account.GroupSettingsId);
 
-            var friendsToCreateJob = new GetFriendsToQueueDeletionQueryHandler(new DataBaseContext()).Handle(
+            var friendsToCheck = new GetFriendsToQueueDeletionQueryHandler(new DataBaseContext()).Handle(
                 new GetFriendsToQueueDeletionQuery
                 {
                     AccountId = account.Id
                 });
 
-            foreach (var friend in friendsToCreateJob)
+            _notice.AddNotice(account.Id, string.Format("Проверяем выполнение условий для друзей (отметка выполнения условий)... В очереди {0} друзей...", friendsToCheck.Count));
+
+            foreach (var friend in friendsToCheck)
             {
-                _notice.AddNotice(account.Id, "Создаем задания для удаления из друзей...");
+                _notice.AddNotice(account.Id, string.Format("Проверяем {0}", friend.FriendName));
                 if (settings.EnableDialogIsOver)
                 {
-                    _notice.AddNotice(account.Id,
-                        string.Format("Создаем задания для удаления {0}({1}) из друзей после окончания диалога.",
-                            friend.FriendName, friend.FacebookId));
-                    var model = new AddScheduleCommand
+                    var settingsTime = settings.DialogIsOverTimer;
+                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                    if (itsTime)
                     {
-                        AccountId = account.Id,
-                        FunctionName = FunctionName.DialogIsOver,
-                        FriendId = friend.Id,
-                        AddedDateTime = friend.AddedDateTime
-                    };
-
-                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                        new MarkAddToEndDialogCommandHandler(new DataBaseContext()).Handle(
+                            new MarkAddToEndDialogCommand
+                            {
+                                FriendId = friend.Id,
+                                AccountId = account.Id
+                            });
+                    }
                 }
+
                 if (settings.EnableIsAddedToGroupsAndPages)
                 {
-                    _notice.AddNotice(account.Id,
-                        string.Format(
-                            "Создаем задания для удаления  {0}({1}) из друзей после добавления в группы и страницы.",
-                            friend.FriendName, friend.FacebookId));
-                    var model = new AddScheduleCommand
+                    var settingsTime = settings.IsAddedToGroupsAndPagesTimer;
+                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                    if (itsTime)
                     {
-                        AccountId = account.Id,
-                        FunctionName = FunctionName.IsAddedToGroupsAndPages,
-                        FriendId = friend.Id,
-                        AddedDateTime = friend.AddedDateTime
-                    };
+                        new MarkAddToGroupFriendCommandHandler(new DataBaseContext()).Handle(
+                            new MarkAddToGroupFriendCommand
+                            {
+                                FriendId = friend.Id,
+                                AccountId = account.Id
+                            });
 
-                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                        new MarkAddToPageFriendCommandHandler(new DataBaseContext()).Handle(
+                            new MarkAddToPageFriendCommand
+                            {
+                                FriendId = friend.Id,
+                                AccountId = account.Id
+                            });
+                    }
                 }
                 if (settings.EnableIsWink)
                 {
-                    _notice.AddNotice(account.Id,
-                        string.Format("Создаем задания для удаления  {0}({1}) из друзей после подмигивания.",
-                            friend.FriendName, friend.FacebookId));
-                    var model = new AddScheduleCommand
+                    var settingsTime = settings.IsWinkTimer;
+                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                    if (itsTime)
                     {
-                        AccountId = account.Id,
-                        FunctionName = FunctionName.IsWink,
-                        FriendId = friend.Id,
-                        AddedDateTime = friend.AddedDateTime
-                    };
-
-                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                        new MarkWinkedFriendCommandHandler(new DataBaseContext()).Handle(
+                            new MarkWinkedFriendCommand
+                            {
+                                FriendId = friend.Id,
+                                AccountId = account.Id
+                            });
+                    }
                 }
                 if (settings.EnableIsWinkFriendsOfFriends)
                 {
-                    _notice.AddNotice(account.Id,
-                        string.Format(
-                            "Создаем задания для удаления  {0}({1}) из друзей после подмигивания друзьям друга.",
-                            friend.FriendName, friend.FacebookId));
-                    var model = new AddScheduleCommand
+                    var settingsTime = settings.IsWinkFriendsOfFriendsTimer;
+                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                    if (itsTime)
                     {
-                        AccountId = account.Id,
-                        FunctionName = FunctionName.IsWinkFriendsOfFriends,
-                        FriendId = friend.Id,
-                        AddedDateTime = friend.AddedDateTime
-                    };
+                        /*new MarkAddToEndDialogCommandHandler(new DataBaseContext()).Handle(
+                            new MarkAddToEndDialogCommand
+                            {
+                                FriendId = friend.Id,
+                                AccountId = account.Id
+                            });*/
+                    }
+                }
 
-                    new AddScheduleCommandHandler(new DataBaseContext()).Handle(model);
+                var allTheConditions =
+                    new CheckAllConditionsQueryHandler(new DataBaseContext()).Handle(new CheckAllConditionsQuery
+                    {
+                        FriendId = friend.Id,
+                        AccountId = account.Id
+                    });
+
+                if (allTheConditions)
+                {
+                    // создаем задание для удаления
                 }
             }
-
         }
 
         public NewFriendListViewModel GetNewFriendsAndRecommended(AccountViewModel account, IBackgroundJobService backgroundJobService)
@@ -589,9 +630,9 @@ namespace Services.Services
 
             _notice.AddNotice(account.Id, string.Format("Получаем друга для удаления по id - {0}", friendId));
 
-            var friend = new GetFriendByIdAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdAccountQuery
+            var friend = new GetFriendByIdQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdQuery
             {
-                AccountId = friendId
+                FriendId = friendId
             });
 
             _notice.AddNotice(account.Id, string.Format("удаляем друга {0}({1})", friend.FriendName, friend.FacebookId));

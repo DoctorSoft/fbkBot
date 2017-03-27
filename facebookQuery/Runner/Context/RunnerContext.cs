@@ -1,5 +1,4 @@
 ﻿using Runner.Interfaces;
-using Services.ViewModels.HomeModels;
 
 namespace Runner.Context
 {
@@ -12,9 +11,9 @@ namespace Runner.Context
             _runner = runner;
         }
 
-        public void Execute(AccountViewModel account)
+        public void Execute(IRunnerModel model)
         {
-            _runner.Run(account);
+            _runner.Run(model);
         }
     }
 }

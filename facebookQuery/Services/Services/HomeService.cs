@@ -7,6 +7,7 @@ using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Engines.Engines.GetNewNoticesEngine;
 using RequestsHelpers;
@@ -62,6 +63,29 @@ namespace Services.Services
             }).ToList();
         }
 
+
+        public List<AccountViewModel> GetWorkAccounts()
+        {
+            var accounts = new GetWorkAccountsQueryHandler(new DataBaseContext()).Handle(new GetWorkAccountsQuery());
+
+            return accounts.Select(model => new AccountViewModel
+            {
+                Id = model.Id,
+                PageUrl = model.PageUrl,
+                Login = model.Login,
+                Password = model.Password,
+                FacebookId = model.FacebookId,
+                Proxy = model.Proxy,
+                ProxyLogin = model.ProxyLogin,
+                ProxyPassword = model.ProxyPassword,
+                Cookie = model.Cookie.CookieString,
+                Name = model.Name,
+                GroupSettingsId = model.GroupSettingsId,
+                AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
+                ProxyDataIsFailed = model.ProxyDataIsFailed,
+                IsDeleted = model.IsDeleted
+            }).ToList();
+        }
         public List<AccountViewModel> GetDeletedAccounts()
         {
             var accounts = new GetDeletedAccountsQueryHandler(new DataBaseContext()).Handle(new GetDeletedAccountsQuery

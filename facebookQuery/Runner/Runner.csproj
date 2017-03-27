@@ -86,10 +86,13 @@
   <ItemGroup>
     <Compile Include="Context\RunnerContext.cs" />
     <Compile Include="Interfaces\IRunner.cs" />
+    <Compile Include="Interfaces\IRunnerModel.cs" />
+    <Compile Include="Models\RunnerModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runners\Community\InvaitTheNewPageRunner.cs" />
     <Compile Include="Runners\Community\InvaitTheNewGroupRunner.cs" />
     <Compile Include="Runners\Community\JoinTheNewGroupsAndPagesRunner.cs" />
+    <Compile Include="Runners\Friends\RemoveFromFriendsRunner.cs" />
     <Compile Include="ServiceRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runners\Cookies\RefreshCookiesRunner.cs" />

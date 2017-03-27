@@ -1,6 +1,7 @@
 ﻿using System;
 using CommonInterfaces.Interfaces.Models;
 using CommonInterfaces.Interfaces.Services;
+using CommonModels;
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.Jobs.CommunityJobs;
@@ -28,65 +29,10 @@ namespace Jobs.JobsService
             _notice = new NotificationHub();
         }
 
-        public bool AddOrUpdateDeleteFriendsJobs(IAddOrUpdateAccountJobs model)
+        public void RemoveJobById(string jobId)
         {
-            var currentModel = model as AddOrUpdateAccountModel;
-
-            if (currentModel == null)
-            {
-                return false;
-            }
-
-            var account = currentModel.Account;
-            var newSettings = currentModel.NewSettings;
-            var oldSettings = currentModel.OldSettings;
-            var friend = currentModel.Friend;
-            
-            _notice.Add(account.Id, "Обновляем время до постановки друзей в очередь удаления.");
-
-            //delete friends
-            var dialogIsOverLaunchTime = SetLaunchTime(FunctionName.DialogIsOver, newSettings, oldSettings);
-            var isAddedToGroupsAndPagesLaunchTime = SetLaunchTime(FunctionName.IsAddedToGroupsAndPages, newSettings,
-                oldSettings);
-            var isWinkLaunchTime = SetLaunchTime(FunctionName.IsWink, newSettings, oldSettings);
-            var isWinkFriendsOfFriendsLaunchTime = SetLaunchTime(FunctionName.IsWinkFriendsOfFriends, newSettings,
-                oldSettings);
-
-            CreateBackgroundJobForDeleteFriends(new CreateBackgroundJobForDeleteFriendsModel
-            {
-                Account = account,
-                FunctionName = FunctionName.DialogIsOver,
-                LaunchHourTime = dialogIsOverLaunchTime.Hours,
-                Friend = friend
-            });
-
-            CreateBackgroundJobForDeleteFriends(new CreateBackgroundJobForDeleteFriendsModel
-            {
-                Account = account,
-                FunctionName = FunctionName.IsAddedToGroupsAndPages,
-                LaunchHourTime = isAddedToGroupsAndPagesLaunchTime.Hours,
-                Friend = friend
-            });
-
-            CreateBackgroundJobForDeleteFriends(new CreateBackgroundJobForDeleteFriendsModel
-            {
-                Account = account,
-                FunctionName = FunctionName.IsWink,
-                LaunchHourTime = isWinkLaunchTime.Hours,
-                Friend = friend
-            });
-
-            CreateBackgroundJobForDeleteFriends(new CreateBackgroundJobForDeleteFriendsModel
-            {
-                Account = account,
-                FunctionName = FunctionName.IsWinkFriendsOfFriends,
-                LaunchHourTime = isWinkFriendsOfFriendsLaunchTime.Hours,
-                Friend = friend
-            });
-
-            return true;
+            BackgroundJob.Delete(jobId);
         }
-
         public bool AddOrUpdateAccountJobs(IAddOrUpdateAccountJobs model)
         {
             var currentModel = (AddOrUpdateAccountModel) model;
@@ -103,12 +49,12 @@ namespace Jobs.JobsService
             _notice.Add(account.Id, "Обновляем обработчик событий");
             //cookies
 
-            CreateBackgroundJob(new Services.Models.BackgroundJobs.CreateBackgroundJobModel
+            CreateBackgroundJob(new CreateBackgroundJobModel
             {
                 Account = account,
                 FunctionName = FunctionName.RefreshCookies,
                 LaunchTime = new TimeSpan(2, 0, 0),
-                CheckPermissions = true
+                CheckPermissions = false
             });
 
             if (!AccountIsWorking(account))
@@ -226,82 +172,6 @@ namespace Jobs.JobsService
             return true;
         }
 
-        public void CreateBackgroundJobForDeleteFriends(ICreateBackgroundJobForDeleteFriends model)
-        {
-            var currentModel = model as CreateBackgroundJobForDeleteFriendsModel;
-
-            if (currentModel == null)
-            {
-                return;
-            }
-
-            var account = currentModel.Account;
-            var friend = currentModel.Friend;
-            var functionName = currentModel.FunctionName;
-            var launchTimeHours = currentModel.LaunchHourTime - (DateTime.Now - friend.AddDateTime).Hours;
-            var launchTime = launchTimeHours < 0 ? new TimeSpan(0,0,1,0) : new TimeSpan(0, launchTimeHours, 0, 0);
-
-            if (JobIsRun(functionName, account))
-            {
-                // Если джоб создан
-                var jobStatus = new JobStatusService().GetJobStatus(account.Id, functionName, friend.Id);
-                
-                if (jobStatus != null)
-                {
-                    foreach (var jobStatusViewModel in jobStatus)
-                    {
-                        BackgroundJob.Delete(jobStatusViewModel.JobId);
-                    }
-                }
-            
-                new JobStatusService().DeleteJobStatus(account.Id, functionName, friend.Id);
-            }
-
-            var jobStatusModel = new JobStatusViewModel
-            {
-                AccountId = account.Id,
-                LaunchDateTime = launchTime,
-                FriendId = friend.Id,
-                FunctionName = functionName
-            };
-
-            switch (functionName)
-            {
-                case FunctionName.DialogIsOver:
-                {
-                    var jobId = BackgroundJob.Schedule(() => DialogIsOverConditionJob.Run(account, friend), launchTime);
-                    jobStatusModel.JobId = jobId;
-
-                    AddJobStatus(jobStatusModel);
-                    break;
-                }
-                case FunctionName.IsAddedToGroupsAndPages:
-                {
-                    var jobId = BackgroundJob.Schedule(() => IsAddedToGroupsAndPagesConditionJob.Run(account, friend), launchTime);
-                    jobStatusModel.JobId = jobId;
-
-                    AddJobStatus(jobStatusModel);
-                    break;
-                }
-                case FunctionName.IsWink:
-                {
-                    var jobId = BackgroundJob.Schedule(() => IsWinkConditionJob.Run(account, friend), launchTime);
-                    jobStatusModel.JobId = jobId;
-
-                    AddJobStatus(jobStatusModel);
-                    break;
-                }
-                case FunctionName.IsWinkFriendsOfFriends:
-                {
-                    var jobId = BackgroundJob.Schedule(() => IsWinkFriendsOfFriendsConditionJob.Run(account, friend), launchTime);
-                    jobStatusModel.JobId = jobId;
-
-                    AddJobStatus(jobStatusModel);
-                    break;
-                }
-            }
-        }
-        
         public void CreateBackgroundJob(ICreateBackgroundJob model)
         {
             var currentModel = model as CreateBackgroundJobModel;
@@ -312,9 +182,11 @@ namespace Jobs.JobsService
             }
 
             var account = currentModel.Account;
+            var friend = currentModel.Friend;
             var checkPermissions = currentModel.CheckPermissions;
             var functionName = currentModel.FunctionName;
             var launchTime = currentModel.LaunchTime;
+            var launchTimeModel = ConvertTimeSpanToTimeModel(launchTime);
 
             if (checkPermissions)
             {
@@ -343,7 +215,7 @@ namespace Jobs.JobsService
             var jobStatusModel = new JobStatusViewModel
             {
                 AccountId = account.Id,
-                LaunchDateTime = launchTime,
+                LaunchTime = launchTimeModel,
                 FriendId = null,
                 FunctionName = functionName
             };
@@ -469,6 +341,15 @@ namespace Jobs.JobsService
                     AddJobStatus(jobStatusModel);
                     break;
                 }
+                case FunctionName.RemoveFromFriends:
+                {
+                    var jobId = BackgroundJob.Schedule(() => RemoveFromFriendsJob.Run(account, friend), launchTime);
+                    //Помечаем запуск джоба
+                    jobStatusModel.JobId = jobId;
+
+                    AddJobStatus(jobStatusModel);
+                    break;
+                }
                 default:
                     throw new ArgumentOutOfRangeException("functionName");
             }
@@ -516,6 +397,16 @@ namespace Jobs.JobsService
             }
 
             return false;
+        }
+
+        private static TimeModel ConvertTimeSpanToTimeModel(TimeSpan timeSpan)
+        {
+            return new TimeModel
+            {
+                Hours = timeSpan.Hours,
+                Minutes = timeSpan.Minutes,
+                Seconds = timeSpan.Seconds
+            };
         }
 
         private static TimeSpan SetLaunchTime(FunctionName functionName, GroupSettingsViewModel newSettings, GroupSettingsViewModel oldSettings)

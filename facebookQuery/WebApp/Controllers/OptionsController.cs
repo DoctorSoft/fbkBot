@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CommonInterfaces.Interfaces.Models;
 using Jobs.JobsService;
+using Jobs.Notices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
@@ -17,7 +19,7 @@ namespace WebApp.Controllers
         public OptionsController()
         {
             _messageSettingService = new MessageSettingService();
-            _friendService = new FriendsService(null);
+            _friendService = new FriendsService(new NoticesProxy());
         }
 
         // GET: Option
@@ -81,8 +83,15 @@ namespace WebApp.Controllers
                 NewSettings = settings
             };
 
-            var refreshJobsTask = new Task<bool>(() => new BackgroundJobService().AddOrUpdateAccountJobs(model));
+            var refreshJobsTask = new Task<bool>(() => UpdateSettings(model));
             refreshJobsTask.Start();
+        }
+
+        private static bool UpdateSettings(IAddOrUpdateAccountJobs model)
+        {
+            new BackgroundJobService().AddOrUpdateAccountJobs(model);
+           
+            return true;
         }
      }
 }

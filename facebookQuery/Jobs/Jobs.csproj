@@ -91,12 +91,8 @@
     <Compile Include="Jobs\CommunityJobs\InviteTheNewPageJob.cs" />
     <Compile Include="Jobs\CommunityJobs\InviteTheNewGroupJob.cs" />
     <Compile Include="Jobs\Cookies\RefreshCookiesJob.cs" />
-    <Compile Include="Jobs\DeleteFriendsJobs\IsWinkFriendsOfFriendsConditionJob.cs" />
-    <Compile Include="Jobs\DeleteFriendsJobs\IsWinkConditionJob.cs" />
-    <Compile Include="Jobs\DeleteFriendsJobs\IsAddedToGroupsAndPagesConditionJob.cs" />
-    <Compile Include="Jobs\DeleteFriendsJobs\DialogIsOverConditionJob.cs" />
-    <Compile Include="Jobs\FriendJobs\AddToScheduleDeleteFromFriendsJob.cs" />
-    <Compile Include="Jobs\FriendJobs\CreateTaskToDeleteFromFriendsJob.cs" />
+    <Compile Include="Jobs\DeleteFriendsJobs\RemoveFromFriendsJob.cs" />
+    <Compile Include="Jobs\FriendJobs\CheckFriendsAtTheEndTimeConditionsJob.cs" />
     <Compile Include="Jobs\FriendJobs\SendRequestFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\GetNewFriendsAndRecommendedJob.cs" />
     <Compile Include="Jobs\FriendJobs\ConfirmFriendshipJob.cs" />

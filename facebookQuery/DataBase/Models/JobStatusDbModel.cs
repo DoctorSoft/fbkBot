@@ -15,7 +15,7 @@ namespace DataBase.Models
 
         public long? FriendId { get; set; }
 
-        public TimeSpan LaunchDateTime { get; set; }
+        public string LaunchDateTime { get; set; }
 
         public DateTime AddDateTime { get; set; }
     }

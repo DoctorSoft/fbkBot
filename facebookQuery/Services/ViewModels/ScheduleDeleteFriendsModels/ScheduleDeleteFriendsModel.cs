@@ -11,6 +11,8 @@ namespace Services.ViewModels.ScheduleDeleteFriendsModels
 
         public long FriendId { get; set; }
 
+        public bool ToDelete { get; set; }
+
         public FunctionName FunctionName { get; set; }
 
         public DateTime AddDateTime { get; set; }

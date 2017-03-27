@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants.MessageEnums;
 
 namespace Services.ViewModels.FriendsModels
 {
@@ -15,5 +16,15 @@ namespace Services.ViewModels.FriendsModels
         public bool MessagesEnded { get; set; }
 
         public DateTime AddDateTime { get; set; }
+
+        public string Href { get; set; }
+        
+        public bool IsAddedToGroups { get; set; }
+
+        public bool IsAddedToPages { get; set; }
+
+        public bool IsWinked { get; set; }
+
+        public MessageRegime? MessageRegime { get; set; }
     }
 }

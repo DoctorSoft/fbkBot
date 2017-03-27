@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Script.Serialization;
+using CommonModels;
 using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Queries.JobStatus
@@ -23,16 +25,20 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
             }
 
             var result = new List<JobStatusModel>();
-            
+
+            var jsSerializator = new JavaScriptSerializer();
+
             foreach (var jobStatusDbModel in jobStatusList)
             {
+                var launchTimeModel = jsSerializator.Deserialize<TimeModel>(jobStatusDbModel.LaunchDateTime);
+
                 result.Add(new JobStatusModel
                 {
                     AccountId = jobStatusDbModel.AccountId,
                     Id = jobStatusDbModel.Id,
                     FunctionName = jobStatusDbModel.FunctionName,
                     AddDateTime = jobStatusDbModel.AddDateTime,
-                    LaunchDateTime = jobStatusDbModel.LaunchDateTime,
+                    LaunchTime = launchTimeModel,
                     JobId = jobStatusDbModel.JobId,
                     FriendId = jobStatusDbModel.FriendId
                 });

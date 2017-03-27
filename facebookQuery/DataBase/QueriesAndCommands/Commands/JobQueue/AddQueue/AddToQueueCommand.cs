@@ -6,6 +6,8 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
     {
         public long AccountId { get; set; }
 
+        public long? FriendId { get; set; }
+
         public FunctionName FunctionName { get; set; }
     }
 }

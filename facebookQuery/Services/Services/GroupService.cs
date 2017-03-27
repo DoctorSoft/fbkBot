@@ -26,7 +26,6 @@ using Engines.Engines.AddToGroupEngine;
 using Engines.Engines.AddToPageEngine;
 using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinTheGroupsBySeleniumEngine;
 using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinThePagesBySeleniumEngine;
-using Services.Interfaces;
 using Services.Interfaces.Notices;
 using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
@@ -699,8 +698,8 @@ namespace Services.Services
         {
             var oldCommunityOptions = new CommunityOptionsDbModel
             {
-                Pages = ConvertStringToList(oldSettings.FacebookPages),
-                Groups = ConvertStringToList(oldSettings.FacebookGroups)
+                Pages = oldSettings == null ? new List<string>() : ConvertStringToList(oldSettings.FacebookPages), // если опции не были созданы
+                Groups = oldSettings == null ? new List<string>() : ConvertStringToList(oldSettings.FacebookGroups) 
             };
 
             var newGroups = new List<string>();

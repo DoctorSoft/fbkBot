@@ -1,6 +1,7 @@
 ﻿using System;
 using CommonInterfaces.Interfaces.Models;
 using Constants.FunctionEnums;
+using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
 
 namespace Services.Models.BackgroundJobs
@@ -13,6 +14,8 @@ namespace Services.Models.BackgroundJobs
 
         public TimeSpan LaunchTime { get; set; }
 
-        public bool CheckPermissions { get; set; } 
+        public bool CheckPermissions { get; set; }
+
+        public FriendViewModel Friend { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CommonModels;
 using Constants.FunctionEnums;
 
 namespace DataBase.QueriesAndCommands.Commands.JobStatus
@@ -13,6 +13,6 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
 
         public FunctionName FunctionName { get; set; }
 
-        public TimeSpan LaunchDateTime { get; set; }
+        public TimeModel LaunchTime { get; set; }
     }
 }

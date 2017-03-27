@@ -6,11 +6,11 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
 {
     public class AddToQueueCommandHandler : ICommandHandler<AddToQueueCommand, VoidCommandResponse>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public AddToQueueCommandHandler()
         {
-            context = new DataBaseContext();
+            _context = new DataBaseContext();
         }
 
         public VoidCommandResponse Handle(AddToQueueCommand command)
@@ -19,12 +19,13 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
             {
                 AccountId = command.AccountId,
                 FunctionName = command.FunctionName,
-                AddedDateTime = DateTime.Now
+                AddedDateTime = DateTime.Now,
+                FriendId = command.FriendId
             };
 
-            context.JobsQueue.Add(queueModel);
+            _context.JobsQueue.Add(queueModel);
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
             return new VoidCommandResponse();
         }

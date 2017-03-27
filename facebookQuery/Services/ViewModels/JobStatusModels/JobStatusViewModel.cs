@@ -1,4 +1,5 @@
 ﻿using System;
+using CommonModels;
 using Constants.FunctionEnums;
 
 namespace Services.ViewModels.JobStatusModels
@@ -15,7 +16,7 @@ namespace Services.ViewModels.JobStatusModels
 
         public FunctionName FunctionName { get; set; }
 
-        public TimeSpan LaunchDateTime { get; set; }
+        public TimeModel LaunchTime { get; set; }
 
         public DateTime AddDateTime { get; set; }
     }

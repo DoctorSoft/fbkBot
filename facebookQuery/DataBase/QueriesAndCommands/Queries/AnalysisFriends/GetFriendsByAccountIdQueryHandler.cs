@@ -6,19 +6,19 @@ namespace DataBase.QueriesAndCommands.Queries.AnalysisFriends
 {
     public class GetFriendsByAccountIdQueryHandler : IQueryHandler<GetFriendsByAccountIdQuery, List<AnalysisFriendsData>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetFriendsByAccountIdQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<AnalysisFriendsData> Handle(GetFriendsByAccountIdQuery query)
         {
-            var friendsData = new List<AnalysisFriendsData>();
+            List<AnalysisFriendsData> friendsData;
             if (query.FriendsType == null)
             {
-                friendsData = context
+                friendsData = _context
                 .AnalisysFriends
                 .Where(model => model.AccountId == query.AccountId
                     && model.Status == query.Status)
@@ -38,7 +38,7 @@ namespace DataBase.QueriesAndCommands.Queries.AnalysisFriends
             }
             if (query.Status == null)
             {
-                friendsData = context
+                friendsData = _context
                     .AnalisysFriends
                     .Where(model => model.AccountId == query.AccountId
                                     && model.Type == query.FriendsType)
@@ -56,7 +56,7 @@ namespace DataBase.QueriesAndCommands.Queries.AnalysisFriends
                 return friendsData;
             }
 
-            friendsData = context
+            friendsData = _context
             .AnalisysFriends
             .Where(model => model.AccountId == query.AccountId
                             && model.Type == query.FriendsType

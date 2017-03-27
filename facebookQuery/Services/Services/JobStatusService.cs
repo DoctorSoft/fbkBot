@@ -27,7 +27,7 @@ namespace Services.Services
             {
                 AccountId = model.AccountId,
                 FunctionName = model.FunctionName,
-                LaunchDateTime = model.LaunchDateTime,
+                LaunchTime = model.LaunchTime,
                 JobId = model.JobId,
                 FriendId = model.FriendId
             });
@@ -54,7 +54,7 @@ namespace Services.Services
                 FunctionName = jobStatus.FunctionName,
                 AddDateTime = jobStatus.AddDateTime,
                 JobId = jobStatus.JobId,
-                LaunchDateTime = jobStatus.LaunchDateTime,
+                LaunchTime = jobStatus.LaunchTime,
                 FriendId = jobStatus.FriendId
             }).ToList();
         }
