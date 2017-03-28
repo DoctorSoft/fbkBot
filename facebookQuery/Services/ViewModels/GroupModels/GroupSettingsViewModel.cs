@@ -29,6 +29,8 @@ namespace Services.ViewModels.GroupModels
 
         public int IsWinkFriendsOfFriendsTimer { get; set; }
 
+        public int DeletionFriendTimer { get; set; } 
+
        
         //Community options
 

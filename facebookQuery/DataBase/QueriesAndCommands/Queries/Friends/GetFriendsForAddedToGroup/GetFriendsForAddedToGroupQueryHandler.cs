@@ -37,7 +37,13 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsForAddedToGroup
                     Href = model.Href,
                     Deleted = model.DeleteFromFriends,
                     MessageRegime = model.MessageRegime,
-                    DialogIsCompleted = model.DialogIsCompleted
+                    DialogIsCompleted = model.DialogIsCompleted,
+                    AddedToRemoveDateTime = model.AddedToRemoveDateTime,
+                    IsWinkedFriendsFriend = model.IsWinkedFriendsFriend,
+                    AddedDateTime = model.AddedDateTime,
+                    IsAddedToGroups = model.IsAddedToGroups,
+                    IsAddedToPages = model.IsAddedToPages,
+                    IsWinked = model.IsWinked
                 }).ToList();
             }
             catch (Exception)

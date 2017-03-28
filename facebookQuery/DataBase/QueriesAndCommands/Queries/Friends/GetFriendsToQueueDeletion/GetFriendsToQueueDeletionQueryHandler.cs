@@ -18,6 +18,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion
         {
             var result = _context.Friends
                 .Where(model => !model.DialogIsCompleted || !model.IsAddedToGroups || !model.IsAddedToPages || !model.IsWinked)
+                .Where(model => model.AddedToRemoveDateTime == null) // не помеен для удаления
                 .Select(model => new FriendData
                 {
                     FacebookId = model.FacebookId,
@@ -32,7 +33,9 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion
                     IsAddedToGroups = model.IsAddedToGroups,
                     IsAddedToPages = model.IsAddedToPages,
                     IsWinked = model.IsWinked,
-                    Gender = model.Gender
+                    Gender = model.Gender,
+                    AddedToRemoveDateTime = model.AddedToRemoveDateTime,
+                    IsWinkedFriendsFriend = model.IsWinkedFriendsFriend
                 }).ToList();
 
             return result;

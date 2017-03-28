@@ -126,11 +126,17 @@
   <data name="DeleteFriendsTitle" xml:space="preserve">
     <value>Delete friends options</value>
   </data>
+  <data name="DeletionFriendTimer" xml:space="preserve">
+    <value>Deletion friends after</value>
+  </data>
   <data name="EnableOption" xml:space="preserve">
     <value>Enable options</value>
   </data>
   <data name="EndDialog" xml:space="preserve">
     <value>Ending the dialog</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>hours</value>
   </data>
   <data name="Timer" xml:space="preserve">
     <value>Timer</value>

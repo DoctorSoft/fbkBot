@@ -399,6 +399,7 @@ namespace Services.Services
 
             return settingsModels;
         }
+
         public GroupSettingsViewModel GetSettings(long groupId)
         {
             var settings =
@@ -473,7 +474,8 @@ namespace Services.Services
                 IsWinkTimer = settings.DeleteFriendsOptions.IsWink == null ? 0 : settings.DeleteFriendsOptions.IsWink.Timer,
                 EnableIsWink = settings.DeleteFriendsOptions.IsWink != null && settings.DeleteFriendsOptions.IsWink.IsEnabled,
                 IsWinkFriendsOfFriendsTimer = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends == null ? 0 : settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.Timer,
-                EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends != null && settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.IsEnabled
+                EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends != null && settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.IsEnabled,
+                DeletionFriendTimer = settings.DeleteFriendsOptions.DeletionFriendTimer,
             };
         }
 
@@ -593,7 +595,8 @@ namespace Services.Services
                 {
                     IsEnabled = newSettings.EnableIsWinkFriendsOfFriends,
                     Timer = newSettings.IsWinkFriendsOfFriendsTimer
-                }
+                },
+                DeletionFriendTimer = newSettings.DeletionFriendTimer
             };
 
             var command = new AddOrUpdateSettingsCommand

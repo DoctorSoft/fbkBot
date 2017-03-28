@@ -46,10 +46,21 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     {
                         newFriends.Add(new FriendData
                         {
-                            AccountId = friendDbModel.AccountId,
                             FacebookId = friendDbModel.FacebookId,
+                            AccountId = friendDbModel.AccountId,
                             FriendName = friendDbModel.FriendName,
-                            Id = friendDbModel.Id
+                            Deleted = friendDbModel.DeleteFromFriends,
+                            Id = friendDbModel.Id,
+                            DialogIsCompleted = friendDbModel.DialogIsCompleted,
+                            MessageRegime = friendDbModel.MessageRegime,
+                            AddedDateTime = friendDbModel.AddedDateTime,
+                            Href = friendDbModel.Href,
+                            IsAddedToGroups = friendDbModel.IsAddedToGroups,
+                            IsAddedToPages = friendDbModel.IsAddedToPages,
+                            IsWinked = friendDbModel.IsWinked,
+                            Gender = friendDbModel.Gender,
+                            AddedToRemoveDateTime = friendDbModel.AddedToRemoveDateTime,
+                            IsWinkedFriendsFriend = friendDbModel.IsWinkedFriendsFriend
                         });
                     }
                 }

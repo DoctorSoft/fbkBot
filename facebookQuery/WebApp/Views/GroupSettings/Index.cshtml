@@ -13,179 +13,234 @@
 
 @using (Html.BeginForm("UpdateGroupSettings", "GroupSettings", FormMethod.Post))
 {
-    <div class="panel panel-default">
+    <div class="panel-group" id="accordion">
 
-        <div class="panel-body">
-            <div class="panel panel-primary">
-                <div class="panel-heading">@DeleteFriendsTexts.DeleteFriendsTitle</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#removeFriendsCollaps">@DeleteFriendsTexts.DeleteFriendsTitle</a>
+                </h4>
+            </div>
+            <div id="removeFriendsCollaps" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>@DeleteFriendsTexts.Conditions</th>
-                                <th>@DeleteFriendsTexts.EnableOption</th>
-                                <th>@DeleteFriendsTexts.Timer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>@DeleteFriendsTexts.EndDialog</td>
-                                <td>@Html.CheckBoxFor(model => model.EnableDialogIsOver, new { @class = "form-control" })</td>
-                                <td>@Html.TextBoxFor(model => model.DialogIsOverTimer, new { @class = "form-control" })</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>@DeleteFriendsTexts.AddToGroupAndPages</td>
-                                <td>@Html.CheckBoxFor(model => model.EnableIsAddedToGroupsAndPages, new { @class = "form-control" })</td>
-                                <td>@Html.TextBoxFor(model => model.IsAddedToGroupsAndPagesTimer, new { @class = "form-control" })</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>@DeleteFriendsTexts.Wink</td>
-                                <td>@Html.CheckBoxFor(model => model.EnableIsWink, new { @class = "form-control" })</td>
-                                <td>@Html.TextBoxFor(model => model.IsWinkTimer, new { @class = "form-control" })</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>@DeleteFriendsTexts.WinkFriendsOfFriends</td>
-                                <td>@Html.CheckBoxFor(model => model.EnableIsWinkFriendsOfFriends, new { @class = "form-control" })</td>
-                                <td>@Html.TextBoxFor(model => model.IsWinkFriendsOfFriendsTimer, new { @class = "form-control" })</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="input-group">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>@DeleteFriendsTexts.Conditions</th>
+                                    <th>@DeleteFriendsTexts.EnableOption</th>
+                                    <th>@DeleteFriendsTexts.Timer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>@DeleteFriendsTexts.EndDialog</td>
+                                    <td>@Html.CheckBoxFor(model => model.EnableDialogIsOver, new { @class = "form-control" })</td>
+                                    <td>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.DialogIsOverTimer, new { @class = "form-control" })
+                                            <span class="input-group-addon">@DeleteFriendsTexts.Hours </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>@DeleteFriendsTexts.AddToGroupAndPages</td>
+                                    <td>@Html.CheckBoxFor(model => model.EnableIsAddedToGroupsAndPages, new { @class = "form-control" })</td>
+                                    <td>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.IsAddedToGroupsAndPagesTimer, new { @class = "form-control" })
+                                            <span class="input-group-addon">@DeleteFriendsTexts.Hours</span>
+                                        </div>
+                                    </td>
+                                    <th class="success">@DeleteFriendsTexts.DeletionFriendTimer:</th>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>@DeleteFriendsTexts.Wink</td>
+                                    <td>@Html.CheckBoxFor(model => model.EnableIsWink, new { @class = "form-control" })</td>
+                                    <td>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.IsWinkTimer, new { @class = "form-control" })
+                                            <span class="input-group-addon">@DeleteFriendsTexts.Hours</span>
+                                        </div>
+                                    </td>
+                                    <td class="success">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.DeletionFriendTimer, new { @class = "form-control" })
+                                            <span class="input-group-addon">@DeleteFriendsTexts.Hours</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>@DeleteFriendsTexts.WinkFriendsOfFriends</td>
+                                    <td>@Html.CheckBoxFor(model => model.EnableIsWinkFriendsOfFriends, new { @class = "form-control" })</td>
+                                    <td>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.IsWinkFriendsOfFriendsTimer, new { @class = "form-control" })
+                                            <span class="input-group-addon">@DeleteFriendsTexts.Hours</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="panel panel-primary">
-            <div class="panel-heading">@GroupSettingsTexts.GroupsTitle</div>
-            <div class="panel-body">
-                <div class=" col-md-12 panel panel-default" style="margin-bottom: 0 !important">
-                    <div class="row">
-                        <div class="col-lg-5 input-group">
-                            <span class="input-group">
-                                <span class="input-group-addon">
-                                    @GroupSettingsTexts.RetryTimeJoinGroups <br />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#groupsAndPagescollapse">@GroupSettingsTexts.GroupsTitle</a>
+                </h4>
+            </div>
+            <div id="groupsAndPagescollapse" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class=" col-md-12 panel panel-default" style="margin-bottom: 0 !important">
+                        <div class="row">
+                            <div class="col-lg-5 input-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        @GroupSettingsTexts.RetryTimeJoinGroups <br />
+                                    </span>
+                                </div>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(o => Model.RetryTimeInviteTheGroupsHour, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Hour.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeInviteTheGroupsMin, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeInviteTheGroupsSec, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
+                                </div>
+                                <span class="input-group">
+                                    <span class="input-group-addon">
+                                        @GroupSettingsTexts.RetryTimeJoinPage <br />
+                                    </span>
                                 </span>
-                            </span>
-                            <div class="input-group">
-                                @Html.TextBoxFor(o => Model.RetryTimeInviteTheGroupsHour, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.Hour.</span>
-                                @Html.TextBoxFor(o => Model.RetryTimeInviteTheGroupsMin, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
-                                @Html.TextBoxFor(o => Model.RetryTimeInviteTheGroupsSec, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(o => Model.RetryTimeInviteThePagesHour, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Hour.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeInviteThePagesMin, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeInviteThePagesSec, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
+                                </div>
                             </div>
-                            <span class="input-group">
-                                <span class="input-group-addon">
-                                    @GroupSettingsTexts.RetryTimeJoinPage <br />
-                                </span>
-                            </span>
-                            <div class="input-group">
-                                @Html.TextBoxFor(o => Model.RetryTimeInviteThePagesHour, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.Hour.</span>
-                                @Html.TextBoxFor(o => Model.RetryTimeInviteThePagesMin, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
-                                @Html.TextBoxFor(o => Model.RetryTimeInviteThePagesSec, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
+                            <div class="col-lg-7 input-group  ">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInGroupsInDay</span>
+                                    <span class="input-group-addon">@GroupSettingsTexts.From</span>
+                                    @Html.TextBoxFor(o => Model.MinFriendsJoinGroupInDay, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.To</span>
+                                    @Html.TextBoxFor(o => Model.MaxFriendsJoinGroupInDay, new { @class = "form-control" })
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInGroupsInHour</span>
+                                    <span class="input-group-addon">@GroupSettingsTexts.From</span>
+                                    @Html.TextBoxFor(o => Model.MinFriendsJoinGroupInHour, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.To</span>
+                                    @Html.TextBoxFor(o => Model.MaxFriendsJoinGroupInHour, new { @class = "form-control" })
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInPagesInDay</span>
+                                    <span class="input-group-addon">@GroupSettingsTexts.From</span>
+                                    @Html.TextBoxFor(o => Model.MinFriendsJoinPageInDay, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.To</span>
+                                    @Html.TextBoxFor(o => Model.MaxFriendsJoinPageInDay, new { @class = "form-control" })
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInPagesInHour</span>
+                                    <span class="input-group-addon">@GroupSettingsTexts.From</span>
+                                    @Html.TextBoxFor(o => Model.MinFriendsJoinPageInHour, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.To</span>
+                                    @Html.TextBoxFor(o => Model.MaxFriendsJoinPageInHour, new { @class = "form-control" })
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-7 input-group  ">
-                            <div class="input-group">
-                                <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInGroupsInDay</span>
-                                <span class="input-group-addon">@GroupSettingsTexts.From</span>
-                                @Html.TextBoxFor(o => Model.MinFriendsJoinGroupInDay, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.To</span>
-                                @Html.TextBoxFor(o => Model.MaxFriendsJoinGroupInDay, new { @class = "form-control" })
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInGroupsInHour</span>
-                                <span class="input-group-addon">@GroupSettingsTexts.From</span>
-                                @Html.TextBoxFor(o => Model.MinFriendsJoinGroupInHour, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.To</span>
-                                @Html.TextBoxFor(o => Model.MaxFriendsJoinGroupInHour, new { @class = "form-control" })
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInPagesInDay</span>
-                                <span class="input-group-addon">@GroupSettingsTexts.From</span>
-                                @Html.TextBoxFor(o => Model.MinFriendsJoinPageInDay, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.To</span>
-                                @Html.TextBoxFor(o => Model.MaxFriendsJoinPageInDay, new { @class = "form-control" })
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon" style="width:60%">@GroupSettingsTexts.CountAddedInPagesInHour</span>
-                                <span class="input-group-addon">@GroupSettingsTexts.From</span>
-                                @Html.TextBoxFor(o => Model.MinFriendsJoinPageInHour, new { @class = "form-control" })
-                                <span class="input-group-addon">@GroupSettingsTexts.To</span>
-                                @Html.TextBoxFor(o => Model.MaxFriendsJoinPageInHour, new { @class = "form-control" })
-                            </div>
+                    </div>
+                    <div class="col-md-12 panel-body">
+                        <div class="input-group" style="width: 100%;">
+                            <span class="width-200 input-group-addon">@GroupSettingsTexts.Groups:</span>
+                            @Html.TextAreaFor(o => Model.FacebookGroups, new { @class = "form-control", rows = "15", style = "width: 100%; max-width: 100%;min-width: 100%;" })
+                        </div>
+                    </div>
+                    <div class="col-md-12 panel-body">
+                        <div class="input-group" style="width: 100%;">
+                            <span class="width-200 input-group-addon">@GroupSettingsTexts.Pages:</span>
+                            @Html.TextAreaFor(model => model.FacebookPages, new { @class = "form-control", rows = "15", style = "width: 100%; max-width: 100%;min-width: 100%;" })
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 panel-body">
-                    <div class="input-group" style="width: 100%;">
-                        <span class="width-200 input-group-addon">@GroupSettingsTexts.Groups:</span>
-                        @Html.TextAreaFor(o => Model.FacebookGroups, new { @class = "form-control", rows = "15", style = "width: 100%; max-width: 100%;min-width: 100%;" })
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#geoOptionsCollapse">@GroupSettingsTexts.GeoOptions</a>
+                </h4>
+            </div>
+            <div id="geoOptionsCollapse" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-md-6 panel-body">
+                        <div class="input-group">
+                            <span class="width-200 input-group-addon">@GroupSettingsTexts.Cities:</span>
+                            @Html.TextAreaFor(o => Model.Cities, new { @class = "form-control", cols = "40", rows = "15" })
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon">@GroupSettingsTexts.Gender:</span>
+                            @Html.EnumDropDownListFor(model => model.Gender, null, new { @class = "form-control" })
+                        </div>
+                        <br />
                     </div>
-                </div>
-                <div class="col-md-12 panel-body">
-                    <div class="input-group" style="width: 100%;">
-                        <span class="width-200 input-group-addon">@GroupSettingsTexts.Pages:</span>
-                        @Html.TextAreaFor(model => model.FacebookPages, new { @class = "form-control", rows = "15", style = "width: 100%; max-width: 100%;min-width: 100%;" })
+                    <div class="col-md-6 panel-body">
+                        <div class="input-group">
+                            <span class="width-200 input-group-addon">@GroupSettingsTexts.Countries:</span>
+                            @Html.TextAreaFor(o => Model.Countries, new { @class = "form-control", cols = "40", rows = "15" })
+                        </div>
+                        <br />
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="panel-body">
-            <div class="panel panel-primary">
-                <div class="panel-heading">@GroupSettingsTexts.GeoOptions</div>
-                <div class="col-md-6 panel-body">
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">@GroupSettingsTexts.Cities:</span>
-                        @Html.TextAreaFor(o => Model.Cities, new { @class = "form-control", cols = "40", rows = "15" })
+            
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#limitOptionsCollapse">@GroupSettingsTexts.LimitsSettingsTitle</a>
+                </h4>
+            </div>
+            <div id="limitOptionsCollapse" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-md-6 panel-body">
+                        <div class="input-group">
+                            <span class="input-group-addon">@GroupSettingsTexts.CountMinFriends:</span>
+                            @Html.TextBoxFor(o => Model.CountMinFriends, new { @class = "form-control", cols = "40", rows = "15" })
+                        </div>
                     </div>
-                    <br />
-                    <div class="input-group">
-                        <span class="input-group-addon">@GroupSettingsTexts.Gender:</span>
-                        @Html.EnumDropDownListFor(model => model.Gender, null, new { @class = "form-control" })
+                    <div class="col-md-6 panel-body">
+                        <div class="input-group">
+                            <span class="input-group-addon">@GroupSettingsTexts.CountMaxFriends:</span>
+                            @Html.TextBoxFor(o => Model.CountMaxFriends, new { @class = "form-control", cols = "40", rows = "15" })
+                        </div>
+                        <br />
                     </div>
-                    <br />
-                </div>
-                <div class="col-md-6 panel-body">
-                    <div class="input-group">
-                        <span class="width-200 input-group-addon">@GroupSettingsTexts.Countries:</span>
-                        @Html.TextAreaFor(o => Model.Countries, new { @class = "form-control", cols = "40", rows = "15" })
-                    </div>
-                    <br />
                 </div>
             </div>
         </div>
-
-        <div class="panel-body">
-            <div class="panel panel-primary">
-                <div class="panel-heading">@GroupSettingsTexts.LimitsSettingsTitle</div>
-                <div class="col-md-6 panel-body">
-                    <div class="input-group">
-                        <span class="input-group-addon">@GroupSettingsTexts.CountMinFriends:</span>
-                        @Html.TextBoxFor(o => Model.CountMinFriends, new { @class = "form-control", cols = "40", rows = "15" })
-                    </div>
-                </div>
-                <div class="col-md-6 panel-body">
-                    <div class="input-group">
-                        <span class="input-group-addon">@GroupSettingsTexts.CountMaxFriends:</span>
-                        @Html.TextBoxFor(o => Model.CountMaxFriends, new { @class = "form-control", cols = "40", rows = "15" })
-                    </div>
-                    <br />
-                </div>
+            
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#retryOptionsCollapse">@GroupSettingsTexts.RetryOptions</a>
+                </h4>
             </div>
-        </div>
-
-        <div class="panel-body">
-            <div class="panel panel-primary">
-                <div class="panel-heading">@GroupSettingsTexts.RetryOptions</div>
+            <div id="retryOptionsCollapse" class="panel-collapse collapse">
                 <div class="panel-body">
                     <div class="">
                         <div class="text-center">
@@ -292,14 +347,10 @@
                 </div>
             </div>
         </div>
-
-        <div class="panel-footer">
-            <input type="submit" class="btn btn-success" value="@ButtonsTexts.ButtonSave" />
-        </div>
     </div>
-
-    <div>
+    <div class="panel-footer">
         <a href="@Url.Action("Index", "Groups")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i>@ButtonsTexts.ButtonBackToList</a>
+        <input type="submit" class="btn btn-success" value="@ButtonsTexts.ButtonSave" />
     </div>
     
     @Html.HiddenFor(x => Model.GroupId)

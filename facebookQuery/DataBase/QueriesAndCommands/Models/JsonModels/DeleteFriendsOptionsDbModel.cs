@@ -11,5 +11,7 @@ namespace DataBase.QueriesAndCommands.Models.JsonModels
         public IsWinkModel IsWink { get; set; }
 
         public IsWinkFriendsOfFriendsModel IsWinkFriendsOfFriends { get; set; }
+
+        public int DeletionFriendTimer { get; set; } 
     }
 }

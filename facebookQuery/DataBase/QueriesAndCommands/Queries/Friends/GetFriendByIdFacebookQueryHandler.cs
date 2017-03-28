@@ -25,12 +25,15 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     Deleted = model.DeleteFromFriends,
                     Id = model.Id,
                     DialogIsCompleted = model.DialogIsCompleted,
-                    Gender = model.Gender,
-                    Href = model.Href,
                     MessageRegime = model.MessageRegime,
+                    AddedDateTime = model.AddedDateTime,
+                    Href = model.Href,
                     IsAddedToGroups = model.IsAddedToGroups,
                     IsAddedToPages = model.IsAddedToPages,
-                    IsWinked = model.IsWinked
+                    IsWinked = model.IsWinked,
+                    Gender = model.Gender,
+                    AddedToRemoveDateTime = model.AddedToRemoveDateTime,
+                    IsWinkedFriendsFriend = model.IsWinkedFriendsFriend
                 }).FirstOrDefault();
 
             return result;

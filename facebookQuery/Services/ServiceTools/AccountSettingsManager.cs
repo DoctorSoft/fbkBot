@@ -24,7 +24,7 @@ namespace Services.ServiceTools
 
             if (settings == null)
             {
-                return null;
+                return new GroupSettingsViewModel();
             }
 
             return new GroupSettingsViewModel
@@ -74,7 +74,8 @@ namespace Services.ServiceTools
                 IsWinkTimer = settings.DeleteFriendsOptions.IsWink == null ? 0 : settings.DeleteFriendsOptions.IsWink.Timer,
                 EnableIsWink = settings.DeleteFriendsOptions.IsWink != null && settings.DeleteFriendsOptions.IsWink.IsEnabled,
                 IsWinkFriendsOfFriendsTimer = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends == null ? 0 : settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.Timer,
-                EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends != null && settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.IsEnabled
+                EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends != null && settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.IsEnabled,
+                DeletionFriendTimer = settings.DeleteFriendsOptions.DeletionFriendTimer
             };
         }
 

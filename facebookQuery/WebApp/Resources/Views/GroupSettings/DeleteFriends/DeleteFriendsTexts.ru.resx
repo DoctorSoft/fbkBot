@@ -126,11 +126,17 @@
   <data name="DeleteFriendsTitle" xml:space="preserve">
     <value>Настройки удаления из друзей</value>
   </data>
+  <data name="DeletionFriendTimer" xml:space="preserve">
+    <value>Удалять друзей спустя</value>
+  </data>
   <data name="EnableOption" xml:space="preserve">
     <value>Задействовать условие</value>
   </data>
   <data name="EndDialog" xml:space="preserve">
     <value>Завершение диалога</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>часов</value>
   </data>
   <data name="Timer" xml:space="preserve">
     <value>Таймер</value>

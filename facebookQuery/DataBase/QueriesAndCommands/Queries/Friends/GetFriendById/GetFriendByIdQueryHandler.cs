@@ -31,7 +31,9 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendById
                     Href = model.Href,
                     IsAddedToGroups = model.IsAddedToGroups,
                     IsAddedToPages = model.IsAddedToPages,
-                    IsWinked = model.IsWinked
+                    IsWinked = model.IsWinked,
+                    AddedToRemoveDateTime = model.AddedToRemoveDateTime,
+                    IsWinkedFriendsFriend = model.IsWinkedFriendsFriend
                 }).FirstOrDefault();
 
             return result;

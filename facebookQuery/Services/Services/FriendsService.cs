@@ -15,6 +15,7 @@ using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToGroupFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToPageFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkRemovedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkWinkedFriendCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkWinkedFriendsFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Models;
@@ -22,9 +23,9 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.Friends;
-using DataBase.QueriesAndCommands.Queries.Friends.CheckAllConditions;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendById;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion;
+using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToRemove;
 using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.CancelFriendshipRequestEngine;
@@ -35,6 +36,7 @@ using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
 using Services.Interfaces.Notices;
 using Services.Interfaces.ServiceTools;
+using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
@@ -279,6 +281,36 @@ namespace Services.Services
             return true;
         }
 
+        public void RemoveFriends(AccountViewModel account)
+        {
+            if (account.GroupSettingsId == null)
+            {
+                return;
+            }
+
+            var settings = _accountSettingsManager.GetSettings((long) account.GroupSettingsId);
+            var removeTimer = settings.DeletionFriendTimer;
+            var minFriends = settings.CountMinFriends;
+
+            _notice.AddNotice(account.Id, string.Format("Получаем друзей для удаления"));
+
+            var friendsToRemove = new GetFriendsToRemoveQueryHandler(new DataBaseContext()).Handle(
+            new GetFriendsToRemoveQuery
+            {
+                AccountId = account.Id
+            });
+
+            _notice.AddNotice(account.Id, string.Format("Получено {0} друзей", friendsToRemove.Count));
+
+            foreach (var friendData in friendsToRemove)
+            {
+                var isReadyToRemove = friendData.AddedToRemoveDateTime != null && _friendManager.CheckConditionTime((DateTime)friendData.AddedToRemoveDateTime, removeTimer);
+
+
+            }
+        }
+
+
         public void CheckFriendsAtTheEndTimeConditions(AccountViewModel account)
         {
             if (account.GroupSettingsId == null)
@@ -298,6 +330,8 @@ namespace Services.Services
 
             foreach (var friend in friendsToCheck)
             {
+                var readyToRemove = true;
+
                 _notice.AddNotice(account.Id, string.Format("Проверяем {0}", friend.FriendName));
                 if (settings.EnableDialogIsOver)
                 {
@@ -311,6 +345,10 @@ namespace Services.Services
                                 FriendId = friend.Id,
                                 AccountId = account.Id
                             });
+                    }
+                    else
+                    {
+                        readyToRemove = false;
                     }
                 }
 
@@ -334,6 +372,10 @@ namespace Services.Services
                                 AccountId = account.Id
                             });
                     }
+                    else
+                    {
+                        readyToRemove = false;
+                    }
                 }
                 if (settings.EnableIsWink)
                 {
@@ -348,6 +390,10 @@ namespace Services.Services
                                 AccountId = account.Id
                             });
                     }
+                    else
+                    {
+                        readyToRemove = false;
+                    }
                 }
                 if (settings.EnableIsWinkFriendsOfFriends)
                 {
@@ -355,25 +401,27 @@ namespace Services.Services
                     var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
                     if (itsTime)
                     {
-                        /*new MarkAddToEndDialogCommandHandler(new DataBaseContext()).Handle(
-                            new MarkAddToEndDialogCommand
+                        new MarkWinkedFriendsFriendCommandHandler(new DataBaseContext()).Handle(
+                            new MarkWinkedFriendsFriendCommand
                             {
                                 FriendId = friend.Id,
                                 AccountId = account.Id
-                            });*/
+                            });
+                    }
+                    else
+                    {
+                        readyToRemove = false;
                     }
                 }
 
-                var allTheConditions =
-                    new CheckAllConditionsQueryHandler(new DataBaseContext()).Handle(new CheckAllConditionsQuery
+                if (readyToRemove)
+                {
+                    // помечаем время отсчета для удаления из друзей
+                    new MarkRemovedFriendCommandHandler(new DataBaseContext()).Handle(new MarkRemovedFriendCommand
                     {
                         FriendId = friend.Id,
                         AccountId = account.Id
                     });
-
-                if (allTheConditions)
-                {
-                    // создаем задание для удаления
                 }
             }
         }

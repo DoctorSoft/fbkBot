@@ -28,7 +28,11 @@ namespace DataBase.QueriesAndCommands.Models
 
         public bool IsAddedToPages { get; set; }
 
-        public bool IsWinked { get; set; }
+        public bool IsWinked { get; set; }        
+        
+        public bool IsWinkedFriendsFriend { get; set; }
+
+        public DateTime? AddedToRemoveDateTime { get; set; }
         
         public MessageRegime? MessageRegime { get; set; }
     }

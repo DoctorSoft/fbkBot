@@ -36,5 +36,9 @@ namespace DataBase.Models
         public bool IsAddedToPages { get; set; }
 
         public bool IsWinked { get; set; }
+
+        public bool IsWinkedFriendsFriend { get; set; }
+
+        public DateTime? AddedToRemoveDateTime { get; set; }
     }
 }

@@ -88,6 +88,15 @@ namespace WebApp.Resources.Views.GroupSettings.DeleteFriends {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deletion friends after.
+        /// </summary>
+        public static string DeletionFriendTimer {
+            get {
+                return ResourceManager.GetString("DeletionFriendTimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable options.
         /// </summary>
         public static string EnableOption {
@@ -102,6 +111,15 @@ namespace WebApp.Resources.Views.GroupSettings.DeleteFriends {
         public static string EndDialog {
             get {
                 return ResourceManager.GetString("EndDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hours.
+        /// </summary>
+        public static string Hours {
+            get {
+                return ResourceManager.GetString("Hours", resourceCulture);
             }
         }
         

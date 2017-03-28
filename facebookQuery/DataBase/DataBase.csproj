@@ -274,6 +274,14 @@
     <Compile Include="Migrations\201703272001007_RemoveOldTables.Designer.cs">
       <DependentUpon>201703272001007_RemoveOldTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703282002509_AddAddedToRemoveDateTimeField.cs" />
+    <Compile Include="Migrations\201703282002509_AddAddedToRemoveDateTimeField.Designer.cs">
+      <DependentUpon>201703282002509_AddAddedToRemoveDateTimeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703282020487_AddAddedToRemoveDateTimeFieldPart2.cs" />
+    <Compile Include="Migrations\201703282020487_AddAddedToRemoveDateTimeFieldPart2.Designer.cs">
+      <DependentUpon>201703282020487_AddAddedToRemoveDateTimeFieldPart2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
@@ -313,6 +321,10 @@
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\AddToFriendsBlackListCommand\AddToFriendsBlackListCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\DeleteFriendByIdCommand\DeleteFriendByIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\DeleteFriendByIdCommand\DeleteFriendByIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddedToRemoveTimeCommand\MarkAddedToRemoveTimeCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddedToRemoveTimeCommand\MarkAddedToRemoveTimeCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendsFriendCommand\MarkWinkedFriendsFriendCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendsFriendCommand\MarkWinkedFriendsFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendCommand\MarkWinkedFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendCommand\MarkWinkedFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToEndDialogCommand\MarkAddToEndDialogCommand.cs" />
@@ -452,6 +464,8 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetAnalisysFriendsByStatus\GetAnalisysFriendsByStatusHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsForAddedToGroup\GetFriendsForAddedToGroupQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsForAddedToGroup\GetFriendsForAddedToGroupQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToRemove\GetFriendsToRemoveQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToRemove\GetFriendsToRemoveQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToQueueDeletion\GetFriendsToQueueDeletionQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToQueueDeletion\GetFriendsToQueueDeletionQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionByIdQuery.cs" />
@@ -694,6 +708,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703272001007_RemoveOldTables.resx">
       <DependentUpon>201703272001007_RemoveOldTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703282002509_AddAddedToRemoveDateTimeField.resx">
+      <DependentUpon>201703282002509_AddAddedToRemoveDateTimeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703282020487_AddAddedToRemoveDateTimeFieldPart2.resx">
+      <DependentUpon>201703282020487_AddAddedToRemoveDateTimeFieldPart2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
