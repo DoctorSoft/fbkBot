@@ -13,6 +13,7 @@ using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendTypeComma
 using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToEndDialogCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToGroupFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToPageFriendCommand;
+using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToRemovedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkRemovedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkWinkedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkWinkedFriendsFriendCommand;
@@ -26,17 +27,19 @@ using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendById;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToRemove;
+using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToWink;
 using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.CancelFriendshipRequestEngine;
 using Engines.Engines.ConfirmFriendshipEngine;
+using Engines.Engines.GetFriendsCountEngine;
 using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
+using Engines.Engines.WinkEngine;
 using Services.Interfaces.Notices;
 using Services.Interfaces.ServiceTools;
-using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
@@ -64,6 +67,7 @@ namespace Services.Services
             _analysisFriendsManager = new AnalysisFriendsManager();
         }
 
+
         public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
         {
             var friends = new GetFriendsByAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountQuery
@@ -76,16 +80,24 @@ namespace Services.Services
                 AccountId = accountFacebokId,
                 Friends = friends.Select(model => new FriendViewModel
                 {
-                    FacebookId = model.FacebookId,
-                    Name = model.FriendName,
-                    Deleted = model.Deleted,
+                    AddDateTime = model.AddedDateTime,
                     Id = model.Id,
-                    MessagesEnded = model.DialogIsCompleted
+                    Deleted = model.Deleted,
+                    FacebookId = model.FacebookId,
+                    MessagesEnded = model.DialogIsCompleted,
+                    Name = model.FriendName,
+                    Href = model.Href,
+                    IsAddedToGroups = model.IsAddedToGroups,
+                    IsAddedToPages = model.IsAddedToPages,
+                    IsWinked = model.IsWinked,
+                    MessageRegime = model.MessageRegime,
+                    AddedToRemoveDateTime = model.AddedToRemoveDateTime
                 }).ToList()
             };
 
             return result;
         }
+
         public FriendViewModel GetFriendById(long friendId)
         {
             var friend = new GetFriendByIdQueryHandler(new DataBaseContext()).Handle(new GetFriendByIdQuery
@@ -105,7 +117,8 @@ namespace Services.Services
                 IsAddedToGroups = friend.IsAddedToGroups,
                 IsAddedToPages = friend.IsAddedToPages,
                 IsWinked = friend.IsWinked,
-                MessageRegime = friend.MessageRegime
+                MessageRegime = friend.MessageRegime,
+                AddedToRemoveDateTime = friend.AddedToRemoveDateTime
             };
         }
 
@@ -281,6 +294,84 @@ namespace Services.Services
             return true;
         }
 
+        public FriendViewModel GetFriendToWink(AccountViewModel account)
+        {
+            var groupId = account.GroupSettingsId;
+
+            if (groupId == null)
+            {
+                return null;
+            }
+
+            var model = new GetFriendToWinkQueryHandler(new DataBaseContext()).Handle(new GetFriendToWinkQuery
+            {
+                AccountId = account.Id,
+                GroupSettingsId = (long)groupId
+            });
+
+            if (model == null)
+            {
+                return null;    
+            }
+
+            return new FriendViewModel
+            {
+                AddDateTime = model.AddedDateTime,
+                Id = model.Id,
+                Deleted = model.Deleted,
+                FacebookId = model.FacebookId,
+                MessagesEnded = model.DialogIsCompleted,
+                Name = model.FriendName,
+                Href = model.Href,
+                IsAddedToGroups = model.IsAddedToGroups,
+                IsAddedToPages = model.IsAddedToPages,
+                IsWinked = model.IsWinked,
+                MessageRegime = model.MessageRegime,
+                AddedToRemoveDateTime = model.AddedToRemoveDateTime
+            };
+        }
+
+        public void WinkFriend(AccountViewModel account, long friendId)
+        {
+            if (account.GroupSettingsId == null)
+            {
+                return;
+            }
+
+            var friend = _friendManager.GetFriendById(friendId);
+
+            if (friend == null)
+            {
+                _notice.AddNotice(account.Id, string.Format("Нет друзей для подмигивания"));
+                return;
+            }
+
+            _notice.AddNotice(account.Id, string.Format("Подмигиваем другу {0}({1})", friend.FriendName, friend.FacebookId));
+            new WinkEngine().Execute(new WinkModel
+            {
+                AccountFacebookId = account.FacebookId,
+                Proxy = _accountManager.GetAccountProxy(new AccountModel
+                {
+                    Proxy = account.Proxy,
+                    ProxyLogin = account.ProxyLogin,
+                    ProxyPassword = account.ProxyPassword
+                }),
+                Cookie = account.Cookie,
+                FriendFacebookId = friend.FacebookId,
+                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                {
+                    NameUrlParameter = NamesUrlParameter.Wink
+                })
+            });
+
+            _notice.AddNotice(account.Id, string.Format("Делаем отметку о подмигивании другу {0}({1})", friend.FriendName, friend.FacebookId));
+            new MarkWinkedFriendCommandHandler(new DataBaseContext()).Handle(new MarkWinkedFriendCommand
+            {
+                FriendId = friendId,
+                AccountId = account.Id
+            });
+        }
+
         public void RemoveFriends(AccountViewModel account)
         {
             if (account.GroupSettingsId == null)
@@ -306,11 +397,36 @@ namespace Services.Services
             {
                 var isReadyToRemove = friendData.AddedToRemoveDateTime != null && _friendManager.CheckConditionTime((DateTime)friendData.AddedToRemoveDateTime, removeTimer);
 
+                _notice.AddNotice(account.Id, string.Format("Статус для удаления друга {0}({1}) = {2}", friendData.FriendName, friendData.FacebookId, isReadyToRemove));
 
+                if (!isReadyToRemove)
+                {
+                    continue;
+                }
+
+                var currentFriendsCount = new GetFriendsCountEngine().Execute(new GetFriendsCountModel
+                {
+                    AccountFacebookId = account.FacebookId,
+                    Cookie = account.Cookie,
+                    Proxy = _accountManager.GetAccountProxy(new AccountModel
+                    {
+                        Proxy = account.Proxy,
+                        ProxyLogin = account.ProxyLogin,
+                        ProxyPassword = account.ProxyPassword
+                    })
+                });
+
+                if (currentFriendsCount > minFriends)
+                {
+                    RemoveFriend(account.Id, friendData.Id);
+                }
+                else
+                {
+                    _notice.AddNotice(account.Id, string.Format("Достигнут минимальный предел для удаления из друзей ({0})", minFriends));
+                }
             }
         }
-
-
+        
         public void CheckFriendsAtTheEndTimeConditions(AccountViewModel account)
         {
             if (account.GroupSettingsId == null)
@@ -333,6 +449,7 @@ namespace Services.Services
                 var readyToRemove = true;
 
                 _notice.AddNotice(account.Id, string.Format("Проверяем {0}", friend.FriendName));
+
                 if (settings.EnableDialogIsOver)
                 {
                     var settingsTime = settings.DialogIsOverTimer;
@@ -416,8 +533,15 @@ namespace Services.Services
 
                 if (readyToRemove)
                 {
+                    //не стоит ни 1 галки
+                    if (!settings.EnableDialogIsOver && !settings.EnableIsAddedToGroupsAndPages &&
+                        !settings.EnableIsWink && !settings.EnableIsWinkFriendsOfFriends)
+                    {
+                        return;
+                    }
+
                     // помечаем время отсчета для удаления из друзей
-                    new MarkRemovedFriendCommandHandler(new DataBaseContext()).Handle(new MarkRemovedFriendCommand
+                    new MarkAddToRemovedFriendCommandHandler(new DataBaseContext()).Handle(new MarkAddToRemovedFriendCommand
                     {
                         FriendId = friend.Id,
                         AccountId = account.Id

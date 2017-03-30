@@ -6,6 +6,7 @@
 @using WebApp.Resources.Views.Buttons
 @using WebApp.Resources.Views.GroupSettings
 @using WebApp.Resources.Views.GroupSettings.DeleteFriends
+@using WebApp.Resources.Views.GroupSettings.WinkFriends
 @model Services.ViewModels.GroupModels.GroupSettingsViewModel
 
 
@@ -14,8 +15,7 @@
 @using (Html.BeginForm("UpdateGroupSettings", "GroupSettings", FormMethod.Post))
 {
     <div class="panel-group" id="accordion">
-
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#removeFriendsCollaps">@DeleteFriendsTexts.DeleteFriendsTitle</a>
@@ -92,8 +92,8 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="panel panel-primary">
+            <div class="panel panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#groupsAndPagescollapse">@GroupSettingsTexts.GroupsTitle</a>
                 </h4>
@@ -178,7 +178,7 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#geoOptionsCollapse">@GroupSettingsTexts.GeoOptions</a>
@@ -208,8 +208,8 @@
                 </div>
             </div>
         </div>
-            
-        <div class="panel panel-default">
+
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#limitOptionsCollapse">@GroupSettingsTexts.LimitsSettingsTitle</a>
@@ -233,8 +233,8 @@
                 </div>
             </div>
         </div>
-            
-        <div class="panel panel-default">
+
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#retryOptionsCollapse">@GroupSettingsTexts.RetryOptions</a>
@@ -347,8 +347,42 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#winkOptionsCollapse">@WinkFriendsTexts.WinkTitle</a>
+                </h4>
+            </div>
+            <div id="winkOptionsCollapse" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="width:40%">@WinkFriendsTexts.WinkRetryTime:</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkFriendsHour, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Hour.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkFriendsMin, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkFriendsSec, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="input-group">
+                                    <span class="input-group-addon">@WinkFriendsTexts.ConsiderGeoForWink:</span>
+                                    @Html.CheckBoxFor(o => Model.ConsiderGeoForWinkFriends, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="panel-footer">
+        <br />
         <a href="@Url.Action("Index", "Groups")" class="btn btn-primary"> <i class="fa fa-arrow-left"></i>@ButtonsTexts.ButtonBackToList</a>
         <input type="submit" class="btn btn-success" value="@ButtonsTexts.ButtonSave" />
     </div>

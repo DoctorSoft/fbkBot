@@ -129,6 +129,9 @@
   <data name="ButtonOutgoing" xml:space="preserve">
     <value>Outgoing request friendships</value>
   </data>
+  <data name="CompletedActions" xml:space="preserve">
+    <value>Completed actions</value>
+  </data>
   <data name="CurrentFriends" xml:space="preserve">
     <value>Current friends</value>
   </data>
@@ -143,5 +146,8 @@
   </data>
   <data name="FriendsTitle" xml:space="preserve">
     <value>Friends</value>
+  </data>
+  <data name="NoFriends" xml:space="preserve">
+    <value>No friends found. Enable the function of getting current friends.</value>
   </data>
 </root>

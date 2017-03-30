@@ -244,6 +244,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Resources\Views\GroupSettings\WinkFriends\WinkFriendsTexts.ru.Designer.cs">
+      <DependentUpon>WinkFriendsTexts.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Views\GroupSettings\WinkFriends\WinkFriendsTexts.Designer.cs">
+      <DependentUpon>WinkFriendsTexts.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Resources\Views\OutgoingFriends\OutgoingFriendsTexts.ru.Designer.cs">
       <DependentUpon>OutgoingFriendsTexts.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -528,6 +538,14 @@
     <EmbeddedResource Include="Resources\Views\GroupSettings\GroupSettingsTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GroupSettingsTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\GroupSettings\WinkFriends\WinkFriendsTexts.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WinkFriendsTexts.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\GroupSettings\WinkFriends\WinkFriendsTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WinkFriendsTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Views\OutgoingFriends\OutgoingFriendsTexts.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

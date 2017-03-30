@@ -17,5 +17,7 @@
         public string CommunityOptions { get; set; }
 
         public string DeleteFriendsOptions { get; set; }
+
+        public string WinkFriendsOptions { get; set; }
     }
 }

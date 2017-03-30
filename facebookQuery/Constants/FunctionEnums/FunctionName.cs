@@ -13,6 +13,7 @@
         ConfirmFriendship = 103,
         SendRequestFriendship = 104,
         RemoveFromFriends = 105,
+        Wink = 106,
 
         //Spy
         AnalyzeFriends = 201,

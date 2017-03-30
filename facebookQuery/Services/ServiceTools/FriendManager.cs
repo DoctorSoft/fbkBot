@@ -54,7 +54,12 @@ namespace Services.ServiceTools
 
         private static int ConvertDateTimeToHours(TimeSpan date)
         {
-            return date.Days * 24 + date.Hours;
+            var result = date.Days*24 + date.Hours;
+            if (date.Minutes > 0)
+            {
+                result++;
+            }
+            return result;
         }
     }
 }

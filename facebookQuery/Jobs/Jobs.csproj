@@ -93,6 +93,7 @@
     <Compile Include="Jobs\Cookies\RefreshCookiesJob.cs" />
     <Compile Include="Jobs\DeleteFriendsJobs\RemoveFromFriendsJob.cs" />
     <Compile Include="Jobs\FriendJobs\CheckFriendsAtTheEndTimeConditionsJob.cs" />
+    <Compile Include="Jobs\FriendJobs\WinkFriendsJob.cs" />
     <Compile Include="Jobs\FriendJobs\SendRequestFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\GetNewFriendsAndRecommendedJob.cs" />
     <Compile Include="Jobs\FriendJobs\ConfirmFriendshipJob.cs" />

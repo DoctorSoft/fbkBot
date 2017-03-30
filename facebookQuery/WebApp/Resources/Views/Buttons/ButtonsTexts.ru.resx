@@ -138,6 +138,9 @@
   <data name="ButtonSend" xml:space="preserve">
     <value>Отправить</value>
   </data>
+  <data name="GoToGroupFunctions" xml:space="preserve">
+    <value>Перейти к функциям группы</value>
+  </data>
   <data name="GoToGroupSettings" xml:space="preserve">
     <value>Перейти к настройкам группы</value>
   </data>

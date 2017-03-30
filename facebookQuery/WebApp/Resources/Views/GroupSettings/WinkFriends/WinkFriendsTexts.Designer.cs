@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApp.Resources.Views.Buttons {
+namespace WebApp.Resources.Views.GroupSettings.WinkFriends {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace WebApp.Resources.Views.Buttons {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ButtonsTexts {
+    public class WinkFriendsTexts {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ButtonsTexts() {
+        internal WinkFriendsTexts() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WebApp.Resources.Views.Buttons {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WebApp.Resources.Views.Buttons.ButtonsTexts", typeof(ButtonsTexts).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WebApp.Resources.Views.GroupSettings.WinkFriends.WinkFriendsTexts", typeof(WinkFriendsTexts).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,29 @@ namespace WebApp.Resources.Views.Buttons {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
+        ///   Looks up a localized string similar to Consider geo for wink.
         /// </summary>
-        public static string ButtonAdd {
+        public static string ConsiderGeoForWink {
             get {
-                return ResourceManager.GetString("ButtonAdd", resourceCulture);
+                return ResourceManager.GetString("ConsiderGeoForWink", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back.
+        ///   Looks up a localized string similar to Wink retry time.
         /// </summary>
-        public static string ButtonBack {
+        public static string WinkRetryTime {
             get {
-                return ResourceManager.GetString("ButtonBack", resourceCulture);
+                return ResourceManager.GetString("WinkRetryTime", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back to list.
+        ///   Looks up a localized string similar to Wink options.
         /// </summary>
-        public static string ButtonBackToList {
+        public static string WinkTitle {
             get {
-                return ResourceManager.GetString("ButtonBackToList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string ButtonCancel {
-            get {
-                return ResourceManager.GetString("ButtonCancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        public static string ButtonDelete {
-            get {
-                return ResourceManager.GetString("ButtonDelete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string ButtonSave {
-            get {
-                return ResourceManager.GetString("ButtonSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Send.
-        /// </summary>
-        public static string ButtonSend {
-            get {
-                return ResourceManager.GetString("ButtonSend", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Go to group functions.
-        /// </summary>
-        public static string GoToGroupFunctions {
-            get {
-                return ResourceManager.GetString("GoToGroupFunctions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Go to group settings.
-        /// </summary>
-        public static string GoToGroupSettings {
-            get {
-                return ResourceManager.GetString("GoToGroupSettings", resourceCulture);
+                return ResourceManager.GetString("WinkTitle", resourceCulture);
             }
         }
     }

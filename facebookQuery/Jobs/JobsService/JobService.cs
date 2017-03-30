@@ -24,7 +24,7 @@ namespace Jobs.JobsService
         const string RefreshCookiesPattern = "Refresh cookies for account = {0}";
         const string RunnerPattern = "Runner for account = {0}";
         const string InviteTheNewGroupPattern = "Invite the new group = {0}";
-        const string CheckFriendsConditionsToRemove = "Check conditions to remove = {0}";
+        const string CheckFriendsConditionsToRemovePattern = "Check conditions to remove = {0}";
         const string AddToScheduleDeleteFromFriends = "Add to schedule delete from friends = {0}";
 
         public JobService()
@@ -43,8 +43,8 @@ namespace Jobs.JobsService
 
             var accountViewModel = currentModel.Account;
 
-            RecurringJob.AddOrUpdate(string.Format(CheckFriendsConditionsToRemove, accountViewModel.Login), () => CheckFriendsAtTheEndTimeConditionsJob.Run(accountViewModel), Cron.Hourly);
-            /*RecurringJob.AddOrUpdate(string.Format(InviteTheNewGroupPattern, accountViewModel.Login), () => InviteTheNewGroupJob.Run(accountViewModel), Cron.Hourly);
+            RecurringJob.AddOrUpdate(string.Format(CheckFriendsConditionsToRemovePattern, accountViewModel.Login), () => CheckFriendsAtTheEndTimeConditionsJob.Run(accountViewModel), Cron.Hourly);
+             /*RecurringJob.AddOrUpdate(string.Format(InviteTheNewGroupPattern, accountViewModel.Login), () => InviteTheNewGroupJob.Run(accountViewModel), Cron.Hourly);
             RecurringJob.AddOrUpdate(string.Format(RefreshCookiesPattern, accountViewModel.Login), () => RefreshCookiesJob.Run(accountViewModel), Cron.Hourly);
             RecurringJob.AddOrUpdate(string.Format(UnreadMessagesPattern, accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
             RecurringJob.AddOrUpdate(string.Format(UnansweredMessagesPattern, accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);

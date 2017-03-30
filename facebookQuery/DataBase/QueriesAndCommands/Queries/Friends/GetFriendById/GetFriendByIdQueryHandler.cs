@@ -16,7 +16,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendById
         public FriendData Handle(GetFriendByIdQuery query)
         {
             var result = _context.Friends
-                .Where(model => model.AccountId == query.FriendId)
+                .Where(model => model.Id == query.FriendId)
                 .Select(model => new FriendData
                 {
                     FacebookId = model.FacebookId,

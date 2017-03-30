@@ -31,6 +31,15 @@
             //определяем метод, вызываемый с серверной част,
             //параметры естественно должы совпадать
             chat.client.addNotice = function (acccountId, msg) {
+                var text7Stap = $("#messages_" + acccountId + " #span7").text();
+                $("#messages_" + acccountId + " #span8").text(text7Stap).show('slow');
+                
+                var text6Stap = $("#messages_" + acccountId + " #span6").text();
+                $("#messages_" + acccountId + " #span7").text(text6Stap).show('slow');
+                
+                var text5Stap = $("#messages_" + acccountId + " #span5").text();
+                $("#messages_" + acccountId + " #span6").text(text5Stap).show('slow');
+                
                 var text4Stap = $("#messages_" + acccountId + " #span4").text();
                 $("#messages_" + acccountId + " #span5").text(text4Stap).show('slow');
                 
@@ -62,10 +71,10 @@
     <div class="panel-footer">
         @foreach (var account in @Model)
         {
-            var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed ? "alert alert-danger" : "alert alert-info";
+            var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed ? "alert-danger" : "alert-success";
             var errorText = account.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : account.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : null;
             
-            <div class="@divClass">
+            <div class="alert @divClass">
                 <div class="inline-half-text-left">
                     <div class="message-list-tittle">
                         <a id="@("group" + account.Id)">@account.Login</a>
@@ -100,17 +109,23 @@
                         <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@account.Id" href=""><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <div class="alert alert-success" style="margin-bottom: 0 !important">
-                    <div class="inline-half">
-                        <div id="messages_@account.Id">
-                            <span id="span1">Аккаунт в режиме ожидания</span><br />
-                            <span id="span2"></span><br />
-                            <span id="span3"></span><br />
-                            <span id="span4"></span><br />
-                            <span id="span5"></span>
+                @if (!account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed)
+                {
+                    <div class="alert alert-info" style="margin-bottom: 0 !important">
+                        <div class="inline-half">
+                            <div id="messages_@account.Id">
+                                <span id="span1">Аккаунт в режиме ожидания</span><br />
+                                <span id="span2"></span><br />
+                                <span id="span3"></span><br />
+                                <span id="span4"></span><br />
+                                <span id="span5"></span><br />
+                                <span id="span6"></span><br />
+                                <span id="span7"></span><br />
+                                <span id="span8"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         }
     </div>

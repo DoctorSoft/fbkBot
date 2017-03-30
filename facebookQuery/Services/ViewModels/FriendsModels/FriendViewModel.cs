@@ -26,5 +26,7 @@ namespace Services.ViewModels.FriendsModels
         public bool IsWinked { get; set; }
 
         public MessageRegime? MessageRegime { get; set; }
+
+        public DateTime? AddedToRemoveDateTime { get; set; }
     }
 }

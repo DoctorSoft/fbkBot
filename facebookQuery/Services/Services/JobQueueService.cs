@@ -80,7 +80,8 @@ namespace Services.Services
                 AccountId = model.AccountId,
                 Id = model.Id,
                 FunctionName = model.FunctionName,
-                AddedDateTime = model.AddedDateTime
+                AddedDateTime = model.AddedDateTime,
+                FriendId = model.FriendId
             }).ToList();
         }
 

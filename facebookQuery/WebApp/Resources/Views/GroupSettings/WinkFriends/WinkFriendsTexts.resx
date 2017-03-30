@@ -117,37 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ButtonCancel" xml:space="preserve">
-    <value>Отменить</value>
+  <data name="ConsiderGeoForWink" xml:space="preserve">
+    <value>Consider geo for wink</value>
   </data>
-  <data name="ButtonDelete" xml:space="preserve">
-    <value>Удалить</value>
+  <data name="WinkRetryTime" xml:space="preserve">
+    <value>Wink retry time</value>
   </data>
-  <data name="ButtonIncoming" xml:space="preserve">
-    <value>Входящие заявки в друзья</value>
-  </data>
-  <data name="ButtonOutgoing" xml:space="preserve">
-    <value>Исходящие заявки в друзья</value>
-  </data>
-  <data name="CompletedActions" xml:space="preserve">
-    <value>Выполненные действия</value>
-  </data>
-  <data name="CurrentFriends" xml:space="preserve">
-    <value>Текущие друзья</value>
-  </data>
-  <data name="DeleteConfirmation" xml:space="preserve">
-    <value>Подтверждение удаления</value>
-  </data>
-  <data name="DeleteConfirmationQuestion" xml:space="preserve">
-    <value>Вы уверене что хотите удалить этого пользователя из друзей</value>
-  </data>
-  <data name="DeletedFriends" xml:space="preserve">
-    <value>Удаленные друзья</value>
-  </data>
-  <data name="FriendsTitle" xml:space="preserve">
-    <value>Друзья</value>
-  </data>
-  <data name="NoFriends" xml:space="preserve">
-    <value>Друзья не найдены. Включите функцию получения текущих друзей или дождитесь её выполнения.</value>
+  <data name="WinkTitle" xml:space="preserve">
+    <value>Wink options</value>
   </data>
 </root>

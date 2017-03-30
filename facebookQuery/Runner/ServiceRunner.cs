@@ -77,6 +77,11 @@ namespace Runner
                     context = new RunnerContext(new InvaitTheNewPageRunner());
                     break;
                 }
+                case FunctionName.Wink:
+                {
+                    context = new RunnerContext(new WinkFriendsRunner());
+                    break;
+                }
                 default:
                 {
                     throw new ArgumentOutOfRangeException("functionName");

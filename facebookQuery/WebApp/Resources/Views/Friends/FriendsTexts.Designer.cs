@@ -97,6 +97,15 @@ namespace WebApp.Resources.Views.Friends {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed actions.
+        /// </summary>
+        public static string CompletedActions {
+            get {
+                return ResourceManager.GetString("CompletedActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current friends.
         /// </summary>
         public static string CurrentFriends {
@@ -138,6 +147,15 @@ namespace WebApp.Resources.Views.Friends {
         public static string FriendsTitle {
             get {
                 return ResourceManager.GetString("FriendsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No friends found. Enable the function of getting current friends..
+        /// </summary>
+        public static string NoFriends {
+            get {
+                return ResourceManager.GetString("NoFriends", resourceCulture);
             }
         }
     }

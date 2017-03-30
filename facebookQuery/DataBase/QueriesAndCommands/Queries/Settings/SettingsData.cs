@@ -19,5 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.Settings
         public CommunityOptionsDbModel CommunityOptions { get; set; }
 
         public DeleteFriendsOptionsDbModel DeleteFriendsOptions { get; set; }
+
+        public WinkFriendsOptionsDbModel WinkOptions { get; set; }
     }
 }

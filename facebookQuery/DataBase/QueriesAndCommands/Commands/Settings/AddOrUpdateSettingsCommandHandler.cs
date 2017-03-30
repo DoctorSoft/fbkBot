@@ -33,7 +33,7 @@ namespace DataBase.QueriesAndCommands.Commands.Settings
             var limitsOptionsJson = jsSerializator.Serialize(command.LimitsOptions);
             var communityOptionsJson = jsSerializator.Serialize(command.CommunityOptions);
             var deleteFriendsOptionsJson = jsSerializator.Serialize(command.DeleteFriendsOptions);
-
+            var winkFriendsOptionsJson = jsSerializator.Serialize(command.WinkFriendsOptions);
 
             groupSettings.Id = command.GroupId;
 
@@ -43,6 +43,7 @@ namespace DataBase.QueriesAndCommands.Commands.Settings
             groupSettings.LimitsOptions = limitsOptionsJson;
             groupSettings.CommunityOptions = communityOptionsJson;
             groupSettings.DeleteFriendsOptions = deleteFriendsOptionsJson;
+            groupSettings.WinkFriendsOptions = winkFriendsOptionsJson;
 
             if (toUpdate)
             {

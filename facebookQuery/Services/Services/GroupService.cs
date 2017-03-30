@@ -476,12 +476,29 @@ namespace Services.Services
                 IsWinkFriendsOfFriendsTimer = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends == null ? 0 : settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.Timer,
                 EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends != null && settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.IsEnabled,
                 DeletionFriendTimer = settings.DeleteFriendsOptions.DeletionFriendTimer,
+
+                //winks
+                RetryTimeForWinkFriendsHour = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Hours,
+                RetryTimeForWinkFriendsMin = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Minutes,
+                RetryTimeForWinkFriendsSec = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Seconds,
+                ConsiderGeoForWinkFriends = settings.WinkOptions.ConsiderGeoForWinkFriends
             };
         }
 
         public void UpdateSettings(GroupSettingsViewModel newSettings, IBackgroundJobService backgroundJobService)
         {
             var oldSettings = _accountSettingsManager.GetSettings(newSettings.GroupId);
+
+            var winkOptions = new WinkFriendsOptionsDbModel
+            {
+                RetryTimeForWinkFriends = new TimeModel
+                {
+                    Hours = newSettings.RetryTimeForWinkFriendsHour,
+                    Minutes = newSettings.RetryTimeForWinkFriendsMin,
+                    Seconds = newSettings.RetryTimeForWinkFriendsSec
+                },
+                ConsiderGeoForWinkFriends = newSettings.ConsiderGeoForWinkFriends
+            };
 
             var communityOptions = new CommunityOptionsDbModel
             {
@@ -607,7 +624,8 @@ namespace Services.Services
                 MessageOptions = messageOptions,
                 LimitsOptions = limitsOptions,
                 CommunityOptions = communityOptions,
-                DeleteFriendsOptions = deleteFriendsOptions
+                DeleteFriendsOptions = deleteFriendsOptions,
+                WinkFriendsOptions = winkOptions
             };
 
             new AddOrUpdateSettingsCommandHandler(new DataBaseContext()).Handle(command);

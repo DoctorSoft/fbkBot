@@ -124,6 +124,12 @@ namespace Services.ServiceTools
                     return new TimeSpan(inviteToPagesTimeModel.Hours, inviteToPagesTimeModel.Minutes,
                         inviteToPagesTimeModel.Seconds);
                 }
+                case FunctionName.Wink:
+                {
+                    var winkFriendsTimeModel = groupSettings.WinkOptions.RetryTimeForWinkFriends;
+                    return new TimeSpan(winkFriendsTimeModel.Hours, winkFriendsTimeModel.Minutes,
+                        winkFriendsTimeModel.Seconds);
+                }
                 default:
                     throw new ArgumentOutOfRangeException("functionName");
             }

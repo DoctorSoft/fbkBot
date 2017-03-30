@@ -138,6 +138,9 @@
   <data name="ButtonSend" xml:space="preserve">
     <value>Send</value>
   </data>
+  <data name="GoToGroupFunctions" xml:space="preserve">
+    <value>Go to group functions</value>
+  </data>
   <data name="GoToGroupSettings" xml:space="preserve">
     <value>Go to group settings</value>
   </data>

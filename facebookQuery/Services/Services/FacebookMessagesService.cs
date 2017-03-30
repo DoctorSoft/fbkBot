@@ -15,6 +15,7 @@ using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId;
 using Services.Core;
 using Services.Hubs;
+using Services.Interfaces.Notices;
 using Services.Interfaces.ServiceTools;
 using Services.ServiceTools;
 using Services.ViewModels.FriendMessagesModels;
@@ -25,22 +26,22 @@ namespace Services.Services
 {
     public class FacebookMessagesService
     {
-        private readonly NotificationHub _notice;
+        private readonly INoticesProxy _notice;
         private readonly IFriendManager _friendManager;
         private readonly IAccountManager _accountManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
 
-        public FacebookMessagesService()
+        public FacebookMessagesService(INoticesProxy noticeProxy)
         {
             _friendManager = new FriendManager();
             _accountManager = new AccountManager();
             _accountSettingsManager = new AccountSettingsManager();
-            _notice = new NotificationHub();
+            _notice = noticeProxy;
         }
 
         public void SendMessageToUnread(AccountViewModel accountViewModel)
         {
-            _notice.Add(accountViewModel.Id, string.Format("Собираемся отвечать на непрочитанные сообщения"));
+            _notice.AddNotice(accountViewModel.Id, string.Format("Собираемся отвечать на непрочитанные сообщения"));
 
             var account = new AccountModel
             {
@@ -62,7 +63,7 @@ namespace Services.Services
 
             var unreadMessagesList = GetUnreadMessages(account);
 
-            _notice.Add(accountViewModel.Id, string.Format("Получено {0} непрочитанных сообщений", unreadMessagesList.UnreadMessages.Count));
+            _notice.AddNotice(accountViewModel.Id, string.Format("Получено {0} непрочитанных сообщений", unreadMessagesList.UnreadMessages.Count));
 
             ChangeMessageStatus(unreadMessagesList, account);
 
@@ -70,11 +71,11 @@ namespace Services.Services
 
             foreach (var unreadMessage in unreadMessagesList.UnreadMessages)
             {
-                _notice.Add(account.Id, string.Format("Отвечаем на непрочитанные сообщения друзьям {0}/{1}", i, unreadMessagesList.UnreadMessages.Count));
+                _notice.AddNotice(account.Id, string.Format("Отвечаем на непрочитанные сообщения друзьям {0}/{1}", i, unreadMessagesList.UnreadMessages.Count));
                 
                 var friend = _friendManager.GetFriendByFacebookId(unreadMessage.FriendFacebookId);
-                
-                new SendMessageCore().SendMessageToUnread(account, friend);
+
+                new SendMessageCore(_notice).SendMessageToUnread(account, friend);
                 
                 Thread.Sleep(3000);
                 i++;
@@ -101,7 +102,7 @@ namespace Services.Services
                 GroupSettingsId = accountViewModel.GroupSettingsId
             };
             
-            _notice.Add(accountViewModel.Id, string.Format("Собираемся посылать экстра-сообщения"));
+            _notice.AddNotice(accountViewModel.Id, string.Format("Собираемся посылать экстра-сообщения"));
 
             var unreadMessagesList = GetUnreadMessages(account);
 
@@ -135,15 +136,15 @@ namespace Services.Services
                     AccountId = account.Id
                 });
             
-            _notice.Add(accountViewModel.Id, string.Format("Получено {0} неотвеченных сообщений", unansweredMessagesList.Count));
+            _notice.AddNotice(accountViewModel.Id, string.Format("Получено {0} неотвеченных сообщений", unansweredMessagesList.Count));
 
             int i = 1;
             foreach (var unansweredMessage in unansweredMessagesList)
             {
-                _notice.Add(account.Id, string.Format("Отправляем экстра-сообщения друзьям {0}/{1}", i, unansweredMessagesList.Count));
+                _notice.AddNotice(account.Id, string.Format("Отправляем экстра-сообщения друзьям {0}/{1}", i, unansweredMessagesList.Count));
                 var friend = _friendManager.GetFriendById(unansweredMessage.FriendId);
 
-                new SendMessageCore().SendMessageToUnanswered(account, friend);
+                new SendMessageCore(_notice).SendMessageToUnanswered(account, friend);
 
                 Thread.Sleep(3000);
 
@@ -171,7 +172,7 @@ namespace Services.Services
                 GroupSettingsId = accountViewModel.GroupSettingsId
             };
 
-            _notice.Add(accountViewModel.Id, string.Format("Собираемся отправлять сообщения новым друзьям"));
+            _notice.AddNotice(accountViewModel.Id, string.Format("Собираемся отправлять сообщения новым друзьям"));
 
             GetUnreadMessages(account);
 
@@ -181,13 +182,13 @@ namespace Services.Services
                 AccountId = account.Id
             });
 
-            _notice.Add(accountViewModel.Id, string.Format("Получено {0} новых друзей", newFriends.Count));
+            _notice.AddNotice(accountViewModel.Id, string.Format("Получено {0} новых друзей", newFriends.Count));
 
             int i = 1;
             foreach (var newFriend in newFriends)
             {
-                _notice.Add(account.Id, string.Format("Отправляем сообщения новым друзьям {0}/{1}", i, newFriends.Count));
-                new SendMessageCore().SendMessageToNewFriend(account, newFriend);
+                _notice.AddNotice(account.Id, string.Format("Отправляем сообщения новым друзьям {0}/{1}", i, newFriends.Count));
+                new SendMessageCore(_notice).SendMessageToNewFriend(account, newFriend);
 
                 Thread.Sleep(3000);
 
@@ -239,7 +240,7 @@ namespace Services.Services
                     CountAllMessages = model.CountAllMessages,
                     CountUnreadMessages = model.CountUnreadMessages,
                     Href = model.Href,
-                    LastMessage = model.Href,
+                    LastMessage = model.LastMessage,
                     LastReadMessageDateTime = model.LastReadMessageDateTime,
                     LastUnreadMessageDateTime = model.LastUnreadMessageDateTime,
                     Name = model.Name,

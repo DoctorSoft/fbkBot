@@ -75,7 +75,7 @@ namespace FacebookApp
 
                     var seleniumManager = new SeleniumManager();
 
-                    new FriendsService(new NoticesProxy()).GetNewFriendsAndRecommended(accountViewModel, new BackgroundJobService());
+                    new FriendsService(new NoticesProxy()).RemoveFriends(accountViewModel);
 
                     /*new JoinThePagesBySeleniumEngine().Execute(new JoinThePagesBySeleniumModel
                     {

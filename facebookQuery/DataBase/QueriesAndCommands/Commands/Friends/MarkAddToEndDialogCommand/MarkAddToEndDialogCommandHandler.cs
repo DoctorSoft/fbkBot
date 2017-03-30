@@ -15,7 +15,7 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.MarkAddToEndDialogCommand
         public VoidCommandResponse Handle(MarkAddToEndDialogCommand command)
         {
             var friendModel = _context.Friends.FirstOrDefault(
-                model => model.AccountId == command.AccountId && model.Id == command.FriendId);
+                model => model.AccountId == command.AccountId && model.FacebookId == command.FriendId);
             if (friendModel != null)
                 friendModel.DialogIsCompleted = true;
             

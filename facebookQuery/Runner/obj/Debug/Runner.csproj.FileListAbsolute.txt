@@ -1,11 +1,8 @@
-D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Runner.exe
-D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Constants.dll
-D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Services.dll
-D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\DataBase.dll
-D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.csprojResolveAssemblyReference.cache
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Runner.exe.config
+D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Runner.exe
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Runner.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\CommonInterfaces.dll
+D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Constants.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.SqlServer.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Jobs.dll
@@ -17,9 +14,11 @@ D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Microsoft.Owin.Host.SystemWeb.d
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Microsoft.Owin.Security.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Newtonsoft.Json.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Owin.dll
+D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Services.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Hangfire.Core.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\CommonModels.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Hangfire.SqlServer.dll
+D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\DataBase.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Engines.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\RequestsHelpers.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.Extended.dll
@@ -51,5 +50,6 @@ D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\WebDriver.Support.xml
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.MappingAPI.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\es\Hangfire.Core.resources.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\zh\Hangfire.Core.resources.dll
+D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.csprojResolveAssemblyReference.cache
 D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.exe
 D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.pdb

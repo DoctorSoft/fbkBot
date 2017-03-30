@@ -75,6 +75,8 @@
     <Compile Include="Engines\CancelFriendshipRequestEngine\CancelFriendshipRequestModel.cs" />
     <Compile Include="Engines\CheckProxyEngine\CheckProxyEngine.cs" />
     <Compile Include="Engines\CheckProxyEngine\CheckProxyModel.cs" />
+    <Compile Include="Engines\GetFriendsCountEngine\GetFriendsCountEngine.cs" />
+    <Compile Include="Engines\GetFriendsCountEngine\GetFriendsCountModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendGenderEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendGenderModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendInfoBySeleniumEngine.cs" />

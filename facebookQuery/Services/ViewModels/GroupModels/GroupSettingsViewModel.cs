@@ -6,6 +6,16 @@ namespace Services.ViewModels.GroupModels
     {
         public long GroupId { get; set; }
 
+        //Wink options
+
+        public int RetryTimeForWinkFriendsHour { get; set; }
+
+        public int RetryTimeForWinkFriendsMin { get; set; }
+
+        public int RetryTimeForWinkFriendsSec { get; set; }
+
+        public bool ConsiderGeoForWinkFriends { get; set; }
+
         //Limits options
         public long CountMinFriends { get; set; }
 

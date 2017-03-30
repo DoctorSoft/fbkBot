@@ -5,21 +5,21 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.MarkRemovedFriendCommand
 {
     public class MarkRemovedFriendCommandHandler : ICommandHandler<MarkRemovedFriendCommand, VoidCommandResponse>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public MarkRemovedFriendCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public VoidCommandResponse Handle(MarkRemovedFriendCommand command)
         {
-            var friendModel = context.Friends.FirstOrDefault(
+            var friendModel = _context.Friends.FirstOrDefault(
                 model => model.AccountId == command.AccountId && model.Id == command.FriendId);
             if (friendModel != null)
                 friendModel.DeleteFromFriends = true;
             
-            context.SaveChanges();
+            _context.SaveChanges();
 
             return new VoidCommandResponse();
         }

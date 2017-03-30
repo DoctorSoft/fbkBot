@@ -75,7 +75,13 @@ namespace Services.ServiceTools
                 EnableIsWink = settings.DeleteFriendsOptions.IsWink != null && settings.DeleteFriendsOptions.IsWink.IsEnabled,
                 IsWinkFriendsOfFriendsTimer = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends == null ? 0 : settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.Timer,
                 EnableIsWinkFriendsOfFriends = settings.DeleteFriendsOptions.IsWinkFriendsOfFriends != null && settings.DeleteFriendsOptions.IsWinkFriendsOfFriends.IsEnabled,
-                DeletionFriendTimer = settings.DeleteFriendsOptions.DeletionFriendTimer
+                DeletionFriendTimer = settings.DeleteFriendsOptions.DeletionFriendTimer,
+
+                //winks
+                RetryTimeForWinkFriendsHour = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Hours,
+                RetryTimeForWinkFriendsMin = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Minutes,
+                RetryTimeForWinkFriendsSec = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Seconds,
+                ConsiderGeoForWinkFriends = settings.WinkOptions.ConsiderGeoForWinkFriends
             };
         }
 

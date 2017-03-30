@@ -107,6 +107,7 @@ namespace Jobs.JobsService
                 newSettings, oldSettings);
             var sendRequestFriendshipsLaunchTime = SetLaunchTime(FunctionName.SendRequestFriendship, newSettings,
                 oldSettings);
+            var winkFriendshipsLaunchTime = SetLaunchTime(FunctionName.Wink, newSettings, oldSettings);
 
             CreateBackgroundJob(new CreateBackgroundJobModel
             {
@@ -137,6 +138,14 @@ namespace Jobs.JobsService
                 Account = account,
                 FunctionName = FunctionName.SendRequestFriendship,
                 LaunchTime = sendRequestFriendshipsLaunchTime,
+                CheckPermissions = true
+            });
+
+            CreateBackgroundJob(new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.Wink,
+                LaunchTime = winkFriendshipsLaunchTime,
                 CheckPermissions = true
             });
             
@@ -344,6 +353,15 @@ namespace Jobs.JobsService
                 case FunctionName.RemoveFromFriends:
                 {
                     var jobId = BackgroundJob.Schedule(() => RemoveFromFriendsJob.Run(account, friend), launchTime);
+                    //Помечаем запуск джоба
+                    jobStatusModel.JobId = jobId;
+
+                    AddJobStatus(jobStatusModel);
+                    break;
+                }
+                case FunctionName.Wink:
+                {
+                    var jobId = BackgroundJob.Schedule(() => WinkFriendsJob.Run(account), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -661,6 +679,23 @@ namespace Jobs.JobsService
                     break;
                 case FunctionName.RefreshCookies:
                     break;
+                case FunctionName.Wink:
+                    {
+                        var newTime = new TimeSpan(newSettings.RetryTimeForWinkFriendsHour, newSettings.RetryTimeForWinkFriendsMin, newSettings.RetryTimeForWinkFriendsSec);
+
+                        if (oldSettings == null)
+                        {
+                            return newTime;
+                        }
+
+                        var oldTime = new TimeSpan(oldSettings.RetryTimeForWinkFriendsHour, oldSettings.RetryTimeForWinkFriendsMin, oldSettings.RetryTimeForWinkFriendsSec);
+
+                        if (SettingsAreEqual(newTime, oldTime))
+                        {
+                            return new TimeSpan(0, 0, 0);
+                        }
+                        return newTime;
+                    }
                 default:
                     throw new ArgumentOutOfRangeException("functionName");
             }

@@ -35,6 +35,7 @@ namespace DataBase.QueriesAndCommands.Queries.Settings
                 var limitsOptionsModel = jsDeserializator.Deserialize<LimitsOptionsDbModel>(settings.LimitsOptions);
                 var communityOptionsModel = jsDeserializator.Deserialize<CommunityOptionsDbModel>(settings.CommunityOptions);
                 var deleteFriendsOptionsModel = jsDeserializator.Deserialize<DeleteFriendsOptionsDbModel>(settings.DeleteFriendsOptions);
+                var winkFriendsOptionsModel = jsDeserializator.Deserialize<WinkFriendsOptionsDbModel>(settings.WinkFriendsOptions);
 
                 return new SettingsData
                 {
@@ -45,7 +46,8 @@ namespace DataBase.QueriesAndCommands.Queries.Settings
                     MessageOptions = messageOptionsModel,
                     LimitsOptions = limitsOptionsModel,
                     CommunityOptions = communityOptionsModel,
-                    DeleteFriendsOptions = deleteFriendsOptionsModel
+                    DeleteFriendsOptions = deleteFriendsOptionsModel,
+                    WinkOptions = winkFriendsOptionsModel
                 };
             }
             catch (Exception ex)

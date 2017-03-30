@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DataBase.Context;
-using DataBase.QueriesAndCommands.Queries.Account.JobQueue.AddQueue;
 
 namespace DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetAllQueues
 {
@@ -23,7 +22,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetAllQu
                     AccountId = model.AccountId,
                     Id = model.Id,
                     AddedDateTime = model.AddedDateTime,
-                    FunctionName = model.FunctionName
+                    FunctionName = model.FunctionName,
+                    FriendId = model.FriendId
                 }).ToList();
 
             return queues;

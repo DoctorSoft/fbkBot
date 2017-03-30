@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Constants.FunctionEnums;
-using DataBase.QueriesAndCommands.Queries.Account.JobQueue.AddQueue;
 
 namespace DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetQueuesByAccountId
 {

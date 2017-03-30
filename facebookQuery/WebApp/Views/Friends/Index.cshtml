@@ -2,6 +2,7 @@
     ViewBag.Title = "Index";
 }
 
+@using WebApp.Resources.Views.Buttons
 @using WebApp.Resources.Views.Friends
 @model Services.ViewModels.FriendsModels.FriendListViewModel
 
@@ -33,25 +34,54 @@
     </div>
     <div class="panel-footer">
         <div>@FriendsTexts.CurrentFriends (@Model.Friends.Count(model => !model.Deleted))</div>
-        @foreach (var friend in @Model.Friends.Where(model => !model.Deleted))
-        {
-            <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
-                <div class="inline-half-text-left">
-                    <div class="message-list-tittle">
-                        <div class="">@friend.Name</div>
-                    </div>
-                    <div class="inline-half-text-left">
-                        <div class="inline-actions">
-                            <a href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="inline-half-text-right">
-                    <div class="remove-message">
-                        <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@Model.AccountId" data-fid="@friend.Id" href=""><i class="fa fa-close"></i></a>
-                    </div>
-                </div>
-            </div>
+        
+        @{
+            if (Model.Friends == null || Model.Friends.Count == 0)
+            {
+                @FriendsTexts.NoFriends
+                <br />
+                <a href="@Url.Action("Index", "GroupFunctions")" class="btn btn-info"> <i class="fa fa-arrow-left"></i>@ButtonsTexts.GoToGroupFunctions </a>
+            }
+
+            else
+            {
+                foreach (var friend in @Model.Friends.Where(model => !model.Deleted))
+                 {
+                     <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info") row">
+                         <div class="col-md-3">
+                             <div>@friend.Name (@friend.FacebookId)</div>
+                         </div>
+                         <div class="col-md-2">
+                             <a href="@Url.Action("Index", "FriendMessages", new {accountId = Model.AccountId, friendId = friend.Id})"><i class="fa fa-envelope"></i></a>
+                         </div>
+                         <div class="col-md-5">
+                             <div class="inline-actions">
+                                 @if (friend.IsWinked || friend.IsAddedToGroups || friend.IsAddedToPages)
+                                 {
+                                     @FriendsTexts.CompletedActions
+                                 }
+                                 @if (friend.IsWinked)
+                                 {
+                                     <i class="fa fa-eye" aria-hidden="true"></i>
+                                 }
+                                 @if (friend.IsAddedToGroups)
+                                 {
+                                     <i class="fa fa-users" aria-hidden="true"></i>
+                                 }
+                                 @if (friend.IsAddedToPages)
+                                 {
+                                     <i class="fa fa-clone" aria-hidden="true"></i>
+                                 }
+                             </div>
+                         </div>
+                         <div class="col-md-2">
+                             <div class="remove-message">
+                                 <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@Model.AccountId" data-fid="@friend.Id" href=""><i class="fa fa-close"></i></a>
+                             </div>
+                         </div>
+                     </div>
+                 }
+            }
         }
     </div>
     <div class="panel-footer">
