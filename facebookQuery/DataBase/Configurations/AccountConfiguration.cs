@@ -23,6 +23,7 @@ namespace DataBase.Configurations
             Property(model => model.ProxyPassword);
             Property(model => model.AuthorizationDataIsFailed);
             Property(model => model.ProxyDataIsFailed);
+            Property(model => model.ConformationIsFailed);
 
             HasOptional(it => it.Cookies).WithRequired(m => m.Account);
             HasMany(model => model.Messages).WithOptional(it => it.Account).HasForeignKey(model => model.AccountId);

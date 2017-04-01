@@ -10,7 +10,7 @@ namespace WebApp.Controllers
 
         public DeletedUsersController()
         {
-            this._homeService = new HomeService();
+            this._homeService = new HomeService(new JobService(), new BackgroundJobService());
         }
 
         // GET: Users

@@ -37,7 +37,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                     ProxyPassword = model.ProxyPassword,
                     GroupSettingsId = model.GroupSettingsId,
                     AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
-                    ProxyDataIsFailed = model.ProxyDataIsFailed
+                    ProxyDataIsFailed = model.ProxyDataIsFailed,
+                    ConformationIsFailed = model.ConformationIsFailed
                 }).FirstOrDefault();
 
             return models;

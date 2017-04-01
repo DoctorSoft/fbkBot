@@ -55,7 +55,7 @@ namespace WebApp.Controllers
 
         public ActionResult SetGroupMessages(long accountId, long groupId)
         {
-            var account = new HomeService().GetAccounts().FirstOrDefault(model => model.Id == accountId);
+            var account = new HomeService(new JobService(), new BackgroundJobService()).GetAccounts().FirstOrDefault(model => model.Id == accountId);
 
             _messageSettingService.SetGroupMessages(accountId, groupId);
 

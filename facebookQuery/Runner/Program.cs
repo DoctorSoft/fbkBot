@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Jobs.JobsService;
 using Jobs.Notices;
 using Runner.Models;
 using Services.Services;
@@ -25,7 +26,7 @@ namespace Runner
             while (true)
             {
                 Console.WriteLine(string.Format("{0} запуск", i));
-                var accounts = new HomeService().GetAccounts();
+                var accounts = new HomeService(new JobService(), new BackgroundJobService()).GetAccounts();
 
                 var queues = _queueService.GetGroupedQueue();
 

@@ -126,4 +126,7 @@
   <data name="CheckProxyData" xml:space="preserve">
     <value>Check proxy data</value>
   </data>
+  <data name="ConformationError" xml:space="preserve">
+    <value>Conformation error</value>
+  </data>
 </root>

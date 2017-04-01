@@ -286,6 +286,10 @@
     <Compile Include="Migrations\201703291959095_AddWinkOptions.Designer.cs">
       <DependentUpon>201703291959095_AddWinkOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704011617461_AddFieldForConformationAccountError.cs" />
+    <Compile Include="Migrations\201704011617461_AddFieldForConformationAccountError.Designer.cs">
+      <DependentUpon>201704011617461_AddFieldForConformationAccountError.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
@@ -313,7 +317,7 @@
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand - Copy.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\UpdateFailAccountInformationCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommandHandler.cs" />
@@ -349,6 +353,8 @@
     <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusesByAccountId\DeleteJobStatusesByAccountIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusesByAccountId\DeleteJobStatusesByAccountIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\FacebookMessageDbModel.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\DeleteNewSettingsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommand.cs" />
@@ -726,6 +732,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703291959095_AddWinkOptions.resx">
       <DependentUpon>201703291959095_AddWinkOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704011617461_AddFieldForConformationAccountError.resx">
+      <DependentUpon>201704011617461_AddFieldForConformationAccountError.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

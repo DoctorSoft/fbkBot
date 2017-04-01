@@ -71,8 +71,8 @@
     <div class="panel-footer">
         @foreach (var account in @Model)
         {
-            var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed ? "alert-danger" : "alert-success";
-            var errorText = account.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : account.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : null;
+            var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.ConformationDataIsFailed ? "alert-danger" : "alert-success";
+            var errorText = account.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : account.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : account.ConformationDataIsFailed ? @UsersTexts.ConformationError : null;
             
             <div class="alert @divClass">
                 <div class="inline-half-text-left">
@@ -109,7 +109,7 @@
                         <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@account.Id" href=""><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                @if (!account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed)
+                @if (!account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
                 {
                     <div class="alert alert-info" style="margin-bottom: 0 !important">
                         <div class="inline-half">

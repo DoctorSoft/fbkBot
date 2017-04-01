@@ -30,6 +30,8 @@ namespace DataBase.Models
 
         public bool AuthorizationDataIsFailed { get; set; }
 
+        public bool ConformationIsFailed { get; set; }
+
         public GroupSettingsDbModel GroupSettings { get; set; }
 
         public CookiesDbModel Cookies { get; set; }

@@ -126,4 +126,7 @@
   <data name="CheckProxyData" xml:space="preserve">
     <value>Проверьте данные прокси</value>
   </data>
+  <data name="ConformationError" xml:space="preserve">
+    <value>Аккаунту нужно подтверждение</value>
+  </data>
 </root>

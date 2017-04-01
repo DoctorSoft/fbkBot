@@ -38,7 +38,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         ProxyLogin = model.ProxyLogin,
                         ProxyPassword = model.ProxyPassword,
                         AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
-                        ProxyDataIsFailed = model.ProxyDataIsFailed
+                        ProxyDataIsFailed = model.ProxyDataIsFailed,
+                        ConformationIsFailed = model.ConformationIsFailed
                     })
                     .ToList();
 

@@ -26,6 +26,8 @@
 
         public bool AuthorizationDataIsFailed { get; set; }
 
+        public bool ConformationIsFailed { get; set; }
+
         public bool IsDeleted { get; set; }
 
         public CookieModel Cookie { get; set; }

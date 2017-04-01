@@ -8,7 +8,7 @@ namespace Jobs.Notices
     {
         public void AddNotice(dynamic accountId, dynamic message)
         {
-            var hubConnection = new HubConnection("http://localhost:63711");
+            var hubConnection = new HubConnection("http://face.2h.by/");
             var hubProxy = hubConnection.CreateHubProxy("notificationHub");
             try
             {

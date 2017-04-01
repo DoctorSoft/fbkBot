@@ -86,5 +86,14 @@ namespace WebApp.Resources.Views.Users {
                 return ResourceManager.GetString("CheckProxyData", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conformation error.
+        /// </summary>
+        public static string ConformationError {
+            get {
+                return ResourceManager.GetString("ConformationError", resourceCulture);
+            }
+        }
     }
 }

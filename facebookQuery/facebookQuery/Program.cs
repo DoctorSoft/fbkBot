@@ -51,7 +51,7 @@ namespace FacebookApp
         private static void Main(string[] args)
         {
 
-            var homeService = new HomeService();
+            var homeService = new HomeService(new JobService(), new BackgroundJobService());
 
             var accounts = homeService.GetAccounts();
 

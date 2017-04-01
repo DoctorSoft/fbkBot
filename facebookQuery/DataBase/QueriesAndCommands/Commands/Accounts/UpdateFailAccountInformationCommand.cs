@@ -7,5 +7,7 @@
         public bool? ProxyDataIsFailed { get; set; }
 
         public bool? AuthorizationDataIsFailed { get; set; }
+
+        public bool? ConformationIsFailed { get; set; }
     }
 }

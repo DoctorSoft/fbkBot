@@ -5,6 +5,7 @@ using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.SpyJobs;
 using Services.Models.Jobs;
 using Services.Services;
+using Services.ViewModels.HomeModels;
 using AddOrUpdateAccountModel = Services.Models.BackgroundJobs.AddOrUpdateAccountModel;
 
 namespace Jobs.JobsService
@@ -43,17 +44,20 @@ namespace Jobs.JobsService
 
             var accountViewModel = currentModel.Account;
 
-            RecurringJob.AddOrUpdate(string.Format(CheckFriendsConditionsToRemovePattern, accountViewModel.Login), () => CheckFriendsAtTheEndTimeConditionsJob.Run(accountViewModel), Cron.Hourly);
-             /*RecurringJob.AddOrUpdate(string.Format(InviteTheNewGroupPattern, accountViewModel.Login), () => InviteTheNewGroupJob.Run(accountViewModel), Cron.Hourly);
-            RecurringJob.AddOrUpdate(string.Format(RefreshCookiesPattern, accountViewModel.Login), () => RefreshCookiesJob.Run(accountViewModel), Cron.Hourly);
-            RecurringJob.AddOrUpdate(string.Format(UnreadMessagesPattern, accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(UnansweredMessagesPattern, accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(NewFriendMessagesPattern, accountViewModel.Login), () => SendMessageToNewFriendsJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(RefreshFriendsPattern, accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(ConfirmFriendshipPattern, accountViewModel.Login), () => ConfirmFriendshipJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(SendRequestFriendshipPattern, accountViewModel.Login), () => SendRequestFriendshipJob.Run(accountViewModel), Cron.Minutely);
-            RecurringJob.AddOrUpdate(string.Format(RunnerPattern, accountViewModel.Login), () => RunnerJob.Run(accountViewModel), Cron.Minutely);*/
+            if (AccountIsWorking(accountViewModel))
+            {
+                RecurringJob.AddOrUpdate(string.Format(CheckFriendsConditionsToRemovePattern, accountViewModel.Login), () => CheckFriendsAtTheEndTimeConditionsJob.Run(accountViewModel), Cron.Hourly);
+                /*RecurringJob.AddOrUpdate(string.Format(InviteTheNewGroupPattern, accountViewModel.Login), () => InviteTheNewGroupJob.Run(accountViewModel), Cron.Hourly);
+               RecurringJob.AddOrUpdate(string.Format(RefreshCookiesPattern, accountViewModel.Login), () => RefreshCookiesJob.Run(accountViewModel), Cron.Hourly);
+               RecurringJob.AddOrUpdate(string.Format(UnreadMessagesPattern, accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
+               RecurringJob.AddOrUpdate(string.Format(UnansweredMessagesPattern, accountViewModel.Login), () => SendMessageToUnansweredJob.Run(accountViewModel), Cron.Minutely);
+               RecurringJob.AddOrUpdate(string.Format(NewFriendMessagesPattern, accountViewModel.Login), () => SendMessageToNewFriendsJob.Run(accountViewModel), Cron.Minutely);
+               RecurringJob.AddOrUpdate(string.Format(RefreshFriendsPattern, accountViewModel.Login), () => RefreshFriendsJob.Run(accountViewModel), Cron.Minutely);
+               RecurringJob.AddOrUpdate(string.Format(AddNewFriendsPattern, accountViewModel.Login), () => GetNewFriendsAndRecommendedJob.Run(accountViewModel), Cron.Minutely);
+               RecurringJob.AddOrUpdate(string.Format(ConfirmFriendshipPattern, accountViewModel.Login), () => ConfirmFriendshipJob.Run(accountViewModel), Cron.Minutely);
+               RecurringJob.AddOrUpdate(string.Format(SendRequestFriendshipPattern, accountViewModel.Login), () => SendRequestFriendshipJob.Run(accountViewModel), Cron.Minutely);
+               RecurringJob.AddOrUpdate(string.Format(RunnerPattern, accountViewModel.Login), () => RunnerJob.Run(accountViewModel), Cron.Minutely);*/
+            }
         }
 
         public void AddOrUpdateSpyAccountJobs(IAddOrUpdateAccountJobs model)
@@ -81,7 +85,6 @@ namespace Jobs.JobsService
             }
 
             var login = currentModel.Login;
-            var accountId = currentModel.AccountId;
 
             RecurringJob.RemoveIfExists(string.Format(UnreadMessagesPattern, login));
             RecurringJob.RemoveIfExists(string.Format(UnansweredMessagesPattern, login));
@@ -92,13 +95,8 @@ namespace Jobs.JobsService
             RecurringJob.RemoveIfExists(string.Format(ConfirmFriendshipPattern, login));
             RecurringJob.RemoveIfExists(string.Format(SendRequestFriendshipPattern, login));
             RecurringJob.RemoveIfExists(string.Format(RefreshCookiesPattern, login));
-
-            if (accountId != null)
-            {
-               // _jobStatusService.DeleteJobStatuses((long)accountId);
-            }
         }
-
+      
         public void RenameAccountJobs(IRenameAccountJobs model)
         {
             var currentModel = model as RenameAccountJobsModel;
@@ -125,5 +123,16 @@ namespace Jobs.JobsService
             RemoveAccountJobs(removeAccountModel);
             AddOrUpdateAccountJobs(addOrUpdateAccountModel);
         }
+
+        private static bool AccountIsWorking(AccountViewModel account)
+        {
+            if (account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.IsDeleted || account.ConformationDataIsFailed)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
+
 }

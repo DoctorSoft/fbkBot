@@ -29,20 +29,39 @@ namespace Services.Services
                 return false;
             }
 
-            var newCookie = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
+            var cookieResponse = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
             {
                 Login = account.Login,
                 Password = account.Password,
                 Driver = RegisterNewDriver(account),
                 Cookie = account.Cookie
-            }).CookiesString;
-
-            new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
-            new UpdateFailAccountInformationCommand
-            {
-                AccountId = account.Id,
-                AuthorizationDataIsFailed = newCookie == null
             });
+
+            if (cookieResponse == null || cookieResponse.AuthorizationError)
+            {
+                new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                new UpdateFailAccountInformationCommand
+                {
+                    AccountId = account.Id,
+                    AuthorizationDataIsFailed = true
+                });
+
+                return false;
+            }
+
+            if (cookieResponse.ConfirmationError)
+            {
+                new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                new UpdateFailAccountInformationCommand
+                {
+                    AccountId = account.Id,
+                    ConformationIsFailed = true
+                });
+
+                return false;
+            }
+
+            var newCookie = cookieResponse.CookiesString;
 
             if (newCookie == null)
             {

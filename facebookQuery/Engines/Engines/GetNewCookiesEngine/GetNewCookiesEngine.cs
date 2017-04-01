@@ -49,9 +49,22 @@ namespace Engines.Engines.GetNewCookiesEngine
                 }
 
                 ICookieJar cookies;
+                string currentUri;
+
                 if (email == null && pass == null && button == null)
                 {
                     driver.Navigate().Refresh();
+                    
+                    currentUri = driver.Url;
+                    if (currentUri.Contains("checkpoint"))
+                    {
+                        driver.Quit();
+                        return new GetNewCookiesResponse
+                        {
+                            ConfirmationError = true
+                        };
+                    }
+
                     cookies = driver.Manage().Cookies;
 
                     if (cookies.AllCookies.Count == 0)
@@ -78,13 +91,26 @@ namespace Engines.Engines.GetNewCookiesEngine
 
                 button.Click();
 
+                currentUri = driver.Url;
+                if (currentUri.Contains("checkpoint"))
+                {
+                    driver.Quit();
+                    return new GetNewCookiesResponse
+                    {
+                        ConfirmationError = true
+                    };
+                }
+
                 cookies = driver.Manage().Cookies;
 
                 if (cookies.AllCookies.Count == 0)
                 {
                     //error get cookies
                     driver.Quit();
-                    return null;
+                    return new GetNewCookiesResponse
+                    {
+                        AuthorizationError = true
+                    };
                 }
 
                 cookiesResult = cookies.AllCookies.Aggregate("",

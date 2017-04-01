@@ -6,16 +6,16 @@ namespace DataBase.QueriesAndCommands.Commands.Accounts
 {
     public class UpdateFailAccountInformationCommandHandler : ICommandHandler<UpdateFailAccountInformationCommand, VoidCommandResponse>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public UpdateFailAccountInformationCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public VoidCommandResponse Handle(UpdateFailAccountInformationCommand command)
         {
-            var account = context.Accounts.FirstOrDefault(model => model.Id == command.AccountId);
+            var account = _context.Accounts.FirstOrDefault(model => model.Id == command.AccountId);
 
             if (account != null)
             {
@@ -29,9 +29,14 @@ namespace DataBase.QueriesAndCommands.Commands.Accounts
                     account.ProxyDataIsFailed = (bool)command.ProxyDataIsFailed;
                 }
 
-                context.Accounts.AddOrUpdate(account);
+                if (command.ConformationIsFailed != null)
+                {
+                    account.ConformationIsFailed = (bool)command.ConformationIsFailed;
+                }
 
-                context.SaveChanges();
+                _context.Accounts.AddOrUpdate(account);
+
+                _context.SaveChanges();
             }
 
             return new VoidCommandResponse();

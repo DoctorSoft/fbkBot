@@ -9,5 +9,7 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
         public long? FriendId { get; set; }
 
         public FunctionName FunctionName { get; set; }
+
+        public bool IsUnique { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts
         {
             var models = 
                 _context.Accounts.Include(model => model.Cookies)
-                .Where(model => !model.AuthorizationDataIsFailed && !model.IsDeleted && !model.ProxyDataIsFailed)
+                .Where(model => !model.AuthorizationDataIsFailed && !model.IsDeleted && !model.ProxyDataIsFailed && !model.ConformationIsFailed)
                 .Select(model => new AccountModel
                 {
                     Id = model.Id,
@@ -37,7 +37,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts
                     ProxyPassword = model.ProxyPassword,
                     GroupSettingsId = model.GroupSettingsId,
                     AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
-                    ProxyDataIsFailed = model.ProxyDataIsFailed
+                    ProxyDataIsFailed = model.ProxyDataIsFailed,
+                    ConformationIsFailed = model.ConformationIsFailed
                 }).ToList();
 
             return models;

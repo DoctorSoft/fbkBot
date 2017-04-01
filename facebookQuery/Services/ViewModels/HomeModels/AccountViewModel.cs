@@ -28,6 +28,8 @@
 
         public bool AuthorizationDataIsFailed { get; set; }
 
+        public bool ConformationDataIsFailed { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 }

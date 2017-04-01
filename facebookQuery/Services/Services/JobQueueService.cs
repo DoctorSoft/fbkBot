@@ -16,7 +16,8 @@ namespace Services.Services
             new AddToQueueCommandHandler().Handle(new AddToQueueCommand
             {
                 AccountId = accountId,
-                FunctionName = functionName
+                FunctionName = functionName,
+                IsUnique = true
             });
         }
 
@@ -26,7 +27,8 @@ namespace Services.Services
             {
                 AccountId = accountId,
                 FunctionName = functionName,
-                FriendId = friendId
+                FriendId = friendId,
+                IsUnique = true
             });
         }
 

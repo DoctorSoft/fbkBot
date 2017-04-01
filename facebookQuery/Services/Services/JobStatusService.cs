@@ -3,6 +3,7 @@ using System.Linq;
 using Constants.FunctionEnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.JobStatus;
+using DataBase.QueriesAndCommands.Commands.JobStatus.DeleteJobStatusesByAccountId;
 using DataBase.QueriesAndCommands.Queries.JobStatus;
 using Services.ViewModels.JobStatusModels;
 
@@ -66,6 +67,16 @@ namespace Services.Services
                 FunctionName = functionName,
                 FriendId = friendId
             });
+        }
+
+        public List<string> DeleteJobStatusesByAccountId(long accountId)
+        {
+            var jobsId = new DeleteJobStatusesByAccountIdCommandHandler(new DataBaseContext()).Handle(new DeleteJobStatusesByAccountIdCommand
+            {
+                AccountId = accountId
+            });
+
+            return jobsId;
         }
     }
 }

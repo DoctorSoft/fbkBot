@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Jobs.JobsService;
 using Services.Services;
 using Services.ViewModels.HomeModels;
 
@@ -10,7 +11,7 @@ namespace WebApp.Controllers
 
         public AccountController()
         {
-            this._homeService = new HomeService();
+            this._homeService = new HomeService(new JobService(), new BackgroundJobService());
         }
         // GET: Account
         public ActionResult Index(long accountId)

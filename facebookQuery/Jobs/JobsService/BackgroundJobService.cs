@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CommonInterfaces.Interfaces.Models;
 using CommonInterfaces.Interfaces.Services;
 using CommonModels;
@@ -12,27 +13,60 @@ using Jobs.Jobs.MessageJobs;
 using Jobs.Notices;
 using Services.Hubs;
 using Services.Models.BackgroundJobs;
+using Services.Models.Jobs;
 using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.JobStatusModels;
+using AddOrUpdateAccountModel = Services.Models.BackgroundJobs.AddOrUpdateAccountModel;
 
 namespace Jobs.JobsService
 {
     public class BackgroundJobService : IBackgroundJobService
     {
         private readonly NotificationHub _notice;
+        private readonly JobStatusService _jobStatusService;
 
         public BackgroundJobService()
         {
             _notice = new NotificationHub();
+            _jobStatusService = new JobStatusService();
         }
 
         public void RemoveJobById(string jobId)
         {
             BackgroundJob.Delete(jobId);
         }
+
+        public void RemoveJobsById(List<string> jobsId)
+        {
+            foreach (var jobId in jobsId)
+            {
+                BackgroundJob.Delete(jobId);
+            }
+        }
+        public void RemoveAccountBackgroundJobs(IRemoveAccountJobs model)
+        {
+            var currentModel = model as RemoveAccountJobsModel;
+
+            if (currentModel == null)
+            {
+                return;
+            }
+
+            var accountId = currentModel.AccountId;
+
+            if (accountId == null)
+            {
+                return;
+            }
+
+            var jobsId = _jobStatusService.DeleteJobStatusesByAccountId((long)accountId);
+
+            RemoveJobsById(jobsId);
+        }
+
         public bool AddOrUpdateAccountJobs(IAddOrUpdateAccountJobs model)
         {
             var currentModel = (AddOrUpdateAccountModel) model;
@@ -390,7 +424,7 @@ namespace Jobs.JobsService
 
         private static bool AccountIsWorking(AccountViewModel account)
         {
-            if (account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.IsDeleted)
+            if (account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.IsDeleted || account.ConformationDataIsFailed)
             {
                 return false;
             }

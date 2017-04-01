@@ -11,13 +11,13 @@ using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Engines.Engines.GetNewNoticesEngine;
 using RequestsHelpers;
-using Services.Interfaces;
 using Services.Interfaces.ServiceTools;
-using Services.Models.BackgroundJobs;
+using Services.Models.Jobs;
 using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
+using AddOrUpdateAccountModel = Services.Models.BackgroundJobs.AddOrUpdateAccountModel;
 
 namespace Services.Services
 {
@@ -27,13 +27,17 @@ namespace Services.Services
         private readonly IAccountSettingsManager _accountSettingsManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly IProxyManager _proxyManager;
+        private readonly IJobService _jobService;
+        private readonly IBackgroundJobService _backgroundJobService;
 
-        public HomeService()
+        public HomeService(IJobService jobService, IBackgroundJobService backgroundJobService)
         {
             _accountManager = new AccountManager();
             _accountSettingsManager = new AccountSettingsManager();
             _accountStatisticsManager = new StatisticsManager();
             _proxyManager = new ProxyManager();
+            _jobService = jobService;
+            _backgroundJobService = backgroundJobService;
         }
 
         public List<AccountViewModel> GetAccounts()
@@ -59,7 +63,8 @@ namespace Services.Services
                 GroupSettingsId = model.GroupSettingsId,
                 AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                 ProxyDataIsFailed = model.ProxyDataIsFailed,
-                IsDeleted = model.IsDeleted
+                IsDeleted = model.IsDeleted,
+                ConformationDataIsFailed = model.ConformationIsFailed
             }).ToList();
         }
 
@@ -83,6 +88,7 @@ namespace Services.Services
                 GroupSettingsId = model.GroupSettingsId,
                 AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                 ProxyDataIsFailed = model.ProxyDataIsFailed,
+                ConformationDataIsFailed = model.ConformationIsFailed,
                 IsDeleted = model.IsDeleted
             }).ToList();
         }
@@ -105,7 +111,12 @@ namespace Services.Services
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
                 Cookie = model.Cookie.CookieString,
-                Name = model.Name
+                Name = model.Name,
+                GroupSettingsId = model.GroupSettingsId,
+                AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
+                ProxyDataIsFailed = model.ProxyDataIsFailed,
+                ConformationDataIsFailed = model.ConformationIsFailed,
+                IsDeleted = model.IsDeleted
             }).ToList();
         } 
 
@@ -122,7 +133,15 @@ namespace Services.Services
                 AccountId = accountId
             });
 
-            //_jobService.RemoveAccountJobs(account.Login, account.Id);
+
+            var jobModel = new RemoveAccountJobsModel()
+            {
+                AccountId = account.Id,
+                Login = account.Login
+            };
+
+            _jobService.RemoveAccountJobs(jobModel);
+            _backgroundJobService.RemoveAccountBackgroundJobs(jobModel);
         }
 
         public void RecoverAccount(long accountId, IBackgroundJobService backgroundJobService)
@@ -168,7 +187,8 @@ namespace Services.Services
                 PageUrl = account.PageUrl,
                 Password = account.Password,
                 ProxyLogin = account.ProxyLogin,
-                ProxyPassword = account.ProxyPassword
+                ProxyPassword = account.ProxyPassword,
+                ConformationDataIsFailed = account.ConformationIsFailed
             };
 
             var model = new AddOrUpdateAccountModel()
@@ -237,7 +257,8 @@ namespace Services.Services
                     GroupSettingsId = account.GroupSettingsId,
                     AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
                     IsDeleted = account.IsDeleted,
-                    ProxyDataIsFailed = account.ProxyDataIsFailed
+                    ProxyDataIsFailed = account.ProxyDataIsFailed,
+                    ConformationDataIsFailed = account.ConformationIsFailed
                 }
             };
 
