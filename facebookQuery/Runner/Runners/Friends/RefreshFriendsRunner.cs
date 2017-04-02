@@ -11,7 +11,7 @@ namespace Runner.Runners.Friends
             var account = model.Account;
 
             var service = new FriendsService(new NoticesProxy());
-            service.GetFriendsOfFacebook(account);
+            service.GetCurrentFriends(account);
         }
     }
 }

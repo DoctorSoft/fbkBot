@@ -129,4 +129,10 @@
   <data name="ConformationError" xml:space="preserve">
     <value>Conformation error</value>
   </data>
+  <data name="CountCurrentFriends" xml:space="preserve">
+    <value>Count current friends</value>
+  </data>
+  <data name="CountIncommingFriendsRequest" xml:space="preserve">
+    <value>Count new friends</value>
+  </data>
 </root>

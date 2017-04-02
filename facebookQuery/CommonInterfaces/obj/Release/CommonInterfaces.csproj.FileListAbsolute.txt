@@ -1,0 +1,7 @@
+D:\Project\fbkBot\facebookQuery\CommonInterfaces\bin\Release\CommonInterfaces.dll
+D:\Project\fbkBot\facebookQuery\CommonInterfaces\bin\Release\CommonInterfaces.pdb
+D:\Project\fbkBot\facebookQuery\CommonInterfaces\bin\Release\Constants.dll
+D:\Project\fbkBot\facebookQuery\CommonInterfaces\bin\Release\Constants.pdb
+D:\Project\fbkBot\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.csprojResolveAssemblyReference.cache
+D:\Project\fbkBot\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.dll
+D:\Project\fbkBot\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.pdb

@@ -95,5 +95,23 @@ namespace WebApp.Resources.Views.Users {
                 return ResourceManager.GetString("ConformationError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count current friends.
+        /// </summary>
+        public static string CountCurrentFriends {
+            get {
+                return ResourceManager.GetString("CountCurrentFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count new friends.
+        /// </summary>
+        public static string CountIncommingFriendsRequest {
+            get {
+                return ResourceManager.GetString("CountIncommingFriendsRequest", resourceCulture);
+            }
+        }
     }
 }

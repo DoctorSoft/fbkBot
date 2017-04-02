@@ -61,6 +61,8 @@ namespace DataBase.Context
         public DbSet<JobStatusDbModel> JobStatus { get; set; }
 
         public DbSet<CommunityStatisticsDbModel> CommunityStatistics { get; set; }
+
+        public DbSet<AccountInformationDbModel> AccountInformation { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -89,6 +91,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new JobQueueConfiguration());
             modelBuilder.Configurations.Add(new JobStatusConfiguration());
             modelBuilder.Configurations.Add(new CommunityStatisticsConfiguration());
+            modelBuilder.Configurations.Add(new AccountInformationConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

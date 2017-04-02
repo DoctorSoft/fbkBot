@@ -43,5 +43,7 @@ namespace DataBase.Models
         public ICollection<AnalysisFriendDbModel> AnalysisFriends { get; set; }
 
         public ICollection<NewSettingsDbModel> NewSettings { get; set; }
+
+        public AccountInformationDbModel AccountInformation { get; set; }
     }
 }

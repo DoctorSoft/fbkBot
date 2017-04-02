@@ -48,26 +48,91 @@ namespace Services.Services
                 Page = 0
             });
 
-            return accounts.Select(model => new AccountViewModel
+            return accounts.Select(accountModel => new AccountViewModel
             {
-                Id = model.Id,
-                PageUrl = model.PageUrl,
-                Login = model.Login,
-                Password = model.Password,
-                FacebookId = model.FacebookId,
-                Proxy = model.Proxy,
-                ProxyLogin = model.ProxyLogin,
-                ProxyPassword = model.ProxyPassword,
-                Cookie = model.Cookie.CookieString,
-                Name = model.Name,
-                GroupSettingsId = model.GroupSettingsId,
-                AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
-                ProxyDataIsFailed = model.ProxyDataIsFailed,
-                IsDeleted = model.IsDeleted,
-                ConformationDataIsFailed = model.ConformationIsFailed
+                Id = accountModel.Id,
+                PageUrl = accountModel.PageUrl,
+                Login = accountModel.Login,
+                Password = accountModel.Password,
+                FacebookId = accountModel.FacebookId,
+                Proxy = accountModel.Proxy,
+                ProxyLogin = accountModel.ProxyLogin,
+                ProxyPassword = accountModel.ProxyPassword,
+                Cookie = accountModel.Cookie.CookieString,
+                Name = accountModel.Name,
+                GroupSettingsId = accountModel.GroupSettingsId,
+                AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
+                ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
+                IsDeleted = accountModel.IsDeleted,
+                ConformationDataIsFailed = accountModel.ConformationIsFailed
             }).ToList();
         }
 
+        public List<AccountDataViewModel> GetDataAccounts()
+        {
+            var accounts = new GetAccountsQueryHandler(new DataBaseContext()).Handle(new GetAccountsQuery
+            {
+                Count = 100,
+                Page = 0
+            });
+
+            var result = new List<AccountDataViewModel>();
+
+            foreach (var accountModel in accounts)
+            {
+                if (accountModel.GroupSettingsId != null)
+                {
+                    var information = _accountManager.GetAccountInformation((long) accountModel.GroupSettingsId);
+                    result.Add(new AccountDataViewModel
+                    {
+                        Account = new AccountViewModel
+                        {
+                            Id = accountModel.Id,
+                            PageUrl = accountModel.PageUrl,
+                            Login = accountModel.Login,
+                            Password = accountModel.Password,
+                            FacebookId = accountModel.FacebookId,
+                            Proxy = accountModel.Proxy,
+                            ProxyLogin = accountModel.ProxyLogin,
+                            ProxyPassword = accountModel.ProxyPassword,
+                            Cookie = accountModel.Cookie.CookieString,
+                            Name = accountModel.Name,
+                            GroupSettingsId = accountModel.GroupSettingsId,
+                            AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
+                            ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
+                            IsDeleted = accountModel.IsDeleted,
+                            ConformationDataIsFailed = accountModel.ConformationIsFailed
+                        },
+                        AccountInformation = information
+                    });
+
+                    continue;
+                }
+                result.Add(new AccountDataViewModel
+                {
+                    Account = new AccountViewModel
+                    {
+                        Id = accountModel.Id,
+                        PageUrl = accountModel.PageUrl,
+                        Login = accountModel.Login,
+                        Password = accountModel.Password,
+                        FacebookId = accountModel.FacebookId,
+                        Proxy = accountModel.Proxy,
+                        ProxyLogin = accountModel.ProxyLogin,
+                        ProxyPassword = accountModel.ProxyPassword,
+                        Cookie = accountModel.Cookie.CookieString,
+                        Name = accountModel.Name,
+                        GroupSettingsId = accountModel.GroupSettingsId,
+                        AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
+                        ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
+                        IsDeleted = accountModel.IsDeleted,
+                        ConformationDataIsFailed = accountModel.ConformationIsFailed
+                    }
+                });
+            }
+
+            return result;
+        }
 
         public List<AccountViewModel> GetWorkAccounts()
         {

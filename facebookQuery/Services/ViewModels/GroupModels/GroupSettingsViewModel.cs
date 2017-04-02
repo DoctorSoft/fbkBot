@@ -140,5 +140,6 @@ namespace Services.ViewModels.GroupModels
 
         public int RetryTimeSendRequestFriendshipsSec { get; set; }
 
+        public int AllowedRemovalPercentage { get; set; }
     }
 }

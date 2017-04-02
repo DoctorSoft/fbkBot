@@ -159,8 +159,8 @@
   <data name="Pages" xml:space="preserve">
     <value>Pages</value>
   </data>
-  <data name="RetryOptions" xml:space="preserve">
-    <value>Retry options</value>
+  <data name="MessageOptions" xml:space="preserve">
+    <value>Message options</value>
   </data>
   <data name="RetryTimeConfirmFriendships" xml:space="preserve">
     <value>Confirm every friendship</value>
@@ -221,5 +221,11 @@
   </data>
   <data name="RetryTimeJoinPage" xml:space="preserve">
     <value>Retry time join page</value>
+  </data>
+  <data name="AllowedRemovalPercentage" xml:space="preserve">
+    <value>Maximum permissible removal percentage of retired friends</value>
+  </data>
+  <data name="FriendOptions" xml:space="preserve">
+    <value>Friend options</value>
   </data>
 </root>

@@ -30,11 +30,28 @@ namespace Services.ServiceTools
             return new GroupSettingsViewModel
             {
                 GroupId = settings.GroupId,
-                Gender = settings.GeoOptions.Gender,
+                IsJoinToAllGroups = settings.CommunityOptions.IsJoinToAllGroups,
+                RetryTimeInviteTheGroupsHour = settings.CommunityOptions.RetryTimeInviteTheGroups == null ? 0 : settings.CommunityOptions.RetryTimeInviteTheGroups.Hours,
+                RetryTimeInviteTheGroupsMin = settings.CommunityOptions.RetryTimeInviteTheGroups == null ? 0 : settings.CommunityOptions.RetryTimeInviteTheGroups.Minutes,
+                RetryTimeInviteTheGroupsSec = settings.CommunityOptions.RetryTimeInviteTheGroups == null ? 0 : settings.CommunityOptions.RetryTimeInviteTheGroups.Seconds,
+                RetryTimeInviteThePagesHour = settings.CommunityOptions.RetryTimeInviteThePages == null ? 0 : settings.CommunityOptions.RetryTimeInviteThePages.Hours,
+                RetryTimeInviteThePagesMin = settings.CommunityOptions.RetryTimeInviteThePages == null ? 0 : settings.CommunityOptions.RetryTimeInviteThePages.Minutes,
+                RetryTimeInviteThePagesSec = settings.CommunityOptions.RetryTimeInviteThePages == null ? 0 : settings.CommunityOptions.RetryTimeInviteThePages.Seconds,
                 FacebookGroups = ConvertListToString(settings.CommunityOptions.Groups),
                 FacebookPages = ConvertListToString(settings.CommunityOptions.Pages),
-                Cities = ConvertJsonToString(settings.GeoOptions.Cities),
-                Countries = ConvertJsonToString(settings.GeoOptions.Countries),
+                MaxFriendsJoinGroupInDay = settings.CommunityOptions.MaxFriendsJoinGroupInDay,
+                MinFriendsJoinGroupInDay = settings.CommunityOptions.MinFriendsJoinGroupInDay,
+                MaxFriendsJoinGroupInHour = settings.CommunityOptions.MaxFriendsJoinGroupInHour,
+                MinFriendsJoinGroupInHour = settings.CommunityOptions.MinFriendsJoinGroupInHour,
+                MaxFriendsJoinPageInDay = settings.CommunityOptions.MaxFriendsJoinPageInDay,
+                MinFriendsJoinPageInDay = settings.CommunityOptions.MinFriendsJoinPageInDay,
+                MaxFriendsJoinPageInHour = settings.CommunityOptions.MaxFriendsJoinPageInHour,
+                MinFriendsJoinPageInHour = settings.CommunityOptions.MinFriendsJoinPageInHour,
+                Gender = settings.GeoOptions.Gender,
+                Cities = settings.GeoOptions.Cities,
+                Countries = settings.GeoOptions.Countries,
+
+                //friends options
                 RetryTimeSendUnreadHour = settings.MessageOptions.RetryTimeSendUnread.Hours,
                 RetryTimeSendUnreadMin = settings.MessageOptions.RetryTimeSendUnread.Minutes,
                 RetryTimeSendUnreadSec = settings.MessageOptions.RetryTimeSendUnread.Seconds,
@@ -47,6 +64,9 @@ namespace Services.ServiceTools
                 RetryTimeRefreshFriendsHour = settings.FriendsOptions.RetryTimeRefreshFriends.Hours,
                 RetryTimeRefreshFriendsMin = settings.FriendsOptions.RetryTimeRefreshFriends.Minutes,
                 RetryTimeRefreshFriendsSec = settings.FriendsOptions.RetryTimeRefreshFriends.Seconds,
+                AllowedRemovalPercentage = settings.FriendsOptions.AllowedRemovalPercentage,
+
+                //messages options
                 RetryTimeSendNewFriendHour = settings.MessageOptions.RetryTimeSendNewFriend.Hours,
                 RetryTimeSendNewFriendMin = settings.MessageOptions.RetryTimeSendNewFriend.Minutes,
                 RetryTimeSendNewFriendSec = settings.MessageOptions.RetryTimeSendNewFriend.Seconds,
@@ -57,16 +77,12 @@ namespace Services.ServiceTools
                 RetryTimeSendUnansweredMin = settings.MessageOptions.RetryTimeSendUnanswered.Minutes,
                 RetryTimeSendUnansweredSec = settings.MessageOptions.RetryTimeSendUnanswered.Seconds,
                 UnansweredDelay = settings.MessageOptions.UnansweredDelay,
-                MaxFriendsJoinGroupInDay = settings.CommunityOptions.MaxFriendsJoinGroupInDay,
-                MaxFriendsJoinGroupInHour = settings.CommunityOptions.MaxFriendsJoinGroupInHour,
-                MinFriendsJoinGroupInDay = settings.CommunityOptions.MinFriendsJoinGroupInDay,
-                MinFriendsJoinGroupInHour = settings.CommunityOptions.MinFriendsJoinGroupInHour,
-                MaxFriendsJoinPageInDay = settings.CommunityOptions.MaxFriendsJoinPageInDay,
-                MaxFriendsJoinPageInHour = settings.CommunityOptions.MaxFriendsJoinPageInHour,
-                MinFriendsJoinPageInDay = settings.CommunityOptions.MinFriendsJoinPageInDay,
-                MinFriendsJoinPageInHour = settings.CommunityOptions.MinFriendsJoinPageInHour,
 
-                //delete friends options
+                //limits options
+                CountMaxFriends = settings.LimitsOptions.CountMaxFriends,
+                CountMinFriends = settings.LimitsOptions.CountMinFriends,
+
+                //delete friends settings 
                 DialogIsOverTimer = settings.DeleteFriendsOptions.DialogIsOver == null ? 0 : settings.DeleteFriendsOptions.DialogIsOver.Timer,
                 EnableDialogIsOver = settings.DeleteFriendsOptions.DialogIsOver != null && settings.DeleteFriendsOptions.DialogIsOver.IsEnabled,
                 IsAddedToGroupsAndPagesTimer = settings.DeleteFriendsOptions.IsAddedToGroupsAndPages == null ? 0 : settings.DeleteFriendsOptions.IsAddedToGroupsAndPages.Timer,

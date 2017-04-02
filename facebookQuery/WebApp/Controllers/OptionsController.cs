@@ -56,23 +56,30 @@ namespace WebApp.Controllers
         public ActionResult SetGroupMessages(long accountId, long groupId)
         {
             var account = new HomeService(new JobService(), new BackgroundJobService()).GetAccounts().FirstOrDefault(model => model.Id == accountId);
+            if (account == null)
+            {
+                return RedirectToAction("Index", new {accountId});
+            }
 
             _messageSettingService.SetGroupMessages(accountId, groupId);
 
-            if (account != null && !account.ProxyDataIsFailed && !account.AuthorizationDataIsFailed && !account.IsDeleted)
+            if (account.ProxyDataIsFailed || account.AuthorizationDataIsFailed || account.IsDeleted)
             {
-                RefreshFriends(accountId);
-                RefreshJobs(account, groupId);
+                return RedirectToAction("Index", new {accountId});
             }
+
+            RefreshFriends(accountId);
+            RefreshJobs(account, groupId);
 
             return RedirectToAction("Index", new { accountId });
         }
 
         private void RefreshFriends(long accountId)
         {
-            var refreshFriendsTask = new Task<bool>(() => _friendService.GetFriendsOfFacebook(new AccountViewModel { Id = accountId }));
+            var refreshFriendsTask = new Task<bool>(() => _friendService.GetCurrentFriends(new AccountViewModel { Id = accountId }));
             refreshFriendsTask.Start();
         }
+
         private static void RefreshJobs(AccountViewModel account, long groupId)
         {
             var settings = new GroupService(null).GetSettings(groupId);

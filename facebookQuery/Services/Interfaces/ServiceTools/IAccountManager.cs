@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
+using Services.ViewModels.AccountInformationModels;
 
 namespace Services.Interfaces.ServiceTools
 {
@@ -15,5 +16,7 @@ namespace Services.Interfaces.ServiceTools
         List<AccountModel> GetWorkAccounts();
 
         string CreateHomePageUrl(long accountFacebookId);
+
+        AccountInformationViewModel GetAccountInformation(long accountId);
     }
 }

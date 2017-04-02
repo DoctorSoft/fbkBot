@@ -12,9 +12,9 @@ using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine
 {
-    public class GetFriendsEngine : AbstractEngine<GetFriendsModel, List<GetFriendsResponseModel>>
+    public class GetFriendsEngine : AbstractEngine<GetFriendsModel, GetFriendsResponseModel>
     {
-        protected override List<GetFriendsResponseModel> ExecuteEngine(GetFriendsModel model)
+        protected override GetFriendsResponseModel ExecuteEngine(GetFriendsModel model)
         {
             if (model.UrlParameters == null) return null;
             
@@ -29,9 +29,9 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine
             return GetFriendsData(stringResponse);
         }
 
-        public static List<GetFriendsResponseModel> GetFriendsData(string pageRequest)
+        public static GetFriendsResponseModel GetFriendsData(string pageRequest)
         {
-            var friendsList = new List<GetFriendsResponseModel>();
+            var friendsList = new GetFriendsResponseModel();
 
             var regex = new Regex("id:\"*[^\")]*\",name:\"*[^\")]*\",firstName:\"*[^\")]*\",vanity:\"*[^\")]*\",thumbSrc:\"*[^\")]*\",uri:\"*[^\")]*\",gender:*[^\")]*,i");
             if (!regex.IsMatch(pageRequest)) return null;
@@ -53,7 +53,7 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine
                 var genderString = genderRegex.Match(friend.ToString()).ToString().Remove(0, 7);
                 var gender = Convert.ToInt32(genderString.Remove(genderString.Length - 2));
 
-                friendsList.Add(new GetFriendsResponseModel()
+                friendsList.Friends.Add(new FriendsResponseModel
                 {
                     FacebookId = Convert.ToInt64(id.Remove(id.Length-1)),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),

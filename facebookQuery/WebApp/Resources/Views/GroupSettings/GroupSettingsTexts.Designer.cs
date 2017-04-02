@@ -61,6 +61,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum permissible removal percentage of retired friends.
+        /// </summary>
+        public static string AllowedRemovalPercentage {
+            get {
+                return ResourceManager.GetString("AllowedRemovalPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cities.
         /// </summary>
         public static string Cities {
@@ -129,6 +138,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         public static string Countries {
             get {
                 return ResourceManager.GetString("Countries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friend options.
+        /// </summary>
+        public static string FriendOptions {
+            get {
+                return ResourceManager.GetString("FriendOptions", resourceCulture);
             }
         }
         
@@ -223,6 +241,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message options.
+        /// </summary>
+        public static string MessageOptions {
+            get {
+                return ResourceManager.GetString("MessageOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Messages.
         /// </summary>
         public static string Messages {
@@ -246,15 +273,6 @@ namespace WebApp.Resources.Views.GroupSettings {
         public static string Pages {
             get {
                 return ResourceManager.GetString("Pages", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Retry options.
-        /// </summary>
-        public static string RetryOptions {
-            get {
-                return ResourceManager.GetString("RetryOptions", resourceCulture);
             }
         }
         

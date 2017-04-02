@@ -10,18 +10,21 @@ using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
 {
-    public class GetRecommendedFriendsEngine : AbstractEngine<GetRecommendedFriendsModel, List<GetFriendsResponseModel>>
+    public class GetRecommendedFriendsEngine : AbstractEngine<GetRecommendedFriendsModel, GetFriendsResponseModel>
     {
-        protected override List<GetFriendsResponseModel> ExecuteEngine(GetRecommendedFriendsModel model)
+        protected override GetFriendsResponseModel ExecuteEngine(GetRecommendedFriendsModel model)
         {
             var stringResponse = RequestsHelper.Get(Urls.GetRecommendedFriends.GetDiscription(), model.Cookie, model.Proxy).Remove(0, 9);
 
             return GetFriendsData(stringResponse);
         }
 
-        public static List<GetFriendsResponseModel> GetFriendsData(string pageRequest)
+        public static GetFriendsResponseModel GetFriendsData(string pageRequest)
         {
-            var friendsList = new List<GetFriendsResponseModel>();
+            var friendsList = new GetFriendsResponseModel
+            {
+                Friends = new List<FriendsResponseModel>()
+            };
 
             var incomingPattern = new Regex("clearfix ruUserBox _3-z friendRequestItem\".*?</div></div></div></div></div>");
             var recommendedFriendsPattern = new Regex("clearfix ruUserBox _3-z\".*?</div></div></div></div>");
@@ -30,6 +33,8 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
             var incomingCollection = incomingPattern.Matches(pageRequest);
             var recommendedFriendsCollection = recommendedFriendsPattern.Matches(pageRequest);
             var recommendedCollection = recommendedPattern.Matches(pageRequest);
+
+            friendsList.CountIncommingFriends = incomingCollection.Count;
 
             foreach (var incomingFriend in incomingCollection)
             {
@@ -43,7 +48,7 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
                 var index2 = dataStep2.IndexOf(">", StringComparison.Ordinal);
                 var name = dataStep2.Remove(0, index2 + 1);
 
-                friendsList.Add(new GetFriendsResponseModel
+                friendsList.Friends.Add(new FriendsResponseModel
                 {
                     FacebookId = Convert.ToInt64(id),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),
@@ -69,7 +74,7 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
                     name = name.Remove(index3);
                 }
 
-                friendsList.Add(new GetFriendsResponseModel()
+                friendsList.Friends.Add(new FriendsResponseModel
                 {
                     FacebookId = Convert.ToInt64(id),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),
@@ -94,8 +99,8 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
                 {
                     name = name.Remove(index3);
                 }
-                
-                friendsList.Add(new GetFriendsResponseModel()
+
+                friendsList.Friends.Add(new FriendsResponseModel
                 {
                     FacebookId = Convert.ToInt64(id),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),

@@ -129,4 +129,10 @@
   <data name="ConformationError" xml:space="preserve">
     <value>Аккаунту нужно подтверждение</value>
   </data>
+  <data name="CountCurrentFriends" xml:space="preserve">
+    <value>Текущих друзей</value>
+  </data>
+  <data name="CountIncommingFriendsRequest" xml:space="preserve">
+    <value>Входящих заявок в друзья</value>
+  </data>
 </root>

@@ -12,9 +12,9 @@ using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsByCriteriesEngine
 {
-    public class GetFriendsByCriteriesEngine : AbstractEngine<GetFriendsByCriteriesModel, List<GetFriendsResponseModel>>
+    public class GetFriendsByCriteriesEngine : AbstractEngine<GetFriendsByCriteriesModel, GetFriendsResponseModel>
     {
-        protected override List<GetFriendsResponseModel> ExecuteEngine(GetFriendsByCriteriesModel model)
+        protected override GetFriendsResponseModel ExecuteEngine(GetFriendsByCriteriesModel model)
         {
             if (model.UrlParameters == null)
             {
@@ -36,9 +36,9 @@ namespace Engines.Engines.GetFriendsByCriteriesEngine
             return GetFriendsData(stringResponse);
         }
 
-        public static List<GetFriendsResponseModel> GetFriendsData(string pageRequest)
+        public static GetFriendsResponseModel GetFriendsData(string pageRequest)
         {
-            var friendsList = new List<GetFriendsResponseModel>();
+            var friendsList = new GetFriendsResponseModel();
 
             var regex = new Regex("<li class=\"friendBrowserListUnit\".*?</li>");
             if (!regex.IsMatch(pageRequest))
@@ -63,7 +63,7 @@ namespace Engines.Engines.GetFriendsByCriteriesEngine
                 var genderString = genderRegex.Match(friend.ToString()).ToString().Remove(0, 7);
                 var gender = Convert.ToInt32(genderString.Remove(genderString.Length - 2));
 
-                friendsList.Add(new GetFriendsResponseModel()
+                friendsList.Friends.Add(new FriendsResponseModel
                 {
                     FacebookId = Convert.ToInt64(id.Remove(id.Length-1)),
                     FriendName = ConvertToUTF8(name.Remove(name.Length - 1)),

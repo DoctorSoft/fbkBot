@@ -159,8 +159,8 @@
   <data name="Pages" xml:space="preserve">
     <value>Страницы</value>
   </data>
-  <data name="RetryOptions" xml:space="preserve">
-    <value>Настройки повторов</value>
+  <data name="MessageOptions" xml:space="preserve">
+    <value>Настройки сообщений</value>
   </data>
   <data name="RetryTimeConfirmFriendships" xml:space="preserve">
     <value>Подтвержать дружбу каждые</value>
@@ -221,5 +221,11 @@
   </data>
   <data name="RetryTimeJoinPage" xml:space="preserve">
     <value>Приглашать в сообщества каждые</value>
+  </data>
+  <data name="AllowedRemovalPercentage" xml:space="preserve">
+    <value>Максимальный дозволенный процент удалившихся из друзей</value>
+  </data>
+  <data name="FriendOptions" xml:space="preserve">
+    <value>Настройки друзей</value>
   </data>
 </root>

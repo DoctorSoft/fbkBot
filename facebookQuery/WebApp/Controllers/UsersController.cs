@@ -16,7 +16,7 @@ namespace WebApp.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var accounts = _homeService.GetAccounts();
+            var accounts = _homeService.GetDataAccounts();
             return View(accounts);
         }
 

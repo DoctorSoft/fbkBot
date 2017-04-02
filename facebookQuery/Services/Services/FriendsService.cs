@@ -6,6 +6,7 @@ using CommonModels;
 using Constants.FriendTypesEnum;
 using DataBase.Constants;
 using DataBase.Context;
+using DataBase.QueriesAndCommands.Commands.AccountInformation;
 using DataBase.QueriesAndCommands.Commands.AccountStatistics;
 using DataBase.QueriesAndCommands.Commands.AnalysisFriends;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
@@ -20,6 +21,7 @@ using DataBase.QueriesAndCommands.Commands.Friends.MarkWinkedFriendsFriendComman
 using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Models;
+using DataBase.QueriesAndCommands.Models.JsonModels.AccountInformationModels;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
@@ -66,7 +68,6 @@ namespace Services.Services
             _seleniumManager = new SeleniumManager();
             _analysisFriendsManager = new AnalysisFriendsManager();
         }
-
 
         public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
         {
@@ -180,36 +181,47 @@ namespace Services.Services
             return result;
         }
 
-        public bool GetFriendsOfFacebook(AccountViewModel account)
+        public bool GetCurrentFriends(AccountViewModel account)
         {
             _notice.AddNotice(account.Id, "Начинаем обновлять список друзей");
+            
+            var groupId = account.GroupSettingsId;
 
-            var accountModel_ = _accountManager.GetAccountById(account.Id); //for task in optionController
+            if (groupId == null)
+            {
+                _notice.AddNotice(account.Id, "Ошибка! Группа не выбрана.");
+                return false;
+            }
+
+            var settings = _accountSettingsManager.GetSettings((long)groupId);
+            var accountInformation = _accountManager.GetAccountInformation((long)groupId);
+ 
+            var accountDbModel = _accountManager.GetAccountById(account.Id); //for task in optionController
 
             var accountModel = new AccountModel
             {
-                AuthorizationDataIsFailed = accountModel_.AuthorizationDataIsFailed,
+                AuthorizationDataIsFailed = accountDbModel.AuthorizationDataIsFailed,
                 Cookie = new CookieModel
                 {
-                    CookieString = accountModel_.Cookie.CookieString,
-                    CreateDateTime = accountModel_.Cookie.CreateDateTime
+                    CookieString = accountDbModel.Cookie.CookieString,
+                    CreateDateTime = accountDbModel.Cookie.CreateDateTime
                 },
-                ProxyDataIsFailed = accountModel_.ProxyDataIsFailed,
-                Id = accountModel_.Id,
-                Name = accountModel_.Name,
-                Proxy = accountModel_.Proxy,
-                FacebookId = accountModel_.FacebookId,
-                GroupSettingsId = accountModel_.GroupSettingsId,
-                Login = accountModel_.Login,
-                PageUrl = accountModel_.PageUrl,
-                Password = accountModel_.Password,
-                ProxyLogin = accountModel_.ProxyLogin,
-                ProxyPassword = accountModel_.ProxyPassword
+                ProxyDataIsFailed = accountDbModel.ProxyDataIsFailed,
+                Id = accountDbModel.Id,
+                Name = accountDbModel.Name,
+                Proxy = accountDbModel.Proxy,
+                FacebookId = accountDbModel.FacebookId,
+                GroupSettingsId = accountDbModel.GroupSettingsId,
+                Login = accountDbModel.Login,
+                PageUrl = accountDbModel.PageUrl,
+                Password = accountDbModel.Password,
+                ProxyLogin = accountDbModel.ProxyLogin,
+                ProxyPassword = accountDbModel.ProxyPassword
             };
 
             _notice.AddNotice(account.Id, "Получаем текущих друзей");
 
-            var friends = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
+            var friendsModels = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
             {
                 Cookie = accountModel.Cookie.CookieString,
                 AccountFacebookId = accountModel.FacebookId,
@@ -221,8 +233,20 @@ namespace Services.Services
                 })
             });
 
+            var friends = friendsModels.Friends;
+
             _notice.AddNotice(account.Id, "Список текущих друзей получен, количество - " + friends.Count);
 
+            _notice.AddNotice(account.Id, string.Format("Учитываем погрешность {0}%", settings.AllowedRemovalPercentage));
+
+            var notError = _friendManager.RecountError(accountInformation.CountCurrentFriends, friends.Count,
+                settings.AllowedRemovalPercentage);
+
+            if (!notError)
+            {
+                _notice.AddNotice(account.Id, string.Format("Ошибка получения друзей. Получено - {0}, текущее колиство в базе - {1}, погрешность - {2}%", friends.Count, settings.AllowedRemovalPercentage, settings.AllowedRemovalPercentage));
+                return false;
+            }
 
             var outgoingFriendships = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
             {
@@ -269,7 +293,7 @@ namespace Services.Services
                 let isBlocked = new CheckForFriendBlacklistedQueryHandler().Handle(new CheckForFriendBlacklistedQuery
                 {
                     FriendFacebookId = friend.FacebookId,
-                    GroupSettingsId = (long)accountModel.GroupSettingsId
+                    GroupSettingsId = (long)groupId
                 })
                 where !isBlocked
                 select new FriendData
@@ -284,10 +308,19 @@ namespace Services.Services
 
             _notice.AddNotice(account.Id, "Сохраняем друзей");
 
-            new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand()
+            new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand
             {
                 AccountId = accountModel.Id,
                 Friends = newFriendList
+            });
+
+            new AddAccountInformationCommandHandler(new DataBaseContext()).Handle(new AddAccountInformationCommand
+            {
+                AccountId = account.Id,
+                AccountInformationData = new AccountInformationDataDbModel
+                {
+                    CountCurrentFriends = friends.Count
+                }
             });
 
             _notice.AddNotice(account.Id, "Обновление друзей завершено.");
@@ -580,15 +613,15 @@ namespace Services.Services
 
             _notice.AddNotice(account.Id, "Получаем рекомендованных друзей");
 
-            var friendListResponseModels = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel()
+            var friendListResponseModels = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel
             {
                 Cookie = accountModel.Cookie.CookieString,
                 Proxy = _accountManager.GetAccountProxy(accountModel)
             });
 
-            _notice.AddNotice(account.Id, "Список рекомендованных друзей получен - " + friendListResponseModels.Count);
+            _notice.AddNotice(account.Id, "Список рекомендованных друзей получен - " + friendListResponseModels.Friends.Count);
 
-            var friendList = friendListResponseModels.Select(model => new AnalysisFriendData
+            var friendList = friendListResponseModels.Friends.Select(model => new AnalysisFriendData
             {
                 AccountId = accountModel.Id,
                 FacebookId = model.FacebookId,
@@ -609,7 +642,16 @@ namespace Services.Services
                 AccountId = accountModel.Id,
                 Friends = certifiedListFriends
             });
-            
+
+            new AddAccountInformationCommandHandler(new DataBaseContext()).Handle(new AddAccountInformationCommand
+            {
+                AccountId = account.Id,
+                AccountInformationData = new AccountInformationDataDbModel
+                {
+                    CountIncommingFriendsRequest = friendListResponseModels.CountIncommingFriends
+                }
+            });
+
             _notice.AddNotice(account.Id, "Получение рекомендованных друзей завершено.");
             return new NewFriendListViewModel
             {

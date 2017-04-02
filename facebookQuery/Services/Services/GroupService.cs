@@ -439,6 +439,8 @@ namespace Services.Services
                 Gender = settings.GeoOptions.Gender,
                 Cities = settings.GeoOptions.Cities,
                 Countries = settings.GeoOptions.Countries,
+
+                //friends options
                 RetryTimeSendUnreadHour = settings.MessageOptions.RetryTimeSendUnread.Hours,
                 RetryTimeSendUnreadMin = settings.MessageOptions.RetryTimeSendUnread.Minutes,
                 RetryTimeSendUnreadSec = settings.MessageOptions.RetryTimeSendUnread.Seconds,
@@ -451,6 +453,9 @@ namespace Services.Services
                 RetryTimeRefreshFriendsHour = settings.FriendsOptions.RetryTimeRefreshFriends.Hours,
                 RetryTimeRefreshFriendsMin = settings.FriendsOptions.RetryTimeRefreshFriends.Minutes,
                 RetryTimeRefreshFriendsSec = settings.FriendsOptions.RetryTimeRefreshFriends.Seconds,
+                AllowedRemovalPercentage = settings.FriendsOptions.AllowedRemovalPercentage,
+                
+                //messages options
                 RetryTimeSendNewFriendHour = settings.MessageOptions.RetryTimeSendNewFriend.Hours,
                 RetryTimeSendNewFriendMin = settings.MessageOptions.RetryTimeSendNewFriend.Minutes,
                 RetryTimeSendNewFriendSec = settings.MessageOptions.RetryTimeSendNewFriend.Seconds,
@@ -560,6 +565,7 @@ namespace Services.Services
                     Minutes = newSettings.RetryTimeSendRequestFriendshipsMin,
                     Seconds = newSettings.RetryTimeSendRequestFriendshipsSec
                 },
+                AllowedRemovalPercentage = newSettings.AllowedRemovalPercentage
             };
 
             var messageOptions = new MessageOptionsDbModel

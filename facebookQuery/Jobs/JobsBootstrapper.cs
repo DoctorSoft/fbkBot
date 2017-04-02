@@ -10,10 +10,10 @@ namespace Jobs
         public static void SetUpJobs()
         {
             //todo: uncomment it back
-            var accounts = new HomeService(new JobService(), new BackgroundJobService()).GetAccounts();
+            var accountModels = new HomeService(new JobService(), new BackgroundJobService()).GetAccounts();
             var groupService = new GroupService(new NoticesProxy());
 
-            foreach (var account in accounts)
+            foreach (var account in accountModels)
             {
                 //not creating jobs for the account without group
                 if (account.GroupSettingsId == null)

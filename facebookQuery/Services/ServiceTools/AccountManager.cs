@@ -4,7 +4,9 @@ using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.AccountInformation;
 using Services.Interfaces.ServiceTools;
+using Services.ViewModels.AccountInformationModels;
 
 namespace Services.ServiceTools
 {
@@ -16,6 +18,27 @@ namespace Services.ServiceTools
             {
                 UserId = accountId
             });
+        }
+        public AccountInformationViewModel GetAccountInformation(long accountId)
+        {
+            var accountInformationModel = new GetAccountInformationQueryHandler(new DataBaseContext()).Handle(new GetAccountInformationQuery
+            {
+                AccountId = accountId
+            });
+
+            if (accountInformationModel == null)
+            {
+                return new AccountInformationViewModel();
+            }
+
+            var result = new AccountInformationViewModel
+            {
+                CountCurrentFriends = accountInformationModel.AccountInformationData != null ? accountInformationModel.AccountInformationData.CountCurrentFriends : 0,
+                CountNewMessages = accountInformationModel.AccountInformationData!=null ? accountInformationModel.AccountInformationData.CountNewMessages : 0,
+                CountIncommingFriendsRequest = accountInformationModel.AccountInformationData != null ? accountInformationModel.AccountInformationData.CountIncommingFriendsRequest : 0
+            };
+
+            return result;
         }
 
         public WebProxy GetAccountProxy(AccountModel account)

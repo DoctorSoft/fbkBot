@@ -61,5 +61,17 @@ namespace Services.ServiceTools
             }
             return result;
         }
+
+        public bool RecountError(long currentFriendsCount, long newFriendsCount, long percent)
+        {
+            if (currentFriendsCount == 0)
+            {
+                return true;
+            }
+
+            var countError = currentFriendsCount/100*percent;
+
+            return currentFriendsCount - countError >= newFriendsCount;
+        }
     }
 }

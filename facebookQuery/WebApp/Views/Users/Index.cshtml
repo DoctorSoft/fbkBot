@@ -3,7 +3,7 @@
 }
 
 @using WebApp.Resources.Views.Users
-@model List<Services.ViewModels.HomeModels.AccountViewModel>
+@model List<Services.ViewModels.HomeModels.AccountDataViewModel>
 
 @section scripts
 {
@@ -69,8 +69,11 @@
         <h3 class="alert-info alert"> @UsersTexts.AddNewAccount <a href="@Url.Action("Index", "UserEditor")"><i class="fa fa-plus-circle"></i></a></h3>
     </div>
     <div class="panel-footer">
-        @foreach (var account in @Model)
+        @foreach (var accountData in @Model)
         {
+            var account = accountData.Account;
+            var accountInformation = accountData.AccountInformation;
+            
             var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.ConformationDataIsFailed ? "alert-danger" : "alert-success";
             var errorText = account.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : account.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : account.ConformationDataIsFailed ? @UsersTexts.ConformationError : null;
             
@@ -109,6 +112,24 @@
                         <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@account.Id" href=""><i class="fa fa-close"></i></a>
                     </div>
                 </div>
+                @if (accountInformation != null && !account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
+                {
+                    <div class="alert alert-info" style="margin-bottom: 0 !important">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @UsersTexts.CountCurrentFriends : @accountInformation.CountCurrentFriends
+                                </div>
+                                <div class="col-md-4">
+                                    @UsersTexts.CountIncommingFriendsRequest : @accountInformation.CountIncommingFriendsRequest
+                                </div>
+                                <div class="col-md-4">
+                                    3
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
                 @if (!account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
                 {
                     <div class="alert alert-info" style="margin-bottom: 0 !important">

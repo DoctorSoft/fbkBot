@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\AccountInformationConfiguration.cs" />
     <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
     <Compile Include="Configurations\NewSettingsConfiguration.cs" />
@@ -290,7 +291,12 @@
     <Compile Include="Migrations\201704011617461_AddFieldForConformationAccountError.Designer.cs">
       <DependentUpon>201704011617461_AddFieldForConformationAccountError.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704021754568_AddAccountInformationTable.cs" />
+    <Compile Include="Migrations\201704021754568_AddAccountInformationTable.Designer.cs">
+      <DependentUpon>201704021754568_AddAccountInformationTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
+    <Compile Include="Models\AccountInformationDbModel.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
@@ -317,6 +323,8 @@
     <Compile Include="Models\StopWordDbModel.cs" />
     <Compile Include="Models\UrlParametersDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AccountInformation\AddAccountInformationCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\AccountInformation\AddAccountInformationCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\AddOrUpdateAccountCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Accounts\UpdateFailAccountInformationCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommand.cs" />
@@ -444,6 +452,7 @@
     <Compile Include="QueriesAndCommands\Models\ConditionModels\IsWinkModel.cs" />
     <Compile Include="QueriesAndCommands\Models\ConditionModels\IsAddedToGroupsAndPagesModel.cs" />
     <Compile Include="QueriesAndCommands\Models\ConditionModels\DialogIsOverModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\JsonModels\AccountInformationModels\AccountInformationDataDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\CommunityOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\DeleteFriendsOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\JobInformationModel\JobInformationDbModel.cs" />
@@ -453,6 +462,9 @@
     <Compile Include="QueriesAndCommands\Models\JsonModels\WinkFriendsOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\MessageOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\ScheduleRemovalOfFriendsModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountInformation\AccountInformation.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountInformation\GetAccountInformationQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\AccountInformation\GetAccountInformationQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommand.cs" />
@@ -735,6 +747,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704011617461_AddFieldForConformationAccountError.resx">
       <DependentUpon>201704011617461_AddFieldForConformationAccountError.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704021754568_AddAccountInformationTable.resx">
+      <DependentUpon>201704021754568_AddAccountInformationTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

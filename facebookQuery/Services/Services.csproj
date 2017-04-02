@@ -194,12 +194,14 @@
     <Compile Include="ServiceTools\FacebookMessageManager.cs" />
     <Compile Include="ServiceTools\FriendManager.cs" />
     <Compile Include="ServiceTools\MessageManager.cs" />
+    <Compile Include="ViewModels\AccountInformationModels\AccountInformationViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendListViewModel.cs" />
     <Compile Include="ViewModels\FriendsModels\AnalizeFriendViewModel.cs" />
     <Compile Include="ViewModels\FrindsBlackListModels\BlockedFriendViewModel.cs" />
     <Compile Include="ViewModels\FrindsBlackListModels\FriendsBlackListViewModel.cs" />
     <Compile Include="ViewModels\GroupModels\GroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\HomeModels\AccountSettingsViewModel.cs" />
+    <Compile Include="ViewModels\HomeModels\AccountDataViewModel.cs" />
     <Compile Include="ViewModels\JobStatusModels\JobInformationModel.cs" />
     <Compile Include="ViewModels\JobStatusModels\JobStatusViewModel.cs" />
     <Compile Include="ViewModels\NewSettingsModels\CommunityOptionsViewModel.cs" />

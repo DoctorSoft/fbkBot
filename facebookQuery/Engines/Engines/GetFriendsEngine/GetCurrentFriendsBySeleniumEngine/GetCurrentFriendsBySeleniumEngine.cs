@@ -4,17 +4,19 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using CommonModels;
 using OpenQA.Selenium;
-using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
 
 namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 {
-    public class GetCurrentFriendsBySeleniumEngine : AbstractEngine<GetCurrentFriendsBySeleniumModel, List<GetFriendsResponseModel>>
+    public class GetCurrentFriendsBySeleniumEngine : AbstractEngine<GetCurrentFriendsBySeleniumModel, GetFriendsResponseModel>
     {
-        protected override List<GetFriendsResponseModel> ExecuteEngine(GetCurrentFriendsBySeleniumModel model)
+        protected override GetFriendsResponseModel ExecuteEngine(GetCurrentFriendsBySeleniumModel model)
         {
             var driver = model.Driver;
-            var friendsList = new List<GetFriendsResponseModel>();
+            var friendsList = new GetFriendsResponseModel
+            {
+                Friends = new List<FriendsResponseModel>()
+            };
 
             var path = "/";
             var domain = ".facebook.com";
@@ -59,12 +61,14 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
                     var name = webElement.Text;
                     var id = ParseFacebookId(webElement.GetAttribute("data-gt"));
                     var uri = "https://www.facebook.com/profile.php?id=" + id;
-                    friendsList.Add(new GetFriendsResponseModel
+
+                    var friendModels = new FriendsResponseModel
                     {
                         FacebookId = id,
                         FriendName = name,
                         Uri = uri
-                    });
+                    };
+                    friendsList.Friends.Add(friendModels);
                 }
 
                 driver.Quit();
@@ -105,7 +109,6 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 
             Thread.Sleep(1000);
         }
-
 
         private static IReadOnlyCollection<IWebElement> GetFriendLinks(RemoteWebDriver driver)
         {

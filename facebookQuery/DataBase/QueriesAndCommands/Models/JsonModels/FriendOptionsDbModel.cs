@@ -11,5 +11,7 @@ namespace DataBase.QueriesAndCommands.Models.JsonModels
         public TimeModel RetryTimeRefreshFriends { get; set; }
 
         public TimeModel RetryTimeSendRequestFriendships { get; set; }
+
+        public int AllowedRemovalPercentage { get; set; }
     }
 }
