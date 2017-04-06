@@ -82,7 +82,7 @@ namespace Services.Services
             {
                 if (accountModel.GroupSettingsId != null)
                 {
-                    var information = _accountManager.GetAccountInformation((long) accountModel.GroupSettingsId);
+                    var information = _accountManager.GetAccountInformation(accountModel.Id);
                     result.Add(new AccountDataViewModel
                     {
                         Account = new AccountViewModel
@@ -131,7 +131,9 @@ namespace Services.Services
                 });
             }
 
-            return result;
+            var orderAccounts = _accountManager.SortAccountsByWorkStatus(result);
+
+            return orderAccounts;
         }
 
         public List<AccountViewModel> GetWorkAccounts()
@@ -157,6 +159,7 @@ namespace Services.Services
                 IsDeleted = model.IsDeleted
             }).ToList();
         }
+
         public List<AccountViewModel> GetDeletedAccounts()
         {
             var accounts = new GetDeletedAccountsQueryHandler(new DataBaseContext()).Handle(new GetDeletedAccountsQuery
@@ -408,7 +411,29 @@ namespace Services.Services
                 return accountId;
             }
 
-            //backgroundJobService.AddOrUpdateAccountJobs(new AccountViewModel(), ) 
+            var modelForJob = new AddOrUpdateAccountModel
+            {
+                Account = new AccountViewModel
+                {
+                    Id = accountId,
+                    PageUrl = account.PageUrl,
+                    Login = account.Login,
+                    Password = account.Password,
+                    FacebookId = account.FacebookId,
+                    Proxy = account.Proxy,
+                    ProxyLogin = account.ProxyLogin,
+                    ProxyPassword = account.ProxyPassword,
+                    Cookie = account.Cookie.CookieString,
+                    Name = model.Name,
+                    GroupSettingsId = account.GroupSettingsId,
+                    AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
+                    ProxyDataIsFailed = account.ProxyDataIsFailed,
+                    ConformationDataIsFailed = account.ConformationIsFailed,
+                    IsDeleted = account.IsDeleted
+                }
+            };
+
+            _jobService.AddOrUpdateAccountJobs(modelForJob);
             
             return accountId;
         }

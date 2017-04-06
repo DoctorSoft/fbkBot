@@ -15,13 +15,7 @@ namespace Jobs
 
             foreach (var account in accountModels)
             {
-                //not creating jobs for the account without group
-                if (account.GroupSettingsId == null)
-                {
-                    continue;
-                }
-
-                var settings = groupService.GetSettings((long)account.GroupSettingsId);
+                var settings = account.GroupSettingsId != null ? groupService.GetSettings((long)account.GroupSettingsId) : null;
 
                 var model = new AddOrUpdateAccountModel
                 {
@@ -30,9 +24,9 @@ namespace Jobs
                     OldSettings = null
                 };
 
-                new JobService().AddOrUpdateAccountJobs(model);
-
                 new BackgroundJobService().AddOrUpdateAccountJobs(model);
+
+                new JobService().AddOrUpdateAccountJobs(model);
             }
         }
     }

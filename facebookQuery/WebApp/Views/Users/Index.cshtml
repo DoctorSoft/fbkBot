@@ -117,14 +117,20 @@
                     <div class="alert alert-info" style="margin-bottom: 0 !important">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-4">
-                                    @UsersTexts.CountCurrentFriends : @accountInformation.CountCurrentFriends
+                                <div class="col-md-3">
+                                    @UsersTexts.CountCurrentFriends :
+                                    <span class="badge">
+                                        @accountInformation.CountCurrentFriends
+                                    </span>
                                 </div>
-                                <div class="col-md-4">
-                                    @UsersTexts.CountIncommingFriendsRequest : @accountInformation.CountIncommingFriendsRequest
+                                <div class="col-md-3">
+                                    @UsersTexts.CountIncommingFriendsRequest : 
+                                    <span class="badge">
+                                        @accountInformation.CountIncommingFriendsRequest
+                                    </span>
                                 </div>
-                                <div class="col-md-4">
-                                    3
+                                <div class="col-md-6">
+                                    
                                 </div>
                             </div>
                         </div>

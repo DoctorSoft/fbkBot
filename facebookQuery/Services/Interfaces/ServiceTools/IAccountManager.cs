@@ -2,6 +2,7 @@
 using System.Net;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using Services.ViewModels.AccountInformationModels;
+using Services.ViewModels.HomeModels;
 
 namespace Services.Interfaces.ServiceTools
 {
@@ -18,5 +19,7 @@ namespace Services.Interfaces.ServiceTools
         string CreateHomePageUrl(long accountFacebookId);
 
         AccountInformationViewModel GetAccountInformation(long accountId);
+
+        List<AccountDataViewModel> SortAccountsByWorkStatus(List<AccountDataViewModel> accounts);
     }
 }

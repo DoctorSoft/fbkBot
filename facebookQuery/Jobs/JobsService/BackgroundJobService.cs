@@ -96,6 +96,11 @@ namespace Jobs.JobsService
                 return false;
             }
 
+            if (newSettings == null && oldSettings == null)
+            {
+                return false;
+            }
+
             //community
             var joinTheGroupLaunchTime = new TimeSpan(0, 0, 10);
             var inviteToGroupLaunchTime = SetLaunchTime(FunctionName.InviteToGroups, newSettings, oldSettings);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Constants;
@@ -25,8 +26,9 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetUnreadMessagesEnum)pair.Key, pair => pair.Value);
 
-            parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString();
+            parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString(CultureInfo.InvariantCulture);
             parametersDictionary[GetUnreadMessagesEnum.FbDtsg] = fbDtsg;
+            parametersDictionary[GetUnreadMessagesEnum.InboxFilter] = ""; 
 
             var parameters = CreateParametersString(parametersDictionary);
 

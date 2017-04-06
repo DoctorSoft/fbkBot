@@ -181,8 +181,10 @@ namespace Services.Services
             return result;
         }
 
-        public bool GetCurrentFriends(AccountViewModel account)
+        public bool GetCurrentFriends(AccountViewModel accountViewModel)
         {
+            var account = _accountManager.GetAccountById(accountViewModel.Id);
+
             _notice.AddNotice(account.Id, "Начинаем обновлять список друзей");
             
             var groupId = account.GroupSettingsId;

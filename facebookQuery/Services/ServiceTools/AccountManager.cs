@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Queries.Account;
@@ -7,6 +8,7 @@ using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AccountInformation;
 using Services.Interfaces.ServiceTools;
 using Services.ViewModels.AccountInformationModels;
+using Services.ViewModels.HomeModels;
 
 namespace Services.ServiceTools
 {
@@ -79,6 +81,12 @@ namespace Services.ServiceTools
             var account = GetAccountById(accountId);
 
             return !account.AuthorizationDataIsFailed;
+        }
+
+        public List<AccountDataViewModel> SortAccountsByWorkStatus(List<AccountDataViewModel> accounts)
+        {
+            var result = accounts.OrderByDescending(model => !model.Account.ProxyDataIsFailed && !model.Account.AuthorizationDataIsFailed && !model.Account.ConformationDataIsFailed).ToList();
+            return result;
         }
     }
 }

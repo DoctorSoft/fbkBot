@@ -20,6 +20,9 @@ namespace DataBase.QueriesAndCommands.Queries.Account
             var models = 
                 _context.Accounts.Include(model => model.Cookies)
                 .Where(model => model.GroupSettingsId == query.GroupSettingsId)
+                .Where(model => !model.AuthorizationDataIsFailed)
+                .Where(model => !model.ProxyDataIsFailed)
+                .Where(model => !model.ConformationIsFailed)
                 .Where(model => !model.IsDeleted)
                 .Select(model => new AccountModel
                 {

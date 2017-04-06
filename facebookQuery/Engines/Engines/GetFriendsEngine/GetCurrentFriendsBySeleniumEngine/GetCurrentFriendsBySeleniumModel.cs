@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Remote;
+﻿using System.Net;
+using OpenQA.Selenium.Remote;
 
 namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 {
@@ -9,5 +10,7 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
         public long AccountFacebookId { get; set; }
 
         public string Cookie { get; set; }
+
+        public WebProxy Proxy { get; set; }
     }
 }

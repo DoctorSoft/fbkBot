@@ -12,21 +12,25 @@ namespace Services.Services
     {
         public bool RefreshCookies(AccountViewModel account)
         {
-            var proxyIsFailed = new CheckProxyEngine().Execute(new CheckProxyModel()
+            if (account.Proxy != null)
             {
-                Driver = RegisterNewDriver(account)
-            });
 
-            new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
-                new UpdateFailAccountInformationCommand
+                var proxyIsFailed = new CheckProxyEngine().Execute(new CheckProxyModel()
                 {
-                    AccountId = account.Id,
-                    ProxyDataIsFailed = proxyIsFailed
+                    Driver = RegisterNewDriver(account)
                 });
 
-            if (proxyIsFailed)
-            {
-                return false;
+                new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                    new UpdateFailAccountInformationCommand
+                    {
+                        AccountId = account.Id,
+                        ProxyDataIsFailed = proxyIsFailed
+                    });
+
+                if (proxyIsFailed)
+                {
+                    return false;
+                }
             }
 
             var cookieResponse = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()

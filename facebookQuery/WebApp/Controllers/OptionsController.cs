@@ -63,7 +63,7 @@ namespace WebApp.Controllers
 
             _messageSettingService.SetGroupMessages(accountId, groupId);
 
-            if (account.ProxyDataIsFailed || account.AuthorizationDataIsFailed || account.IsDeleted)
+            if (account.ProxyDataIsFailed || account.AuthorizationDataIsFailed || account.ConformationDataIsFailed || account.IsDeleted)
             {
                 return RedirectToAction("Index", new {accountId});
             }
