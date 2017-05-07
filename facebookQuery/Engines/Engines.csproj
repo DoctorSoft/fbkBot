@@ -81,6 +81,14 @@
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendGenderModel.cs" />
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendInfoBySeleniumEngine.cs" />
     <Compile Include="Engines\GetFriendsEngine\CheckFriendInfoBySeleniumEngine\CheckFriendInfoBySeleniumModel.cs" />
+    <Compile Include="Engines\GetFriendsEngine\GetRandomFriendFriends\GetRandomFriendFriendsEngine.cs" />
+    <Compile Include="Engines\GetFriendsEngine\GetRandomFriendFriends\GetRandomFriendFriendsModel.cs" />
+    <Compile Include="Engines\GetFriendsEngine\GetRandomFriendFriends\GetRandomFriendResponseModel.cs" />
+    <Compile Include="Engines\GetFriendsEngine\GetRandomFriendFriends\GetRandomFriendModel.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetCorrespondenceRequests\GetCorrespondenceRequestsEndine.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetCorrespondenceRequests\GetCorrespondenceRequestsModel.cs" />
+    <Compile Include="Engines\GetNewWinks\GetNewWinksEngine.cs" />
+    <Compile Include="Engines\GetNewWinks\GetNewWinksModel.cs" />
     <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinThePagesBySeleniumEngine\JoinThePagesBySeleniumEngine.cs" />
     <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinThePagesBySeleniumEngine\JoinThePagesBySeleniumModel.cs" />
     <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinTheGroupsBySeleniumEngine\JoinTheGroupsBySeleniumEngine.cs" />

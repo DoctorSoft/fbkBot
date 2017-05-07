@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using CommonInterfaces.Interfaces.Services;
@@ -9,6 +10,7 @@ using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.AccountInformation;
 using DataBase.QueriesAndCommands.Commands.AccountStatistics;
 using DataBase.QueriesAndCommands.Commands.AnalysisFriends;
+using DataBase.QueriesAndCommands.Commands.CounterCheckFriends.MarkCounterCheckFriendsCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendTypeCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToEndDialogCommand;
@@ -22,16 +24,15 @@ using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand;
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Models.JsonModels.AccountInformationModels;
-using DataBase.QueriesAndCommands.Queries.Account;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
+using DataBase.QueriesAndCommands.Queries.CounterCheckFriends.GetCounterCheckFriendsByAccountId;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendById;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToRemove;
-using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToWink;
 using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using DataBase.QueriesAndCommands.Queries.UserAgent.GetUserAgentById;
 using Engines.Engines.CancelFriendshipRequestEngine;
 using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendsCountEngine;
@@ -39,7 +40,6 @@ using Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
 using Engines.Engines.RemoveFriendEngine;
 using Engines.Engines.SendRequestFriendshipEngine;
-using Engines.Engines.WinkEngine;
 using Services.Interfaces.Notices;
 using Services.Interfaces.ServiceTools;
 using Services.ServiceTools;
@@ -51,6 +51,7 @@ namespace Services.Services
     public class FriendsService
     {
         private readonly INoticesProxy _notice;
+        private readonly NoticeService _noticesService;
         private readonly IAccountManager _accountManager;
         private readonly IFriendManager _friendManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
@@ -58,9 +59,12 @@ namespace Services.Services
         private readonly ISeleniumManager _seleniumManager;
         private readonly IAnalysisFriendsManager _analysisFriendsManager;
 
+        private const int CountFriendsToGet = 10;
+
         public FriendsService(INoticesProxy noticeProxy)
         {
             _notice = noticeProxy;
+            _noticesService = new NoticeService();
             _accountManager = new AccountManager();
             _friendManager = new FriendManager();
             _accountSettingsManager = new AccountSettingsManager();
@@ -92,7 +96,8 @@ namespace Services.Services
                     IsAddedToPages = model.IsAddedToPages,
                     IsWinked = model.IsWinked,
                     MessageRegime = model.MessageRegime,
-                    AddedToRemoveDateTime = model.AddedToRemoveDateTime
+                    AddedToRemoveDateTime = model.AddedToRemoveDateTime,
+                    CountWinksToFriends = model.CountWinksToFriends
                 }).ToList()
             };
 
@@ -183,232 +188,151 @@ namespace Services.Services
 
         public bool GetCurrentFriends(AccountViewModel accountViewModel)
         {
+            const string functionName = "Обновление текущего списка друзей";
+
             var account = _accountManager.GetAccountById(accountViewModel.Id);
-
-            _notice.AddNotice(account.Id, "Начинаем обновлять список друзей");
             
-            var groupId = account.GroupSettingsId;
-
-            if (groupId == null)
+            try
             {
-                _notice.AddNotice(account.Id, "Ошибка! Группа не выбрана.");
-                return false;
-            }
-
-            var settings = _accountSettingsManager.GetSettings((long)groupId);
-            var accountInformation = _accountManager.GetAccountInformation((long)groupId);
- 
-            var accountDbModel = _accountManager.GetAccountById(account.Id); //for task in optionController
-
-            var accountModel = new AccountModel
-            {
-                AuthorizationDataIsFailed = accountDbModel.AuthorizationDataIsFailed,
-                Cookie = new CookieModel
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Начинаем обновлять список друзей"));
+                
+                var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
                 {
-                    CookieString = accountDbModel.Cookie.CookieString,
-                    CreateDateTime = accountDbModel.Cookie.CreateDateTime
-                },
-                ProxyDataIsFailed = accountDbModel.ProxyDataIsFailed,
-                Id = accountDbModel.Id,
-                Name = accountDbModel.Name,
-                Proxy = accountDbModel.Proxy,
-                FacebookId = accountDbModel.FacebookId,
-                GroupSettingsId = accountDbModel.GroupSettingsId,
-                Login = accountDbModel.Login,
-                PageUrl = accountDbModel.PageUrl,
-                Password = accountDbModel.Password,
-                ProxyLogin = accountDbModel.ProxyLogin,
-                ProxyPassword = accountDbModel.ProxyPassword
-            };
-
-            _notice.AddNotice(account.Id, "Получаем текущих друзей");
-
-            var friendsModels = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
-            {
-                Cookie = accountModel.Cookie.CookieString,
-                AccountFacebookId = accountModel.FacebookId,
-                Driver = _seleniumManager.RegisterNewDriver(new AccountViewModel
-                {
-                    Proxy = accountModel.Proxy,
-                    ProxyLogin = accountModel.ProxyLogin,
-                    ProxyPassword = accountModel.ProxyPassword
-                })
-            });
-
-            var friends = friendsModels.Friends;
-
-            _notice.AddNotice(account.Id, "Список текущих друзей получен, количество - " + friends.Count);
-
-            _notice.AddNotice(account.Id, string.Format("Учитываем погрешность {0}%", settings.AllowedRemovalPercentage));
-
-            var notError = _friendManager.RecountError(accountInformation.CountCurrentFriends, friends.Count,
-                settings.AllowedRemovalPercentage);
-
-            if (!notError)
-            {
-                _notice.AddNotice(account.Id, string.Format("Ошибка получения друзей. Получено - {0}, текущее колиство в базе - {1}, погрешность - {2}%", friends.Count, settings.AllowedRemovalPercentage, settings.AllowedRemovalPercentage));
-                return false;
-            }
-
-            var outgoingFriendships = new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
-            {
-                AccountId = accountModel.Id,
-                FriendsType = FriendTypes.Outgoig
-            });
-
-
-            if (friends.Count == 0)
-            {
-                _notice.AddNotice(account.Id, "Нет друзей. Обновление друзей завершено.");
-                return true;
-            }
-
-            _notice.AddNotice(account.Id, "Сверяем друзей с исходящими заявками");
-            foreach (var newFriend in friends)
-            {
-                if (outgoingFriendships.All(data => data.FacebookId != newFriend.FacebookId))
-                {
-                    continue;
-                }
-
-                _notice.AddNotice(account.Id, newFriend.FriendName + "Добавился в друзья ");
-
-                new DeleteAnalysisFriendByIdHandler(new DataBaseContext()).Handle(new DeleteAnalysisFriendById
-                {
-                    AnalysisFriendFacebookId = newFriend.FacebookId
+                    UserAgentId = account.UserAgentId
                 });
 
-                new AddOrUpdateAccountStatisticsCommandHandler(new DataBaseContext()).Handle(
-                    new AddOrUpdateAccountStatisticsCommand
+                var groupId = account.GroupSettingsId;
+
+                if (groupId == null)
+                {
+                    _notice.AddNotice(account.Id,_noticesService.ConvertNoticeText(functionName, "Ошибка! Группа не выбрана."));
+                    return false;
+                }
+
+                var settings = _accountSettingsManager.GetSettings((long) groupId);
+                var accountInformation = _accountManager.GetAccountInformation((long) groupId);
+                
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Получаем текущих друзей"));
+
+                var friends = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
+                {
+                    Cookie = account.Cookie,
+                    AccountFacebookId = account.FacebookId,
+                    Driver = _seleniumManager.RegisterNewDriver(new AccountViewModel
                     {
-                        AccountId = accountModel.Id,
-                        CountOrdersConfirmedFriends = 1
+                        Proxy = account.Proxy,
+                        ProxyLogin = account.ProxyLogin,
+                        ProxyPassword = account.ProxyPassword,
+                        UserAgentId = userAgent.Id
+                    }),
+                    Proxy = _accountManager.GetAccountProxy(account),
+                    UserAgent = userAgent.UserAgentString
+                });
+
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Список текущих друзей получен, количество - " + friends.Count));
+
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Учитываем погрешность {0}%", settings.AllowedRemovalPercentage)));
+
+                var notError = _friendManager.RecountError(accountInformation.CountCurrentFriends, friends.Count, settings.AllowedRemovalPercentage);
+
+                if (!notError)
+                {
+                    _notice.AddNotice(account.Id,_noticesService.ConvertNoticeText(functionName, string.Format("Ошибка получения друзей. Получено - {0}, текущее колиство в базе - {1}, погрешность - {2}%", friends.Count, accountInformation.CountCurrentFriends, settings.AllowedRemovalPercentage)));
+
+                    return false;
+                }
+
+                var outgoingFriendships =
+                    new GetFriendsByAccountIdQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountIdQuery
+                    {
+                        AccountId = account.Id,
+                        FriendsType = FriendTypes.Outgoig
                     });
 
-                _notice.AddNotice(account.Id, "Сверяем друзей с исходящими заявками");
-            }
 
-            // drop blocked users
-            _notice.AddNotice(account.Id, "Сверяем друзей с черным списком");
-
-            var newFriendList = (from friend in friends
-                let isBlocked = new CheckForFriendBlacklistedQueryHandler().Handle(new CheckForFriendBlacklistedQuery
+                if (friends.Count == 0)
                 {
-                    FriendFacebookId = friend.FacebookId,
-                    GroupSettingsId = (long)groupId
-                })
-                where !isBlocked
-                select new FriendData
-                {
-                    FacebookId = friend.FacebookId, 
-                    FriendName = friend.FriendName, 
-                    Href = friend.Uri, 
-                    Gender = friend.Gender
-                }).ToList();
-
-            _notice.AddNotice(account.Id, "Совпадений с черным списком - " + (friends.Count - newFriendList.Count));
-
-            _notice.AddNotice(account.Id, "Сохраняем друзей");
-
-            new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand
-            {
-                AccountId = accountModel.Id,
-                Friends = newFriendList
-            });
-
-            new AddAccountInformationCommandHandler(new DataBaseContext()).Handle(new AddAccountInformationCommand
-            {
-                AccountId = account.Id,
-                AccountInformationData = new AccountInformationDataDbModel
-                {
-                    CountCurrentFriends = friends.Count
+                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Нет друзей. Обновление друзей завершено."));
+                    
+                    return true;
                 }
-            });
 
-            _notice.AddNotice(account.Id, "Обновление друзей завершено.");
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,"Сверяем друзей с исходящими заявками"));
+                foreach (var newFriend in friends)
+                {
+                    if (outgoingFriendships.All(data => data.FacebookId != newFriend.FacebookId))
+                    {
+                        continue;
+                    }
+
+                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,newFriend.FriendName + "добавился в друзья "));
+
+                    new DeleteAnalysisFriendByIdHandler(new DataBaseContext()).Handle(new DeleteAnalysisFriendById
+                    {
+                        AnalysisFriendFacebookId = newFriend.FacebookId
+                    });
+
+                    new AddOrUpdateAccountStatisticsCommandHandler(new DataBaseContext()).Handle(
+                        new AddOrUpdateAccountStatisticsCommand
+                        {
+                            AccountId = account.Id,
+                            CountOrdersConfirmedFriends = 1
+                        });
+
+                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,"Сверяем друзей с исходящими заявками"));
+                }
+
+                // drop blocked users
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Сверяем друзей с черным списком"));
+
+                var newFriendList = (from friend in friends
+                    let isBlocked =
+                        new CheckForFriendBlacklistedQueryHandler().Handle(new CheckForFriendBlacklistedQuery
+                        {
+                            FriendFacebookId = friend.FacebookId,
+                            GroupSettingsId = (long) groupId
+                        })
+                    where !isBlocked
+                    select new FriendData
+                    {
+                        FacebookId = friend.FacebookId,
+                        FriendName = friend.FriendName,
+                        Href = friend.Uri,
+                        Gender = friend.Gender
+                    }).ToList();
+
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Совпадений с черным списком - " + (friends.Count - newFriendList.Count)));
+
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Сохраняем друзей"));
+
+                new SaveUserFriendsCommandHandler(new DataBaseContext()).Handle(new SaveUserFriendsCommand
+                {
+                    AccountId = account.Id,
+                    Friends = newFriendList
+                });
+
+                new AddAccountInformationCommandHandler(new DataBaseContext()).Handle(new AddAccountInformationCommand
+                {
+                    AccountId = account.Id,
+                    AccountInformationData = new AccountInformationDataDbModel
+                    {
+                        CountCurrentFriends = friends.Count
+                    }
+                });
+
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,"Обновление друзей завершено."));
+            }
+            catch (Exception ex)
+            {
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Ошибка - {0}", ex.Message)));
+            }
             return true;
-        }
-
-        public FriendViewModel GetFriendToWink(AccountViewModel account)
-        {
-            var groupId = account.GroupSettingsId;
-
-            if (groupId == null)
-            {
-                return null;
-            }
-
-            var model = new GetFriendToWinkQueryHandler(new DataBaseContext()).Handle(new GetFriendToWinkQuery
-            {
-                AccountId = account.Id,
-                GroupSettingsId = (long)groupId
-            });
-
-            if (model == null)
-            {
-                return null;    
-            }
-
-            return new FriendViewModel
-            {
-                AddDateTime = model.AddedDateTime,
-                Id = model.Id,
-                Deleted = model.Deleted,
-                FacebookId = model.FacebookId,
-                MessagesEnded = model.DialogIsCompleted,
-                Name = model.FriendName,
-                Href = model.Href,
-                IsAddedToGroups = model.IsAddedToGroups,
-                IsAddedToPages = model.IsAddedToPages,
-                IsWinked = model.IsWinked,
-                MessageRegime = model.MessageRegime,
-                AddedToRemoveDateTime = model.AddedToRemoveDateTime
-            };
-        }
-
-        public void WinkFriend(AccountViewModel account, long friendId)
-        {
-            if (account.GroupSettingsId == null)
-            {
-                return;
-            }
-
-            var friend = _friendManager.GetFriendById(friendId);
-
-            if (friend == null)
-            {
-                _notice.AddNotice(account.Id, string.Format("Нет друзей для подмигивания"));
-                return;
-            }
-
-            _notice.AddNotice(account.Id, string.Format("Подмигиваем другу {0}({1})", friend.FriendName, friend.FacebookId));
-            new WinkEngine().Execute(new WinkModel
-            {
-                AccountFacebookId = account.FacebookId,
-                Proxy = _accountManager.GetAccountProxy(new AccountModel
-                {
-                    Proxy = account.Proxy,
-                    ProxyLogin = account.ProxyLogin,
-                    ProxyPassword = account.ProxyPassword
-                }),
-                Cookie = account.Cookie,
-                FriendFacebookId = friend.FacebookId,
-                UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                {
-                    NameUrlParameter = NamesUrlParameter.Wink
-                })
-            });
-
-            _notice.AddNotice(account.Id, string.Format("Делаем отметку о подмигивании другу {0}({1})", friend.FriendName, friend.FacebookId));
-            new MarkWinkedFriendCommandHandler(new DataBaseContext()).Handle(new MarkWinkedFriendCommand
-            {
-                FriendId = friendId,
-                AccountId = account.Id
-            });
         }
 
         public void RemoveFriends(AccountViewModel account)
         {
+            const string functionName = "Удаление из друзей";
+
             if (account.GroupSettingsId == null)
             {
                 return;
@@ -418,7 +342,7 @@ namespace Services.Services
             var removeTimer = settings.DeletionFriendTimer;
             var minFriends = settings.CountMinFriends;
 
-            _notice.AddNotice(account.Id, string.Format("Получаем друзей для удаления"));
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Получаем друзей для удаления")));
 
             var friendsToRemove = new GetFriendsToRemoveQueryHandler(new DataBaseContext()).Handle(
             new GetFriendsToRemoveQuery
@@ -426,13 +350,18 @@ namespace Services.Services
                 AccountId = account.Id
             });
 
-            _notice.AddNotice(account.Id, string.Format("Получено {0} друзей", friendsToRemove.Count));
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Получено {0} друзей", friendsToRemove.Count)));
+            
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
 
             foreach (var friendData in friendsToRemove)
             {
                 var isReadyToRemove = friendData.AddedToRemoveDateTime != null && _friendManager.CheckConditionTime((DateTime)friendData.AddedToRemoveDateTime, removeTimer);
 
-                _notice.AddNotice(account.Id, string.Format("Статус для удаления друга {0}({1}) = {2}", friendData.FriendName, friendData.FacebookId, isReadyToRemove));
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Статус для удаления друга {0}({1}) = {2}", friendData.FriendName, friendData.FacebookId, isReadyToRemove)));
 
                 if (!isReadyToRemove)
                 {
@@ -443,12 +372,8 @@ namespace Services.Services
                 {
                     AccountFacebookId = account.FacebookId,
                     Cookie = account.Cookie,
-                    Proxy = _accountManager.GetAccountProxy(new AccountModel
-                    {
-                        Proxy = account.Proxy,
-                        ProxyLogin = account.ProxyLogin,
-                        ProxyPassword = account.ProxyPassword
-                    })
+                    Proxy = _accountManager.GetAccountProxy(account),
+                    UserAgent = userAgent.UserAgentString
                 });
 
                 if (currentFriendsCount > minFriends)
@@ -457,171 +382,221 @@ namespace Services.Services
                 }
                 else
                 {
-                    _notice.AddNotice(account.Id, string.Format("Достигнут минимальный предел для удаления из друзей ({0})", minFriends));
+                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Достигнут минимальный предел для удаления из друзей ({0})", minFriends)));
+
+                    break;
                 }
             }
+
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Завершено.")));
         }
         
-        public void CheckFriendsAtTheEndTimeConditions(AccountViewModel account)
+        public List<FriendData> GetFriendsToCheck(AccountViewModel account)
         {
-            if (account.GroupSettingsId == null)
-            {
-                return;
-            }
-
-            var settings = _accountSettingsManager.GetSettings((long) account.GroupSettingsId);
-
-            var friendsToCheck = new GetFriendsToQueueDeletionQueryHandler(new DataBaseContext()).Handle(
-                new GetFriendsToQueueDeletionQuery
+            var retryNumber =
+            new GetCounterCheckFriendsByAccountIdCommandHandler().Handle(
+                new GetCounterCheckFriendsByAccountIdCommand
                 {
                     AccountId = account.Id
                 });
 
-            _notice.AddNotice(account.Id, string.Format("Проверяем выполнение условий для друзей (отметка выполнения условий)... В очереди {0} друзей...", friendsToCheck.Count));
+            var friendsToCheck = new GetFriendsToQueueDeletionQueryHandler(new DataBaseContext()).Handle(
+                new GetFriendsToQueueDeletionQuery
+                {
+                    AccountId = account.Id,
+                    RetryNumber = retryNumber.RetryNumber,
+                    CountFriendsToGet = CountFriendsToGet
+                });
 
-            foreach (var friend in friendsToCheck)
+            if (friendsToCheck.Count < CountFriendsToGet) //последняя партия
             {
-                var readyToRemove = true;
-
-                _notice.AddNotice(account.Id, string.Format("Проверяем {0}", friend.FriendName));
-
-                if (settings.EnableDialogIsOver)
+                new MarkCounterCheckFriendsCommandHandler(new DataBaseContext()).Handle(new MarkCounterCheckFriendsCommand
                 {
-                    var settingsTime = settings.DialogIsOverTimer;
-                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
-                    if (itsTime)
-                    {
-                        new MarkAddToEndDialogCommandHandler(new DataBaseContext()).Handle(
-                            new MarkAddToEndDialogCommand
-                            {
-                                FriendId = friend.Id,
-                                AccountId = account.Id
-                            });
-                    }
-                    else
-                    {
-                        readyToRemove = false;
-                    }
-                }
+                    AccountId = account.Id,
+                    ResetCounter = true
+                });
 
-                if (settings.EnableIsAddedToGroupsAndPages)
+                if (friendsToCheck.Count == 0) //друзья были взяты все в последний раз
                 {
-                    var settingsTime = settings.IsAddedToGroupsAndPagesTimer;
-                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
-                    if (itsTime)
+                    friendsToCheck = new GetFriendsToQueueDeletionQueryHandler(new DataBaseContext()).Handle(
+                    new GetFriendsToQueueDeletionQuery
                     {
-                        new MarkAddToGroupFriendCommandHandler(new DataBaseContext()).Handle(
-                            new MarkAddToGroupFriendCommand
-                            {
-                                FriendId = friend.Id,
-                                AccountId = account.Id
-                            });
-
-                        new MarkAddToPageFriendCommandHandler(new DataBaseContext()).Handle(
-                            new MarkAddToPageFriendCommand
-                            {
-                                FriendId = friend.Id,
-                                AccountId = account.Id
-                            });
-                    }
-                    else
-                    {
-                        readyToRemove = false;
-                    }
-                }
-                if (settings.EnableIsWink)
-                {
-                    var settingsTime = settings.IsWinkTimer;
-                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
-                    if (itsTime)
-                    {
-                        new MarkWinkedFriendCommandHandler(new DataBaseContext()).Handle(
-                            new MarkWinkedFriendCommand
-                            {
-                                FriendId = friend.Id,
-                                AccountId = account.Id
-                            });
-                    }
-                    else
-                    {
-                        readyToRemove = false;
-                    }
-                }
-                if (settings.EnableIsWinkFriendsOfFriends)
-                {
-                    var settingsTime = settings.IsWinkFriendsOfFriendsTimer;
-                    var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
-                    if (itsTime)
-                    {
-                        new MarkWinkedFriendsFriendCommandHandler(new DataBaseContext()).Handle(
-                            new MarkWinkedFriendsFriendCommand
-                            {
-                                FriendId = friend.Id,
-                                AccountId = account.Id
-                            });
-                    }
-                    else
-                    {
-                        readyToRemove = false;
-                    }
-                }
-
-                if (readyToRemove)
-                {
-                    //не стоит ни 1 галки
-                    if (!settings.EnableDialogIsOver && !settings.EnableIsAddedToGroupsAndPages &&
-                        !settings.EnableIsWink && !settings.EnableIsWinkFriendsOfFriends)
-                    {
-                        return;
-                    }
-
-                    // помечаем время отсчета для удаления из друзей
-                    new MarkAddToRemovedFriendCommandHandler(new DataBaseContext()).Handle(new MarkAddToRemovedFriendCommand
-                    {
-                        FriendId = friend.Id,
-                        AccountId = account.Id
+                        AccountId = account.Id,
+                        RetryNumber = retryNumber.RetryNumber,
+                        CountFriendsToGet = CountFriendsToGet
                     });
                 }
+            }
+
+            new MarkCounterCheckFriendsCommandHandler(new DataBaseContext()).Handle(new MarkCounterCheckFriendsCommand
+            {
+                AccountId = account.Id,
+                NewRetryCount = retryNumber.RetryNumber + 1
+            });
+
+            return friendsToCheck;
+        }
+
+        public void CheckFriendsAtTheEndTimeConditions(AccountViewModel account)
+        {
+            const string functionName = "Проверка выполнения условий";
+
+            try
+            {
+                if (account.GroupSettingsId == null)
+                {
+                    return;
+                }
+
+                var settings = _accountSettingsManager.GetSettings((long) account.GroupSettingsId);
+
+                var friendsToCheck = GetFriendsToCheck(account); //берем друзей для проверки
+
+                _notice.AddNotice(account.Id,
+                    _noticesService.ConvertNoticeText(functionName, string.Format("Начинаем проверку... В очереди {0} друзей...",
+                        friendsToCheck.Count)));
+
+                foreach (var friend in friendsToCheck)
+                {
+                    var readyToRemove = true;
+
+                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Проверяем {0}", friend.FriendName)));
+
+                    if (settings.EnableDialogIsOver)
+                    {
+                        var settingsTime = settings.DialogIsOverTimer;
+                        var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                        if (itsTime)
+                        {
+                            new MarkAddToEndDialogCommandHandler(new DataBaseContext()).Handle(
+                                new MarkAddToEndDialogCommand
+                                {
+                                    FriendId = friend.Id,
+                                    AccountId = account.Id
+                                });
+                        }
+                        else
+                        {
+                            readyToRemove = false;
+                        }
+                    }
+
+                    if (settings.EnableIsAddedToGroupsAndPages)
+                    {
+                        var settingsTime = settings.IsAddedToGroupsAndPagesTimer;
+                        var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                        if (itsTime)
+                        {
+                            new MarkAddToGroupFriendCommandHandler(new DataBaseContext()).Handle(
+                                new MarkAddToGroupFriendCommand
+                                {
+                                    FriendId = friend.Id,
+                                    AccountId = account.Id
+                                });
+
+                            new MarkAddToPageFriendCommandHandler(new DataBaseContext()).Handle(
+                                new MarkAddToPageFriendCommand
+                                {
+                                    FriendId = friend.Id,
+                                    AccountId = account.Id
+                                });
+                        }
+                        else
+                        {
+                            readyToRemove = false;
+                        }
+                    }
+                    if (settings.EnableIsWink)
+                    {
+                        var settingsTime = settings.IsWinkTimer;
+                        var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                        if (itsTime)
+                        {
+                            new MarkWinkedFriendCommandHandler(new DataBaseContext()).Handle(
+                                new MarkWinkedFriendCommand
+                                {
+                                    FriendId = friend.Id,
+                                    AccountId = account.Id
+                                });
+                        }
+                        else
+                        {
+                            readyToRemove = false;
+                        }
+                    }
+                    if (settings.EnableIsWinkFriendsOfFriends)
+                    {
+                        var settingsTime = settings.IsWinkFriendsOfFriendsTimer;
+                        var itsTime = _friendManager.CheckConditionTime(friend.AddedDateTime, settingsTime);
+                        if (itsTime)
+                        {
+                            new MarkWinkedFriendsFriendCommandHandler(new DataBaseContext()).Handle(
+                                new MarkWinkedFriendsFriendCommand
+                                {
+                                    FriendId = friend.Id,
+                                    AccountId = account.Id
+                                });
+                        }
+                        else
+                        {
+                            readyToRemove = false;
+                        }
+                    }
+
+                    if (readyToRemove)
+                    {
+                        //не стоит ни 1 галки
+                        if (!settings.EnableDialogIsOver && !settings.EnableIsAddedToGroupsAndPages &&
+                            !settings.EnableIsWink && !settings.EnableIsWinkFriendsOfFriends)
+                        {
+                            return;
+                        }
+
+                        // помечаем время отсчета для удаления из друзей
+                        new MarkAddToRemovedFriendCommandHandler(new DataBaseContext()).Handle(new MarkAddToRemovedFriendCommand
+                        {
+                            FriendId = friend.Id,
+                            AccountId = account.Id
+                        });
+                    }
+                }
+
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Проверка завершена.")));
+            }
+            catch (Exception ex)
+            {
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Возникла ошибка {0}", ex.Message)));
             }
         }
 
         public NewFriendListViewModel GetNewFriendsAndRecommended(AccountViewModel account, IBackgroundJobService backgroundJobService)
         {
+            const string functionName = "Получение реком. друзей";
+
             if (account.GroupSettingsId == null)
             {
-                _notice.AddNotice(account.Id, "Ошибка! Не выбрана группа настрект.");
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Ошибка! Не выбрана группа настрект."));
                 return null;
             }
 
-            var accountModel = new AccountModel
-            {
-                AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
-                Cookie = new CookieModel
-                {
-                    CookieString = account.Cookie
-                },
-                ProxyDataIsFailed = account.ProxyDataIsFailed,
-                Id = account.Id,
-                Name = account.Name,
-                Proxy = account.Proxy,
-                FacebookId = account.FacebookId,
-                GroupSettingsId = account.GroupSettingsId,
-                Login = account.Login,
-                PageUrl = account.PageUrl,
-                Password = account.Password,
-                ProxyLogin = account.ProxyLogin,
-                ProxyPassword = account.ProxyPassword
-            };
+            var accountModel = _accountManager.GetAccountById(account.Id);
 
-            _notice.AddNotice(account.Id, "Получаем рекомендованных друзей");
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,"Получаем рекомендованных друзей"));
+
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
 
             var friendListResponseModels = new GetRecommendedFriendsEngine().Execute(new GetRecommendedFriendsModel
             {
-                Cookie = accountModel.Cookie.CookieString,
-                Proxy = _accountManager.GetAccountProxy(accountModel)
+                Cookie = accountModel.Cookie,
+                Proxy = _accountManager.GetAccountProxy(accountModel),
+                UserAgent = userAgent.UserAgentString
             });
 
-            _notice.AddNotice(account.Id, "Список рекомендованных друзей получен - " + friendListResponseModels.Friends.Count);
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, 
+                string.Format("Список рекомендованных друзей получен - {0}. Входящих заявок - {1}", friendListResponseModels.Friends.Count(model => model.Type == FriendTypes.Recommended), friendListResponseModels.Friends.Count(model => model.Type == FriendTypes.Incoming))));
 
             var friendList = friendListResponseModels.Friends.Select(model => new AnalysisFriendData
             {
@@ -633,11 +608,11 @@ namespace Services.Services
             }).ToList();
 
             //Check
-            _notice.AddNotice(account.Id, "Проверяем не общались ли мы с этими друзьями");
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,"Проверяем не общались ли мы с этими друзьями"));
 
-            var certifiedListFriends = _analysisFriendsManager.CheckForAnyInDataBase(accountModel, friendList);
+            var certifiedListFriends = _analysisFriendsManager.CheckForAnyInDataBase(accountModel, friendList, _notice, functionName);
 
-            _notice.AddNotice(account.Id, "Сохраняем рекомендованных друзей");
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,"Сохраняем рекомендованных друзей"));
 
             new SaveFriendsForAnalysisCommandHandler(new DataBaseContext()).Handle(new SaveFriendsForAnalysisCommand
             {
@@ -645,16 +620,20 @@ namespace Services.Services
                 Friends = certifiedListFriends
             });
 
+            var countIncomming = certifiedListFriends.Count(data => data.Type == FriendTypes.Incoming) != 0
+                ? friendListResponseModels.CountIncommingFriends
+                : certifiedListFriends.Count(data => data.Type == FriendTypes.Incoming);  //если есть вообще рекомендуемые друзья, иначе надпись лейба будет браться с рекомендация для добавления
+
             new AddAccountInformationCommandHandler(new DataBaseContext()).Handle(new AddAccountInformationCommand
             {
                 AccountId = account.Id,
                 AccountInformationData = new AccountInformationDataDbModel
                 {
-                    CountIncommingFriendsRequest = friendListResponseModels.CountIncommingFriends
+                    CountIncommingFriendsRequest = countIncomming
                 }
             });
 
-            _notice.AddNotice(account.Id, "Получение рекомендованных друзей завершено.");
+            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,"Получение рекомендованных друзей завершено."));
             return new NewFriendListViewModel
             {
                 AccountId = accountModel.Id,
@@ -671,106 +650,87 @@ namespace Services.Services
 
         public void ConfirmFriendship(AccountViewModel account)
         {
-            var accountModel = new AccountModel
-            {
-                AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
-                Cookie = new CookieModel
-                {
-                    CookieString = account.Cookie
-                },
-                ProxyDataIsFailed = account.ProxyDataIsFailed,
-                Id = account.Id,
-                Name = account.Name,
-                Proxy = account.Proxy,
-                FacebookId = account.FacebookId,
-                GroupSettingsId = account.GroupSettingsId,
-                Login = account.Login,
-                PageUrl = account.PageUrl,
-                Password = account.Password,
-                ProxyLogin = account.ProxyLogin,
-                ProxyPassword = account.ProxyPassword
-            };
-
-            _notice.AddNotice(account.Id, "Получаем подходящих друзей для подтверждения дружбы");
-
-            var friends = new GetFriendsToConfirmQueryHandler(new DataBaseContext()).Handle(new GetFriendsToConfirmQuery
-            {
-                AccountId = account.Id
-            });
-
-            if (friends.Count == 0)
-            {
-                return;
-            }
-
-            _notice.AddNotice(account.Id, "Выбираем случайного друга");
-
-            var analysisFriendsData = friends.FirstOrDefault();
-
-            if (analysisFriendsData != null)
+            const string functionName = "Подтверждение дружбы";
+            
+            try
             {
                 _notice.AddNotice(account.Id,
-                    string.Format("Подтверждаем дружбу с {0}({1})", analysisFriendsData.FriendName,
-                        analysisFriendsData.FacebookId));
+                    _noticesService.ConvertNoticeText(functionName,
+                        "Получаем подходящих друзей для подтверждения дружбы"));
 
-                new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel
-                {
-                    AccountFacebookId = account.FacebookId,
-                    FriendFacebookId = analysisFriendsData.FacebookId,
-                    Proxy = _accountManager.GetAccountProxy(accountModel),
-                    Cookie = account.Cookie,
-                    UrlParameters =
-                        new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
-                        {
-                            NameUrlParameter = NamesUrlParameter.ConfirmFriendship
-                        }),
-                });
-
-                if (true)
-                {
-                    _notice.AddNotice(account.Id, "Обновляем статистику");
-
-                    _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                var friends =
+                    new GetFriendsToConfirmQueryHandler(new DataBaseContext()).Handle(new GetFriendsToConfirmQuery
                     {
-                        AccountId = account.Id,
-                        CountReceivedFriends = 1
+                        AccountId = account.Id
                     });
+
+                if (friends.Count == 0)
+                {
+                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Нет подходящих друзей для подтверждения дружбы"));
+
+                    return;
                 }
 
-                new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
+                _notice.AddNotice(account.Id,
+                    _noticesService.ConvertNoticeText(functionName, "Выбираем случайного друга"));
+
+                var analysisFriendsData = friends.OrderBy(data => new Guid()).FirstOrDefault();
+
+                if (analysisFriendsData != null)
                 {
-                    AccountId = account.Id,
-                    FriendId = analysisFriendsData.Id
-                });
+                    var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+                    {
+                        UserAgentId = account.UserAgentId
+                    });
 
-                _notice.AddNotice(account.Id, "Обновляем статистику");
+                    _notice.AddNotice(account.Id,
+                        string.Format(
+                            _noticesService.ConvertNoticeText(functionName, "Подтверждаем дружбу с {0}({1})"),
+                            analysisFriendsData.FriendName,
+                            analysisFriendsData.FacebookId));
+
+                    new ConfirmFriendshipEngine().Execute(new ConfirmFriendshipModel
+                    {
+                        AccountFacebookId = account.FacebookId,
+                        FriendFacebookId = analysisFriendsData.FacebookId,
+                        Proxy = _accountManager.GetAccountProxy(account),
+                        Cookie = account.Cookie,
+                        UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
+                            {
+                                NameUrlParameter = NamesUrlParameter.ConfirmFriendship
+                            }),
+                        UserAgent = userAgent.UserAgentString
+                    });
+
+                    if (true)
+                    {
+                        _accountStatisticsManager.UpdateAccountStatistics(new AccountStatisticsModel
+                        {
+                            AccountId = account.Id,
+                            CountReceivedFriends = 1
+                        });
+                    }
+
+                    new RemoveAnalyzedFriendCommandHandler(new DataBaseContext()).Handle(new RemoveAnalyzedFriendCommand
+                    {
+                        AccountId = account.Id,
+                        FriendId = analysisFriendsData.Id
+                    });
+
+                    _notice.AddNotice(account.Id,
+                        _noticesService.ConvertNoticeText(functionName, "Обновляем статистику"));
+                }
+
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Успешно завершено"));
             }
-
-            Thread.Sleep(2000);
+            catch (Exception ex)
+            {
+                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Завершено с ошибкой {0}", ex.Message)));
+            }
         }
 
         public void SendRequestFriendship(AccountViewModel account)
         {
-            var accountModel = new AccountModel
-            {
-                AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
-                Cookie = new CookieModel
-                {
-                    CookieString = account.Cookie
-                },
-                ProxyDataIsFailed = account.ProxyDataIsFailed,
-                Id = account.Id,
-                Name = account.Name,
-                Proxy = account.Proxy,
-                FacebookId = account.FacebookId,
-                GroupSettingsId = account.GroupSettingsId,
-                Login = account.Login,
-                PageUrl = account.PageUrl,
-                Password = account.Password,
-                ProxyLogin = account.ProxyLogin,
-                ProxyPassword = account.ProxyPassword
-            };
-
             _notice.AddNotice(account.Id, "Получаем подходящих друзей для отправки заявки");
 
             var friends = new GetFriendsToRequestQueryHandler(new DataBaseContext()).Handle(new GetFriendsToRequestQuery
@@ -792,12 +752,17 @@ namespace Services.Services
                         string.Format("Отправляем заявку {0}({1})", analysisFriendsData.FriendName,
                             analysisFriendsData.FacebookId));
 
+                    var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+                    {
+                        UserAgentId = account.UserAgentId
+                    });
+
                     new SendRequestFriendshipEngine().Execute(new SendRequestFriendshipModel
                     {
                         AccountFacebookId = account.FacebookId,
                         FriendFacebookId = analysisFriendsData.FacebookId,
-                        Proxy = _accountManager.GetAccountProxy(accountModel),
-                        Cookie = accountModel.Cookie.CookieString,
+                        Proxy = _accountManager.GetAccountProxy(account),
+                        Cookie = account.Cookie,
                         AddFriendUrlParameters =
                             new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                             {
@@ -808,6 +773,7 @@ namespace Services.Services
                             {
                                 NameUrlParameter = NamesUrlParameter.AddFriendExtra
                             }),
+                        UserAgent = userAgent.UserAgentString
                     });
 
                     if (true)
@@ -831,7 +797,7 @@ namespace Services.Services
                     _notice.AddNotice(account.Id, "Отправка заявки в друзья успешно завершена.");
                 }
             }
-            catch (Exception ex)
+           catch (Exception ex)
             {
                 
             }
@@ -839,10 +805,7 @@ namespace Services.Services
 
         public void RemoveFriend(long accountId, long friendId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = accountId
-            });
+            var account = _accountManager.GetAccountById(accountId);
 
             _notice.AddNotice(account.Id, string.Format("Получаем друга для удаления по id - {0}", friendId));
 
@@ -853,16 +816,22 @@ namespace Services.Services
 
             _notice.AddNotice(account.Id, string.Format("удаляем друга {0}({1})", friend.FriendName, friend.FacebookId));
 
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
+
             new RemoveFriendEngine().Execute(new RemoveFriendModel
             {
                 AccountFacebookId = account.FacebookId,
-                Cookie = account.Cookie.CookieString,
+                Cookie = account.Cookie,
                 Proxy = _accountManager.GetAccountProxy(account),
                 FriendFacebookId = friend.FacebookId,
                 UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                 {
                     NameUrlParameter = NamesUrlParameter.RemoveFriend
-                })
+                }),
+                UserAgent = userAgent.UserAgentString
             });
 
             _notice.AddNotice(account.Id, string.Format("{0}({1}) успешно удалён из друзей", friend.FriendName, friend.FacebookId));
@@ -879,23 +848,26 @@ namespace Services.Services
 
         public void CancelFriendshipRequest(long accountId, long friendFacebookId)
         {
-            var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
-            {
-                UserId = accountId
-            });
+            var account = _accountManager.GetAccountById(accountId);
 
             _notice.AddNotice(account.Id, string.Format("Отменяем входящую заявку друга {0}", friendFacebookId));
 
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
+
             new CancelFriendshipRequestEngine().Execute(new CancelFriendshipRequestModel
             {
-                Cookie = account.Cookie.CookieString,
+                Cookie = account.Cookie,
                 Proxy = _accountManager.GetAccountProxy(account),
                 AccountFacebookId = account.FacebookId,
                 FriendFacebookId = friendFacebookId,
                 UrlParameters = new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                 {
                     NameUrlParameter = NamesUrlParameter.CancelRequestFriendship
-                })
+                }),
+                UserAgent = userAgent.UserAgentString
             });
 
             _notice.AddNotice(account.Id, string.Format("Заявка дружбы друга {0} отменена", friendFacebookId));

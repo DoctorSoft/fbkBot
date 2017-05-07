@@ -1,66 +1,110 @@
 ﻿using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
+using DataBase.QueriesAndCommands.Commands.SpyAccounts;
 using Engines.Engines.CheckProxyEngine;
 using Engines.Engines.GetNewCookiesEngine;
-using OpenQA.Selenium.PhantomJS;
+using Services.Interfaces.ServiceTools;
+using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
 namespace Services.Services
 {
     public class CookieService
     {
-        public bool RefreshCookies(AccountViewModel account)
+        private readonly ISeleniumManager _seleniumManager;
+
+        public CookieService()
+        {
+            _seleniumManager = new SeleniumManager();
+        }
+        public bool RefreshCookies(AccountViewModel account, bool forSpy)
         {
             if (account.Proxy != null)
             {
 
-                var proxyIsFailed = new CheckProxyEngine().Execute(new CheckProxyModel()
+                var proxyIsFailed = new CheckProxyEngine().Execute(new CheckProxyModel
                 {
-                    Driver = RegisterNewDriver(account)
+                    Driver = _seleniumManager.RegisterNewDriver(account)
                 });
-
-                new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
-                    new UpdateFailAccountInformationCommand
-                    {
-                        AccountId = account.Id,
-                        ProxyDataIsFailed = proxyIsFailed
-                    });
 
                 if (proxyIsFailed)
                 {
+                    if (forSpy)
+                    {
+                        new UpdateFailSpyAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                        new UpdateFailSpyAccountInformationCommand
+                        {
+                            AccountId = account.Id,
+                            ProxyDataIsFailed = true
+                        });
+                    }
+                    else
+                    {
+                        new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                        new UpdateFailAccountInformationCommand
+                        {
+                            AccountId = account.Id,
+                            ProxyDataIsFailed = true
+                        });
+                    }
+                    
                     return false;
                 }
             }
 
-            var cookieResponse = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
+            var cookieResponse = new GetNewCookiesEngine().Execute(new GetNewCookiesModel
             {
                 Login = account.Login,
                 Password = account.Password,
-                Driver = RegisterNewDriver(account),
+                Driver = _seleniumManager.RegisterNewDriver(account),
                 Cookie = account.Cookie
             });
 
             if (cookieResponse == null || cookieResponse.AuthorizationError)
             {
-                new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
-                new UpdateFailAccountInformationCommand
+                if (forSpy)
                 {
-                    AccountId = account.Id,
-                    AuthorizationDataIsFailed = true
-                });
+                    new UpdateFailSpyAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                    new UpdateFailSpyAccountInformationCommand
+                    {
+                        AccountId = account.Id,
+                        AuthorizationDataIsFailed = true
+                    });
+                }
+                else
+                {
+                    new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                    new UpdateFailAccountInformationCommand
+                    {
+                        AccountId = account.Id,
+                        AuthorizationDataIsFailed = true
+                    });
+                }
 
                 return false;
             }
 
             if (cookieResponse.ConfirmationError)
             {
-                new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
-                new UpdateFailAccountInformationCommand
+                if (forSpy)
                 {
-                    AccountId = account.Id,
-                    ConformationIsFailed = true
-                });
+                    new UpdateFailSpyAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                    new UpdateFailSpyAccountInformationCommand
+                    {
+                        AccountId = account.Id,
+                        ConformationIsFailed = true
+                    });
+                }
+                else
+                {
+                    new UpdateFailAccountInformationCommandHandler(new DataBaseContext()).Handle(
+                    new UpdateFailAccountInformationCommand
+                    {
+                        AccountId = account.Id,
+                        ConformationIsFailed = true
+                    });
+                }
 
                 return false;
             }
@@ -71,30 +115,23 @@ namespace Services.Services
             {
                 return false;
             }
-
-            new UpdateCookiesHandler(new DataBaseContext()).Handle(new UpdateCookiesCommand()
+            if (forSpy)
             {
-                AccountId = account.Id,
-                NewCookieString = newCookie
-            });
-
-            return true;
-        }
-
-        public PhantomJSDriver RegisterNewDriver(AccountViewModel account)
-        {
-            if (string.IsNullOrWhiteSpace(account.Proxy))
-            {
-                return new PhantomJSDriver();
+                new UpdateCookiesForSpyHandler(new DataBaseContext()).Handle(new UpdateCookiesForSpyCommand
+                {
+                    AccountId = account.Id,
+                    NewCookieString = newCookie
+                });
             }
-
-            var service = PhantomJSDriverService.CreateDefaultService();
-            service.AddArgument(string.Format("--proxy-auth={0}:{1}", account.ProxyLogin, account.ProxyPassword));
-            service.AddArgument(string.Format("--proxy={0}", account.Proxy));
-
-            var driver = new PhantomJSDriver(service);
-
-            return driver;
+            else
+            {
+                new UpdateCookiesHandler(new DataBaseContext()).Handle(new UpdateCookiesCommand()
+                {
+                    AccountId = account.Id,
+                    NewCookieString = newCookie
+                });
+            }
+            return true;
         }
     }
 }

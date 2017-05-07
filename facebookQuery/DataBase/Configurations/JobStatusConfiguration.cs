@@ -19,6 +19,7 @@ namespace DataBase.Configurations
             Property(model => model.LaunchDateTime);
             Property(model => model.AddDateTime);
             Property(model => model.FriendId);
+            Property(model => model.IsForSpy);
         }
     }
 }

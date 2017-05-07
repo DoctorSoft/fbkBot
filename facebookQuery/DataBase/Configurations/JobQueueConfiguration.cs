@@ -17,6 +17,8 @@ namespace DataBase.Configurations
             Property(model => model.FunctionName);
             Property(model => model.AddedDateTime);
             Property(model => model.FriendId);
+            Property(model => model.IsProcessed);
+            Property(model => model.IsForSpy);
         }
     }
 }

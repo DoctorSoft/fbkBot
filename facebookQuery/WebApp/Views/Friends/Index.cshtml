@@ -56,23 +56,32 @@
                          </div>
                          <div class="col-md-5">
                              <div class="inline-actions">
-                                 @if (friend.IsWinked || friend.IsAddedToGroups || friend.IsAddedToPages)
+
+                                 @if (friend.IsWinked || friend.IsAddedToGroups || friend.IsAddedToPages || friend.CountWinksToFriends != 0)
                                  {
                                      @FriendsTexts.CompletedActions
                                  }
-                                 @if (friend.IsWinked)
-                                 {
-                                     <i class="fa fa-eye" aria-hidden="true"></i>
+                                @if (friend.IsWinked)
+                                {
+                                    <img title="@FriendsTexts.Wink" class="fa fa-eye" aria-hidden="true" alt=" "/>
                                  }
-                                 @if (friend.IsAddedToGroups)
-                                 {
-                                     <i class="fa fa-users" aria-hidden="true"></i>
+                                @if (friend.IsAddedToGroups)
+                                {
+                                    <img title="@FriendsTexts.AddToGroup" class="fa fa-users" aria-hidden="true" alt=" " />
                                  }
-                                 @if (friend.IsAddedToPages)
+                                @if (friend.IsAddedToPages)
+                                {
+                                    <img title="@FriendsTexts.AddToPage" class="fa fa-clone" aria-hidden="true" alt=" " />
+                                }
+                                 @if (friend.CountWinksToFriends != 0)
                                  {
-                                     <i class="fa fa-clone" aria-hidden="true"></i>
+                                    <span class="label label-primary">
+                                        <img title="@FriendsTexts.WinkFriends" class="fa fa-eye" aria-hidden="true" alt=" " />
+                                        @friend.CountWinksToFriends
+                                    </span>
                                  }
-                             </div>
+                            </div>
+
                          </div>
                          <div class="col-md-2">
                              <div class="remove-message">

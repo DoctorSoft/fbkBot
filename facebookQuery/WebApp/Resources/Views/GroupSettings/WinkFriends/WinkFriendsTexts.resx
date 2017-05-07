@@ -118,7 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConsiderGeoForWink" xml:space="preserve">
-    <value>Consider geo for wink</value>
+    <value>Consider geo</value>
+  </data>
+  <data name="WinkBack" xml:space="preserve">
+    <value>Wink back</value>
+  </data>
+  <data name="WinkFriendsFriendsRetryTime" xml:space="preserve">
+    <value>Wink friends friends retry time</value>
   </data>
   <data name="WinkRetryTime" xml:space="preserve">
     <value>Wink retry time</value>

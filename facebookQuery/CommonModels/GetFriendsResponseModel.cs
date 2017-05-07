@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 
 namespace CommonModels
 {
@@ -6,6 +7,6 @@ namespace CommonModels
     {
         public long CountIncommingFriends { get; set; }
 
-        public List<FriendsResponseModel> Friends { get; set; } 
+        public List<FriendsResponseModel> Friends { get; set; }
     }
 }

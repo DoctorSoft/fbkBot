@@ -70,6 +70,15 @@ namespace WebApp.Resources.Views.Users {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All users count.
+        /// </summary>
+        public static string AllUsersCount {
+            get {
+                return ResourceManager.GetString("AllUsersCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check authorization data.
         /// </summary>
         public static string CheckAuthorizationData {
@@ -111,6 +120,42 @@ namespace WebApp.Resources.Views.Users {
         public static string CountIncommingFriendsRequest {
             get {
                 return ResourceManager.GetString("CountIncommingFriendsRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error users count.
+        /// </summary>
+        public static string ErrorUsersCount {
+            get {
+                return ResourceManager.GetString("ErrorUsersCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove user.
+        /// </summary>
+        public static string RemoveUser {
+            get {
+                return ResourceManager.GetString("RemoveUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runinng jobs.
+        /// </summary>
+        public static string RunningJobs {
+            get {
+                return ResourceManager.GetString("RunningJobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work users count.
+        /// </summary>
+        public static string WorkUsersCount {
+            get {
+                return ResourceManager.GetString("WorkUsersCount", resourceCulture);
             }
         }
     }

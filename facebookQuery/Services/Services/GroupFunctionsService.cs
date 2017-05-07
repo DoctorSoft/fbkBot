@@ -11,6 +11,7 @@ using Services.Models.BackgroundJobs;
 using Services.ServiceTools;
 using Services.ViewModels.GroupFunctionsModels;
 using Services.ViewModels.HomeModels;
+using Services.ViewModels.JobStatusModels;
 
 namespace Services.Services
 {
@@ -83,8 +84,8 @@ namespace Services.Services
                 }
             }
 
-            if (functionsIdForRun.Count != 0)
-            {
+            //if (functionsIdForRun.Count != 0)
+            //{
                 var accounts = new GetAccountsByGroupSettingsIdQueryHandler(new DataBaseContext()).Handle(new GetAccountsByGroupSettingsIdQuery
                 {
                     GroupSettingsId = groupId
@@ -105,11 +106,32 @@ namespace Services.Services
                     GroupSettingsId = model.GroupSettingsId,
                     AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                     ProxyDataIsFailed = model.ProxyDataIsFailed,
-                    IsDeleted = model.IsDeleted
+                    IsDeleted = model.IsDeleted,
+                    UserAgentId = model.UserAgentId
                 }).ToList();
 
                 foreach (var accountModel in accountsViewModel)
                 {
+                    //удаляем выключенные задачи
+                    foreach (var oldFuntion in oldFuntions) 
+                    {
+                        if (newFunctions.All(data => data.FunctionId != oldFuntion.FunctionId))
+                        {
+                            var statuses = new JobStatusManager().GetJobStatusesByAccountAndFunctionId(accountModel.Id,
+                                oldFuntion.FunctionName, false);
+
+                            foreach (var jobStatusViewModel in statuses)
+                            {
+                                new JobStatusService().DeleteJobStatusesByAccountId(new JobStatusViewModel
+                                {
+                                    AccountId = accountModel.Id,
+                                    IsForSpy = false,
+                                    FunctionName = oldFuntion.FunctionName
+                                });
+                                backgroundJobService.RemoveJobById(jobStatusViewModel.JobId);
+                            }
+                        }
+                    }
                     foreach (var function in functionsIdForRun)
                     {
                         var delayTime = _settingsManager.GetTimeSpanByFunctionName(function, groupId);
@@ -124,7 +146,7 @@ namespace Services.Services
 
                         backgroundJobService.CreateBackgroundJob(model);
                     }
-                }
+                //}
             }
         }
     }

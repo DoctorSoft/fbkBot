@@ -21,7 +21,7 @@ namespace Engines.Engines.GetFriendsByCriteriesEngine
                 return null;
             }
 
-            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
+            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent), "fb_dtsg");
 
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetFriendsByCriteriesEnum)pair.Key, pair => pair.Value);
 
@@ -31,7 +31,7 @@ namespace Engines.Engines.GetFriendsByCriteriesEngine
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Post(Urls.GetFriendsByCriteries.GetDiscription(), parameters, model.Cookie, model.Proxy).Remove(0, 9);
+            var stringResponse = RequestsHelper.Post(Urls.GetFriendsByCriteries.GetDiscription(), parameters, model.Cookie, model.Proxy, model.UserAgent).Remove(0, 9);
 
             return GetFriendsData(stringResponse);
         }

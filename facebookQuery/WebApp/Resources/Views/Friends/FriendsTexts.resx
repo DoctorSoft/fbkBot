@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddToGroup" xml:space="preserve">
+    <value>Add to group</value>
+  </data>
+  <data name="AddToPage" xml:space="preserve">
+    <value>Add to page</value>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -149,5 +155,11 @@
   </data>
   <data name="NoFriends" xml:space="preserve">
     <value>No friends found. Enable the function of getting current friends.</value>
+  </data>
+  <data name="Wink" xml:space="preserve">
+    <value>Wink</value>
+  </data>
+  <data name="WinkFriends" xml:space="preserve">
+    <value>WinkFriends</value>
   </data>
 </root>

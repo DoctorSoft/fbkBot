@@ -120,6 +120,9 @@
   <data name="AddNewAccount" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AllUsersCount" xml:space="preserve">
+    <value>All users count</value>
+  </data>
   <data name="CheckAuthorizationData" xml:space="preserve">
     <value>Check authorization data</value>
   </data>
@@ -134,5 +137,17 @@
   </data>
   <data name="CountIncommingFriendsRequest" xml:space="preserve">
     <value>Count new friends</value>
+  </data>
+  <data name="ErrorUsersCount" xml:space="preserve">
+    <value>Error users count</value>
+  </data>
+  <data name="RemoveUser" xml:space="preserve">
+    <value>Remove user</value>
+  </data>
+  <data name="RunningJobs" xml:space="preserve">
+    <value>Runinng jobs</value>
+  </data>
+  <data name="WorkUsersCount" xml:space="preserve">
+    <value>Work users count</value>
   </data>
 </root>

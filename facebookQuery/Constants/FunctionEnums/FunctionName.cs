@@ -13,7 +13,6 @@
         ConfirmFriendship = 103,
         SendRequestFriendship = 104,
         RemoveFromFriends = 105,
-        Wink = 106,
 
         //Spy
         AnalyzeFriends = 201,
@@ -26,6 +25,15 @@
 
         InviteToGroups = 403,
         InviteToPages = 404,
+
+        //Checks
+        CheckFriendsAtTheEndTimeConditions = 501,
+
+
+        //Winks
+        Wink = 601,
+        WinkFriendFriends = 602,
+        WinkBack = 603,
 
         // Conditions
         DialogIsOver = 1001,

@@ -89,6 +89,8 @@
   <ItemGroup>
     <Compile Include="Configurations\AccountInformationConfiguration.cs" />
     <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
+    <Compile Include="Configurations\UserAgentConfiguration.cs" />
+    <Compile Include="Configurations\CounterCheckFriendsConfiguration.cs" />
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
     <Compile Include="Configurations\NewSettingsConfiguration.cs" />
     <Compile Include="Configurations\JobQueueConfiguration.cs" />
@@ -295,9 +297,43 @@
     <Compile Include="Migrations\201704021754568_AddAccountInformationTable.Designer.cs">
       <DependentUpon>201704021754568_AddAccountInformationTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704091239377_AddProcessingStatus.cs" />
+    <Compile Include="Migrations\201704091239377_AddProcessingStatus.Designer.cs">
+      <DependentUpon>201704091239377_AddProcessingStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704091410082_AddFriendTypes.cs" />
+    <Compile Include="Migrations\201704091410082_AddFriendTypes.Designer.cs">
+      <DependentUpon>201704091410082_AddFriendTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704112022018_AddForSpyFields.cs" />
+    <Compile Include="Migrations\201704112022018_AddForSpyFields.Designer.cs">
+      <DependentUpon>201704112022018_AddForSpyFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704122227337_Fix1.cs" />
+    <Compile Include="Migrations\201704122227337_Fix1.Designer.cs">
+      <DependentUpon>201704122227337_Fix1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704151535437_AddWinkCounter.cs" />
+    <Compile Include="Migrations\201704151535437_AddWinkCounter.Designer.cs">
+      <DependentUpon>201704151535437_AddWinkCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704162112203_AddCounterCheckFriendsTable.cs" />
+    <Compile Include="Migrations\201704162112203_AddCounterCheckFriendsTable.Designer.cs">
+      <DependentUpon>201704162112203_AddCounterCheckFriendsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704182047471_AddWinksBackCounter.cs" />
+    <Compile Include="Migrations\201704182047471_AddWinksBackCounter.Designer.cs">
+      <DependentUpon>201704182047471_AddWinksBackCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704272005444_AddUserAgent.cs" />
+    <Compile Include="Migrations\201704272005444_AddUserAgent.Designer.cs">
+      <DependentUpon>201704272005444_AddUserAgent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\AccountInformationDbModel.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
+    <Compile Include="Models\UserAgentDbModel.cs" />
+    <Compile Include="Models\CounterCheckFriendsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
     <Compile Include="Models\JobStatusDbModel.cs" />
@@ -331,6 +367,8 @@
     <Compile Include="QueriesAndCommands\Commands\AnalysisFriends\DeleteAnalysisFriendByIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\CommunityStatistics\AddCommunityStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\CommunityStatistics\AddCommunityStatisticsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\CounterCheckFriends\MarkCounterCheckFriendsCommand\MarkCounterCheckFriendsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\CounterCheckFriends\MarkCounterCheckFriendsCommand\MarkCounterCheckFriendsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\ClearFriendsBlackListByGroupIdCommand\ClearFriendsBlackListByGroupIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\ClearFriendsBlackListByGroupIdCommand\ClearFriendsBlackListByGroupIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\FriendsBlackList\AddToFriendsBlackListCommand\AddToFriendsBlackListCommand.cs" />
@@ -341,6 +379,8 @@
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddedToRemoveTimeCommand\MarkAddedToRemoveTimeCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToRemovedFriendCommand\MarkAddToRemovedFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToRemovedFriendCommand\MarkAddToRemovedFriendCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinksFriendsFriendsCommand\MarkWinksFriendsFriendsCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinksFriendsFriendsCommand\MarkWinksFriendsFriendsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendsFriendCommand\MarkWinkedFriendsFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendsFriendCommand\MarkWinkedFriendsFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkWinkedFriendCommand\MarkWinkedFriendCommand.cs" />
@@ -353,10 +393,15 @@
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToGroupFriendCommand\MarkAddToGroupFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteOverdueQueue\DeleteOverdueQueueResponseModel.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteOverdueQueue\DeleteOverdueQueueCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteOverdueQueue\DeleteOverdueQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueue\DeleteQueueCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueue\DeleteQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobQueue\MarkProcessedStatus\MarkProcessedStatusCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobQueue\MarkProcessedStatus\MarkProcessedStatusCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
@@ -368,6 +413,8 @@
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\DeleteNewSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\SpyAccounts\UpdateFailSpyAccountInformationCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\SpyAccounts\UpdateFailSpyAccountInformationCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\AccountStatistics\AddOrUpdateAccountStatisticsCommand.cs" />
@@ -467,11 +514,17 @@
     <Compile Include="QueriesAndCommands\Queries\AccountInformation\GetAccountInformationQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommand.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommand.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\Account\JobQueue\GetQueue\JobQueueModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\CounterCheckFriends\GetCounterCheckFriendsByAccountId\GetCounterCheckFriendsByAccountIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\CounterCheckFriends\GetCounterCheckFriendsByAccountId\GetCounterCheckFriendsByAccountIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\CounterCheckFriends\GetCounterCheckFriendsByAccountId\GetCounterCheckFriendsByAccountIdModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsResponseModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\JobQueueModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetAccountsByGroupSettingsIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\CommunityStatistics\CommunityStatisticsData.cs" />
@@ -501,6 +554,10 @@
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccounAndFunctiontId\GetJobStatusesByAccounAndFunctiontIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccounAndFunctiontId\GetJobStatusesByAccounAndFunctiontIdCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccountId\GetJobStatusesByAccountIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccountId\GetJobStatusesByAccountIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\CheckJobStatusQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQueryHandler.cs" />
@@ -595,6 +652,11 @@
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\GetUrlParametersQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\UrlParameters\Models\SendMessageUrlParametersModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\UserAgent\GetRandomUserAgent\GetRandomUserAgentQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\UserAgent\GetRandomUserAgent\GetRandomUserAgentQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\UserAgent\UserAgentData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\UserAgent\GetUserAgentById\GetUserAgentQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\UserAgent\GetUserAgentById\GetUserAgentQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\VoidCommandResponse.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -750,6 +812,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704021754568_AddAccountInformationTable.resx">
       <DependentUpon>201704021754568_AddAccountInformationTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704091239377_AddProcessingStatus.resx">
+      <DependentUpon>201704091239377_AddProcessingStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704091410082_AddFriendTypes.resx">
+      <DependentUpon>201704091410082_AddFriendTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704112022018_AddForSpyFields.resx">
+      <DependentUpon>201704112022018_AddForSpyFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704122227337_Fix1.resx">
+      <DependentUpon>201704122227337_Fix1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704151535437_AddWinkCounter.resx">
+      <DependentUpon>201704151535437_AddWinkCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704162112203_AddCounterCheckFriendsTable.resx">
+      <DependentUpon>201704162112203_AddCounterCheckFriendsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704182047471_AddWinksBackCounter.resx">
+      <DependentUpon>201704182047471_AddWinksBackCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704272005444_AddUserAgent.resx">
+      <DependentUpon>201704272005444_AddUserAgent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

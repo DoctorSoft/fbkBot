@@ -4,10 +4,12 @@ using System.Web.Mvc;
 using CommonInterfaces.Interfaces.Models;
 using Jobs.JobsService;
 using Jobs.Notices;
-using Services.Models.BackgroundJobs;
+using Services.Models.Jobs;
 using Services.Services;
+using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.OptionsModel;
+using AddOrUpdateAccountModel = Services.Models.BackgroundJobs.AddOrUpdateAccountModel;
 
 namespace WebApp.Controllers
 {
@@ -68,6 +70,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", new {accountId});
             }
 
+            DeleteOldJobs(accountId);
             RefreshFriends(accountId);
             RefreshJobs(account, groupId);
 
@@ -78,6 +81,15 @@ namespace WebApp.Controllers
         {
             var refreshFriendsTask = new Task<bool>(() => _friendService.GetCurrentFriends(new AccountViewModel { Id = accountId }));
             refreshFriendsTask.Start();
+        }
+
+        private static void DeleteOldJobs(long accountId)
+        {
+            new BackgroundJobService().RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+                {
+                    IsForSpy = false,
+                    AccountId = accountId
+                });
         }
 
         private static void RefreshJobs(AccountViewModel account, long groupId)

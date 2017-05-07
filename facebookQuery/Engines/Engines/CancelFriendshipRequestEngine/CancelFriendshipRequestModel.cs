@@ -15,5 +15,7 @@ namespace Engines.Engines.CancelFriendshipRequestEngine
         public WebProxy Proxy { get; set; }
 
         public List<KeyValue<int, string>> UrlParameters { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

@@ -18,7 +18,9 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion
         {
             var result = _context.Friends
                 .Where(model => !model.DialogIsCompleted || !model.IsAddedToGroups || !model.IsAddedToPages || !model.IsWinked)
-                .Where(model => model.AddedToRemoveDateTime == null) // не помеен для удаления
+                .Where(model => model.AddedToRemoveDateTime == null) // не помечен для удаления
+                .OrderBy(model => model.AddedDateTime)
+                .Skip(query.RetryNumber * query.CountFriendsToGet) //пропускаем старых
                 .Select(model => new FriendData
                 {
                     FacebookId = model.FacebookId,
@@ -36,7 +38,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion
                     Gender = model.Gender,
                     AddedToRemoveDateTime = model.AddedToRemoveDateTime,
                     IsWinkedFriendsFriend = model.IsWinkedFriendsFriend
-                }).ToList();
+                }).Take(query.CountFriendsToGet)//берем часть
+                .ToList();
 
             return result;
         }

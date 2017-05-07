@@ -19,7 +19,7 @@ namespace Engines.Engines.CancelFriendshipRequestEngine
                     return false;
                 }
                 
-                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
+                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent), "fb_dtsg");
 
                 var parametersDictionary = model.UrlParameters.ToDictionary(pair => (CancelFriendshipRequestEnum)pair.Key, pair => pair.Value);
 
@@ -32,7 +32,7 @@ namespace Engines.Engines.CancelFriendshipRequestEngine
 
                 var parameters = CreateParametersString(parametersDictionary);
 
-                RequestsHelper.Post(Urls.CancelFriendshipRequest.GetDiscription(), parameters, model.Cookie, model.Proxy);
+                RequestsHelper.Post(Urls.CancelFriendshipRequest.GetDiscription(), parameters, model.Cookie, model.Proxy, model.UserAgent);
 
                 return true;
             }

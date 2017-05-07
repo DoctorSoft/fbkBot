@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommonInterfaces.Interfaces.Services;
 using Constants.GendersUnums;
@@ -11,6 +12,7 @@ using DataBase.QueriesAndCommands.Queries.Friends;
 using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
 using Engines.Engines.GetNewCookiesEngine;
 using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Remote;
 using Services.Core;
 using Services.Core.Models;
 using Services.Interfaces;
@@ -31,7 +33,7 @@ namespace Services.Services
         private readonly IAccountManager _accountManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
         private readonly ISeleniumManager _seleniumManager;
-        private IJobService _jobService;
+        private readonly IJobService _jobService;
 
         public SpyService(IJobService jobService)
         {
@@ -62,7 +64,10 @@ namespace Services.Services
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
                 Cookie = model.Cookie.CookieString,
-                Name = model.Name
+                Name = model.Name,
+                ProxyDataIsFailed = model.ProxyDataIsFailed,
+                ConformationIsFailed = model.ConformationIsFailed,
+                AuthorizationDataIsFailed = model.AuthorizationDataIsFailed
             }).ToList();
         }
 
@@ -102,7 +107,7 @@ namespace Services.Services
                 ProxyPassword = model.ProxyPassword
             });
 
-            RefreshCookies(new SpyAccountViewModel
+            new CookieService().RefreshCookies(new AccountViewModel
             {
                 Id = accountId,
                 Login = model.Login,
@@ -110,13 +115,14 @@ namespace Services.Services
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
-            });
-
+            }, forSpy: true);
+            
             var account = new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
             {
                 UserId = accountId
             });
-            if (model.Id == null || model.PageUrl == null || model.FacebookId == 0)
+
+            if (model.PageUrl == null || model.FacebookId == 0)
             {
                 var accountFacebookId = _proxyManager.GetAccountFacebookId(account.Cookie.CookieString);
                 var homePageUrl = _accountManager.CreateHomePageUrl(accountFacebookId);
@@ -202,84 +208,112 @@ namespace Services.Services
                 }
             };
 
-            var friendList = new GetAnalisysFriendsQueryHandler(new DataBaseContext()).Handle(new GetAnalisysFriendsQuery());
-
-            foreach (var analysisFriendData in friendList)
+            var driver = _seleniumManager.RegisterNewDriver(accountViewModel); // открываем драйвер для spy
+            try
             {
-                var accountAnalysisFriend = _accountManager.GetAccountById(analysisFriendData.AccountId);
-                var settingsModel = accountAnalysisFriend.GroupSettingsId != null
-                    ? _accountSettingsManager.GetSettings((long) accountAnalysisFriend.GroupSettingsId)
-                    : new GroupSettingsViewModel();
+                var friendList = new GetAnalisysFriendsQueryHandler(new DataBaseContext()).Handle(new GetAnalisysFriendsQuery());
 
-                var settings = new GroupSettingsViewModel
+                foreach (var analysisFriendData in friendList)
                 {
-                    GroupId = settingsModel.GroupId,
-                    Gender = settingsModel.Gender,
-                    Countries = settingsModel.Countries,
-                    Cities = settingsModel.Cities
-                };
+                    var accountAnalysisFriend = _accountManager.GetAccountById(analysisFriendData.AccountId);
+                    var settingsModel = accountAnalysisFriend.GroupSettingsId != null
+                        ? _accountSettingsManager.GetSettings((long)accountAnalysisFriend.GroupSettingsId)
+                        : new GroupSettingsViewModel();
 
-                var infoIsSuccess = false;
-                var genderIsSuccess = false;
-
-                if (settings.Countries != null || settings.Cities != null)
-                {
-                    infoIsSuccess = new CheckFriendInfoBySeleniumEngine().Execute(new CheckFriendInfoBySeleniumModel
+                    var settings = new GroupSettingsViewModel
                     {
-                        AccountFacebookId = spyAccount.FacebookId,
-                        FriendFacebookId = analysisFriendData.FacebookId,
-                        Cities = settings.Cities,
-                        Countries = settings.Countries,
+                        GroupId = settingsModel.GroupId,
+                        Gender = settingsModel.Gender,
+                        Countries = settingsModel.Countries,
+                        Cities = settingsModel.Cities
+                    };
+
+                    var friendIsSuccess = AnalizeFriend(new AccountViewModel
+                    {
+                        FacebookId = spyAccount.FacebookId,
                         Cookie = spyAccount.Cookie.CookieString,
-                        Driver = _seleniumManager.RegisterNewDriver(new AccountViewModel
-                        {
-                            Proxy = spyAccount.Proxy,
-                            ProxyLogin = spyAccount.ProxyLogin,
-                            ProxyPassword = spyAccount.ProxyPassword
-                        })
+                        Proxy = spyAccount.Proxy,
+                        ProxyLogin = spyAccount.ProxyLogin,
+                        ProxyPassword = spyAccount.ProxyPassword
+                    }, analysisFriendData.FacebookId,
+                    settings,
+                    driver);
+
+                    new AnalizeFriendCore().StartAnalyze(new AnalyzeModel
+                    {
+                        Settings = settings,
+                        AnalysisFriend = analysisFriendData,
+                        InfoIsSuccess = friendIsSuccess,
+                        SpyAccountId = spyAccount.Id
                     });
                 }
 
-                if (settings.Gender != null)
-                {
-                    genderIsSuccess = new CheckFriendGenderEngine().Execute(new CheckFriendGenderModel
-                    {
-                        AccountFacebookId = spyAccount.FacebookId,
-                        FriendFacebookId = analysisFriendData.FacebookId,
-                        Gender = (GenderEnum)settings.Gender,
-                        Cookie = spyAccount.Cookie.CookieString,
-                        Proxy = _accountManager.GetAccountProxy(spyAccount)
-                    });
-                }
-
-                new AnalizeFriendCore().StartAnalyze(new AnalyzeModel
-                {
-                    Settings = settings,
-                    AnalysisFriend = analysisFriendData,
-                    GenderIsSuccess = genderIsSuccess,
-                    InfoIsSuccess = infoIsSuccess,
-                    SpyAccountId = spyAccount.Id
-                });
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            driver.Quit();
         }
 
-        public bool RefreshCookies(SpyAccountViewModel account)
+        private bool AnalizeFriendInfo(AccountViewModel account, long friendFacebookId, GroupSettingsViewModel settings, RemoteWebDriver driver)
         {
-            var driver = RegisterNewDriver(account);
-            var newCookie = new GetNewCookiesEngine().Execute(new GetNewCookiesModel()
+            var infoIsSuccess = new CheckFriendInfoBySeleniumEngine().Execute(new CheckFriendInfoBySeleniumModel
             {
-                Login = account.Login,
-                Password = account.Password,
+                AccountFacebookId = account.FacebookId,
+                FriendFacebookId = friendFacebookId,
+                Cities = settings.Cities,
+                Countries = settings.Countries,
+                Cookie = account.Cookie,
                 Driver = driver
-            }).CookiesString;
-
-            new UpdateCookiesForSpyHandler(new DataBaseContext()).Handle(new UpdateCookiesForSpyCommand
-            {
-                AccountId = account.Id,
-                NewCookieString = newCookie
             });
 
-            return true;
+            return infoIsSuccess;
+        }
+
+        private bool AnalizeFriendGender(AccountViewModel account, long friendFacebookId, GroupSettingsViewModel settings)
+        {
+            if (settings.Gender != null)
+            {
+                var genderIsSuccess = new CheckFriendGenderEngine().Execute(new CheckFriendGenderModel
+                {
+                    AccountFacebookId = account.FacebookId,
+                    FriendFacebookId = friendFacebookId,
+                    Gender = (GenderEnum)settings.Gender,
+                    Cookie = account.Cookie,
+                    Proxy = _accountManager.GetAccountProxy(account)
+                });
+
+                return genderIsSuccess;
+            }
+            return false;
+        }
+
+        public bool AnalizeFriend(AccountViewModel account, long friendFacebookId, GroupSettingsViewModel settings, RemoteWebDriver driver)
+        {
+            bool infoIsSuccess;
+            bool genderIsSuccess;
+
+            if (!settings.Countries.Equals(string.Empty) || !settings.Cities.Equals(string.Empty))
+            {
+                infoIsSuccess = AnalizeFriendInfo(account, friendFacebookId, settings, driver);
+            }
+            else
+            {
+                infoIsSuccess = true;
+            }
+
+            if (settings.Gender != null && infoIsSuccess) //Если нужно проверить пол и при этом ПОДОШЁЛ по данным локации
+            {
+                genderIsSuccess = AnalizeFriendGender(account, friendFacebookId, settings);
+            }
+            else
+            {
+                genderIsSuccess = true;
+            }
+
+            return infoIsSuccess && genderIsSuccess;
         }
 
         public PhantomJSDriver RegisterNewDriver(SpyAccountViewModel account)

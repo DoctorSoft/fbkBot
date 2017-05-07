@@ -14,13 +14,36 @@ namespace Services.ServiceTools
 {
     public class AccountManager : IAccountManager
     {
-        public AccountModel GetAccountById(long accountId)
+        public AccountViewModel GetAccountById(long accountId)
         {
-            return new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
+            var accountModel = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
             {
                 UserId = accountId
             });
+
+            var accountViewModel = new AccountViewModel
+            {
+                Id = accountModel.Id,
+                Login = accountModel.Login,
+                Proxy = accountModel.Proxy,
+                FacebookId = accountModel.FacebookId,
+                ProxyLogin = accountModel.ProxyLogin,
+                Name = accountModel.Name,
+                ProxyPassword = accountModel.ProxyPassword,
+                ConformationDataIsFailed = accountModel.ConformationIsFailed,
+                AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
+                ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
+                Cookie = accountModel.Cookie.CookieString,
+                PageUrl = accountModel.PageUrl,
+                Password = accountModel.Password,
+                UserAgentId = accountModel.UserAgentId,
+                GroupSettingsId = accountModel.UserAgentId,
+                IsDeleted = accountModel.IsDeleted
+            };
+
+            return accountViewModel;
         }
+
         public AccountInformationViewModel GetAccountInformation(long accountId)
         {
             var accountInformationModel = new GetAccountInformationQueryHandler(new DataBaseContext()).Handle(new GetAccountInformationQuery
@@ -43,7 +66,7 @@ namespace Services.ServiceTools
             return result;
         }
 
-        public WebProxy GetAccountProxy(AccountModel account)
+        public WebProxy GetAccountProxy(AccountViewModel account)
         {
             return new WebProxy(account.Proxy)
             {
@@ -51,12 +74,33 @@ namespace Services.ServiceTools
             };
         }
 
-        public AccountModel GetAccountByFacebookId(long accountFacebookId)
+        public AccountViewModel GetAccountByFacebookId(long accountFacebookId)
         {
-            return new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
+            var accountModel = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
                 FacebookUserId = accountFacebookId
             });
+            var accountViewModel = new AccountViewModel
+            {
+                Id = accountModel.Id,
+                Login = accountModel.Login,
+                Proxy = accountModel.Proxy,
+                FacebookId = accountModel.FacebookId,
+                ProxyLogin = accountModel.ProxyLogin,
+                Name = accountModel.Name,
+                ProxyPassword = accountModel.ProxyPassword,
+                ConformationDataIsFailed = accountModel.ConformationIsFailed,
+                AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
+                ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
+                Cookie = accountModel.Cookie.CookieString,
+                PageUrl = accountModel.PageUrl,
+                Password = accountModel.Password,
+                UserAgentId = accountModel.UserAgentId,
+                GroupSettingsId = accountModel.UserAgentId,
+                IsDeleted = accountModel.IsDeleted
+            };
+
+            return accountViewModel;
         }
 
         public List<AccountModel> GetWorkAccounts()

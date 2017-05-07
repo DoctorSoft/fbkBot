@@ -61,11 +61,29 @@ namespace WebApp.Resources.Views.GroupSettings.WinkFriends {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Consider geo for wink.
+        ///   Looks up a localized string similar to Consider geo.
         /// </summary>
         public static string ConsiderGeoForWink {
             get {
                 return ResourceManager.GetString("ConsiderGeoForWink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wink back.
+        /// </summary>
+        public static string WinkBack {
+            get {
+                return ResourceManager.GetString("WinkBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wink friends friends retry time.
+        /// </summary>
+        public static string WinkFriendsFriendsRetryTime {
+            get {
+                return ResourceManager.GetString("WinkFriendsFriendsRetryTime", resourceCulture);
             }
         }
         

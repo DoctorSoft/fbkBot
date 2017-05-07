@@ -7,16 +7,16 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendComma
 {
     public class RemoveAnalyzedFriendCommandHandler : ICommandHandler<RemoveAnalyzedFriendCommand, VoidCommandResponse>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public RemoveAnalyzedFriendCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public VoidCommandResponse Handle(RemoveAnalyzedFriendCommand command)
         {
-            var friendModel = context.AnalisysFriends.FirstOrDefault(
+            var friendModel = _context.AnalisysFriends.FirstOrDefault(
                 model => model.AccountId == command.AccountId && model.Id == command.FriendId);
 
             if (friendModel == null)
@@ -24,8 +24,8 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendComma
                 return new VoidCommandResponse();
             }
 
-            context.Set<AnalysisFriendDbModel>().Remove(friendModel);
-            context.SaveChanges();
+            _context.AnalisysFriends.Remove(friendModel);
+            _context.SaveChanges();
 
             return new VoidCommandResponse();
         }

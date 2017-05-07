@@ -93,7 +93,9 @@
     <Compile Include="Jobs\Cookies\RefreshCookiesJob.cs" />
     <Compile Include="Jobs\DeleteFriendsJobs\RemoveFromFriendsJob.cs" />
     <Compile Include="Jobs\FriendJobs\CheckFriendsAtTheEndTimeConditionsJob.cs" />
-    <Compile Include="Jobs\FriendJobs\WinkFriendsJob.cs" />
+    <Compile Include="Jobs\WinksJobs\WinkFriendsFriendsJob.cs" />
+    <Compile Include="Jobs\WinksJobs\WinkBackJob.cs" />
+    <Compile Include="Jobs\WinksJobs\WinkFriendsJob.cs" />
     <Compile Include="Jobs\FriendJobs\SendRequestFriendshipJob.cs" />
     <Compile Include="Jobs\FriendJobs\GetNewFriendsAndRecommendedJob.cs" />
     <Compile Include="Jobs\FriendJobs\ConfirmFriendshipJob.cs" />
@@ -105,6 +107,8 @@
     <Compile Include="Jobs\RunnerJob\RunnerJob.cs" />
     <Compile Include="Jobs\CommunityJobs\JoinTheNewGroupsAndPagesJob.cs" />
     <Compile Include="Jobs\SpyJobs\AnalyzeFriendsJob.cs" />
+    <Compile Include="LogWriter\LogWriter.cs" />
+    <Compile Include="Models\RunJobModel.cs" />
     <Compile Include="MyRestrictiveAuthorizationFilter.cs" />
     <Compile Include="Notices\NoticesProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

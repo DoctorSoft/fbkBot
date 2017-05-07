@@ -22,6 +22,12 @@
 
         public string ProxyPassword { get; set; }
 
+        public bool ProxyDataIsFailed { get; set; }
+
+        public bool AuthorizationDataIsFailed { get; set; }
+
+        public bool ConformationIsFailed { get; set; }
+
         public CookieModel Cookie { get; set; }
     }
 }

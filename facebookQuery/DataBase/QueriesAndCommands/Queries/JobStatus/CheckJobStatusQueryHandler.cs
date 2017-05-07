@@ -17,11 +17,14 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
             var jobStatus = command.FriendId != null
                 ? _context.JobStatus.FirstOrDefault(
                     model =>
-                        model.FunctionName == command.FunctionName && model.AccountId == command.AccountId &&
-                        model.FriendId == command.FriendId)
+                        model.FunctionName == command.FunctionName 
+                        && model.AccountId == command.AccountId 
+                        && model.IsForSpy == command.IsForSpy
+                        && model.FriendId == command.FriendId)
                 : _context.JobStatus.FirstOrDefault(
-                    model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId);
-
+                    model => model.FunctionName == command.FunctionName
+                        && model.IsForSpy == command.IsForSpy
+                        && model.AccountId == command.AccountId);
 
             return jobStatus != null;
         }

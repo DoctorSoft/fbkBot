@@ -38,7 +38,7 @@ namespace DataBase.QueriesAndCommands.Commands.AccountInformation
             var friendOptionsModel = jsSerializator.Deserialize<AccountInformationDataDbModel>(accountInforamationModel.Information);
 
             friendOptionsModel.CountCurrentFriends = command.AccountInformationData.CountCurrentFriends != 0 ? command.AccountInformationData.CountCurrentFriends : friendOptionsModel.CountCurrentFriends;
-            friendOptionsModel.CountIncommingFriendsRequest = command.AccountInformationData.CountIncommingFriendsRequest != 0 ? command.AccountInformationData.CountIncommingFriendsRequest : friendOptionsModel.CountIncommingFriendsRequest;
+            friendOptionsModel.CountIncommingFriendsRequest = command.AccountInformationData.CountIncommingFriendsRequest != 0 ? command.AccountInformationData.CountIncommingFriendsRequest : 0;
             friendOptionsModel.CountNewMessages = command.AccountInformationData.CountNewMessages != 0 ? command.AccountInformationData.CountNewMessages : friendOptionsModel.CountNewMessages;
 
             var accountInformationJson = jsSerializator.Serialize(friendOptionsModel);

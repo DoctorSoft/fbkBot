@@ -22,6 +22,7 @@ using DataBase.QueriesAndCommands.Queries.Groups;
 using DataBase.QueriesAndCommands.Queries.NewSettings;
 using DataBase.QueriesAndCommands.Queries.Settings;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using DataBase.QueriesAndCommands.Queries.UserAgent.GetUserAgentById;
 using Engines.Engines.AddToGroupEngine;
 using Engines.Engines.AddToPageEngine;
 using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinTheGroupsBySeleniumEngine;
@@ -169,6 +170,11 @@ namespace Services.Services
                 friends = new List<FriendData>(friends.Take(50));
             }
 
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
+
             foreach (var @group in groups)
             {
                 _notice.AddNotice(account.Id,
@@ -177,12 +183,7 @@ namespace Services.Services
                 {
                     Cookie = account.Cookie,
                     FacebookId = account.FacebookId,
-                    Proxy = _accountManager.GetAccountProxy(new AccountModel
-                    {
-                        Proxy = account.Proxy,
-                        ProxyLogin = account.ProxyLogin,
-                        ProxyPassword = account.ProxyPassword
-                    }),
+                    Proxy = _accountManager.GetAccountProxy(account),
                     FacebookGroupUrl = @group,
                     FriendsList = friends.Select(data => new FriendModel
                     {
@@ -193,7 +194,8 @@ namespace Services.Services
                         new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                         {
                             NameUrlParameter = NamesUrlParameter.AddFriendsToGroup
-                        })
+                        }),
+                    UserAgent = userAgent.UserAgentString
                 });
             }
 
@@ -276,6 +278,10 @@ namespace Services.Services
 
             var pages = ConvertStringToList(settings.FacebookPages);
 
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
 
             _notice.AddNotice(account.Id, string.Format("Начинаем добавлять {0} друзей в сообщества", friends.Count));
             foreach (var friendData in friends)
@@ -287,12 +293,7 @@ namespace Services.Services
                     {
                         Cookie = account.Cookie,
                         FacebookId = account.FacebookId,
-                        Proxy = _accountManager.GetAccountProxy(new AccountModel
-                        {
-                            Proxy = account.Proxy,
-                            ProxyLogin = account.ProxyLogin,
-                            ProxyPassword = account.ProxyPassword
-                        }),
+                        Proxy = _accountManager.GetAccountProxy(account),
                         FacebookPageUrl = page,
                         Friend =  new FriendModel
                         {
@@ -303,7 +304,8 @@ namespace Services.Services
                             new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                             {
                                 NameUrlParameter = NamesUrlParameter.AddFriendsToPage
-                            })
+                            }),
+                        UserAgent = userAgent.UserAgentString
                     });
                 }
 
@@ -357,7 +359,7 @@ namespace Services.Services
                 {
                     Driver = _seleniumManager.RegisterNewDriver(account),
                     Cookie = account.Cookie,
-                    Groups = newSettingsData.CommunityOptions.Groups
+                    Groups = newSettingsData.CommunityOptions.Groups,
                 });
 
                 _notice.AddNotice(account.Id, string.Format("В очереди {0} новых страниц", newSettingsData.CommunityOptions.Pages.Count));
@@ -486,7 +488,14 @@ namespace Services.Services
                 RetryTimeForWinkFriendsHour = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Hours,
                 RetryTimeForWinkFriendsMin = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Minutes,
                 RetryTimeForWinkFriendsSec = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Seconds,
-                ConsiderGeoForWinkFriends = settings.WinkOptions.ConsiderGeoForWinkFriends
+                ConsiderGeoForWinkFriends = settings.WinkOptions.ConsiderGeoForWinkFriends,
+                RetryTimeForWinkFriendsFriendsHour = settings.WinkOptions.RetryTimeForWinkFriendsFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriendsFriends.Hours,
+                RetryTimeForWinkFriendsFriendsMin = settings.WinkOptions.RetryTimeForWinkFriendsFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriendsFriends.Minutes,
+                RetryTimeForWinkFriendsFriendsSec = settings.WinkOptions.RetryTimeForWinkFriendsFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriendsFriends.Seconds,
+                ConsiderGeoForWinkFriendsFriends = settings.WinkOptions.ConsiderGeoForWinkFriendsFriends,
+                RetryTimeForWinkBackHour = settings.WinkOptions.RetryTimeForWinkBack == null ? 0 : settings.WinkOptions.RetryTimeForWinkBack.Hours,
+                RetryTimeForWinkBackMin = settings.WinkOptions.RetryTimeForWinkBack == null ? 0 : settings.WinkOptions.RetryTimeForWinkBack.Minutes,
+                RetryTimeForWinkBackSec = settings.WinkOptions.RetryTimeForWinkBack == null ? 0 : settings.WinkOptions.RetryTimeForWinkBack.Seconds
             };
         }
 
@@ -502,7 +511,20 @@ namespace Services.Services
                     Minutes = newSettings.RetryTimeForWinkFriendsMin,
                     Seconds = newSettings.RetryTimeForWinkFriendsSec
                 },
-                ConsiderGeoForWinkFriends = newSettings.ConsiderGeoForWinkFriends
+                ConsiderGeoForWinkFriends = newSettings.ConsiderGeoForWinkFriends,
+                RetryTimeForWinkFriendsFriends = new TimeModel
+                {
+                    Hours = newSettings.RetryTimeForWinkFriendsFriendsHour,
+                    Minutes = newSettings.RetryTimeForWinkFriendsFriendsMin,
+                    Seconds = newSettings.RetryTimeForWinkFriendsFriendsSec
+                },
+                ConsiderGeoForWinkFriendsFriends = newSettings.ConsiderGeoForWinkFriendsFriends,
+                RetryTimeForWinkBack = new TimeModel
+                {
+                    Hours = newSettings.RetryTimeForWinkBackHour,
+                    Minutes = newSettings.RetryTimeForWinkBackMin,
+                    Seconds = newSettings.RetryTimeForWinkBackSec
+                },
             };
 
             var communityOptions = new CommunityOptionsDbModel
@@ -658,7 +680,8 @@ namespace Services.Services
                     GroupSettingsId = model.GroupSettingsId,
                     AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                     ProxyDataIsFailed = model.ProxyDataIsFailed,
-                    IsDeleted = model.IsDeleted
+                    IsDeleted = model.IsDeleted,
+                    UserAgentId = model.UserAgentId
                 }).ToList();
 
             var modelNewData = GetNewGroupsAndPages(communityOptions, oldSettings);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity.Infrastructure;
+using System.Linq;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Models;
 
@@ -15,11 +16,13 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToWink
 
         public FriendData Handle(GetFriendToWinkQuery query)
         {
-            var friend = _context.Friends
+            var friends = _context.Friends
                 .Where(model => model.AccountId == query.AccountId)
                 .Where(model => model.AddedToRemoveDateTime == null)//не добавлен к удалению
                 .Where(model => !model.IsWinked)//не подмигивали
-                .FirstOrDefault(model => !_context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.GroupSettingsId));//не в чс
+                .Where(model => !_context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.GroupSettingsId));//не в чс
+
+            var friend = query.TestedFriendsId!= null ? friends.FirstOrDefault(model => !query.TestedFriendsId.Any(l => l == model.FacebookId)) : friends.FirstOrDefault();
 
             if (friend == null)
             {

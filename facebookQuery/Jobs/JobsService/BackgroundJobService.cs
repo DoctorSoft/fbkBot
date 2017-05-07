@@ -10,6 +10,8 @@ using Jobs.Jobs.Cookies;
 using Jobs.Jobs.DeleteFriendsJobs;
 using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.MessageJobs;
+using Jobs.Jobs.WinksJobs;
+using Jobs.Models;
 using Jobs.Notices;
 using Services.Hubs;
 using Services.Models.BackgroundJobs;
@@ -62,7 +64,13 @@ namespace Jobs.JobsService
                 return;
             }
 
-            var jobsId = _jobStatusService.DeleteJobStatusesByAccountId((long)accountId);
+            var jobStatusModel = new JobStatusViewModel
+            {
+                AccountId = (long) accountId,
+                IsForSpy = currentModel.IsForSpy
+            };
+
+            var jobsId = _jobStatusService.DeleteJobStatusesByAccountId(jobStatusModel);
 
             RemoveJobsById(jobsId);
         }
@@ -79,6 +87,7 @@ namespace Jobs.JobsService
             var account = currentModel.Account;
             var newSettings = currentModel.NewSettings;
             var oldSettings = currentModel.OldSettings;
+            var isForSpy = currentModel.IsForSpy;
 
             _notice.Add(account.Id, "Обновляем обработчик событий");
             //cookies
@@ -88,8 +97,14 @@ namespace Jobs.JobsService
                 Account = account,
                 FunctionName = FunctionName.RefreshCookies,
                 LaunchTime = new TimeSpan(2, 0, 0),
-                CheckPermissions = false
+                CheckPermissions = false,
+                IsForSpy = isForSpy
             });
+
+            if (isForSpy)
+            {
+                return true;
+            }
 
             if (!AccountIsWorking(account))
             {
@@ -146,7 +161,6 @@ namespace Jobs.JobsService
                 newSettings, oldSettings);
             var sendRequestFriendshipsLaunchTime = SetLaunchTime(FunctionName.SendRequestFriendship, newSettings,
                 oldSettings);
-            var winkFriendshipsLaunchTime = SetLaunchTime(FunctionName.Wink, newSettings, oldSettings);
 
             CreateBackgroundJob(new CreateBackgroundJobModel
             {
@@ -180,11 +194,33 @@ namespace Jobs.JobsService
                 CheckPermissions = true
             });
 
+
+            //winks
+            var winkFriendshipsLaunchTime = SetLaunchTime(FunctionName.Wink, newSettings, oldSettings);
+            var winkFriendsFriendshipsLaunchTime = SetLaunchTime(FunctionName.WinkFriendFriends, newSettings, oldSettings);
+            var winkBackLaunchTime = SetLaunchTime(FunctionName.WinkBack, newSettings, oldSettings);
+
             CreateBackgroundJob(new CreateBackgroundJobModel
             {
                 Account = account,
                 FunctionName = FunctionName.Wink,
                 LaunchTime = winkFriendshipsLaunchTime,
+                CheckPermissions = true
+            });
+
+            CreateBackgroundJob(new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.WinkFriendFriends,
+                LaunchTime = winkFriendsFriendshipsLaunchTime,
+                CheckPermissions = true
+            });
+
+            CreateBackgroundJob(new CreateBackgroundJobModel
+            {
+                Account = account,
+                FunctionName = FunctionName.WinkBack,
+                LaunchTime = winkBackLaunchTime,
                 CheckPermissions = true
             });
             
@@ -230,6 +266,7 @@ namespace Jobs.JobsService
             }
 
             var account = currentModel.Account;
+            var isForSpy = currentModel.IsForSpy;
             var friend = currentModel.Friend;
             var checkPermissions = currentModel.CheckPermissions;
             var functionName = currentModel.FunctionName;
@@ -248,31 +285,43 @@ namespace Jobs.JobsService
                 return;
             }
 
-            if (JobIsRun(functionName, account))
-            {
-                var jobStatusList = new JobStatusService().GetJobStatus(account.Id, functionName, null);
-
-                foreach (var jobStatusViewModel in jobStatusList)
-                {
-                    BackgroundJob.Delete(jobStatusViewModel.JobId);
-                }
-
-                new JobStatusService().DeleteJobStatus(account.Id, functionName, null);
-            }
-
             var jobStatusModel = new JobStatusViewModel
             {
                 AccountId = account.Id,
                 LaunchTime = launchTimeModel,
                 FriendId = null,
-                FunctionName = functionName
+                FunctionName = functionName,
+                IsForSpy = isForSpy
+            };
+
+            if (JobIsRun(jobStatusModel))
+            {
+                var jobStatusList = new JobStatusService().GetJobStatus(jobStatusModel);
+
+                if (jobStatusList != null)
+                {
+                    foreach (var jobStatusViewModel in jobStatusList)
+                    {
+                        BackgroundJob.Delete(jobStatusViewModel.JobId);
+
+                        new JobStatusService().DeleteJobStatus(jobStatusModel);
+                    }
+
+                }
+            }
+
+            var runModel = new RunJobModel
+            {
+                Account = account,
+                ForSpy = isForSpy,
+                Friend = friend
             };
 
             switch (functionName)
             {
                 case FunctionName.SendMessageToNewFriends:
                 {
-                    var jobId = BackgroundJob.Schedule(() => SendMessageToNewFriendsJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendMessageToNewFriendsJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -281,7 +330,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.SendMessageToUnanswered:
                 {
-                    var jobId = BackgroundJob.Schedule(() => SendMessageToUnansweredJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendMessageToUnansweredJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -290,7 +339,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.SendMessageToUnread:
                 {
-                    var jobId = BackgroundJob.Schedule(() => SendMessageToUnreadJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendMessageToUnreadJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -299,7 +348,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.RefreshFriends:
                 {
-                    var jobId = BackgroundJob.Schedule(() => RefreshFriendsJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => RefreshFriendsJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -308,7 +357,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.GetNewFriendsAndRecommended:
                 {
-                    var jobId = BackgroundJob.Schedule(() => GetNewFriendsAndRecommendedJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => GetNewFriendsAndRecommendedJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -317,7 +366,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.ConfirmFriendship:
                 {
-                    var jobId = BackgroundJob.Schedule(() => ConfirmFriendshipJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => ConfirmFriendshipJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -326,7 +375,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.SendRequestFriendship:
                 {
-                    var jobId = BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -335,7 +384,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.AnalyzeFriends:
                 {
-                    var jobId = BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => SendRequestFriendshipJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -344,7 +393,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.RefreshCookies:
                 {
-                    var jobId = BackgroundJob.Schedule(() => RefreshCookiesJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => RefreshCookiesJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -364,7 +413,7 @@ namespace Jobs.JobsService
                         break;
                     }
 
-                    var jobId = BackgroundJob.Schedule(() => JoinTheNewGroupsAndPagesJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => JoinTheNewGroupsAndPagesJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -373,7 +422,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.InviteToGroups:
                 {
-                    var jobId = BackgroundJob.Schedule(() => InviteTheNewGroupJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => InviteTheNewGroupJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -382,7 +431,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.InviteToPages:
                 {
-                    var jobId = BackgroundJob.Schedule(() => InviteTheNewPageJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => InviteTheNewPageJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -391,7 +440,7 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.RemoveFromFriends:
                 {
-                    var jobId = BackgroundJob.Schedule(() => RemoveFromFriendsJob.Run(account, friend), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => RemoveFromFriendsJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -400,7 +449,25 @@ namespace Jobs.JobsService
                 }
                 case FunctionName.Wink:
                 {
-                    var jobId = BackgroundJob.Schedule(() => WinkFriendsJob.Run(account), launchTime);
+                    var jobId = BackgroundJob.Schedule(() => WinkFriendsJob.Run(runModel), launchTime);
+                    //Помечаем запуск джоба
+                    jobStatusModel.JobId = jobId;
+
+                    AddJobStatus(jobStatusModel);
+                    break;
+                }
+                case FunctionName.WinkFriendFriends:
+                {
+                    var jobId = BackgroundJob.Schedule(() => WinkFriendsFriendsJob.Run(runModel), launchTime);
+                    //Помечаем запуск джоба
+                    jobStatusModel.JobId = jobId;
+
+                    AddJobStatus(jobStatusModel);
+                    break;
+                }
+                case FunctionName.WinkBack:
+                {
+                    var jobId = BackgroundJob.Schedule(() => WinkBackJob.Run(runModel), launchTime);
                     //Помечаем запуск джоба
                     jobStatusModel.JobId = jobId;
 
@@ -446,9 +513,9 @@ namespace Jobs.JobsService
 
             return true;
         }
-        private static bool JobIsRun(FunctionName functionName, AccountViewModel account)
+        private static bool JobIsRun(JobStatusViewModel model)
         {
-            if (new JobStatusService().JobIsInRun(account.Id, functionName))
+            if (new JobStatusService().JobIsInRun(model))
             {
                 return true;
             }
@@ -728,6 +795,40 @@ namespace Jobs.JobsService
                         }
 
                         var oldTime = new TimeSpan(oldSettings.RetryTimeForWinkFriendsHour, oldSettings.RetryTimeForWinkFriendsMin, oldSettings.RetryTimeForWinkFriendsSec);
+
+                        if (SettingsAreEqual(newTime, oldTime))
+                        {
+                            return new TimeSpan(0, 0, 0);
+                        }
+                        return newTime;
+                    }
+                case FunctionName.WinkFriendFriends:
+                    {
+                        var newTime = new TimeSpan(newSettings.RetryTimeForWinkFriendsFriendsHour, newSettings.RetryTimeForWinkFriendsFriendsMin, newSettings.RetryTimeForWinkFriendsFriendsSec);
+
+                        if (oldSettings == null)
+                        {
+                            return newTime;
+                        }
+
+                        var oldTime = new TimeSpan(oldSettings.RetryTimeForWinkFriendsFriendsHour, oldSettings.RetryTimeForWinkFriendsFriendsMin, oldSettings.RetryTimeForWinkFriendsFriendsSec);
+
+                        if (SettingsAreEqual(newTime, oldTime))
+                        {
+                            return new TimeSpan(0, 0, 0);
+                        }
+                        return newTime;
+                    }
+                case FunctionName.WinkBack:
+                    {
+                        var newTime = new TimeSpan(newSettings.RetryTimeForWinkBackHour, newSettings.RetryTimeForWinkBackMin, newSettings.RetryTimeForWinkBackSec);
+
+                        if (oldSettings == null)
+                        {
+                            return newTime;
+                        }
+
+                        var oldTime = new TimeSpan(oldSettings.RetryTimeForWinkBackHour, oldSettings.RetryTimeForWinkBackMin, oldSettings.RetryTimeForWinkBackSec);
 
                         if (SettingsAreEqual(newTime, oldTime))
                         {

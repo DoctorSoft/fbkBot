@@ -27,6 +27,8 @@ namespace DataBase.Context
         public DbSet<SpyStatisticsDbModel> SpyStatistics { get; set; }
 
         public DbSet<CookiesForSpyDbModel> CookiesForSpy { get; set; }
+
+        public DbSet<UserAgentDbModel> UserAgents { get; set; }
         
         public DbSet<MessageDbModel> Messages { get; set; }
 
@@ -63,6 +65,8 @@ namespace DataBase.Context
         public DbSet<CommunityStatisticsDbModel> CommunityStatistics { get; set; }
 
         public DbSet<AccountInformationDbModel> AccountInformation { get; set; }
+
+        public DbSet<CounterCheckFriendsDbModel> CounterCheckFriends { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -92,6 +96,8 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new JobStatusConfiguration());
             modelBuilder.Configurations.Add(new CommunityStatisticsConfiguration());
             modelBuilder.Configurations.Add(new AccountInformationConfiguration());
+            modelBuilder.Configurations.Add(new CounterCheckFriendsConfiguration());
+            modelBuilder.Configurations.Add(new UserAgentConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

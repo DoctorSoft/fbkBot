@@ -6,6 +6,8 @@ using Runner.Runners.Community;
 using Runner.Runners.Cookies;
 using Runner.Runners.Friends;
 using Runner.Runners.Messages;
+using Runner.Runners.Spy;
+using Runner.Runners.Winks;
 
 namespace Runner
 {
@@ -80,6 +82,26 @@ namespace Runner
                 case FunctionName.Wink:
                 {
                     context = new RunnerContext(new WinkFriendsRunner());
+                    break;
+                }
+                case FunctionName.AnalyzeFriends:
+                {
+                    context = new RunnerContext(new AnalyzeFriendsRunner());
+                    break;
+                }
+                case FunctionName.WinkFriendFriends:
+                {
+                    context = new RunnerContext(new WinkFriendsFriendsRunner());
+                    break;
+                }
+                case FunctionName.CheckFriendsAtTheEndTimeConditions:
+                {
+                    context = new RunnerContext(new CheckFriendsAtTheEndTimeConditionsRunner());
+                    break;
+                }
+                case FunctionName.WinkBack:
+                {
+                    context = new RunnerContext(new WinkBackRunner());
                     break;
                 }
                 default:

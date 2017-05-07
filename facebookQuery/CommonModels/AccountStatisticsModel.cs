@@ -14,6 +14,8 @@ namespace CommonModels
 
         public long CountOrdersConfirmedFriends { get; set; }
 
+        public long CountOfWinksBack { get; set; }
+
         public DateTime DateTimeUpdateStatistics { get; set; }
 
         public DateTime CreateDateTime { get; set; }

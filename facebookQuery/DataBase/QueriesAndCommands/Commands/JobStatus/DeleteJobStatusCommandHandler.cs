@@ -15,15 +15,22 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
 
         public VoidCommandResponse Handle(DeleteJobStatusCommand command)
         {
-            var jobStatus = _context.JobStatus.Where(model => model.AccountId == command.AccountId 
-                && model.FunctionName == command.FunctionName);
+            var jobStatus = _context.JobStatus
+                .Where(model => model.AccountId == command.AccountId
+                    && model.IsForSpy == command.IsForSpy
+                    && model.FunctionName == command.FunctionName);
 
-            if (command.FriendId!=null)
+            if (command.FriendId !=null)
             {
                 jobStatus = jobStatus.Where(model => model.FriendId == command.FriendId);
             }
             try
             {
+                if (!jobStatus.Any())
+                {
+                    return new VoidCommandResponse();
+                }
+
                 _context.JobStatus.RemoveRange(jobStatus);
 
                 _context.SaveChanges();

@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+@using System.Globalization
 @using WebApp.Resources.Views.Accounts
 @using WebApp.Resources.Views.Buttons
 @model Services.ViewModels.HomeModels.AccountSettingsViewModel
@@ -119,6 +120,16 @@
                             <tbody>
                                 <tr>
                                     <td>
+                                        @Html.Label(AccountsTexts.NumberOfWinksBack + ":", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @(Model.Statistics.LastHourStatistic != null ? 
+                                        Html.LabelForModel(Model.Statistics.LastHourStatistic.CountOfWinksBack.ToString(CultureInfo.InvariantCulture), new {@class = "form-control"}) : 
+                                        Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"}))
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         @Html.Label(AccountsTexts.CountOfReceivedApplicationsFriend + ":", new {@class = "form-control col-md-7"})
                                     </td>
                                     <td>
@@ -151,7 +162,6 @@
                                         }
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td>
                                         @Html.Label(AccountsTexts.CountOrdersConfirmedFriends + ":", new {@class = "form-control col-md-7"})
@@ -169,7 +179,6 @@
                                         }
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td>
                                         @Html.Label(AccountsTexts.LastUpdateStatistics + ":", new {@class = "form-control col-md-7"})
@@ -200,6 +209,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.Label(AccountsTexts.NumberOfWinksBack + ":", new { @class = "form-control col-md-7" })
+                                    </td>
+                                    <td>
+                                        @(Model.Statistics.AllTimeStatistic != null 
+                                        ? Html.LabelForModel(Model.Statistics.AllTimeStatistic.CountOfWinksBack.ToString(CultureInfo.InvariantCulture), new {@class = "form-control"}) 
+                                        : Html.Label(AccountsTexts.NoData, new {@class = "form-control col-md-7"}))
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>
                                         @Html.Label(AccountsTexts.CountOfReceivedApplicationsFriend + ":", new {@class = "form-control col-md-7"})
@@ -251,7 +270,6 @@
                                         }
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td>
                                         @Html.Label(AccountsTexts.LastUpdateStatistics + ":", new {@class = "form-control col-md-7"})

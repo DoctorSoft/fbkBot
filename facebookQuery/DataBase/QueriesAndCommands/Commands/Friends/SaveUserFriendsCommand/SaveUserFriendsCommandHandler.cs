@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Constants.FriendTypesEnum;
 using DataBase.Context;
 using DataBase.Models;
 
@@ -30,7 +31,8 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                     model.DeleteFromFriends, 
                     model.Id,
                     model.Href,
-                    model.Gender
+                    model.Gender,
+                    model.FriendType
                 }).AsEnumerable().Select(model => new FriendDbModel
                 {
                     FacebookId = model.FacebookId,
@@ -41,11 +43,17 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                     DeleteFromFriends = model.DeleteFromFriends,
                     Id = model.Id,
                     Gender = model.Gender,
-                    Href = model.Href
+                    Href = model.Href,
+                    FriendType = model.FriendType
                 }).ToList();
 
                 foreach (var friendDbModel in friendsInDb)
                 {
+                    if (friendDbModel.FriendType == FriendTypes.NotFriends) //Не помечаем как удаленный друзей, которые написали будучи не в друзьях
+                    {
+                        continue;
+                    }
+
                     if (command.Friends.Any(model => model.FacebookId.Equals(friendDbModel.FacebookId)))
                     {
                         continue;
@@ -77,14 +85,15 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                 {
                     if (!friendsInDb.Any(model => model.FacebookId.Equals(friend.FacebookId)))
                     {
-                        friendsList.Add(new FriendDbModel()
+                        friendsList.Add(new FriendDbModel
                         {
                             FacebookId = friend.FacebookId,
                             AccountId = command.AccountId,
                             FriendName = friend.FriendName,
                             AddedDateTime = DateTime.Now,
                             Href = friend.Href,
-                            Gender = friend.Gender
+                            Gender = friend.Gender,
+                            FriendType = FriendTypes.InFriends
                         });
                     }
                 }
@@ -99,7 +108,8 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                     DeleteFromFriends = false,
                     AddedDateTime = DateTime.Now,
                     Href = friend.Href,
-                    Gender = friend.Gender
+                    Gender = friend.Gender,
+                    FriendType = FriendTypes.InFriends
                 }));
             }
 

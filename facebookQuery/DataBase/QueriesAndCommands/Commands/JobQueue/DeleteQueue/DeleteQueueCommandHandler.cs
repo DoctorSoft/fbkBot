@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Commands.JobQueue.DeleteQueue
@@ -14,11 +15,21 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.DeleteQueue
 
         public VoidCommandResponse Handle(DeleteQueueCommand command)
         {
-            var queueModel = _context.JobsQueue.FirstOrDefault(model => model.Id == command.QueueId);
+            try
+            {
+                var queueModel = _context.JobsQueue.FirstOrDefault(model => model.Id == command.QueueId);
+                if (queueModel == null)
+                {
+                    return new VoidCommandResponse();
+                }
+                _context.JobsQueue.Remove(queueModel);
 
-            _context.JobsQueue.Remove(queueModel);
-
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                
+            }
 
             return new VoidCommandResponse();
         }

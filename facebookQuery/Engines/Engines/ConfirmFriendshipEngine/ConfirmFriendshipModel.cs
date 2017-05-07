@@ -15,5 +15,6 @@ namespace Engines.Engines.ConfirmFriendshipEngine
         public WebProxy Proxy { get; set; }
 
         public List<KeyValue<int, string>> UrlParameters { get; set; }
+        public string UserAgent { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Constants.FunctionEnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.JobStatus;
 using DataBase.QueriesAndCommands.Commands.JobStatus.DeleteJobStatusesByAccountId;
@@ -11,12 +10,14 @@ namespace Services.Services
 {
     public class JobStatusService
     {
-        public bool JobIsInRun(long accountId, FunctionName functionName)
+        public bool JobIsInRun(JobStatusViewModel model)
         {
             var jobStatus = new CheckJobStatusQueryHandler(new DataBaseContext()).Handle(new CheckJobStatusQuery            
             {
-                AccountId = accountId,
-                FunctionName = functionName
+                AccountId = model.AccountId,
+                FunctionName = model.FunctionName,
+                IsForSpy = model.IsForSpy,
+                FriendId = model.FriendId
             });
 
             return jobStatus;
@@ -30,17 +31,19 @@ namespace Services.Services
                 FunctionName = model.FunctionName,
                 LaunchTime = model.LaunchTime,
                 JobId = model.JobId,
-                FriendId = model.FriendId
+                FriendId = model.FriendId,
+                IsForSpy = model.IsForSpy
             });
         }
 
-        public List<JobStatusViewModel> GetJobStatus(long accountId, FunctionName functionName, long? friendId)
+        public List<JobStatusViewModel> GetJobStatus(JobStatusViewModel model)
         {
             var jobStatusList = new GetJobStatusQueryHandler(new DataBaseContext()).Handle(new GetJobStatusQuery
             {
-                AccountId = accountId,
-                FunctionName = functionName,
-                FriendId = friendId
+                AccountId = model.AccountId,
+                FunctionName = model.FunctionName,
+                FriendId = model.FriendId,
+                IsForSpy = model.IsForSpy
             });
 
             if (jobStatusList == null || jobStatusList.Count == 0)
@@ -56,24 +59,29 @@ namespace Services.Services
                 AddDateTime = jobStatus.AddDateTime,
                 JobId = jobStatus.JobId,
                 LaunchTime = jobStatus.LaunchTime,
-                FriendId = jobStatus.FriendId
+                FriendId = jobStatus.FriendId,
+                IsForSpy = jobStatus.IsForSpy
             }).ToList();
         }
-        public void DeleteJobStatus(long accountId, FunctionName functionName, long? friendId)
+
+        public void DeleteJobStatus(JobStatusViewModel model)
         {
             new DeleteJobStatusCommandHandler(new DataBaseContext()).Handle(new DeleteJobStatusCommand
             {
-                AccountId = accountId,
-                FunctionName = functionName,
-                FriendId = friendId
+                AccountId = model.AccountId,
+                FunctionName = model.FunctionName,
+                FriendId = model.FriendId,
+                IsForSpy = model.IsForSpy
             });
         }
 
-        public List<string> DeleteJobStatusesByAccountId(long accountId)
+        public List<string> DeleteJobStatusesByAccountId(JobStatusViewModel model)
         {
             var jobsId = new DeleteJobStatusesByAccountIdCommandHandler(new DataBaseContext()).Handle(new DeleteJobStatusesByAccountIdCommand
             {
-                AccountId = accountId
+                AccountId = model.AccountId,
+                IsForSpy = model.IsForSpy,
+                FunctionName = model.FunctionName
             });
 
             return jobsId;

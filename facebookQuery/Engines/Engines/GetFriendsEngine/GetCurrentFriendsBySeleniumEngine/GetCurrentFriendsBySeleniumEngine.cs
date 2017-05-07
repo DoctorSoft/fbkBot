@@ -6,23 +6,22 @@ using System.Threading;
 using CommonModels;
 using Constants;
 using Constants.EnumExtension;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Internal;
 using RequestsHelpers;
 
 namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
 {
-    public class GetCurrentFriendsBySeleniumEngine : AbstractEngine<GetCurrentFriendsBySeleniumModel, GetFriendsResponseModel>
+    public class GetCurrentFriendsBySeleniumEngine : AbstractEngine<GetCurrentFriendsBySeleniumModel, List<FriendsResponseModel>>
     {
         private const int PercentageOfError = 4;
 
-        protected override GetFriendsResponseModel ExecuteEngine(GetCurrentFriendsBySeleniumModel model)
+        protected override List<FriendsResponseModel> ExecuteEngine(GetCurrentFriendsBySeleniumModel model)
         {
             var driver = model.Driver;
-            var friendsList = new GetFriendsResponseModel
-            {
-                Friends = new List<FriendsResponseModel>()
-            };
+            var friendsList = new List<FriendsResponseModel>();
 
             const string path = "/";
             const string domain = ".facebook.com";
@@ -38,13 +37,13 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
                 }
 
                 driver.Navigate()
-                    .GoToUrl(string.Format("https://www.facebook.com/profile.php?id={0}&sk=friends",
+                    .GoToUrl(string.Format("https://facebook.com/{0}/friends?lst={0}%3A{0}%3A1492727311",
                         model.AccountFacebookId));
-
+            
                 Thread.Sleep(1000);
 
                 var friends = GetFriendLinks(driver);
-                var countFriendsLabel = GetFriendsCount(RequestsHelper.Get(Urls.GetFriends.GetDiscription(), model.Cookie, model.Proxy));
+                var countFriendsLabel = GetFriendsCount(RequestsHelper.Get(Urls.GetFriends.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent));
 
                 var currentCount = friends.Count;
 
@@ -74,22 +73,26 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
                 friends = GetFriendLinks(driver);
                 var errorElements = new List<IWebElement>();
 
-
                 foreach (var webElement in friends)
                 {
                     try
                     {
-                        var name = webElement.Text;
-                        var id = ParseFacebookId(webElement.GetAttribute("data-gt"));
+                        var nameElement = webElement.FindElement(By.CssSelector(".fsl.fwb.fcb"));
+                        var name = nameElement != null ? nameElement.Text : "";
+
+                        var idElement = webElement.FindElement(By.CssSelector(".fsl.fwb.fcb>a"));
+                        var attr = idElement.GetAttribute("data-gt");
+                        
+                        var id = ParseFacebookId(attr);
                         var uri = "https://www.facebook.com/profile.php?id=" + id;
 
                         var friendModels = new FriendsResponseModel
                         {
-                            FacebookId = id,
+                            FacebookId = Convert.ToInt64(id),
                             FriendName = name,
                             Uri = uri
                         };
-                        friendsList.Friends.Add(friendModels);
+                        friendsList.Add(friendModels);
                     }
                     catch (Exception ex)
                     {
@@ -140,8 +143,9 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
         {
             try
             {
-                var result = driver.FindElementsByCssSelector("._6a._6b>.fsl.fwb.fcb>a");
-
+                //var result = driver.FindElementsByCssSelector("._55wo._55x2>._55wq._4g33._5pxa");
+                var result = driver.FindElementsByCssSelector(".uiList._262m._4kg>._698");
+                
                 return result;
             }
             catch (Exception ex)
@@ -150,15 +154,12 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
             }
         }
 
-        private static long ParseFacebookId(string page)
+        private static string ParseFacebookId(string page)
         {
-            var pattern = new Regex("eng_tid\\\":*?.\".*?.\"");
-            var step1 = pattern.Match(page).ToString();
-
-            var step2 = step1.Remove(0, 10);
-            var step3 = step2.Remove(step2.Length - 1);
-
-            return Convert.ToInt64(step3);
+            var data = (JObject)JsonConvert.DeserializeObject(page);
+            var s = (JObject)JsonConvert.DeserializeObject(data.GetValue("engagement").ToString());
+            var id = s.GetValue("eng_tid");
+            return id.ToString();
         }
         public static string GetFriendsCount(string pageRequest)
         {

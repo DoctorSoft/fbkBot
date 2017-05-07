@@ -6,16 +6,16 @@ namespace DataBase.QueriesAndCommands.Queries.SpyFunctions
 {
     public class GetAllSpyFunctionByIdQueryHandler : IQueryHandler<GetAllSpyFunctionByIdQuery, List<SpyFunctionData>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetAllSpyFunctionByIdQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<SpyFunctionData> Handle(GetAllSpyFunctionByIdQuery query)
         {
-            var result = context.SpyFunctions.Select(model => new SpyFunctionData
+            var result = _context.SpyFunctions.Select(model => new SpyFunctionData
             {
                 Name = model.Function.Name,
                 FunctionName = model.Function.FunctionName,

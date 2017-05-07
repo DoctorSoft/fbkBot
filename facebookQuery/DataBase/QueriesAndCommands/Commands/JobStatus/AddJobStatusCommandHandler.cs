@@ -18,9 +18,11 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
 
         public long Handle(AddJobStatusCommand command)
         {
-            var jobStatus = _context.JobStatus.FirstOrDefault(model => model.FunctionName == command.FunctionName
-                                                                       && model.AccountId == command.AccountId &&
-                                                                       model.FriendId == command.FriendId);
+            var jobStatus = _context.JobStatus
+                .FirstOrDefault(model => model.FunctionName == command.FunctionName
+                                                                       && model.AccountId == command.AccountId
+                                                                       && model.IsForSpy == command.IsForSpy 
+                                                                       && model.FriendId == command.FriendId);
 
             if (jobStatus != null)
             {
@@ -37,7 +39,8 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus
                 AddDateTime = DateTime.Now,
                 LaunchDateTime = launchTimeJson,
                 JobId = command.JobId,
-                FriendId = command.FriendId
+                FriendId = command.FriendId,
+                IsForSpy = command.IsForSpy
             };
 
             _context.JobStatus.AddOrUpdate(jobStatus);

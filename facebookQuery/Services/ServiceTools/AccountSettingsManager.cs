@@ -97,7 +97,14 @@ namespace Services.ServiceTools
                 RetryTimeForWinkFriendsHour = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Hours,
                 RetryTimeForWinkFriendsMin = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Minutes,
                 RetryTimeForWinkFriendsSec = settings.WinkOptions.RetryTimeForWinkFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriends.Seconds,
-                ConsiderGeoForWinkFriends = settings.WinkOptions.ConsiderGeoForWinkFriends
+                ConsiderGeoForWinkFriends = settings.WinkOptions.ConsiderGeoForWinkFriends,
+                RetryTimeForWinkFriendsFriendsHour = settings.WinkOptions.RetryTimeForWinkFriendsFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriendsFriends.Hours,
+                RetryTimeForWinkFriendsFriendsMin = settings.WinkOptions.RetryTimeForWinkFriendsFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriendsFriends.Minutes,
+                RetryTimeForWinkFriendsFriendsSec = settings.WinkOptions.RetryTimeForWinkFriendsFriends == null ? 0 : settings.WinkOptions.RetryTimeForWinkFriendsFriends.Seconds,
+                ConsiderGeoForWinkFriendsFriends = settings.WinkOptions.ConsiderGeoForWinkFriendsFriends,
+                RetryTimeForWinkBackHour = settings.WinkOptions.RetryTimeForWinkBack == null ? 0 : settings.WinkOptions.RetryTimeForWinkBack.Hours,
+                RetryTimeForWinkBackMin = settings.WinkOptions.RetryTimeForWinkBack == null ? 0 : settings.WinkOptions.RetryTimeForWinkBack.Minutes,
+                RetryTimeForWinkBackSec = settings.WinkOptions.RetryTimeForWinkBack == null ? 0 : settings.WinkOptions.RetryTimeForWinkBack.Seconds
             };
         }
 

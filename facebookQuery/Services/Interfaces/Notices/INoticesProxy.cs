@@ -1,4 +1,6 @@
-﻿namespace Services.Interfaces.Notices
+﻿using Microsoft.AspNet.SignalR.Hubs;
+
+namespace Services.Interfaces.Notices
 {
     public interface INoticesProxy
     {

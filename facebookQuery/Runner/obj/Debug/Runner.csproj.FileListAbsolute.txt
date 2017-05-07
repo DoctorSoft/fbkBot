@@ -20,9 +20,9 @@ D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\CommonModels.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Hangfire.SqlServer.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\DataBase.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Engines.dll
-D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\RequestsHelpers.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.Extended.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.BulkInsert.dll
+D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\RequestsHelpers.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\WebDriver.Support.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.MappingAPI.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\CommonInterfaces.pdb
@@ -43,11 +43,12 @@ D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\CommonModels.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Hangfire.SqlServer.xml
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\DataBase.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\Engines.pdb
-D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\RequestsHelpers.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.Extended.xml
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.BulkInsert.pdb
+D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\RequestsHelpers.pdb
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\WebDriver.Support.xml
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\EntityFramework.MappingAPI.pdb
+D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\ru\Services.resources.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\es\Hangfire.Core.resources.dll
 D:\Project\fbkBot\facebookQuery\Runner\bin\Debug\zh\Hangfire.Core.resources.dll
 D:\Project\fbkBot\facebookQuery\Runner\obj\Debug\Runner.csprojResolveAssemblyReference.cache

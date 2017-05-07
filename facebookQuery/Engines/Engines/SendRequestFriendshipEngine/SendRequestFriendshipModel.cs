@@ -17,5 +17,7 @@ namespace Engines.Engines.SendRequestFriendshipEngine
         public List<KeyValue<int, string>> AddFriendUrlParameters { get; set; }
 
         public List<KeyValue<int, string>> AddFriendExtraUrlParameters { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

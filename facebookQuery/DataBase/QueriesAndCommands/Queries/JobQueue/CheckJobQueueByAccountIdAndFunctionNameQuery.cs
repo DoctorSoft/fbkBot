@@ -6,6 +6,8 @@ namespace DataBase.QueriesAndCommands.Queries.JobQueue
     {
         public long AccountId { get; set; }
 
+        public bool IsForSpy { get; set; }
+
         public FunctionName FunctionName { get; set; }
         
     }

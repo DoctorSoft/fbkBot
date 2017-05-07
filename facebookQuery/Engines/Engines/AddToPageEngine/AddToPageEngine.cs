@@ -21,8 +21,8 @@ namespace Engines.Engines.AddToPageEngine
                     return false;
                 }
                 
-                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
-                var pageId = ParseResponsePageHelper.GetGroupId(RequestsHelper.Get(model.FacebookPageUrl, model.Cookie, model.Proxy));
+                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent), "fb_dtsg");
+                var pageId = ParseResponsePageHelper.GetGroupId(RequestsHelper.Get(model.FacebookPageUrl, model.Cookie, model.Proxy, model.UserAgent));
 
                 var parametersDictionary = model.UrlParameters.ToDictionary(pair => (AddFriendsToPageEnum)pair.Key, pair => pair.Value);
 
@@ -33,7 +33,7 @@ namespace Engines.Engines.AddToPageEngine
 
                 var parameters = CreateParametersString(parametersDictionary);
 
-                RequestsHelper.Post(Urls.AddFriendToPage.GetDiscription(), parameters, model.Cookie, model.Proxy);
+                RequestsHelper.Post(Urls.AddFriendToPage.GetDiscription(), parameters, model.Cookie, model.Proxy, model.UserAgent);
 
                 return true;
             }

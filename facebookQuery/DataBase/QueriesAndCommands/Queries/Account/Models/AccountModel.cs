@@ -30,6 +30,8 @@
 
         public bool IsDeleted { get; set; }
 
+        public long? UserAgentId { get; set; }
+
         public CookieModel Cookie { get; set; }
     }
 }

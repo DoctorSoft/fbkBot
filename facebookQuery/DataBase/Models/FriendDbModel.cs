@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Constants.FriendTypesEnum;
 using Constants.GendersUnums;
 using Constants.MessageEnums;
 
@@ -18,6 +19,8 @@ namespace DataBase.Models
         public long AccountId { get; set; }
 
         public GenderEnum Gender { get; set; }
+
+        public FriendTypes FriendType { get; set; }
 
         public string Href { get; set; }
         
@@ -38,6 +41,8 @@ namespace DataBase.Models
         public bool IsWinked { get; set; }
 
         public bool IsWinkedFriendsFriend { get; set; }
+
+        public int CountWinksToFriends { get; set; }
 
         public DateTime? AddedToRemoveDateTime { get; set; }
     }

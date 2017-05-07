@@ -6,22 +6,25 @@ namespace DataBase.QueriesAndCommands.Commands.SpyAccounts
 {
     public class DeleteSpyAccounCommandHandler : ICommandHandler<DeleteSpyAccounCommand, VoidCommandResponse>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public DeleteSpyAccounCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public VoidCommandResponse Handle(DeleteSpyAccounCommand command)
         {
-            var account = context.SpyAccounts.FirstOrDefault(model => model.Id == command.AccountId);
+            var account = _context.SpyAccounts.FirstOrDefault(model => model.Id == command.AccountId);
 
-            account.IsDeleted = true;
+            if (account != null)
+            {
+                account.IsDeleted = true;
 
-            context.SpyAccounts.AddOrUpdate(account);
+                _context.SpyAccounts.AddOrUpdate(account);
+            }
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
             return new VoidCommandResponse();
         }

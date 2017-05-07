@@ -8,5 +8,7 @@ namespace Runner.Interfaces
         AccountViewModel Account { get; set; }
 
         FriendViewModel Friend { get; set; }
+
+        bool ForSpy { get; set; }
     }
 }

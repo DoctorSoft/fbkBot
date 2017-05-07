@@ -20,6 +20,12 @@
 
         public string ProxyLogin { get; set; }
 
-        public string ProxyPassword { get; set; } 
+        public string ProxyPassword { get; set; }
+
+        public bool ProxyDataIsFailed { get; set; }
+
+        public bool AuthorizationDataIsFailed { get; set; }
+
+        public bool ConformationIsFailed { get; set; }
     }
 }

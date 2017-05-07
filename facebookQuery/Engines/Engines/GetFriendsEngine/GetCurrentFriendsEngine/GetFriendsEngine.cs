@@ -24,7 +24,7 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsEngine
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Get(Urls.GetFriends.GetDiscription() + parameters, model.Cookie, model.Proxy).Remove(0, 9);
+            var stringResponse = RequestsHelper.Get(Urls.GetFriends.GetDiscription() + parameters, model.Cookie, model.Proxy, model.UserAgent).Remove(0, 9);
 
             return GetFriendsData(stringResponse);
         }

@@ -587,5 +587,34 @@ namespace Constants.EnumExtension
                     throw new ArgumentOutOfRangeException("addFriendsToPageEnum");
             }
         }
+
+        public static string GetAttributeName(this GetСorrespondenceRequestsEnum correspondenceRequests)
+        {
+            switch (correspondenceRequests)
+            {
+                case GetСorrespondenceRequestsEnum.User:
+                    return "__user=";
+                case GetСorrespondenceRequestsEnum.A:
+                    return "__a=";
+                case GetСorrespondenceRequestsEnum.Dyn:
+                    return "__dyn=";
+                case GetСorrespondenceRequestsEnum.Af:
+                    return "__af=";
+                case GetСorrespondenceRequestsEnum.Req:
+                    return "__req=";
+                case GetСorrespondenceRequestsEnum.Be:
+                    return "__be=";
+                case GetСorrespondenceRequestsEnum.Pc:
+                    return "__pc=";
+                case GetСorrespondenceRequestsEnum.FbDtsg:
+                    return "fb_dtsg=";
+                case GetСorrespondenceRequestsEnum.Ttstamp:
+                    return "ttstamp=";
+                case GetСorrespondenceRequestsEnum.Rev:
+                    return "__rev=";
+                default:
+                    throw new ArgumentOutOfRangeException("correspondenceRequests");
+            }
+        }
     }
 }

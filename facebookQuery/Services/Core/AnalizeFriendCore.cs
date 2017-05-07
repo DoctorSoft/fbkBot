@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using CommonModels;
 using Constants.FriendTypesEnum;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Friends.ChangeAnalysisFriendStatusCommand;
@@ -7,7 +6,6 @@ using DataBase.QueriesAndCommands.Commands.Friends.RemoveAnalyzedFriendCommand;
 using DataBase.QueriesAndCommands.Commands.SpyStatistics;
 using Services.Core.Interfaces;
 using Services.Core.Models;
-using Services.ViewModels.FriendsModels;
 
 namespace Services.Core
 {
@@ -15,29 +13,7 @@ namespace Services.Core
     {
         public void StartAnalyze(AnalyzeModel model)
         {
-            if (model.GenderIsSuccess && model.InfoIsSuccess && model.Settings.Gender != null && (model.Settings.Countries != null || model.Settings.Cities != null))
-            {
-                new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
-                    new ChangeAnalysisFriendStatusCommand
-                    {
-                        AccountId = model.AnalysisFriend.AccountId,
-                        FriendFacebookId = model.AnalysisFriend.FacebookId,
-                        NewStatus = StatusesFriend.ToAdd
-
-                    });
-            }
-            if (model.GenderIsSuccess && model.Settings.Gender != null && model.Settings.Countries == null && model.Settings.Cities == null)
-            {
-                new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
-                    new ChangeAnalysisFriendStatusCommand
-                    {
-                        AccountId = model.AnalysisFriend.AccountId,
-                        FriendFacebookId = model.AnalysisFriend.FacebookId,
-                        NewStatus = StatusesFriend.ToAdd
-                    });
-            }
-
-            if (model.InfoIsSuccess && model.Settings.Gender == null && (model.Settings.Countries != null || model.Settings.Cities != null))
+            if (model.InfoIsSuccess)
             {
                 new ChangeAnalysisFriendStatusCommandHandler(new DataBaseContext()).Handle(
                     new ChangeAnalysisFriendStatusCommand

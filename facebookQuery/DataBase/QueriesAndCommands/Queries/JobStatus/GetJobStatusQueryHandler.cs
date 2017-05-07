@@ -17,7 +17,10 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
 
         public List<JobStatusModel> Handle(GetJobStatusQuery command)
         {
-            var jobStatusList = _context.JobStatus.Where(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId && model.FriendId == command.FriendId).ToList();
+            var jobStatusList = _context.JobStatus.Where(model => model.FunctionName == command.FunctionName 
+                && model.AccountId == command.AccountId
+                && model.IsForSpy == command.IsForSpy 
+                && model.FriendId == command.FriendId).ToList();
 
             if (jobStatusList.Count == 0)
             {
@@ -40,7 +43,8 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
                     AddDateTime = jobStatusDbModel.AddDateTime,
                     LaunchTime = launchTimeModel,
                     JobId = jobStatusDbModel.JobId,
-                    FriendId = jobStatusDbModel.FriendId
+                    FriendId = jobStatusDbModel.FriendId,
+                    IsForSpy = jobStatusDbModel.IsForSpy
                 });
             }
 

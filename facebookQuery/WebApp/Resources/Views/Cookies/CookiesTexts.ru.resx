@@ -132,4 +132,7 @@
   <data name="CreateDate" xml:space="preserve">
     <value>Дата создания</value>
   </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>Агент</value>
+  </data>
 </root>

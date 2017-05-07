@@ -14,10 +14,14 @@ namespace Services.ViewModels.JobStatusModels
 
         public long? FriendId { get; set; }
 
+        public string FunctioStringnName { get; set; }
+
         public FunctionName FunctionName { get; set; }
 
         public TimeModel LaunchTime { get; set; }
 
         public DateTime AddDateTime { get; set; }
+
+        public bool IsForSpy { get; set; }
     }
 }

@@ -24,6 +24,12 @@ namespace DataBase.Models
 
         public bool IsDeleted { get; set; }
 
+        public bool ProxyDataIsFailed { get; set; }
+
+        public bool AuthorizationDataIsFailed { get; set; }
+
+        public bool ConformationIsFailed { get; set; }
+
         public CookiesForSpyDbModel Cookies { get; set; }
 
         public ICollection<SpyFunctionDbModel> Functions { get; set; } 

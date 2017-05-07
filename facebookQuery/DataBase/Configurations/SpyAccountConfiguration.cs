@@ -21,6 +21,9 @@ namespace DataBase.Configurations
             Property(model => model.Proxy);
             Property(model => model.ProxyLogin);
             Property(model => model.ProxyPassword);
+            Property(model => model.AuthorizationDataIsFailed);
+            Property(model => model.ProxyDataIsFailed);
+            Property(model => model.ConformationIsFailed);
 
             HasOptional(it => it.Cookies).WithRequired(m=>m.SpyAccount);
         }

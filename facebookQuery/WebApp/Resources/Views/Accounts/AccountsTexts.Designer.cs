@@ -205,6 +205,15 @@ namespace WebApp.Resources.Views.Accounts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of winks back.
+        /// </summary>
+        public static string NumberOfWinksBack {
+            get {
+                return ResourceManager.GetString("NumberOfWinksBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proxy.
         /// </summary>
         public static string Proxy {

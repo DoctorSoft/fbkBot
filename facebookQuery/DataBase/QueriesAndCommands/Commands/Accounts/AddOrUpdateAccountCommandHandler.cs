@@ -7,16 +7,16 @@ namespace DataBase.QueriesAndCommands.Commands.Accounts
 {
     public class AddOrUpdateAccountCommandHandler : ICommandHandler<AddOrUpdateAccountCommand, long>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public AddOrUpdateAccountCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public long Handle(AddOrUpdateAccountCommand command)
         {
-            var account = context.Accounts.FirstOrDefault(model => model.Id == command.Id);
+            var account = _context.Accounts.FirstOrDefault(model => model.Id == command.Id);
 
             if (account == null)
             {
@@ -35,10 +35,14 @@ namespace DataBase.QueriesAndCommands.Commands.Accounts
             account.Proxy = command.Proxy;
             account.ProxyLogin = command.ProxyLogin;
             account.ProxyPassword = command.ProxyPassword;
+            if (account.UserAgentId == null)
+            {
+                account.UserAgentId= command.UserAgentId;
+            }
 
-            context.Accounts.AddOrUpdate(account);
+            _context.Accounts.AddOrUpdate(account);
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
             return account.Id;
         }

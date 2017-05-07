@@ -31,5 +31,7 @@
         public bool ConformationDataIsFailed { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public long? UserAgentId { get; set; }
     }
 }

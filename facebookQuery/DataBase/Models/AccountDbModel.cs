@@ -26,6 +26,8 @@ namespace DataBase.Models
 
         public long? GroupSettingsId { get; set; }
 
+        public long? UserAgentId { get; set; }
+
         public bool ProxyDataIsFailed { get; set; }
 
         public bool AuthorizationDataIsFailed { get; set; }
@@ -35,6 +37,8 @@ namespace DataBase.Models
         public GroupSettingsDbModel GroupSettings { get; set; }
 
         public CookiesDbModel Cookies { get; set; }
+
+        public UserAgentDbModel UserAgent { get; set; }
         
         public ICollection<MessageDbModel> Messages { get; set; }
 
@@ -45,5 +49,7 @@ namespace DataBase.Models
         public ICollection<NewSettingsDbModel> NewSettings { get; set; }
 
         public AccountInformationDbModel AccountInformation { get; set; }
+
+        public CounterCheckFriendsDbModel CounterCheckFriends { get; set; }
     }
 }

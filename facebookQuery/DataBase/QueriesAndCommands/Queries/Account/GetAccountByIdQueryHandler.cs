@@ -7,17 +7,17 @@ namespace DataBase.QueriesAndCommands.Queries.Account
 {
     public class GetAccountByIdQueryHandler : IQueryHandler<GetAccountByIdQuery, AccountModel>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetAccountByIdQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public AccountModel Handle(GetAccountByIdQuery query)
         {
             var models =
-                context.Accounts.Include(model => model.Cookies)
+                _context.Accounts.Include(model => model.Cookies)
                     .Where(model => model.Id == query.UserId)
                     .Where(model => !model.IsDeleted || query.SearchDeleted)
                     .Select(model => new AccountModel
@@ -39,7 +39,9 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         GroupSettingsId = model.GroupSettingsId,
                         AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                         ProxyDataIsFailed = model.ProxyDataIsFailed,
-                        ConformationIsFailed = model.ConformationIsFailed
+                        ConformationIsFailed = model.ConformationIsFailed,
+                        UserAgentId = model.UserAgentId,
+                        IsDeleted = model.IsDeleted
                     }).FirstOrDefault();
 
             return models;

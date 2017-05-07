@@ -33,7 +33,9 @@ namespace DataBase.QueriesAndCommands.Models
         public bool IsWinkedFriendsFriend { get; set; }
 
         public DateTime? AddedToRemoveDateTime { get; set; }
-        
+
         public MessageRegime? MessageRegime { get; set; }
+
+        public int CountWinksToFriends { get; set; }
     }
 }

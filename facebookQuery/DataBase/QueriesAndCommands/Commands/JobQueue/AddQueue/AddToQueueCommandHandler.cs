@@ -21,12 +21,16 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
                 AccountId = command.AccountId,
                 FunctionName = command.FunctionName,
                 AddedDateTime = DateTime.Now,
-                FriendId = command.FriendId
+                FriendId = command.FriendId,
+                IsForSpy = command.IsForSpy
             };
 
             if (command.IsUnique)
             {
-                var queueInDb = _context.JobsQueue.Any(model => model.AccountId == command.AccountId && model.FriendId == command.FriendId && model.FunctionName == command.FunctionName);
+                var queueInDb = _context.JobsQueue.Any(model => model.AccountId == command.AccountId
+                    && model.FriendId == command.FriendId
+                    && model.IsForSpy == command.IsForSpy 
+                    && model.FunctionName == command.FunctionName);
                 if (queueInDb)
                 {
                     return new VoidCommandResponse();

@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommonInterfaces.Interfaces.Services;
-using Constants;
-using Constants.EnumExtension;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
-using Engines.Engines.GetNewNoticesEngine;
-using RequestsHelpers;
+using DataBase.QueriesAndCommands.Queries.UserAgent.GetRandomUserAgent;
+using DataBase.QueriesAndCommands.Queries.UserAgent.GetUserAgentById;
 using Services.Interfaces.ServiceTools;
 using Services.Models.Jobs;
 using Services.ServiceTools;
@@ -24,6 +22,7 @@ namespace Services.Services
     public class HomeService
     {
         private readonly IAccountManager _accountManager;
+        private readonly JobStatusManager _jobStatusManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly IProxyManager _proxyManager;
@@ -33,6 +32,7 @@ namespace Services.Services
         public HomeService(IJobService jobService, IBackgroundJobService backgroundJobService)
         {
             _accountManager = new AccountManager();
+            _jobStatusManager = new JobStatusManager();
             _accountSettingsManager = new AccountSettingsManager();
             _accountStatisticsManager = new StatisticsManager();
             _proxyManager = new ProxyManager();
@@ -64,7 +64,8 @@ namespace Services.Services
                 AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
                 ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
                 IsDeleted = accountModel.IsDeleted,
-                ConformationDataIsFailed = accountModel.ConformationIsFailed
+                ConformationDataIsFailed = accountModel.ConformationIsFailed,
+                UserAgentId = accountModel.UserAgentId
             }).ToList();
         }
 
@@ -75,7 +76,7 @@ namespace Services.Services
                 Count = 100,
                 Page = 0
             });
-
+            var forSpy = false;
             var result = new List<AccountDataViewModel>();
 
             foreach (var accountModel in accounts)
@@ -83,6 +84,8 @@ namespace Services.Services
                 if (accountModel.GroupSettingsId != null)
                 {
                     var information = _accountManager.GetAccountInformation(accountModel.Id);
+                    var jobStatuses = _jobStatusManager.GetAllJobStatusesByAccountId(accountModel.Id, forSpy);
+
                     result.Add(new AccountDataViewModel
                     {
                         Account = new AccountViewModel
@@ -101,9 +104,11 @@ namespace Services.Services
                             AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
                             ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
                             IsDeleted = accountModel.IsDeleted,
-                            ConformationDataIsFailed = accountModel.ConformationIsFailed
+                            ConformationDataIsFailed = accountModel.ConformationIsFailed,
+                            UserAgentId = accountModel.UserAgentId
                         },
-                        AccountInformation = information
+                        AccountInformation = information,
+                        JobStatuses = jobStatuses
                     });
 
                     continue;
@@ -126,7 +131,8 @@ namespace Services.Services
                         AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
                         ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
                         IsDeleted = accountModel.IsDeleted,
-                        ConformationDataIsFailed = accountModel.ConformationIsFailed
+                        ConformationDataIsFailed = accountModel.ConformationIsFailed,
+                        UserAgentId = accountModel.UserAgentId
                     }
                 });
             }
@@ -156,7 +162,8 @@ namespace Services.Services
                 AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                 ProxyDataIsFailed = model.ProxyDataIsFailed,
                 ConformationDataIsFailed = model.ConformationIsFailed,
-                IsDeleted = model.IsDeleted
+                IsDeleted = model.IsDeleted,
+                UserAgentId = model.UserAgentId
             }).ToList();
         }
 
@@ -184,7 +191,8 @@ namespace Services.Services
                 AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                 ProxyDataIsFailed = model.ProxyDataIsFailed,
                 ConformationDataIsFailed = model.ConformationIsFailed,
-                IsDeleted = model.IsDeleted
+                IsDeleted = model.IsDeleted,
+                UserAgentId = model.UserAgentId
             }).ToList();
         } 
 
@@ -232,7 +240,8 @@ namespace Services.Services
                 Proxy = account.Proxy,
                 ProxyLogin = account.ProxyLogin,
                 ProxyPassword = account.ProxyPassword,
-            });
+                UserAgentId = account.UserAgentId
+            }, forSpy: false);
 
             if (account.GroupSettingsId == null)
             {
@@ -256,7 +265,8 @@ namespace Services.Services
                 Password = account.Password,
                 ProxyLogin = account.ProxyLogin,
                 ProxyPassword = account.ProxyPassword,
-                ConformationDataIsFailed = account.ConformationIsFailed
+                ConformationDataIsFailed = account.ConformationIsFailed,
+                UserAgentId = account.UserAgentId
             };
 
             var model = new AddOrUpdateAccountModel()
@@ -269,7 +279,7 @@ namespace Services.Services
             backgroundJobService.AddOrUpdateAccountJobs(model);
         }
 
-        public GetNewNoticesResponseModel GetNewNotices(long accountId)
+        /*public GetNewNoticesResponseModel GetNewNotices(long accountId)
         {
             var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
             {
@@ -281,7 +291,7 @@ namespace Services.Services
             });
 
             return statusModel;
-        }
+        }*/
 
         public AccountModel GetAccountByUserId(long? userId)
         {
@@ -321,12 +331,13 @@ namespace Services.Services
                     Proxy = account.Proxy,
                     ProxyLogin = account.ProxyLogin,
                     ProxyPassword = account.ProxyPassword,
-                    Cookie = account.Cookie.CookieString,
+                    Cookie = account.Cookie,
                     GroupSettingsId = account.GroupSettingsId,
                     AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
                     IsDeleted = account.IsDeleted,
                     ProxyDataIsFailed = account.ProxyDataIsFailed,
-                    ConformationDataIsFailed = account.ConformationIsFailed
+                    ConformationDataIsFailed = account.ConformationDataIsFailed,
+                    UserAgentId = account.UserAgentId
                 }
             };
 
@@ -361,6 +372,12 @@ namespace Services.Services
 
         public long AddOrUpdateAccount(AccountDraftViewModel model)
         {
+            var userAgentId = new GetRandomUserAgentQueryHandler(new DataBaseContext()).Handle(new GetRandomUserAgentQuery());
+            if (userAgentId == null)
+            {
+                return 0;
+            }
+
             var accountId = new AddOrUpdateAccountCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateAccountCommand
             {
                 Id = model.Id,
@@ -371,7 +388,8 @@ namespace Services.Services
                 Login = model.Login,
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
-                ProxyPassword = model.ProxyPassword
+                ProxyPassword = model.ProxyPassword,
+                UserAgentId = userAgentId.Id
             });
 
             new CookieService().RefreshCookies(new AccountViewModel
@@ -382,7 +400,8 @@ namespace Services.Services
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
-            });
+                UserAgentId = model.UserAgentId
+            }, forSpy: false);
 
 
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery
@@ -429,7 +448,8 @@ namespace Services.Services
                     AuthorizationDataIsFailed = account.AuthorizationDataIsFailed,
                     ProxyDataIsFailed = account.ProxyDataIsFailed,
                     ConformationDataIsFailed = account.ConformationIsFailed,
-                    IsDeleted = account.IsDeleted
+                    IsDeleted = account.IsDeleted,
+                    UserAgentId = account.UserAgentId
                 }
             };
 
@@ -445,19 +465,26 @@ namespace Services.Services
                 UserId = accountId
             });
 
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
+
             if (account.Cookie == null)
             {
                 return new CookiesViewModel
                 {
                     AccountId = accountId,
-                    Value = "Cookie is not created"
+                    Value = "Cookie is not created",
+                    UserAgent = userAgent.UserAgentString
                 };
             }
             return new CookiesViewModel
             {
                 AccountId = accountId,
                 Value = account.Cookie.CookieString,
-                CreateDateTime = account.Cookie.CreateDateTime
+                CreateDateTime = account.Cookie.CreateDateTime,
+                UserAgent = userAgent.UserAgentString
             };
         }
 

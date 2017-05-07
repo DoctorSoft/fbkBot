@@ -8,11 +8,11 @@ namespace Services.Interfaces.ServiceTools
 {
     public interface IAccountManager
     {
-        AccountModel GetAccountById(long accountId);
+        AccountViewModel GetAccountById(long accountId);
 
-        WebProxy GetAccountProxy(AccountModel account);
+        WebProxy GetAccountProxy(AccountViewModel account);
 
-        AccountModel GetAccountByFacebookId(long accountFacebookId);
+        AccountViewModel GetAccountByFacebookId(long accountFacebookId);
 
         List<AccountModel> GetWorkAccounts();
 

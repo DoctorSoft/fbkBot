@@ -18,5 +18,7 @@ namespace DataBase.Models
         public string LaunchDateTime { get; set; }
 
         public DateTime AddDateTime { get; set; }
+
+        public bool IsForSpy { get; set; }
     }
 }

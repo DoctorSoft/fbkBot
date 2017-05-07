@@ -165,6 +165,9 @@
   <data name="NoProxy" xml:space="preserve">
     <value>Аккаунт без прокси</value>
   </data>
+  <data name="NumberOfWinksBack" xml:space="preserve">
+    <value>Количество подмигиваний в ответ</value>
+  </data>
   <data name="Proxy" xml:space="preserve">
     <value>Прокси</value>
   </data>

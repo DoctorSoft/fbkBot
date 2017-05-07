@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants.FriendTypesEnum;
 using Constants.GendersUnums;
 
 namespace Services.ViewModels.FriendMessagesModels
@@ -10,6 +11,8 @@ namespace Services.ViewModels.FriendMessagesModels
         public string FriendName { get; set; }
 
         public GenderEnum FriendGender { get; set; }
+
+        public FriendTypes FriendType { get; set; }
 
         public string FriendHref { get; set; }
 

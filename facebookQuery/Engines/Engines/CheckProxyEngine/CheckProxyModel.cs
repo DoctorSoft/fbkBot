@@ -1,9 +1,9 @@
-﻿using OpenQA.Selenium.PhantomJS;
+﻿using OpenQA.Selenium.Remote;
 
 namespace Engines.Engines.CheckProxyEngine
 {
     public class CheckProxyModel
     {
-        public PhantomJSDriver Driver { get; set; }
+        public RemoteWebDriver Driver { get; set; }
     }
 }

@@ -9,7 +9,9 @@ namespace Runner.Runners.Cookies
         {
             var account = model.Account;
 
-            new CookieService().RefreshCookies(account);
+            var forSpy = model.ForSpy;
+
+            new CookieService().RefreshCookies(account, forSpy);
         }
     }
 }

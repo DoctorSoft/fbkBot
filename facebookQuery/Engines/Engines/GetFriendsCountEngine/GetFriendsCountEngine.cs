@@ -11,7 +11,7 @@ namespace Engines.Engines.GetFriendsCountEngine
     {
         protected override int ExecuteEngine(GetFriendsCountModel model)
         {
-            var countFriends = GetFriendsCount(RequestsHelper.Get(Urls.GetFriends.GetDiscription(), model.Cookie, model.Proxy));
+            var countFriends = GetFriendsCount(RequestsHelper.Get(Urls.GetFriends.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent));
 
             return Convert.ToInt32(countFriends);
         }

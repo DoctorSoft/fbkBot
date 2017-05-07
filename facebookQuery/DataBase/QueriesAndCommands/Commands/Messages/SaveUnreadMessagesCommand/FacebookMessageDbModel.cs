@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants.FriendTypesEnum;
 using Constants.GendersUnums;
 
 namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesCommand
@@ -26,5 +27,7 @@ namespace DataBase.QueriesAndCommands.Commands.Messages.SaveUnreadMessagesComman
         public DateTime LastReadMessageDateTime { get; set; }
 
         public DateTime LastUnreadMessageDateTime { get; set; }
+
+        public FriendTypes FriendType { get; set; }
     }
 }

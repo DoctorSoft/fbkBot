@@ -130,6 +130,18 @@ namespace Services.ServiceTools
                     return new TimeSpan(winkFriendsTimeModel.Hours, winkFriendsTimeModel.Minutes,
                         winkFriendsTimeModel.Seconds);
                 }
+                case FunctionName.WinkFriendFriends:
+                {
+                    var winkFriendsFriendsTimeModel = groupSettings.WinkOptions.RetryTimeForWinkFriendsFriends;
+                    return new TimeSpan(winkFriendsFriendsTimeModel.Hours, winkFriendsFriendsTimeModel.Minutes,
+                        winkFriendsFriendsTimeModel.Seconds);
+                }
+                case FunctionName.WinkBack:
+                {
+                    var winkBackTimeModel = groupSettings.WinkOptions.RetryTimeForWinkBack;
+                    return new TimeSpan(winkBackTimeModel.Hours, winkBackTimeModel.Minutes,
+                        winkBackTimeModel.Seconds);
+                }
                 default:
                     throw new ArgumentOutOfRangeException("functionName");
             }

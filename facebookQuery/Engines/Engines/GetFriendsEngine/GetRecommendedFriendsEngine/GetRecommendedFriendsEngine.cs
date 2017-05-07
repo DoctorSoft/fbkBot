@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using CommonModels;
@@ -14,9 +15,36 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
     {
         protected override GetFriendsResponseModel ExecuteEngine(GetRecommendedFriendsModel model)
         {
-            var stringResponse = RequestsHelper.Get(Urls.GetRecommendedFriends.GetDiscription(), model.Cookie, model.Proxy).Remove(0, 9);
+            var stringResponse = RequestsHelper.Get(Urls.GetRecommendedFriends.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent);
 
-            return GetFriendsData(stringResponse);
+            var friendsCount = GetCountFriends(stringResponse);
+            var friendsList = GetFriendsData(stringResponse);
+
+            friendsList.CountIncommingFriends = friendsCount;
+
+            return friendsList;
+        }
+
+        private static long GetCountFriends(string page)
+        {
+            try
+            {
+                var pageRequest = ConvertToUTF8(page);
+
+                var friendPattern = new Regex("<h2[^<]*(запросы|Requests){1}[^<]*<[^>]*h2[^>]*>");
+                var friendsCountElement = friendPattern.Match(pageRequest).ToString();
+
+                var countFriendPattern = new Regex("( |\\()\\d*( |\\))");
+                var result = countFriendPattern.Match(friendsCountElement).ToString();
+
+                result = result.Substring(1, result.Length - 2);
+
+                return long.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
         }
 
         public static GetFriendsResponseModel GetFriendsData(string pageRequest)

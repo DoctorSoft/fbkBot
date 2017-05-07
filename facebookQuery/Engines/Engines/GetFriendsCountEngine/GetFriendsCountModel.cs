@@ -9,5 +9,6 @@ namespace Engines.Engines.GetFriendsCountEngine
         public string Cookie { get; set; }
 
         public WebProxy Proxy { get; set; }
+        public string UserAgent { get; set; }
     }
 }

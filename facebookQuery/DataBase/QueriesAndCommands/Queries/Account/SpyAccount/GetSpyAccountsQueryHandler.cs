@@ -8,17 +8,17 @@ namespace DataBase.QueriesAndCommands.Queries.Account.SpyAccount
 {
     public class GetSpyAccountsQueryHandler : IQueryHandler<GetSpyAccountsQuery, List<SpyAccountModel>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetSpyAccountsQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<SpyAccountModel> Handle(GetSpyAccountsQuery query)
         {
             var models =
-                context.SpyAccounts.Include(model => model.Cookies)
+                _context.SpyAccounts.Include(model => model.Cookies)
                     .Where(model => !model.IsDeleted)
                     .OrderBy(model => model.Id)
                     .Skip(query.Count*query.Page)
@@ -36,7 +36,12 @@ namespace DataBase.QueriesAndCommands.Queries.Account.SpyAccount
                         },
                         Proxy = model.Proxy,
                         ProxyLogin = model.ProxyLogin,
-                        ProxyPassword = model.ProxyPassword
+                        ProxyPassword = model.ProxyPassword,
+                        AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
+                        FacebookId = model.FacebookId,
+                        Name = model.Name,
+                        ConformationIsFailed = model.ConformationIsFailed,
+                        ProxyDataIsFailed = model.ProxyDataIsFailed
                     })
                     .ToList();
 

@@ -14,5 +14,7 @@ namespace Services.Models.BackgroundJobs
         public GroupSettingsViewModel OldSettings { get; set; }
 
         public FriendViewModel Friend { get; set; }
+
+        public bool IsForSpy { get; set; }
     }
 }

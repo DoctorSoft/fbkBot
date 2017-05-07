@@ -14,7 +14,10 @@ namespace DataBase.QueriesAndCommands.Queries.JobQueue
 
         public bool Handle(CheckJobQueueByAccountIdAndFunctionNameQuery command)
         {
-            var jobStatus = _context.JobsQueue.FirstOrDefault(model => model.FunctionName == command.FunctionName && model.AccountId == command.AccountId);
+            var jobStatus = _context.JobsQueue
+                .FirstOrDefault(model => model.FunctionName == command.FunctionName 
+                    && model.AccountId == command.AccountId 
+                    && model.IsForSpy == command.IsForSpy);
 
             return jobStatus != null;
         }

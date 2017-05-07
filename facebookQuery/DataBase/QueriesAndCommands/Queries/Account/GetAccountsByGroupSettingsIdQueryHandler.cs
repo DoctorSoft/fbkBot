@@ -42,7 +42,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                     GroupSettingsId = model.GroupSettingsId,
                     AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                     ProxyDataIsFailed = model.ProxyDataIsFailed,
-                    ConformationIsFailed = model.ConformationIsFailed
+                    ConformationIsFailed = model.ConformationIsFailed,
+                    UserAgentId = model.UserAgentId
                 }).ToList();
 
             return models;

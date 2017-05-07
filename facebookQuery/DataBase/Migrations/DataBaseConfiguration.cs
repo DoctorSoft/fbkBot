@@ -333,7 +333,6 @@ namespace DataBase.Migrations
                 {AddFriendsToGroupEnum.Ttstamp, "26581727311869959911156119100586581711217456759583488495"}
             };
 
-             */
 
             var addFriendsToPageParameters = new Dictionary<AddFriendsToPageEnum, string>
             {
@@ -353,6 +352,21 @@ namespace DataBase.Migrations
                 {AddFriendsToPageEnum.Rev, "2885019"},
                 {AddFriendsToPageEnum.Ttstamp, "265817280537457775249758658658171111847778118671076767"}
             };
+            
+
+            var addFriendsToPageParameters = new Dictionary<GetСorrespondenceRequestsEnum, string>
+            {
+                {GetСorrespondenceRequestsEnum.A, "1"},
+                {GetСorrespondenceRequestsEnum.Af, "iw"},
+                {GetСorrespondenceRequestsEnum.Be, "-1"},
+                {GetСorrespondenceRequestsEnum.Dyn, "7AzkXh8OAcjxd2u6aEyx91qewRAKGgS8zXrWo466EeAq2i5U4e2CGwEyFojyR88y8ixuAUvDKuEjKewExaFQ12VVojxC7q-FFUkxvxOcG4K5o5aayry9o9ohxGbwYUmCLxmvgqxKVUoh8CloW5oy5EG2Thomx2i2eq3O9Dx6WK54axe9KiEKcGcw"},
+                {GetСorrespondenceRequestsEnum.FbDtsg, ""},
+                {GetСorrespondenceRequestsEnum.User, ""},
+                {GetСorrespondenceRequestsEnum.Req, "26"},
+                {GetСorrespondenceRequestsEnum.Pc, "EXP4:DEFAULT"},
+                {GetСorrespondenceRequestsEnum.Rev, "2943628"},
+                {GetСorrespondenceRequestsEnum.Ttstamp, "26581701228153114681176595112586581721001007878117705750113"}
+            };
 
             var js = new JavaScriptSerializer();
             var jsonWink = js.Serialize(addFriendsToPageParameters.Select(pair => pair).ToList());
@@ -360,7 +374,7 @@ namespace DataBase.Migrations
             {
                 new UrlParametersDbModel
                 {
-                    CodeParameters = (int) NamesUrlParameter.AddFriendsToPage,
+                    CodeParameters = (int) NamesUrlParameter.GetCorrespondenceRequests,
                     ParametersSet = jsonWink
                 },
                 /*
@@ -389,13 +403,13 @@ namespace DataBase.Migrations
                     CodeParameters = (int)NamesUrlParameter.GetFriends,
                     ParametersSet = jsonFriends
                 }
-            */
             };
 
             context.UrlParameters.AddRange(urlParametersList);
 
             context.SaveChanges(); 
-                      
+                  
+             */    
         }
     }
 }

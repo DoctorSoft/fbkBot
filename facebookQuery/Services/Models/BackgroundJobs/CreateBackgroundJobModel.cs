@@ -17,5 +17,7 @@ namespace Services.Models.BackgroundJobs
         public bool CheckPermissions { get; set; }
 
         public FriendViewModel Friend { get; set; }
+
+        public bool IsForSpy { get; set; }
     }
 }

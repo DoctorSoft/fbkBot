@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
 }
 
+@using WebApp.Resources.Views.Users
 @model List<Services.ViewModels.SpyAccountModels.SpyAccountViewModel>
 
 @section scripts
@@ -25,7 +26,10 @@
     <div class="panel-footer">
         @foreach (var spyAccount in @Model)
         {
-            <div class="alert alert-info">
+            var divClass = spyAccount.AuthorizationDataIsFailed || spyAccount.ProxyDataIsFailed || spyAccount.ConformationIsFailed ? "alert-danger" : "alert-success";
+            var errorText = spyAccount.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : spyAccount.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : spyAccount.ConformationIsFailed ? @UsersTexts.ConformationError : null;
+
+            <div class="alert @divClass">
                 <div class="inline-half-text-left">
                     <div class="message-list-tittle">
                         <a id="@("group" + spyAccount.Id)">@spyAccount.Login</a>
@@ -38,6 +42,12 @@
                     </div>
                     <div class="inline-actions">
                         <a href="@Url.Action("Index", "SpyCookies", new { AccountId = spyAccount.Id })"><i class="fa fa-birthday-cake"></i></a>
+                    </div>
+                    <div class="inline-actions">
+                        @if (errorText != null)
+                        {
+                            <i class="fa fa-question-circle-o"></i> @errorText
+                        }
                     </div>
                 </div>
                 <div class="inline-half-text-right">

@@ -21,7 +21,7 @@ namespace Engines.Engines.SendRequestFriendshipEngine
                     return false;
                 }
 
-                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
+                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent), "fb_dtsg");
 
                 var parametersAddFriendDictionary = model.AddFriendUrlParameters.ToDictionary(pair => (AddFriendEnum)pair.Key, pair => pair.Value);
 
@@ -37,9 +37,9 @@ namespace Engines.Engines.SendRequestFriendshipEngine
                 var addFriendParameters = CreateParametersString(parametersAddFriendDictionary);
                 var addFriendExtraParameters = CreateParametersString(parametersAddFriendExtraDictionary);
 
-                RequestsHelper.Post(Urls.AddFriend.GetDiscription(), addFriendParameters, model.Cookie, model.Proxy);
+                RequestsHelper.Post(Urls.AddFriend.GetDiscription(), addFriendParameters, model.Cookie, model.Proxy, model.UserAgent);
 
-                RequestsHelper.Post(Urls.AddFriendExtra + "?friendid=" + model.FriendFacebookId + "&dpr=1", addFriendExtraParameters, model.Cookie, model.Proxy);
+                RequestsHelper.Post(Urls.AddFriendExtra + "?friendid=" + model.FriendFacebookId + "&dpr=1", addFriendExtraParameters, model.Cookie, model.Proxy, model.UserAgent);
                 
                 return true;
             }

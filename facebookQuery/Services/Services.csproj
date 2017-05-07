@@ -144,6 +144,7 @@
     <Compile Include="Core\Models\AnalyzeModel.cs" />
     <Compile Include="Core\SendMessageCore.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
+    <Compile Include="LogWriter\LogWriter.cs" />
     <Compile Include="Models\BackgroundJobs\AddOrUpdateAccountModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -162,8 +163,31 @@
     <Compile Include="Models\Jobs\RenameAccountJobsModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\SignalRModels\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\FunctionNames\FunctionNamesTexts.Designer.cs">
+      <DependentUpon>FunctionNamesTexts.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\FunctionNames\FunctionNamesTexts.ru.Designer.cs">
+      <DependentUpon>FunctionNamesTexts.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\FriendService\FriendServiceTexts.Designer.cs">
+      <DependentUpon>FriendServiceTexts.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\FriendService\FriendServiceTexts.ru.Designer.cs">
+      <DependentUpon>FriendServiceTexts.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Services\CookieService.cs" />
+    <Compile Include="Services\NoticeService.cs" />
+    <Compile Include="Services\WinksService.cs" />
     <Compile Include="Services\JobStatusService.cs" />
     <Compile Include="ServiceTools\AnalysisFriendsManager.cs" />
     <Compile Include="Services\ExtraMessagesService.cs" />
@@ -180,6 +204,7 @@
     <Compile Include="Services\SpyService.cs" />
     <Compile Include="ServiceTools\FriendsBlackListManager.cs" />
     <Compile Include="Services\JobQueueService.cs" />
+    <Compile Include="ServiceTools\JobStatusManager.cs" />
     <Compile Include="ServiceTools\JobQueueManager.cs" />
     <Compile Include="ServiceTools\SeleniumManager.cs" />
     <Compile Include="ServiceTools\SettingsManager.cs" />
@@ -209,7 +234,7 @@
     <Compile Include="ViewModels\OptionsModel\JsonModels\FriendsOptionsModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\GeoOptionsModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\MessageOptionsModel.cs" />
-    <Compile Include="ViewModels\QueueViewModels\QueueViewModel.cs" />
+    <Compile Include="ViewModels\QueueViewModels\JobQueueViewModel.cs" />
     <Compile Include="ViewModels\ScheduleDeleteFriendsModels\ScheduleDeleteFriendsModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\DetailedSpyStatisticsModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\SpyFunctionViewModel.cs" />
@@ -283,6 +308,24 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\FunctionNames\FunctionNamesTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FunctionNamesTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\FunctionNames\FunctionNamesTexts.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FunctionNamesTexts.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\FriendService\FriendServiceTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FriendServiceTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\FriendService\FriendServiceTexts.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FriendServiceTexts.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

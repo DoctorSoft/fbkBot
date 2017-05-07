@@ -28,5 +28,7 @@ namespace Services.ViewModels.FriendsModels
         public MessageRegime? MessageRegime { get; set; }
 
         public DateTime? AddedToRemoveDateTime { get; set; }
+
+        public int CountWinksToFriends { get; set; }
     }
 }

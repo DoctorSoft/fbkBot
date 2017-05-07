@@ -16,6 +16,20 @@ namespace Services.ViewModels.GroupModels
 
         public bool ConsiderGeoForWinkFriends { get; set; }
 
+        public int RetryTimeForWinkFriendsFriendsHour { get; set; }
+
+        public int RetryTimeForWinkFriendsFriendsMin { get; set; }
+
+        public int RetryTimeForWinkFriendsFriendsSec { get; set; }
+
+        public bool ConsiderGeoForWinkFriendsFriends { get; set; }
+
+        public int RetryTimeForWinkBackHour { get; set; }
+
+        public int RetryTimeForWinkBackMin { get; set; }
+
+        public int RetryTimeForWinkBackSec { get; set; }
+
         //Limits options
         public long CountMinFriends { get; set; }
 

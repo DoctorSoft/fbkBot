@@ -21,7 +21,7 @@ namespace Engines.Engines.GetNewCookiesEngine
                 driver.Navigate().GoToUrl("https://www.facebook.com");
 
                 var currentCookies = ParseCookieString(model.Cookie);
-                
+
                 if (currentCookies != null)
                 {
                     foreach (var keyValuePair in currentCookies)
@@ -54,7 +54,7 @@ namespace Engines.Engines.GetNewCookiesEngine
                 if (email == null && pass == null && button == null)
                 {
                     driver.Navigate().Refresh();
-                    
+
                     currentUri = driver.Url;
                     if (currentUri.Contains("checkpoint"))
                     {
@@ -92,7 +92,7 @@ namespace Engines.Engines.GetNewCookiesEngine
                 button.Click();
 
                 currentUri = driver.Url;
-                if (currentUri.Contains("checkpoint"))
+                if (currentUri.Contains("checkpoint") || currentUri.Contains("login_attempt=1"))
                 {
                     driver.Quit();
                     return new GetNewCookiesResponse

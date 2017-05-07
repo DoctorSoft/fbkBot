@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -15,6 +16,7 @@ using DataBase.QueriesAndCommands.Commands.FriendsBlackList.AddToFriendsBlackLis
 using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToWinkFriendsFriends;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
 using Engines.Engines.AddToGroupEngine;
 using Engines.Engines.AddToPageEngine;
@@ -22,8 +24,11 @@ using Engines.Engines.ConfirmFriendshipEngine;
 using Engines.Engines.GetFriendInfoEngine;
 using Engines.Engines.GetFriendsByCriteriesEngine;
 using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
+using Engines.Engines.GetFriendsEngine.GetRandomFriendFriends;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
+using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetNewCookiesEngine;
+using Engines.Engines.GetNewWinks;
 using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinThePagesBySeleniumEngine;
 using Engines.Engines.WinkEngine;
 using Jobs.Jobs.FriendJobs;
@@ -38,6 +43,8 @@ using RequestsHelpers;
 using Services.Interfaces.ServiceTools;
 using Services.Services;
 using Services.ServiceTools;
+using Services.ViewModels.AccountModels;
+using Services.ViewModels.HomeModels;
 using Cookie = OpenQA.Selenium.Cookie;
 
 namespace FacebookApp
@@ -46,6 +53,7 @@ namespace FacebookApp
     {
         private static IAccountSettingsManager _accountSettingsManager;
         private static IAccountManager _accountManager;
+        private static ISeleniumManager _selenium = new SeleniumManager();
 
  
         private static void Main(string[] args)
@@ -69,13 +77,30 @@ namespace FacebookApp
 
             foreach (var accountViewModel in accounts)
             {
-                if (accountViewModel.Id == 1)
+                if (!accountViewModel.IsDeleted)
                 {
-                    //new GroupService(null).InviteToGroup(accountViewModel);
+                    if (accountViewModel.Id == 24)
+                    {
+                        var notices = new NoticesProxy();
+                        new WinksService(notices).WinkToBack(accountViewModel);
+                        //new FriendsService(new NoticesProxy()).GetCurrentFriends(accountViewModel);
 
-                    var seleniumManager = new SeleniumManager();
 
-                    new FriendsService(new NoticesProxy()).RemoveFriends(accountViewModel);
+                        break;
+                    }
+                    /*new FacebookMessagesService(new NoticesProxy()).GetUnreadMessages(new AccountModel()
+                    {
+                        Proxy = accountViewModel.Proxy,
+                        ProxyLogin = accountViewModel.ProxyLogin,
+                        ProxyPassword = accountViewModel.ProxyPassword,
+                        Cookie = new CookieModel
+                        {
+                            CookieString = accountViewModel.Cookie
+                        },
+                        FacebookId = accountViewModel.FacebookId,
+                        Id = accountViewModel.Id,
+                        
+                    });
 
                     /*new JoinThePagesBySeleniumEngine().Execute(new JoinThePagesBySeleniumModel
                     {

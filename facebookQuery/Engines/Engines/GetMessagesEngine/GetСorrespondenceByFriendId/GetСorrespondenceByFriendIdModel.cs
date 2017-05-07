@@ -7,7 +7,7 @@ namespace Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId
 {
     public class GetСorrespondenceByFriendIdModel
     {
-        public long AccountId { get; set; }
+        public long AccountFacebookId { get; set; }
 
         public long FriendId { get; set; }
 
@@ -16,5 +16,7 @@ namespace Engines.Engines.GetMessagesEngine.GetСorrespondenceByFriendId
         public WebProxy Proxy { get; set; }
 
         public List<KeyValue<int, string>> UrlParameters { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

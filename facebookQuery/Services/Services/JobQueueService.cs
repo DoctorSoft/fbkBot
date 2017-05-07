@@ -1,37 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Constants.FunctionEnums;
+using CommonModels;
 using DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue;
+using DataBase.QueriesAndCommands.Commands.JobQueue.DeleteOverdueQueue;
 using DataBase.QueriesAndCommands.Commands.JobQueue.DeleteQueue;
-using DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetAllQueues;
-using DataBase.QueriesAndCommands.Queries.Account.JobQueue.GetQueue.GetQueuesByAccountId;
+using DataBase.QueriesAndCommands.Commands.JobQueue.MarkProcessedStatus;
+using DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetAllQueues;
+using DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetQueuesByAccountId;
 using Services.ViewModels.QueueViewModels;
 
 namespace Services.Services
 {
     public class JobQueueService
     {
-        public void AddToQueue(long accountId, FunctionName functionName)
+        public void AddToQueue(JobQueueViewModel model)
         {
             new AddToQueueCommandHandler().Handle(new AddToQueueCommand
             {
-                AccountId = accountId,
-                FunctionName = functionName,
-                IsUnique = true
+                AccountId = model.AccountId,
+                FunctionName = model.FunctionName,
+                IsUnique = true,
+                FriendId = model.FriendId,
+                IsForSpy = model.IsForSpy
             });
         }
-
-        public void AddToQueue(long accountId, FunctionName functionName, long friendId)
-        {
-            new AddToQueueCommandHandler().Handle(new AddToQueueCommand
-            {
-                AccountId = accountId,
-                FunctionName = functionName,
-                FriendId = friendId,
-                IsUnique = true
-            });
-        }
-
+        
         public void RemoveQueue(long queueId)
         {
             new DeleteQueueCommandHandler().Handle(new DeleteQueueCommand
@@ -39,59 +33,88 @@ namespace Services.Services
                 QueueId = queueId
             });
         }
+        public long RemoveOverdueQueue(int overdue)
+        {
+            var removeQueuesModel = new DeleteOverdueQueueCommandHandler().Handle(new DeleteOverdueQueueCommand
+            {
+                OverdueMin = overdue
+            });
 
-        public List<QueueViewModel> GetQueuesByAccountId(long accountId)
+            return removeQueuesModel.CountRemove;
+        }
+
+        public void MarkIsProcessedQueue(JobQueueViewModel model)
+        {
+            new MarkProcessedStatusCommandHandler().Handle(new MarkProcessedStatusCommand
+            {
+                AccountId = model.AccountId,
+                FunctionName = model.FunctionName,
+                FriendId = model.FriendId,
+                IsForSpy = model.IsForSpy
+            });
+        }
+
+
+        public List<JobQueueViewModel> GetQueuesByAccountId(JobQueueViewModel model)
         {
             var queuesDbModels = new GetJobQueuesByAccountIdCommandHandler().Handle(new GetJobQueuesByAccountIdCommand
             {
-                AccountId = accountId
+                AccountId = model.AccountId,
+                IsForSpy = model.IsForSpy
             });
 
-            return queuesDbModels.Select(model => new QueueViewModel
+            return queuesDbModels.Select(queueModel => new JobQueueViewModel
             {
-                AccountId = model.AccountId,
-                Id = model.Id,
-                FunctionName = model.FunctionName,
-                AddedDateTime = model.AddedDateTime
+                AccountId = queueModel.AccountId,
+                Id = queueModel.Id,
+                FunctionName = queueModel.FunctionName,
+                AddedDateTime = queueModel.AddedDateTime,
+                IsForSpy = queueModel.IsForSpy,
+                FriendId = queueModel.FriendId
             }).ToList();
         }
 
-        public List<QueueViewModel> GetQueuesByAccountAndFunctionName(long accountId, FunctionName functionName)
+        public List<JobQueueViewModel> GetQueuesByAccountAndFunctionName(JobQueueViewModel model)
         {
             var queuesDbModels = new GetJobQueuesByAccountIdCommandHandler().Handle(new GetJobQueuesByAccountIdCommand
             {
-                AccountId = accountId,
-                FunctionName = functionName
+                AccountId = model.AccountId,
+                IsForSpy = model.IsForSpy,
+                FunctionName = model.FunctionName
             });
 
-            return queuesDbModels.Select(model => new QueueViewModel
+            return queuesDbModels.Select(queueModel => new JobQueueViewModel
             {
-                AccountId = model.AccountId,
-                Id = model.Id,
-                FunctionName = model.FunctionName,
-                AddedDateTime = model.AddedDateTime
+                AccountId = queueModel.AccountId,
+                Id = queueModel.Id,
+                FunctionName = queueModel.FunctionName,
+                AddedDateTime = queueModel.AddedDateTime,
+                IsForSpy = queueModel.IsForSpy,
+                FriendId = queueModel.FriendId
             }).ToList();
         }
 
-        public List<QueueViewModel> GetAllQueues()
+        public List<JobQueueViewModel> GetAllQueues()
         {
             var queuesDbModels = new GetAllQueuesCommandHandler().Handle(new GetAllQueuesCommand());
 
-            return queuesDbModels.Select(model => new QueueViewModel
+            return queuesDbModels.Select(model => new JobQueueViewModel
             {
                 AccountId = model.AccountId,
                 Id = model.Id,
                 FunctionName = model.FunctionName,
                 AddedDateTime = model.AddedDateTime,
-                FriendId = model.FriendId
+                FriendId = model.FriendId,
+                IsForSpy = model.IsForSpy,
+                IsProcessed = model.IsProcessed
             }).ToList();
         }
 
-        public List<List<QueueViewModel>> GetGroupedQueue()
+        public List<List<JobQueueViewModel>> GetGroupedQueue()
         {
             var queuesDbModels = GetAllQueues();
 
-            var groupedList = queuesDbModels.GroupBy(model => model.AccountId).Select(grp => grp.ToList()).ToList(); 
+            var groupedList = queuesDbModels.GroupBy(model => new {model.AccountId, model.IsForSpy}).Select(grp => grp.ToList()).ToList(); 
 
             return groupedList;
         }

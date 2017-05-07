@@ -34,7 +34,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     IsWinked = model.IsWinked,
                     Gender = model.Gender,
                     AddedToRemoveDateTime = model.AddedToRemoveDateTime,
-                    IsWinkedFriendsFriend = model.IsWinkedFriendsFriend
+                    IsWinkedFriendsFriend = model.IsWinkedFriendsFriend,
+                    CountWinksToFriends = model.CountWinksToFriends
                 }).ToList();
 
             return result;

@@ -7,5 +7,7 @@ namespace Services.Models.Jobs
         public string Login { get; set; }
 
         public long? AccountId { get; set; }
+
+        public bool IsForSpy { get; set; }
     }
 }

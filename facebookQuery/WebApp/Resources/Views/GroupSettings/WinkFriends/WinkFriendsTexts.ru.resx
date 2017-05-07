@@ -118,7 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConsiderGeoForWink" xml:space="preserve">
-    <value>Учитывать гео опции для подмигиваний</value>
+    <value>Учитывать гео</value>
+  </data>
+  <data name="WinkBack" xml:space="preserve">
+    <value>Подмигивать в ответ каждые</value>
+  </data>
+  <data name="WinkFriendsFriendsRetryTime" xml:space="preserve">
+    <value>Время между подмигиваниями друзьям друзей</value>
   </data>
   <data name="WinkRetryTime" xml:space="preserve">
     <value>Время между подмигиваниями</value>

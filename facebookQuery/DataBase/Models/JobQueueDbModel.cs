@@ -14,5 +14,9 @@ namespace DataBase.Models
         public FunctionName FunctionName { get; set; }
 
         public DateTime AddedDateTime { get; set; }
+
+        public bool IsProcessed { get; set; }
+
+        public bool IsForSpy { get; set; }
     }
 }

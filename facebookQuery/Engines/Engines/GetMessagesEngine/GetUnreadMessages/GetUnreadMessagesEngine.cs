@@ -22,33 +22,44 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
 
             if (model.UrlParameters == null) return null;
 
-            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
+            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent), "fb_dtsg");
 
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (GetUnreadMessagesEnum)pair.Key, pair => pair.Value);
 
             parametersDictionary[GetUnreadMessagesEnum.User] = model.AccountId.ToString(CultureInfo.InvariantCulture);
             parametersDictionary[GetUnreadMessagesEnum.FbDtsg] = fbDtsg;
-            parametersDictionary[GetUnreadMessagesEnum.InboxFilter] = ""; 
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            var stringResponse = RequestsHelper.Post(Urls.NewMessages.GetDiscription(), parameters, model.Cookie, model.Proxy).Remove(0, 9);
+            var stringResponse = RequestsHelper.Post(Urls.NewMessages.GetDiscription(), parameters, model.Cookie, model.Proxy, model.UserAgent).Remove(0, 9);
 
             var data = (JObject)JsonConvert.DeserializeObject(stringResponse);
+            
             var threads = data["payload"]["threads"];
             var threads2 = data["payload"]["participants"];
 
             foreach (var thread in threads)
             {
+                var facebookId = thread["thread_fbid"].Value<long>();
+                JObject friendThread2 = null;
+
+                foreach (var thread2 in threads2)
+                {
+                    if (thread2["fbid"].Value<long>().Equals(facebookId))
+                    {
+                        friendThread2 = (JObject) thread2;
+                    }
+                }
+
                 messagesList.Add(new FacebookMessageModel
                 {
                     AccountId = model.AccountId,
-                    FriendFacebookId = thread["thread_fbid"].Value<long>(),
+                    FriendFacebookId = facebookId,
                     CountAllMessages = thread["message_count"].Value<int>(),
                     CountUnreadMessages = thread["unread_count"].Value<int>(),
-                    Gender = threads2.First["gender"].Value<int>() == 1 ? GenderEnum.Female : GenderEnum.Male,
-                    Href = threads2.First["href"].Value<string>(),
-                    Name = threads2.First["name"].Value<string>(),
+                    Gender = friendThread2["gender"].Value<int>() == 1 ? GenderEnum.Female : GenderEnum.Male,
+                    Href = friendThread2["href"].Value<string>(),
+                    Name = friendThread2["name"].Value<string>(),
                     LastMessage = thread["snippet"].Value<string>(),
                     LastUnreadMessageDateTime =
                         GetDateTime(Convert.ToInt64(thread["last_message_timestamp"].Value<string>())),

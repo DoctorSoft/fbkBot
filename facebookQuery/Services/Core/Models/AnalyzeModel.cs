@@ -10,9 +10,7 @@ namespace Services.Core.Models
         public GroupSettingsViewModel Settings { get; set; }
 
         public AnalysisFriendData AnalysisFriend { get; set; }
-
-        public bool GenderIsSuccess { get; set; }
-
+        
         public bool InfoIsSuccess { get; set; }
     }
 }

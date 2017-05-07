@@ -8,16 +8,16 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
 {
     public class AddOrUpdateAccountStatisticsCommandHandler : ICommandHandler<AddOrUpdateAccountStatisticsCommand, long>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public AddOrUpdateAccountStatisticsCommandHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public long Handle(AddOrUpdateAccountStatisticsCommand command)
         {
-            var accountStatistics = context.AccountStatistics.OrderByDescending(model=>model.CreateDateTime).FirstOrDefault(model => model.AccountId == command.AccountId);
+            var accountStatistics = _context.AccountStatistics.OrderByDescending(model=>model.CreateDateTime).FirstOrDefault(model => model.AccountId == command.AccountId);
 
             if (accountStatistics == null)
             {
@@ -30,9 +30,9 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
                     DateTimeUpdateStatistics = DateTime.Now,
                     CreateDateTime = DateTime.Now
                 };
-                context.AccountStatistics.AddOrUpdate(accountStatistics);
+                _context.AccountStatistics.AddOrUpdate(accountStatistics);
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
                 return accountStatistics.Id;
             }
@@ -48,9 +48,9 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
                     DateTimeUpdateStatistics = DateTime.Now,
                     CreateDateTime = DateTime.Now
                 };
-                context.AccountStatistics.AddOrUpdate(newAccountStatistics);
+                _context.AccountStatistics.AddOrUpdate(newAccountStatistics);
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
                 return accountStatistics.Id;
             }
@@ -69,12 +69,16 @@ namespace DataBase.QueriesAndCommands.Commands.AccountStatistics
             {
                 accountStatistics.CountOrdersConfirmedFriends = command.CountOrdersConfirmedFriends + accountStatistics.CountOrdersConfirmedFriends;
             }
+            if (command.CountOfWinksBack != 0)
+            {
+                accountStatistics.CountOrdersConfirmedFriends = command.CountOfWinksBack + accountStatistics.CountOfWinksBack;
+            }
 
             accountStatistics.DateTimeUpdateStatistics = DateTime.Now;
 
-            context.AccountStatistics.AddOrUpdate(accountStatistics);
+            _context.AccountStatistics.AddOrUpdate(accountStatistics);
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
             return accountStatistics.Id;
         }

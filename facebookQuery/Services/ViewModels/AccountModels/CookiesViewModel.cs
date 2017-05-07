@@ -9,5 +9,7 @@ namespace Services.ViewModels.AccountModels
         public string Value { get; set; }
 
         public DateTime CreateDateTime { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

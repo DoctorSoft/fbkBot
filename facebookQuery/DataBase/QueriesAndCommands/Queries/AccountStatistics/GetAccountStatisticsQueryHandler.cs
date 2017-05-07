@@ -7,11 +7,11 @@ namespace DataBase.QueriesAndCommands.Queries.AccountStatistics
 {
     public class GetAccountStatisticsQueryHandler : IQueryHandler<GetAccountStatisticsQuery, List<AccountStatisticsData>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetAccountStatisticsQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<AccountStatisticsData> Handle(GetAccountStatisticsQuery query)
@@ -19,7 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.AccountStatistics
             try
             {
                 var statistics =
-                    context.AccountStatistics.Where(model => model.AccountId == query.AccountId)
+                    _context.AccountStatistics.Where(model => model.AccountId == query.AccountId)
                         .Select(model => new AccountStatisticsData
                         {
                             AccountId = model.Id,
@@ -28,7 +28,8 @@ namespace DataBase.QueriesAndCommands.Queries.AccountStatistics
                             CountReceivedFriends = model.CountReceivedFriends,
                             CountRequestsSentToFriends = model.CountRequestsSentToFriends,
                             CountOrdersConfirmedFriends = model.CountOrdersConfirmedFriends,
-                            DateTimeUpdateStatistics = model.DateTimeUpdateStatistics
+                            DateTimeUpdateStatistics = model.DateTimeUpdateStatistics,
+                            CountOfWinksBack = model.CountOfWinksBack
                         }).ToList();
 
                 return statistics;

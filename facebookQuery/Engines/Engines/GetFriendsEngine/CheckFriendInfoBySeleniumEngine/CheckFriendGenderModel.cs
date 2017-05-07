@@ -12,7 +12,9 @@ namespace Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine
         public string Cookie { get; set; }
 
         public WebProxy Proxy { get; set; }
-        
+
         public GenderEnum Gender { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

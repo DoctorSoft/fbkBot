@@ -8,15 +8,15 @@ namespace DataBase.QueriesAndCommands.Commands.Cookies
 {
     public class UpdateCookiesHandler: ICommandHandler<UpdateCookiesCommand, VoidCommandResponse>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public UpdateCookiesHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
         public VoidCommandResponse Handle(UpdateCookiesCommand command)
         {
-            var cookie = context
+            var cookie = _context
             .Cookies
             .FirstOrDefault(m => m.Account.Id == command.AccountId);
 
@@ -35,8 +35,8 @@ namespace DataBase.QueriesAndCommands.Commands.Cookies
                 cookie.CreateDate = DateTime.Now;
             }
             
-            context.Cookies.AddOrUpdate(cookie);
-            context.SaveChanges();
+            _context.Cookies.AddOrUpdate(cookie);
+            _context.SaveChanges();
 
             return new VoidCommandResponse();
         }

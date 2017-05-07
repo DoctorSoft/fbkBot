@@ -61,6 +61,24 @@ namespace WebApp.Resources.Views.Friends {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add to group.
+        /// </summary>
+        public static string AddToGroup {
+            get {
+                return ResourceManager.GetString("AddToGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add to page.
+        /// </summary>
+        public static string AddToPage {
+            get {
+                return ResourceManager.GetString("AddToPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string ButtonCancel {
@@ -156,6 +174,24 @@ namespace WebApp.Resources.Views.Friends {
         public static string NoFriends {
             get {
                 return ResourceManager.GetString("NoFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wink.
+        /// </summary>
+        public static string Wink {
+            get {
+                return ResourceManager.GetString("Wink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WinkFriends.
+        /// </summary>
+        public static string WinkFriends {
+            get {
+                return ResourceManager.GetString("WinkFriends", resourceCulture);
             }
         }
     }

@@ -15,138 +15,150 @@ namespace Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine
         protected override bool ExecuteEngine(CheckFriendInfoBySeleniumModel model)
         {
             var driver = model.Driver;
-            var cities = ConvertJsonToString(model.Cities);
-            var countries = ConvertJsonToString(model.Countries);
-
-            driver.Navigate().GoToUrl("https://www.facebook.com/");
-
-            var path = "/";
-            var domain = ".facebook.com";
-
-            var cookies = ParseCookieString(model.Cookie);
-
-            foreach (var keyValuePair in cookies)
+            try
             {
-                driver.Manage().Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
-            }
+                var cities = ConvertStringToList(model.Cities);
+                var countries = ConvertStringToList(model.Countries);
 
-            driver.Navigate()
-                .GoToUrl(
-                    string.Format(
-                        "https://www.facebook.com/profile.php?id={1}&lst={0}%3A{1}%3A1485883089&sk=about",
-                        model.AccountFacebookId, model.FriendFacebookId));
+                driver.Navigate().GoToUrl("https://www.facebook.com/");
 
-            Thread.Sleep(1000);
-            
-            var divs = driver.FindElements(By.CssSelector(".uiList._1pi3._4kg._6-h._703._4ks>li"));
-            List<IWebElement> infoBlocks = null;
-            if (divs != null)
-            {
-                infoBlocks = divs.Reverse().ToList();
-                infoBlocks.RemoveAt(0);
-            }
+                var path = "/";
+                var domain = ".facebook.com";
 
-            if (infoBlocks == null)
-            {
-                return false;
-            }
+                var cookies = ParseCookieString(model.Cookie);
 
-            foreach (var webElement in infoBlocks)
-            {
-                var linksIndiv = webElement.FindElements(By.TagName("a"));
-
-                if (linksIndiv.Count == 0)
+                foreach (var keyValuePair in cookies)
                 {
-                    continue;
+                    driver.Manage()
+                        .Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
                 }
 
-                var hrefs = linksIndiv.Select(element => element.GetAttribute("href")).ToList();
 
-                var cityName = webElement.Text;
+                driver.Navigate()
+                    .GoToUrl(
+                        string.Format(
+                            "https://www.facebook.com/{1}/about?lst={0}%3A{1}%3A1485883089",
+                            model.AccountFacebookId, model.FriendFacebookId));
 
-                if (!string.IsNullOrEmpty(cityName) && cities != null && CheckEntry(cities, cityName))
+                Thread.Sleep(1000);
+
+                var divs = driver.FindElements(By.CssSelector(".uiList._1pi3._4kg._6-h._703._4ks>li"));
+                List<IWebElement> infoBlocks = null;
+                if (divs != null)
                 {
-                    return true;
+                    infoBlocks = divs.Reverse().ToList();
+                    infoBlocks.RemoveAt(0);
                 }
 
-                foreach (var link in hrefs)
+                if (infoBlocks == null)
                 {
-                    try
+                    return false;
+                }
+
+                foreach (var webElement in infoBlocks)
+                {
+                    var linksIndiv = webElement.FindElements(By.TagName("a"));
+
+                    if (linksIndiv.Count == 0)
                     {
-                        if (string.IsNullOrEmpty(link))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        driver.Navigate().GoToUrl(link);
+                    var hrefs = linksIndiv.Select(element => element.GetAttribute("href")).ToList();
 
-                        AvoidFacebookMessage(driver);
+                    var cityName = webElement.Text;
 
-                        WaitByClassName(driver, "_3boo");
+                    if (!string.IsNullOrEmpty(cityName) && cities != null && CheckEntry(cities, cityName))
+                    {
+                        return true;
+                    }
 
+                    foreach (var link in hrefs)
+                    {
                         try
                         {
-                            var countryName = driver.FindElement(By.ClassName("_3boo"));
-
-                            if (countryName != null && !string.IsNullOrEmpty(countryName.Text))
+                            if (string.IsNullOrEmpty(link))
                             {
-                                if ((countries != null && (CheckEntry(countries, countryName.Text))) || (cities!=null && CheckEntry(cities, countryName.Text)))
-                                {
-                                    return true;
-                                }
+                                continue;
                             }
-                        }
-                        catch (Exception)
-                        {
+
+                            driver.Navigate().GoToUrl(link);
+
+                            AvoidFacebookMessage(driver);
+
+                            WaitByClassName(driver, "_3boo");
+
                             try
                             {
-                                WaitByClassName(driver, "_5a_");
+                                var countryName = driver.FindElement(By.ClassName("_3boo"));
 
-                                var countryDiv = driver.FindElement(By.ClassName("_5a_"));
-                                var countryTagLink = countryDiv.FindElement(By.TagName("a"));
-
-                                if ((countries != null && (CheckEntry(countries, countryTagLink.Text))) || (cities != null && CheckEntry(cities, countryTagLink.Text)))
+                                if (countryName != null && !string.IsNullOrEmpty(countryName.Text))
                                 {
-                                    return true;
-                                }
-
-                                var countryHref = countryTagLink.GetAttribute("href");
-
-
-                                if (countryHref != null)
-                                {
-                                    driver.Navigate().GoToUrl(countryHref);
-
-                                    AvoidFacebookMessage(driver);
-
-                                    var countryName = driver.FindElement(By.ClassName("_3boo"));
-
-                                    if (countryName != null && !string.IsNullOrEmpty(countryName.Text))
+                                    if ((countries != null && (CheckEntry(countries, countryName.Text))) ||
+                                        (cities != null && CheckEntry(cities, countryName.Text)))
                                     {
-                                        if ((countries != null && (CheckEntry(countries, countryName.Text))) ||
-                                            (cities != null && CheckEntry(cities, countryName.Text)))
-                                        {
-                                            return true;
-                                        }
+                                        return true;
                                     }
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                
+                                try
+                                {
+                                    WaitByClassName(driver, "_5a_");
+
+                                    var countryDiv = driver.FindElement(By.ClassName("_5a_"));
+                                    var countryTagLink = countryDiv.FindElement(By.TagName("a"));
+
+                                    if ((countries != null && (CheckEntry(countries, countryTagLink.Text))) ||
+                                        (cities != null && CheckEntry(cities, countryTagLink.Text)))
+                                    {
+                                        return true;
+                                    }
+
+                                    var countryHref = countryTagLink.GetAttribute("href");
+
+
+                                    if (countryHref != null)
+                                    {
+                                        driver.Navigate().GoToUrl(countryHref);
+
+                                        AvoidFacebookMessage(driver);
+
+                                        var countryName = driver.FindElement(By.ClassName("_3boo"));
+
+                                        if (countryName != null && !string.IsNullOrEmpty(countryName.Text))
+                                        {
+                                            if ((countries != null && (CheckEntry(countries, countryName.Text))) ||
+                                                (cities != null && CheckEntry(cities, countryName.Text)))
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
                             }
+
                         }
+                        catch (Exception ex)
+                        {
 
+                        }
                     }
-                    catch (Exception ex)
-                    {
 
-                    }
+                    break;
                 }
-
-                break;
+            }
+            catch (Exception ex)
+            {
+                //driver.Quit();
             }
 
+            //driver.Quit();
             return false;
         }
 
@@ -161,6 +173,20 @@ namespace Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine
             {
 
             }
+        }
+        private static List<string> ConvertStringToList(string inputString)
+        {
+            if (inputString == null || inputString.Equals(string.Empty))
+            {
+                return new List<string>();
+            }
+            var splitPattern = inputString.Contains("\r\n") ? "\r\n" : "\n";
+
+            var splitArray = inputString.Split(new string[] { splitPattern }, StringSplitOptions.None).ToList();
+
+            var notEmptyElement = splitArray.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+
+            return notEmptyElement;
         }
 
         private List<string> ConvertJsonToString(string jsonData)

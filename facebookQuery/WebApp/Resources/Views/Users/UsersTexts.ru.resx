@@ -120,6 +120,9 @@
   <data name="AddNewAccount" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="AllUsersCount" xml:space="preserve">
+    <value>Всего аккаунтов</value>
+  </data>
   <data name="CheckAuthorizationData" xml:space="preserve">
     <value>Проверьте данные авторизации</value>
   </data>
@@ -134,5 +137,17 @@
   </data>
   <data name="CountIncommingFriendsRequest" xml:space="preserve">
     <value>Входящих заявок в друзья</value>
+  </data>
+  <data name="ErrorUsersCount" xml:space="preserve">
+    <value>Нерабочих</value>
+  </data>
+  <data name="RemoveUser" xml:space="preserve">
+    <value>Удалить пользователя</value>
+  </data>
+  <data name="RunningJobs" xml:space="preserve">
+    <value>Запущенные задачи</value>
+  </data>
+  <data name="WorkUsersCount" xml:space="preserve">
+    <value>Рабочих</value>
   </data>
 </root>

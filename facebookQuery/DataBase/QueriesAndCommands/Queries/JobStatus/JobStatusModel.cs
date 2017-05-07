@@ -20,5 +20,7 @@ namespace DataBase.QueriesAndCommands.Queries.JobStatus
         public TimeModel LaunchTime { get; set; }
 
         public DateTime AddDateTime { get; set; }
+
+        public bool IsForSpy { get; set; }
     }
 }

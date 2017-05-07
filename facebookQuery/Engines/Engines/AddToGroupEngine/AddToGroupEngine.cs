@@ -5,7 +5,6 @@ using System.Linq;
 using Constants;
 using Constants.EnumExtension;
 using Constants.UrlEnums;
-using Engines.Engines.RemoveFriendEngine;
 using RequestsHelpers;
 
 namespace Engines.Engines.AddToGroupEngine
@@ -21,8 +20,8 @@ namespace Engines.Engines.AddToGroupEngine
                     return false;
                 }
                 
-                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
-                var groupId = ParseResponsePageHelper.GetGroupId(RequestsHelper.Get(model.FacebookGroupUrl, model.Cookie, model.Proxy));
+                var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent), "fb_dtsg");
+                var groupId = ParseResponsePageHelper.GetGroupId(RequestsHelper.Get(model.FacebookGroupUrl, model.Cookie, model.Proxy, model.UserAgent));
 
                 var parametersDictionary = model.UrlParameters.ToDictionary(pair => (AddFriendsToGroupEnum)pair.Key, pair => pair.Value);
 
@@ -33,7 +32,7 @@ namespace Engines.Engines.AddToGroupEngine
 
                 var parameters = CreateParametersString(parametersDictionary);
 
-                RequestsHelper.Post(string.Format(Urls.AddFriendToGroup.GetDiscription(), groupId), parameters, model.Cookie, model.Proxy);
+                RequestsHelper.Post(string.Format(Urls.AddFriendToGroup.GetDiscription(), groupId), parameters, model.Cookie, model.Proxy, model.UserAgent);
 
                 return true;
             }

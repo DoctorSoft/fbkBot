@@ -17,5 +17,6 @@ namespace Engines.Engines.AddToGroupEngine
         public List<KeyValue<int, string>> UrlParameters { get; set; }
 
         public List<FriendModel> FriendsList { get; set; }
+        public string UserAgent { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace DataBase.QueriesAndCommands.Queries.AnalysisFriends
             var friendsData = context
                 .AnalisysFriends
                 .Where(model => model.AccountId == query.AccountId 
-                    && model.Status == StatusesFriend.ToAdd 
+                    //&& model.Status == StatusesFriend.ToAdd  // без гео
                     && model.Type == FriendTypes.Incoming)
                 .Select(model => new AnalysisFriendsData
                 {

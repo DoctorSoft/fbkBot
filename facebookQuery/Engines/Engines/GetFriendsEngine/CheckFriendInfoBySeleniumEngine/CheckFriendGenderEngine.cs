@@ -18,7 +18,8 @@ namespace Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine
                                             + "%3A" + model.FriendFacebookId
                                             + "%3A" + GenerateValue()
                                             + "&section=contact-info&pnref=about"
-                                            , model.Cookie, model.Proxy);
+                                            , model.Cookie, model.Proxy,
+                                            model.UserAgent);
 
             var gender = GetGender(contactStringResponse);
 

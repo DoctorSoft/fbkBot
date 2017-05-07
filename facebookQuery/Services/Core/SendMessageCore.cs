@@ -7,15 +7,16 @@ using DataBase.QueriesAndCommands.Commands.Friends.ChangeMessageRegimeCommand;
 using DataBase.QueriesAndCommands.Commands.Friends.MarkAddToEndDialogCommand;
 using DataBase.QueriesAndCommands.Commands.Messages.SaveSentMessageCommand;
 using DataBase.QueriesAndCommands.Models;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.FriendMessages;
 using DataBase.QueriesAndCommands.Queries.Message;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using DataBase.QueriesAndCommands.Queries.UserAgent.GetUserAgentById;
 using Engines.Engines.SendMessageEngine;
 using Services.Core.Interfaces;
 using Services.Interfaces.Notices;
 using Services.Interfaces.ServiceTools;
 using Services.ServiceTools;
+using Services.ViewModels.HomeModels;
 
 namespace Services.Core
 {
@@ -40,7 +41,7 @@ namespace Services.Core
             _notice = noticeProxy;
         }
         
-        public void SendMessageToUnread(AccountModel account, FriendData friend)
+        public void SendMessageToUnread(AccountViewModel account, FriendData friend)
         {
             if (friend.Deleted || friend.DialogIsCompleted)
             {
@@ -100,7 +101,7 @@ namespace Services.Core
             
             if (orderNumber == 1 && friend.MessageRegime == null)
             {
-                new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand()
+                new ChangeMessageRegimeCommandHandler(new DataBaseContext()).Handle(new ChangeMessageRegimeCommand
                 {
                     AccountId = account.Id,
                     FriendId = friend.Id,
@@ -129,6 +130,10 @@ namespace Services.Core
                             FriendId = lastFriendMessages.FriendId,
                         });
             }
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
 
             if (message != String.Empty)
             {
@@ -137,7 +142,7 @@ namespace Services.Core
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
                     AccountId = account.FacebookId,
-                    Cookie = account.Cookie.CookieString,
+                    Cookie = account.Cookie,
                     FriendId = friend.FacebookId,
                     Message = message,
                     Proxy = _accountManager.GetAccountProxy(account),
@@ -145,7 +150,8 @@ namespace Services.Core
                         new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                         {
                             NameUrlParameter = NamesUrlParameter.SendMessage
-                        })
+                        }),
+                    UserAgent = userAgent.UserAgentString
                 });
 
                 new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
@@ -181,7 +187,7 @@ namespace Services.Core
             _friendManager.AddFriendToBlackList((long)account.GroupSettingsId, friend.FacebookId);
         }
 
-        public void SendMessageToUnanswered(AccountModel account, FriendData friend)
+        public void SendMessageToUnanswered(AccountViewModel account, FriendData friend)
         {
             if (friend.DialogIsCompleted || friend.Deleted)
             {
@@ -235,11 +241,16 @@ namespace Services.Core
             });
 
             _notice.AddNotice(account.Id, string.Format("Отправляем экстра сообщение - '{0}'", message));
+            
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
 
             new SendMessageEngine().Execute(new SendMessageModel
             {
                 AccountId = account.FacebookId,
-                Cookie = account.Cookie.CookieString,
+                Cookie = account.Cookie,
                 FriendId = friend.FacebookId,
                 Message = message,
                 Proxy = _accountManager.GetAccountProxy(account),
@@ -247,7 +258,8 @@ namespace Services.Core
                     new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                     {
                         NameUrlParameter = NamesUrlParameter.SendMessage
-                    })
+                    }),
+                UserAgent = userAgent.UserAgentString
             });
 
             new SaveSentMessageCommandHandler(new DataBaseContext()).Handle(new SaveSentMessageCommand()
@@ -262,7 +274,7 @@ namespace Services.Core
             _notice.AddNotice(account.Id, string.Format("Отправка экстра сообщения завершена"));
         }
 
-        public void SendMessageToNewFriend(AccountModel account, FriendData friend)
+        public void SendMessageToNewFriend(AccountViewModel account, FriendData friend)
         {
             if (friend.DialogIsCompleted || friend.Deleted)
             {
@@ -285,6 +297,11 @@ namespace Services.Core
 
             var message = String.Empty;
 
+            var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+            {
+                UserAgentId = account.UserAgentId
+            });
+
             _notice.AddNotice(account.Id, string.Format("Отправляем сообщения новым друзьям"));
 
             var messageModel = _messageManager.GetRandomMessage(account.Id, 1, false, MessageRegime.BotFirstMessage);
@@ -301,7 +318,7 @@ namespace Services.Core
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
                     AccountId = account.FacebookId,
-                    Cookie = account.Cookie.CookieString,
+                    Cookie = account.Cookie,
                     FriendId = friend.FacebookId,
                     Message = message,
                     Proxy = _accountManager.GetAccountProxy(account),
@@ -309,7 +326,8 @@ namespace Services.Core
                         new GetUrlParametersQueryHandler(new DataBaseContext()).Handle(new GetUrlParametersQuery
                         {
                             NameUrlParameter = NamesUrlParameter.SendMessage
-                        })
+                        }),
+                    UserAgent = userAgent.UserAgentString
                 });
 
                 if (friend.MessageRegime == null)

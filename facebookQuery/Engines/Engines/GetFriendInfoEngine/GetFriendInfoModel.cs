@@ -14,5 +14,7 @@ namespace Engines.Engines.GetFriendInfoEngine
         public WebProxy Proxy { get; set; }
 
         public SettingsModel Settings { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

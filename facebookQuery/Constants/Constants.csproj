@@ -62,6 +62,7 @@
     <Compile Include="UrlEnums\AddFriendsToPageEnum.cs" />
     <Compile Include="UrlEnums\AddFriendsToGroupEnum.cs" />
     <Compile Include="UrlEnums\CancelFriendshipRequestEnum.cs" />
+    <Compile Include="UrlEnums\GetСorrespondenceRequestsEnum.cs" />
     <Compile Include="UrlEnums\RemoveFriendEnum.cs" />
     <Compile Include="UrlEnums\ConfirmFriendshipEnum.cs" />
     <Compile Include="UrlEnums\WinkEnum.cs" />

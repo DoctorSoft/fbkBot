@@ -7,6 +7,7 @@ namespace Constants
         [Description("https://www.facebook.com")] HomePage,
         [Description("https://www.facebook.com/messaging/send/?dpr=1")] SendMessage,
         [Description("https://www.facebook.com/ajax/mercury/threadlist_info.php?dpr=1")] NewMessages,
+        [Description("https://www.facebook.com/ajax/presence/reconnect.php?reason=6")] NewCorrespondenceRequests,
         [Description("https://www.facebook.com/rtc/callability/")] GetСorrespondenceByFriendId,
         [Description("https://www.facebook.com/profile.php")] GetFriends,
         [Description("https://www.facebook.com/friends/requests/?split=1&fcref=ft")] GetRecommendedFriends,
@@ -20,5 +21,8 @@ namespace Constants
         [Description("https://www.facebook.com/ajax/reqs.php?dpr=1 ")] CancelFriendshipRequest,
         [Description("https://www.facebook.com/ajax/groups/members/add_post.php?source=dialog_typeahead&group_id={0}&refresh=1")] AddFriendToGroup,
         [Description("https://www.facebook.com/ajax/pages/invite/send_single/?dpr=1")] AddFriendToPage,
+
+        //Winks
+        [Description("https://www.facebook.com/pokes")] GetNewWinks,
     }
 }

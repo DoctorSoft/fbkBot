@@ -55,7 +55,9 @@
                 $("#messages_" + acccountId + " #span1").text(" ").hide();
                 $("#messages_" + acccountId + " #span1").text(msg).show('slow');
             };
-            
+
+          
+
             //стартуем все хабы
             $.connection.hub.start();
 
@@ -65,19 +67,25 @@
 }
 
 <div class="panel panel-default">
-    <div class="page-header">
+    <div class="panel-heading">
         <h3 class="alert-info alert"> @UsersTexts.AddNewAccount <a href="@Url.Action("Index", "UserEditor")"><i class="fa fa-plus-circle"></i></a></h3>
+        <h4>
+            <span class="label label-info">@UsersTexts.AllUsersCount: @Model.Count()</span>
+            <span class="label label-info"> @UsersTexts.WorkUsersCount: @Model.Count(model => !model.Account.AuthorizationDataIsFailed && !model.Account.ConformationDataIsFailed && !model.Account.ProxyDataIsFailed) </span> 
+            <span class="label label-danger"> @UsersTexts.ErrorUsersCount: @Model.Count(model => model.Account.AuthorizationDataIsFailed || model.Account.ConformationDataIsFailed || model.Account.ProxyDataIsFailed) </span>
+        </h4>
     </div>
-    <div class="panel-footer">
+    <div class="panel-body">
         @foreach (var accountData in @Model)
         {
             var account = accountData.Account;
             var accountInformation = accountData.AccountInformation;
+            var jobStatuses = accountData.JobStatuses;
             
             var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.ConformationDataIsFailed ? "alert-danger" : "alert-success";
             var errorText = account.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : account.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : account.ConformationDataIsFailed ? @UsersTexts.ConformationError : null;
             
-            <div class="alert @divClass">
+            <div class="alert @divClass" style="padding-bottom: 0 !important">
                 <div class="inline-half-text-left">
                     <div class="message-list-tittle">
                         <a id="@("group" + account.Id)">@account.Login</a>
@@ -109,49 +117,75 @@
                 </div>
                 <div class="inline-half-text-right">
                     <div class="remove-message">
-                        <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@account.Id" href=""><i class="fa fa-close"></i></a>
+                        <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@account.Id" href=""><i class="fa fa-close"></i> @UsersTexts.RemoveUser</a>
                     </div>
                 </div>
-                @if (accountInformation != null && !account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
-                {
-                    <div class="alert alert-info" style="margin-bottom: 0 !important">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    @UsersTexts.CountCurrentFriends :
-                                    <span class="badge">
-                                        @accountInformation.CountCurrentFriends
-                                    </span>
-                                </div>
-                                <div class="col-md-3">
-                                    @UsersTexts.CountIncommingFriendsRequest : 
-                                    <span class="badge">
-                                        @accountInformation.CountIncommingFriendsRequest
-                                    </span>
-                                </div>
-                                <div class="col-md-6">
-                                    
+                @{
+                    string userLogClass = null;
+                    if (!account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
+                    {
+                        userLogClass = "alert alert-info";
+                    }
+                    <div class="row @userLogClass" style="padding-left: 0 !important;padding-right: 0 !important">
+                    @if (!account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
+                    {
+                        <div class="col-md-8">
+                            <div class="alert alert-info" style="margin-bottom: 0 !important">
+                                <div class="inline-half">
+                                    <div id="messages_@account.Id">
+                                        <span id="span1">Аккаунт в режиме ожидания</span><br />
+                                        <span id="span2"></span><br />
+                                        <span id="span3"></span><br />
+                                        <span id="span4"></span><br />
+                                        <span id="span5"></span><br />
+                                        <span id="span6"></span><br />
+                                        <span id="span7"></span><br />
+                                        <span id="span8"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-                @if (!account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
-                {
-                    <div class="alert alert-info" style="margin-bottom: 0 !important">
-                        <div class="inline-half">
-                            <div id="messages_@account.Id">
-                                <span id="span1">Аккаунт в режиме ожидания</span><br />
-                                <span id="span2"></span><br />
-                                <span id="span3"></span><br />
-                                <span id="span4"></span><br />
-                                <span id="span5"></span><br />
-                                <span id="span6"></span><br />
-                                <span id="span7"></span><br />
-                                <span id="span8"></span>
+                    }
+                    @if (accountInformation != null && !account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
+                    {
+                        <div class="col-md-4">
+                            <div class="alert alert-info" style="margin-bottom: 0 !important">
+                                @UsersTexts.CountCurrentFriends :
+                                <span class="badge">
+                                    @accountInformation.CountCurrentFriends
+                                </span>
+                                <br />
+                                @UsersTexts.CountIncommingFriendsRequest :
+                                <span class="badge">
+                                    @accountInformation.CountIncommingFriendsRequest
+                                </span>
+                                <br />
                             </div>
                         </div>
-                    </div>
+                    }
+                    @if (jobStatuses != null && !account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed)
+                    {
+                        <div class="col-md-4">
+                            <div class="alert alert-info" style="margin-bottom: 0 !important">
+                                <ul class="list-group">
+                                     <li class="list-group-item active" style="padding: 5px !important">
+                                        <i class="fa fa-tasks" aria-hidden="true"></i> @UsersTexts.RunningJobs:
+                                    </li>
+                                    @foreach (var jobStatus in jobStatuses)
+                                    {
+                                        if (jobStatus == null)
+                                        {
+                                            continue;
+                                        }
+                                        <li class="list-group-item" style="padding: 5px !important">
+                                            <small>@jobStatus.FunctioStringnName</small>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
                 }
             </div>
         }

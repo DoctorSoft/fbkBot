@@ -18,7 +18,11 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus.DeleteJobStatusesByAcco
         {
             List<string> resultList;
 
-            var jobStatuses = _context.JobStatus.Where(model => model.AccountId == command.AccountId );
+            var jobStatuses = _context.JobStatus.Where(model => model.AccountId == command.AccountId && model.IsForSpy == command.IsForSpy);
+            if (command.FunctionName!=null)
+            {
+                jobStatuses = jobStatuses.Where(model => model.FunctionName == command.FunctionName);
+            }
             try
             {
                 resultList = jobStatuses.Select(model => model.JobId).ToList();

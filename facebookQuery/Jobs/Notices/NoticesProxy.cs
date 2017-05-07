@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNet.SignalR.Client;
 using Services.Interfaces.Notices;
 
@@ -8,16 +9,22 @@ namespace Jobs.Notices
     {
         public void AddNotice(dynamic accountId, dynamic message)
         {
-            var hubConnection = new HubConnection("http://face.2h.by/");
+            var hosting = new HubConnection("http://face.2h.by/");
+            var local = new HubConnection("http://localhost:63711");
+            var local2 = new HubConnection("http://test.test");
+
+            var hubConnection = hosting;
+ 
             var hubProxy = hubConnection.CreateHubProxy("notificationHub");
+            
             try
             {
                 hubConnection.Start().Wait();
-                hubProxy.Invoke("Add", accountId, message);
+                hubProxy.Invoke("Add", accountId, message).Wait();
             }
             catch (Exception ex)
             {
-                
+                //LogWriter.LogWriter.AddToLog(ex.Message);
             }
         }
     }

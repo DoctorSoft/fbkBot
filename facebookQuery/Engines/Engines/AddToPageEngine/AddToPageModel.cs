@@ -18,5 +18,6 @@ namespace Engines.Engines.AddToPageEngine
         public List<KeyValue<int, string>> UrlParameters { get; set; }
 
         public FriendModel Friend { get; set; }
+        public string UserAgent { get; set; }
     }
 }

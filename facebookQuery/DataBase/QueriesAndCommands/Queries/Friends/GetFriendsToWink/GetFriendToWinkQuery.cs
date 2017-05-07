@@ -1,4 +1,5 @@
-﻿using DataBase.QueriesAndCommands.Models;
+﻿using System.Collections.Generic;
+using DataBase.QueriesAndCommands.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToWink
 {
@@ -7,5 +8,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToWink
         public long AccountId { get; set; }
 
         public long GroupSettingsId { get; set; }
+
+        public List<long> TestedFriendsId { get; set; } 
     }
 }

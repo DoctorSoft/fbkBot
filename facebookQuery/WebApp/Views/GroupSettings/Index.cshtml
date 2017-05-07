@@ -376,7 +376,7 @@
                 <div class="panel-body">
                     <div class="">
                         <div class="row">
-                            <div class="col-lg-7">
+                            <div class="col-lg-9">
                                 <div class="input-group">
                                     <span class="input-group-addon" style="width:40%">@WinkFriendsTexts.WinkRetryTime:</span>
                                     @Html.TextBoxFor(o => Model.RetryTimeForWinkFriendsHour, new { @class = "form-control" })
@@ -387,10 +387,42 @@
                                     <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
                                 </div>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-3">
                                 <div class="input-group">
                                     <span class="input-group-addon">@WinkFriendsTexts.ConsiderGeoForWink:</span>
                                     @Html.CheckBoxFor(o => Model.ConsiderGeoForWinkFriends, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="width:40%">@WinkFriendsTexts.WinkFriendsFriendsRetryTime:</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkFriendsFriendsHour, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Hour.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkFriendsFriendsMin, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkFriendsFriendsSec, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">@WinkFriendsTexts.ConsiderGeoForWink:</span>
+                                    @Html.CheckBoxFor(o => Model.ConsiderGeoForWinkFriendsFriends, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="width:40%">@WinkFriendsTexts.WinkBack:</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkBackHour, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Hour.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkBackMin, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Min.</span>
+                                    @Html.TextBoxFor(o => Model.RetryTimeForWinkBackSec, new { @class = "form-control" })
+                                    <span class="input-group-addon">@GroupSettingsTexts.Sec.</span>
                                 </div>
                             </div>
                         </div>

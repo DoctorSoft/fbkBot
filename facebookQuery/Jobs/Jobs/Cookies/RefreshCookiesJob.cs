@@ -1,34 +1,50 @@
 ﻿using System;
 using Constants.FunctionEnums;
 using Jobs.JobsService;
+using Jobs.Models;
 using Services.Models.BackgroundJobs;
 using Services.Services;
-using Services.ViewModels.HomeModels;
+using Services.ViewModels.JobStatusModels;
+using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.Cookies
 {
     public static class RefreshCookiesJob
     {
-        public static void Run(AccountViewModel account)
+        public static void Run(RunJobModel runModel)
         {
-            if (account.GroupSettingsId == null)
-            {
-                return;
-            }
+            var account = runModel.Account;
+            var isForSpy = runModel.ForSpy;
+            var friend = runModel.Friend;
 
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.RefreshCookies, null);
+            var jobStatusModel = new JobStatusViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.RefreshCookies,
+                IsForSpy = isForSpy
+            };
+
+            new JobStatusService().DeleteJobStatus(jobStatusModel);
 
             var model = new CreateBackgroundJobModel
             {
                 Account = account,
                 FunctionName = FunctionName.RefreshCookies,
                 LaunchTime = new TimeSpan(2, 0, 0),
-                CheckPermissions = false
+                CheckPermissions = false,
+                IsForSpy = isForSpy
             };
 
             new BackgroundJobService().CreateBackgroundJob(model);
-            
-            new JobQueueService().AddToQueue(account.Id, FunctionName.RefreshCookies);
+
+            var jobQueueModel = new JobQueueViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.RefreshCookies,
+                IsForSpy = isForSpy
+            };
+
+            new JobQueueService().AddToQueue(jobQueueModel);
         }
     }
 }

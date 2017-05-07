@@ -3,6 +3,7 @@ using CommonInterfaces.Interfaces.Services;
 using Hangfire;
 using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.SpyJobs;
+using Jobs.Models;
 using Services.Models.Jobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
@@ -46,7 +47,12 @@ namespace Jobs.JobsService
 
             if (AccountIsWorking(accountViewModel))
             {
-                RecurringJob.AddOrUpdate(string.Format(CheckFriendsConditionsToRemovePattern, accountViewModel.Login), () => CheckFriendsAtTheEndTimeConditionsJob.Run(accountViewModel), Cron.Hourly);
+                var runModel = new RunJobModel
+                {
+                    Account = accountViewModel
+                };
+
+                RecurringJob.AddOrUpdate(string.Format(CheckFriendsConditionsToRemovePattern, accountViewModel.Login), () => CheckFriendsAtTheEndTimeConditionsJob.Run(runModel), "*/30 * * * *");
                 /*RecurringJob.AddOrUpdate(string.Format(InviteTheNewGroupPattern, accountViewModel.Login), () => InviteTheNewGroupJob.Run(accountViewModel), Cron.Hourly);
                RecurringJob.AddOrUpdate(string.Format(RefreshCookiesPattern, accountViewModel.Login), () => RefreshCookiesJob.Run(accountViewModel), Cron.Hourly);
                RecurringJob.AddOrUpdate(string.Format(UnreadMessagesPattern, accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);
@@ -70,9 +76,11 @@ namespace Jobs.JobsService
             }
 
             var accountViewModel = currentModel.Account;
-
-            //for add or update spy only account
-            RecurringJob.AddOrUpdate(string.Format(AnalyzeFriendsPattern, accountViewModel.Login), () => AnalyzeFriendsJob.Run(accountViewModel), Cron.Minutely);
+            if (AccountIsWorking(accountViewModel))
+            {
+                //for add or update spy only account
+                RecurringJob.AddOrUpdate(string.Format(AnalyzeFriendsPattern, accountViewModel.Login), () => AnalyzeFriendsJob.Run(accountViewModel), Cron.Minutely);
+            }
         }
 
         public void RemoveAccountJobs(IRemoveAccountJobs model)

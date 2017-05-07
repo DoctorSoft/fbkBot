@@ -44,7 +44,8 @@ namespace DataBase.QueriesAndCommands.Queries.Account
                         AuthorizationDataIsFailed = model.AuthorizationDataIsFailed,
                         ProxyDataIsFailed = model.ProxyDataIsFailed,
                         IsDeleted = model.IsDeleted,
-                        ConformationIsFailed = model.ConformationIsFailed
+                        ConformationIsFailed = model.ConformationIsFailed,
+                        UserAgentId = model.UserAgentId
                     })
                     .ToList();
 

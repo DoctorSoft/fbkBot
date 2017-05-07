@@ -12,5 +12,7 @@ namespace Engines.Engines.GetFriendsEngine.GetCurrentFriendsBySeleniumEngine
         public string Cookie { get; set; }
 
         public WebProxy Proxy { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

@@ -1,10 +1,10 @@
-﻿using OpenQA.Selenium.PhantomJS;
+﻿using OpenQA.Selenium.Remote;
 
 namespace Engines.Engines.GetNewCookiesEngine
 {
     public class GetNewCookiesModel
     {
-        public PhantomJSDriver Driver { get; set; }
+        public RemoteWebDriver Driver { get; set; }
 
         public string Login { get; set; }
 

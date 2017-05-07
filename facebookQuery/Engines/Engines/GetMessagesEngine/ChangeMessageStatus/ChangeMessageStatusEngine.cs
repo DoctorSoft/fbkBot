@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Constants;
 using Constants.EnumExtension;
@@ -13,18 +14,18 @@ namespace Engines.Engines.GetMessagesEngine.ChangeMessageStatus
         {
             if (model.UrlParameters == null) return null;
 
-            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy), "fb_dtsg");
+            var fbDtsg = ParseResponsePageHelper.GetInputValueById(RequestsHelper.Get(Urls.HomePage.GetDiscription(), model.Cookie, model.Proxy, model.UserAgent), "fb_dtsg");
 
             var parametersDictionary = model.UrlParameters.ToDictionary(pair => (ChangeStatusForMesagesEnum)pair.Key, pair => pair.Value);
 
             parametersDictionary[ChangeStatusForMesagesEnum.Ids] = model.FriendFacebookId.ToString("G") + "]=true";
-            parametersDictionary[ChangeStatusForMesagesEnum.User] = model.AccountId.ToString();
+            parametersDictionary[ChangeStatusForMesagesEnum.User] = model.AccountId.ToString(CultureInfo.InvariantCulture);
             parametersDictionary[ChangeStatusForMesagesEnum.FbDtsg] = fbDtsg;
             parametersDictionary[ChangeStatusForMesagesEnum.Ttstamp] = "2658169757012152707310256495865817278110491018710365111116";
 
             var parameters = CreateParametersString(parametersDictionary);
 
-            RequestsHelper.Post(Urls.ChangeReadStatus.GetDiscription(), parameters, model.Cookie, model.Proxy).Remove(0, 9);
+            RequestsHelper.Post(Urls.ChangeReadStatus.GetDiscription(), parameters, model.Cookie, model.Proxy, model.UserAgent).Remove(0, 9);
 
             return new VoidModel();
         }

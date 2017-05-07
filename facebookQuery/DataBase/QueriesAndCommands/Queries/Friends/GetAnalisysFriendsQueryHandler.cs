@@ -10,62 +10,65 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
 {
     public class GetAnalisysFriendsQueryHandler : IQueryHandler<GetAnalisysFriendsQuery, List<AnalysisFriendData>>
     {
-        private readonly DataBaseContext context;
+        private readonly DataBaseContext _context;
 
         public GetAnalisysFriendsQueryHandler(DataBaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public List<AnalysisFriendData> Handle(GetAnalisysFriendsQuery query)
         {
             try
             {
-                var analisisFriends = context.AnalisysFriends
+                var analisisFriends = _context.AnalisysFriends
                 .Where(model => model.Status == StatusesFriend.ToAnalys)
                 .Where(model => !model.AccountWithFriend.IsDeleted)
                 .GroupBy(model => model.AccountId)
-                .Select(model => model.OrderBy(dbModel => dbModel.AddedDateTime).FirstOrDefault()).ToList();
+                .Select(model => model.OrderBy(dbModel => dbModel.AddedDateTime).Take(2)).ToList();
 
                 var result = new List<AnalysisFriendData>();
 
-                foreach (var analysisFriendDbModel in analisisFriends)
+                foreach (var analysisFriendDbModelList in analisisFriends)
                 {
-                    var dbModel = analysisFriendDbModel;
-                    var account = context.Accounts.FirstOrDefault(model => model.Id == dbModel.AccountId);
-
-                    if (account == null || account.GroupSettingsId == null)
+                    foreach (var analysisFriendDbModel in analysisFriendDbModelList)
                     {
-                        continue;
+                        var dbModel = analysisFriendDbModel;
+                        var account = _context.Accounts.FirstOrDefault(model => model.Id == dbModel.AccountId);
+
+                        if (account == null || account.GroupSettingsId == null)
+                        {
+                            continue;
+                        }
+
+                        var settingsModel =
+                            new GetSettingsByGroupSettingsIdQueryHandler(_context).Handle(
+                                new GetSettingsByGroupSettingsIdQuery
+                                {
+                                    GroupSettingsId = (long)account.GroupSettingsId
+                                });
+
+                        if (settingsModel == null)
+                        {
+                            continue;
+                        }
+
+                        if (settingsModel.GeoOptions.Cities == null && settingsModel.GeoOptions.Gender == null && settingsModel.GeoOptions.Countries == null) //replace only geo fields
+                        {
+                            continue;
+                        }
+
+                        result.Add(new AnalysisFriendData
+                        {
+                            FacebookId = analysisFriendDbModel.FacebookId,
+                            AccountId = analysisFriendDbModel.AccountId,
+                            FriendName = analysisFriendDbModel.FriendName,
+                            Id = analysisFriendDbModel.Id,
+                            AddedToAnalysDateTime = analysisFriendDbModel.AddedDateTime,
+                            Type = analysisFriendDbModel.Type,
+                            Status = analysisFriendDbModel.Status
+                        });
                     }
-
-                    var settingsModel =
-                        new GetSettingsByGroupSettingsIdQueryHandler(context).Handle(
-                            new GetSettingsByGroupSettingsIdQuery
-                            {
-                                GroupSettingsId = (long)account.GroupSettingsId
-                            }); 
-
-                    if (settingsModel == null)
-                    {
-                        continue;
-                    }
-
-                    if (settingsModel.GeoOptions.Cities == null && settingsModel.GeoOptions.Gender == null && settingsModel.GeoOptions.Countries == null) //replace only geo fields
-                    {
-                        continue;
-                    }
-
-                    result.Add(new AnalysisFriendData
-                    {
-                        FacebookId = analysisFriendDbModel.FacebookId,
-                        AccountId = analysisFriendDbModel.AccountId,
-                        FriendName = analysisFriendDbModel.FriendName,
-                        Id = analysisFriendDbModel.Id,
-                        AddedToAnalysDateTime = analysisFriendDbModel.AddedDateTime,
-                        Type = analysisFriendDbModel.Type,
-                        Status = analysisFriendDbModel.Status
-                    });
                 }
 
                 return result;

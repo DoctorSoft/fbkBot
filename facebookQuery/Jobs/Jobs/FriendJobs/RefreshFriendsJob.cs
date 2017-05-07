@@ -2,23 +2,37 @@
 using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
+using Jobs.Models;
 using Jobs.Notices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
-using Services.ViewModels.HomeModels;
+using Services.ViewModels.JobStatusModels;
+using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.FriendJobs
 {
     public static class RefreshFriendsJob
     {
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public static void Run(AccountViewModel account)
+        public static void Run(RunJobModel runModel)
         {
+            var account = runModel.Account;
+            var forSpy = runModel.ForSpy;
+            var friend = runModel.Friend;
+
             if (account.GroupSettingsId == null)
             {
                 return;
             }
-            new JobStatusService().DeleteJobStatus(account.Id, FunctionName.RefreshFriends, null);
+
+            var jobStatusModel = new JobStatusViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.RefreshFriends,
+                IsForSpy = forSpy
+            };
+
+            new JobStatusService().DeleteJobStatus(jobStatusModel);
 
             var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
             var refreshFriendsLaunchTime = new TimeSpan(settings.RetryTimeRefreshFriendsHour, settings.RetryTimeRefreshFriendsMin, settings.RetryTimeRefreshFriendsSec);
@@ -28,12 +42,20 @@ namespace Jobs.Jobs.FriendJobs
                 Account = account,
                 FunctionName = FunctionName.RefreshFriends,
                 LaunchTime = refreshFriendsLaunchTime,
-                CheckPermissions = true
+                CheckPermissions = true,
+                IsForSpy = forSpy
             };
 
             new BackgroundJobService().CreateBackgroundJob(model);
-            
-            new JobQueueService().AddToQueue(account.Id, FunctionName.RefreshFriends);
+
+            var jobQueueModel = new JobQueueViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.RefreshFriends,
+                IsForSpy = forSpy
+            };
+
+            new JobQueueService().AddToQueue(jobQueueModel);
         }
     }
 }

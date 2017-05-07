@@ -1,6 +1,8 @@
-﻿using Jobs;
+﻿using System.Web.Configuration;
+using Jobs;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
+using Microsoft.Owin.Builder;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(WebApp.Startup))]
@@ -18,6 +20,8 @@ namespace WebApp
                 EnableDetailedErrors = true, 
                 EnableJavaScriptProxies = true
             };
+
+            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
             app.MapSignalR("/signalr", hubConfiguration);
         }

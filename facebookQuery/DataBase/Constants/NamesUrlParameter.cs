@@ -16,6 +16,7 @@
         RemoveFriend = 12,
         CancelRequestFriendship = 13,
         AddFriendsToGroup = 14,
-        AddFriendsToPage= 15,
+        AddFriendsToPage = 15,
+        GetCorrespondenceRequests = 16,
     }
 }

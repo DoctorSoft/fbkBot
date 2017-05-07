@@ -30,10 +30,7 @@ namespace WebApp.Controllers
             {
                 model.Login, 
                 model.Name, 
-                model.Password, 
-                model.Proxy, 
-                model.ProxyLogin, 
-                model.ProxyPassword
+                model.Password
             };
             if (textList.Any(string.IsNullOrWhiteSpace))
             {

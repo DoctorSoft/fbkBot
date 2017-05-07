@@ -1,9 +1,9 @@
 ﻿using Constants.FunctionEnums;
 using Hangfire;
-using Jobs.JobsService;
 using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
+using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.SpyJobs
 {
@@ -16,7 +16,17 @@ namespace Jobs.Jobs.SpyJobs
             {
                 return;
             }
-            new SpyService(new JobService()).AnalyzeFriends(account);
+
+           const bool forSpy = true;
+
+           var jobQueueModel = new JobQueueViewModel
+           {
+               AccountId = account.Id,
+               FunctionName = FunctionName.AnalyzeFriends,
+               IsForSpy = forSpy
+           };
+
+           new JobQueueService().AddToQueue(jobQueueModel);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants.FriendTypesEnum;
 using Constants.GendersUnums;
 
 namespace Engines.Engines.Models
@@ -26,5 +27,7 @@ namespace Engines.Engines.Models
         public DateTime LastReadMessageDateTime { get; set; }
 
         public DateTime LastUnreadMessageDateTime { get; set; }
+
+        public FriendTypes FriendType { get; set; }
     }
 }

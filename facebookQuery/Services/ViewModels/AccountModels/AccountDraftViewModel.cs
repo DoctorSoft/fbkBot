@@ -18,6 +18,8 @@
 
         public string ProxyLogin { get; set; }
 
-        public string ProxyPassword { get; set; } 
+        public string ProxyPassword { get; set; }
+
+        public long UserAgentId { get; set; }
     }
 }

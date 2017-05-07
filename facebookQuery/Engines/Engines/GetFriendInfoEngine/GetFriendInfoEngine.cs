@@ -22,7 +22,8 @@ namespace Engines.Engines.GetFriendInfoEngine
                                     + "%3A" + model.FriendFacebookId
                                     + "%3A" + GenerateValue()
                                     + "&section=overview&pnref=about"
-                                    , model.Cookie, model.Proxy);
+                                    , model.Cookie, model.Proxy,
+                                    model.UserAgent);
 
                 result = GetFriendsData(stringResponse);
             }
@@ -36,7 +37,7 @@ namespace Engines.Engines.GetFriendInfoEngine
                                                + "%3A" + model.FriendFacebookId
                                                + "%3A" + GenerateValue()
                                                + "&section=contact-info&pnref=about"
-                                               , model.Cookie, model.Proxy);
+                                               , model.Cookie, model.Proxy, model.UserAgent);
 
                 var gender = GetGender(contactStringResponse);
 

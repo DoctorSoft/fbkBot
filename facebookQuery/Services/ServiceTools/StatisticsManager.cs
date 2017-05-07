@@ -36,7 +36,8 @@ namespace Services.ServiceTools
                     Id = data.Id,
                     CountRequestsSentToFriends = data.CountRequestsSentToFriends,
                     CountOrdersConfirmedFriends = data.CountOrdersConfirmedFriends,
-                    DateTimeUpdateStatistics = data.DateTimeUpdateStatistics
+                    DateTimeUpdateStatistics = data.DateTimeUpdateStatistics,
+                    CountOfWinksBack = data.CountOfWinksBack
                 }).ToList()
             };
         }
@@ -54,23 +55,30 @@ namespace Services.ServiceTools
             var accountStatisticsModel = allStatistics.StatisticsList.OrderByDescending(model => model.DateTimeUpdateStatistics).FirstOrDefault();
 
             if (accountStatisticsModel == null)
+            {
                 return new AccountStatisticsModel
                 {
                     CountReceivedFriends = allStatistics.StatisticsList.Sum(model => model.CountReceivedFriends),
-                    CountRequestsSentToFriends = allStatistics.StatisticsList.Sum(model => model.CountRequestsSentToFriends),
-                    CountOrdersConfirmedFriends = allStatistics.StatisticsList.Sum(model => model.CountOrdersConfirmedFriends),
+                    CountRequestsSentToFriends =
+                        allStatistics.StatisticsList.Sum(model => model.CountRequestsSentToFriends),
+                    CountOrdersConfirmedFriends =
+                        allStatistics.StatisticsList.Sum(model => model.CountOrdersConfirmedFriends),
+                    CountOfWinksBack = allStatistics.StatisticsList.Sum(model => model.CountOfWinksBack),
                     AccountId = accountId,
                     CreateDateTime = DateTime.Now,
                     DateTimeUpdateStatistics = updateDateTime
                 };
+            }
 
             accountId = accountStatisticsModel.AccountId;
             updateDateTime = accountStatisticsModel.DateTimeUpdateStatistics;
+
             return new AccountStatisticsModel
             {
                 CountReceivedFriends = allStatistics.StatisticsList.Sum(model => model.CountReceivedFriends),
                 CountRequestsSentToFriends = allStatistics.StatisticsList.Sum(model => model.CountRequestsSentToFriends),
                 CountOrdersConfirmedFriends = allStatistics.StatisticsList.Sum(model => model.CountOrdersConfirmedFriends),
+                CountOfWinksBack = allStatistics.StatisticsList.Sum(model => model.CountOfWinksBack),
                 AccountId = accountId,
                 CreateDateTime = DateTime.Now,
                 DateTimeUpdateStatistics = updateDateTime
@@ -86,6 +94,7 @@ namespace Services.ServiceTools
                     CountReceivedFriends = newStatistics.CountReceivedFriends,
                     CountRequestsSentToFriends = newStatistics.CountRequestsSentToFriends,
                     CreateDateTime = newStatistics.CreateDateTime,
+                    CountOfWinksBack = newStatistics.CountOfWinksBack,
                     DateTimeUpdateStatistics = newStatistics.DateTimeUpdateStatistics
                 });
         }

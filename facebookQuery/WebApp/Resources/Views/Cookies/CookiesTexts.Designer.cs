@@ -104,5 +104,14 @@ namespace WebApp.Resources.Views.Cookies {
                 return ResourceManager.GetString("CreateDate", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User agent.
+        /// </summary>
+        public static string UserAgent {
+            get {
+                return ResourceManager.GetString("UserAgent", resourceCulture);
+            }
+        }
     }
 }

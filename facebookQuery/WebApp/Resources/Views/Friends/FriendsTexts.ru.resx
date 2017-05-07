@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddToGroup" xml:space="preserve">
+    <value>Пригласили в группу</value>
+  </data>
+  <data name="AddToPage" xml:space="preserve">
+    <value>Пригласили на страницу</value>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Отменить</value>
   </data>
@@ -149,5 +155,11 @@
   </data>
   <data name="NoFriends" xml:space="preserve">
     <value>Друзья не найдены. Включите функцию получения текущих друзей или дождитесь её выполнения.</value>
+  </data>
+  <data name="Wink" xml:space="preserve">
+    <value>Подмигнули</value>
+  </data>
+  <data name="WinkFriends" xml:space="preserve">
+    <value>Подмигнули друзьям</value>
   </data>
 </root>
