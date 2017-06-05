@@ -29,14 +29,14 @@ namespace Services.Services
 {
     public class FacebookMessagesService
     {
-        private readonly INoticesProxy _notice;
+        private readonly INotices _notice;
         private readonly NoticeService _noticeService;
         private readonly ISeleniumManager _seleniumManager;
         private readonly IFriendManager _friendManager;
         private readonly IAccountManager _accountManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
 
-        public FacebookMessagesService(INoticesProxy noticeProxy)
+        public FacebookMessagesService(INotices noticeProxy)
         {
             _noticeService  = new NoticeService();
             _friendManager = new FriendManager();
@@ -63,7 +63,7 @@ namespace Services.Services
 
                 ChangeMessageStatus(unreadMessagesList, account);
 
-                int i = 1;
+                var i = 1;
 
                 foreach (var unreadMessage in unreadMessagesList.UnreadMessages)
                 {
@@ -174,6 +174,7 @@ namespace Services.Services
                     new GetNewFriendsForDialogueQueryHandler(new DataBaseContext()).Handle(new GetNewFriendsForDialogueQuery
                     {
                         DelayTime = 10,
+                        CountFriend = 10,
                         AccountId = account.Id
                     });
 

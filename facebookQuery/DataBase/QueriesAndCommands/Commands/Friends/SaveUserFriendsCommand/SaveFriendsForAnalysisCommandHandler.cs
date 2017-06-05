@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Constants.FriendTypesEnum;
 using DataBase.Context;
 using DataBase.Models;
+using DataBase.QueriesAndCommands.Models;
 
 namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 {
@@ -19,7 +21,7 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
         {
             var friendsList = new List<AnalysisFriendDbModel>();
 
-            var friendsInDb = context.AnalisysFriends.Where(model => model.AccountId == command.AccountId).Select(model => new
+            var friendsToAnalyze = context.AnalisysFriends.Where(model => model.AccountId == command.AccountId).Select(model => new
             {
                 model.FacebookId,
                 model.AccountId,
@@ -41,9 +43,23 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
 
             foreach (var friendDbModel in command.Friends)
             {
-                if (friendsInDb.Any(model => model.FacebookId.Equals(friendDbModel.FacebookId)))
+                if (friendsToAnalyze.Any(model => model.FacebookId.Equals(friendDbModel.FacebookId)))
                 {
-                    continue;
+                    if (friendDbModel.Type != FriendTypes.Incoming)
+                    {
+                        continue;
+                    }
+
+                    var dbModel = friendDbModel;
+                    var friendsToDelete = friendsToAnalyze.Where(model => model.FacebookId == dbModel.FacebookId).Select(model => model).ToList();
+                    foreach (var friend in friendsToDelete)
+                    {
+                        context.AnalisysFriends.Attach(friend);
+                    }
+
+                    context.AnalisysFriends.RemoveRange(friendsToDelete);
+
+                    context.SaveChanges();
                 }
 
                 if (friendsList.Any(model=>model.FacebookId.Equals(friendDbModel.FacebookId)))

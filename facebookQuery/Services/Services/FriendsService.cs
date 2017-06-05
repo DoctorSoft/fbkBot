@@ -50,7 +50,7 @@ namespace Services.Services
 {
     public class FriendsService
     {
-        private readonly INoticesProxy _notice;
+        private readonly INotices _notice;
         private readonly NoticeService _noticesService;
         private readonly IAccountManager _accountManager;
         private readonly IFriendManager _friendManager;
@@ -61,7 +61,7 @@ namespace Services.Services
 
         private const int CountFriendsToGet = 10;
 
-        public FriendsService(INoticesProxy noticeProxy)
+        public FriendsService(INotices noticeProxy)
         {
             _notice = noticeProxy;
             _noticesService = new NoticeService();
@@ -212,8 +212,6 @@ namespace Services.Services
                 var settings = _accountSettingsManager.GetSettings((long) groupId);
                 var accountInformation = _accountManager.GetAccountInformation((long) groupId);
                 
-                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, "Получаем текущих друзей"));
-
                 var friends = new GetCurrentFriendsBySeleniumEngine().Execute(new GetCurrentFriendsBySeleniumModel
                 {
                     Cookie = account.Cookie,
@@ -549,7 +547,9 @@ namespace Services.Services
                         if (!settings.EnableDialogIsOver && !settings.EnableIsAddedToGroupsAndPages &&
                             !settings.EnableIsWink && !settings.EnableIsWinkFriendsOfFriends)
                         {
-                            return;
+
+                            _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("В группе не указан ни один критерий для удаления из друзей. Завершаем проверку.")));
+                            break;
                         }
 
                         // помечаем время отсчета для удаления из друзей

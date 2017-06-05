@@ -12,8 +12,6 @@ using Jobs.Jobs.FriendJobs;
 using Jobs.Jobs.MessageJobs;
 using Jobs.Jobs.WinksJobs;
 using Jobs.Models;
-using Jobs.Notices;
-using Services.Hubs;
 using Services.Models.BackgroundJobs;
 using Services.Models.Jobs;
 using Services.Services;
@@ -27,12 +25,10 @@ namespace Jobs.JobsService
 {
     public class BackgroundJobService : IBackgroundJobService
     {
-        private readonly NotificationHub _notice;
         private readonly JobStatusService _jobStatusService;
 
         public BackgroundJobService()
         {
-            _notice = new NotificationHub();
             _jobStatusService = new JobStatusService();
         }
 
@@ -48,6 +44,7 @@ namespace Jobs.JobsService
                 BackgroundJob.Delete(jobId);
             }
         }
+
         public void RemoveAccountBackgroundJobs(IRemoveAccountJobs model)
         {
             var currentModel = model as RemoveAccountJobsModel;
@@ -89,7 +86,6 @@ namespace Jobs.JobsService
             var oldSettings = currentModel.OldSettings;
             var isForSpy = currentModel.IsForSpy;
 
-            _notice.Add(account.Id, "Обновляем обработчик событий");
             //cookies
 
             CreateBackgroundJob(new CreateBackgroundJobModel
@@ -302,9 +298,18 @@ namespace Jobs.JobsService
                 {
                     foreach (var jobStatusViewModel in jobStatusList)
                     {
-                        BackgroundJob.Delete(jobStatusViewModel.JobId);
-
-                        new JobStatusService().DeleteJobStatus(jobStatusModel);
+                        try
+                        {
+                            BackgroundJob.Delete(jobStatusViewModel.JobId);
+                            if (true)
+                            {
+                                new JobStatusService().DeleteJobStatus(jobStatusModel);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            
+                        }
                     }
 
                 }
@@ -406,7 +411,7 @@ namespace Jobs.JobsService
                     {
                         break;
                     }
-                    var newGroups = new GroupService(new NoticesProxy()).GetNewSettings(account.Id, (long) account.GroupSettingsId);
+                    var newGroups = new GroupService(new NoticeService()).GetNewSettings(account.Id, (long) account.GroupSettingsId);
 
                     if (newGroups == null || newGroups.Count == 0)
                     {
@@ -513,6 +518,7 @@ namespace Jobs.JobsService
 
             return true;
         }
+
         private static bool JobIsRun(JobStatusViewModel model)
         {
             if (new JobStatusService().JobIsInRun(model))

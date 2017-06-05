@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\NoticeConfiguration.cs" />
     <Compile Include="Configurations\AccountInformationConfiguration.cs" />
     <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
     <Compile Include="Configurations\UserAgentConfiguration.cs" />
@@ -329,7 +330,12 @@
     <Compile Include="Migrations\201704272005444_AddUserAgent.Designer.cs">
       <DependentUpon>201704272005444_AddUserAgent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705252040331_AddNoticeTable.cs" />
+    <Compile Include="Migrations\201705252040331_AddNoticeTable.Designer.cs">
+      <DependentUpon>201705252040331_AddNoticeTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
+    <Compile Include="Models\NoticeDbModel.cs" />
     <Compile Include="Models\AccountInformationDbModel.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
     <Compile Include="Models\UserAgentDbModel.cs" />
@@ -413,6 +419,10 @@
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\DeleteNewSettingsCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Notices\RemoveNotice\RemoveOldNoticesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Notices\RemoveNotice\RemoveOldNoticesCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Notices\AddNotice\AddNoticeCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Notices\AddNotice\AddNoticeCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyAccounts\UpdateFailSpyAccountInformationCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyAccounts\UpdateFailSpyAccountInformationCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
@@ -520,6 +530,8 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsResponseModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GroupSettings\GetGroupSettingsNameByIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Groups\GroupSettings\GetGroupSettingsNameByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommand.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetQueuesByAccountId\GetJobQueuesByAccountIdCommand.cs" />
@@ -566,6 +578,9 @@
     <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\NewSettingsData.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Notices\GetNotices\GetTopNoticesCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Notices\GetNotices\GetTopNoticesCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Notices\GetNotices\NoticeResponseModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\SpyStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQueryHandler.cs" />
@@ -836,6 +851,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704272005444_AddUserAgent.resx">
       <DependentUpon>201704272005444_AddUserAgent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705252040331_AddNoticeTable.resx">
+      <DependentUpon>201705252040331_AddNoticeTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -142,7 +142,7 @@ namespace WebApp.Resources.Views.Users {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Runinng jobs.
+        ///   Looks up a localized string similar to Runinng jobs for group .
         /// </summary>
         public static string RunningJobs {
             get {

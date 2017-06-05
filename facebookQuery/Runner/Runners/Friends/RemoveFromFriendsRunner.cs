@@ -1,4 +1,4 @@
-﻿using Jobs.Notices;
+﻿
 using Runner.Interfaces;
 using Services.Services;
 
@@ -11,7 +11,7 @@ namespace Runner.Runners.Friends
             var account = model.Account;
             var friend = model.Friend;
 
-            new FriendsService(new NoticesProxy()).RemoveFriend(account.Id, friend.Id);
+            new FriendsService(new NoticeService()).RemoveFriend(account.Id, friend.Id);
         }
     }
 }

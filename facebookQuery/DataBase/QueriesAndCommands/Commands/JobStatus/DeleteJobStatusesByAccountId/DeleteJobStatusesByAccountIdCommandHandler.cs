@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Constants.FunctionEnums;
 using DataBase.Context;
 
 namespace DataBase.QueriesAndCommands.Commands.JobStatus.DeleteJobStatusesByAccountId
@@ -18,8 +19,11 @@ namespace DataBase.QueriesAndCommands.Commands.JobStatus.DeleteJobStatusesByAcco
         {
             List<string> resultList;
 
-            var jobStatuses = _context.JobStatus.Where(model => model.AccountId == command.AccountId && model.IsForSpy == command.IsForSpy);
-            if (command.FunctionName!=null)
+            var jobStatuses = _context.JobStatus
+                .Where(model => model.AccountId == command.AccountId && model.IsForSpy == command.IsForSpy)
+                .Where(model => model.FunctionName != FunctionName.RefreshCookies);
+
+            if (command.FunctionName != 0)
             {
                 jobStatuses = jobStatuses.Where(model => model.FunctionName == command.FunctionName);
             }

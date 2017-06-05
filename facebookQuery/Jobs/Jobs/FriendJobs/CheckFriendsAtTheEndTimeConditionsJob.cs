@@ -2,6 +2,7 @@
 using Hangfire;
 using Jobs.Models;
 using Services.Services;
+using Services.ViewModels.HomeModels;
 using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.FriendJobs
@@ -19,6 +20,11 @@ namespace Jobs.Jobs.FriendJobs
                 return;
             }
 
+            if(!AccountIsWorking(account))
+            {
+                return;
+            }
+
             var jobQueueModel = new JobQueueViewModel
             {
                 AccountId = account.Id,
@@ -27,6 +33,16 @@ namespace Jobs.Jobs.FriendJobs
             };
 
             new JobQueueService().AddToQueue(jobQueueModel);
+        }
+
+        private static bool AccountIsWorking(AccountViewModel account)
+        {
+            if (account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.IsDeleted || account.ConformationDataIsFailed)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

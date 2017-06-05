@@ -145,7 +145,7 @@
     <value>Remove user</value>
   </data>
   <data name="RunningJobs" xml:space="preserve">
-    <value>Runinng jobs</value>
+    <value>Runinng jobs for group </value>
   </data>
   <data name="WorkUsersCount" xml:space="preserve">
     <value>Work users count</value>

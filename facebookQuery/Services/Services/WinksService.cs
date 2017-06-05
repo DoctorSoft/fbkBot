@@ -24,7 +24,7 @@ namespace Services.Services
 {
     public class WinksService
     {
-        private readonly INoticesProxy _notice;
+        private readonly INotices _notice;
         private readonly IAccountManager _accountManager;
         private readonly NoticeService _noticesService;
         private readonly IFriendManager _friendManager;
@@ -35,7 +35,7 @@ namespace Services.Services
 
         private const int CountFriendsToGet = 10;
 
-        public WinksService(INoticesProxy noticeProxy)
+        public WinksService(INotices noticeProxy)
         {
             _noticesService = new NoticeService();
             _notice = noticeProxy;

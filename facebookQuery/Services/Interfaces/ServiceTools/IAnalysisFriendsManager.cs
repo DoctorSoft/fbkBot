@@ -7,6 +7,6 @@ namespace Services.Interfaces.ServiceTools
 {
     public interface IAnalysisFriendsManager
     {
-        List<AnalysisFriendData> CheckForAnyInDataBase(AccountViewModel account, List<AnalysisFriendData> friends, INoticesProxy notices, string functionName);
+        List<AnalysisFriendData> CheckForAnyInDataBase(AccountViewModel account, List<AnalysisFriendData> friends, INotices notices, string functionName);
     }
 }

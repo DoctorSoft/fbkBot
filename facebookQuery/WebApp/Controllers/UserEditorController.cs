@@ -32,7 +32,7 @@ namespace WebApp.Controllers
                 return View("Index", model);
             }
             
-            var accountId = _homeService.AddOrUpdateAccount(model);
+            var accountId = _homeService.AddOrUpdateAccount(model, new BackgroundJobService());
 
             return RedirectToAction("Index", "Users");
         }

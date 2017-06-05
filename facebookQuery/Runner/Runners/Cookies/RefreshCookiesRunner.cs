@@ -1,4 +1,5 @@
-﻿using Runner.Interfaces;
+﻿using Jobs.JobsService;
+using Runner.Interfaces;
 using Services.Services;
 
 namespace Runner.Runners.Cookies
@@ -11,7 +12,7 @@ namespace Runner.Runners.Cookies
 
             var forSpy = model.ForSpy;
 
-            new CookieService().RefreshCookies(account, forSpy);
+            new CookieService().RefreshCookies(account, forSpy, new BackgroundJobService());
         }
     }
 }

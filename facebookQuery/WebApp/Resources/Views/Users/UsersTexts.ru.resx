@@ -145,7 +145,7 @@
     <value>Удалить пользователя</value>
   </data>
   <data name="RunningJobs" xml:space="preserve">
-    <value>Запущенные задачи</value>
+    <value>Запущенные задачи для группы </value>
   </data>
   <data name="WorkUsersCount" xml:space="preserve">
     <value>Рабочих</value>

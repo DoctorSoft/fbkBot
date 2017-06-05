@@ -2,6 +2,7 @@
 using CommonInterfaces.Interfaces.Services;
 using Hangfire;
 using Jobs.Jobs.FriendJobs;
+using Jobs.Jobs.Notices;
 using Jobs.Jobs.SpyJobs;
 using Jobs.Models;
 using Services.Models.Jobs;
@@ -28,10 +29,16 @@ namespace Jobs.JobsService
         const string InviteTheNewGroupPattern = "Invite the new group = {0}";
         const string CheckFriendsConditionsToRemovePattern = "Check conditions to remove = {0}";
         const string AddToScheduleDeleteFromFriends = "Add to schedule delete from friends = {0}";
+        const string ClearOldNoticesPattern = "Clear old notices";
 
         public JobService()
         {
             _jobStatusService = new JobStatusService();
+        }
+
+        public void AddOrUpdateGeneralJobs()
+        {
+            RecurringJob.AddOrUpdate(ClearOldNoticesPattern, () => ClearNoticesJob.Run(), Cron.Minutely);
         }
 
         public void AddOrUpdateAccountJobs(IAddOrUpdateAccountJobs model)
@@ -53,6 +60,7 @@ namespace Jobs.JobsService
                 };
 
                 RecurringJob.AddOrUpdate(string.Format(CheckFriendsConditionsToRemovePattern, accountViewModel.Login), () => CheckFriendsAtTheEndTimeConditionsJob.Run(runModel), "*/30 * * * *");
+
                 /*RecurringJob.AddOrUpdate(string.Format(InviteTheNewGroupPattern, accountViewModel.Login), () => InviteTheNewGroupJob.Run(accountViewModel), Cron.Hourly);
                RecurringJob.AddOrUpdate(string.Format(RefreshCookiesPattern, accountViewModel.Login), () => RefreshCookiesJob.Run(accountViewModel), Cron.Hourly);
                RecurringJob.AddOrUpdate(string.Format(UnreadMessagesPattern, accountViewModel.Login), () => SendMessageToUnreadJob.Run(accountViewModel), Cron.Minutely);

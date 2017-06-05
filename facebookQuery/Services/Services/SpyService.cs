@@ -11,6 +11,7 @@ using DataBase.QueriesAndCommands.Queries.Account.SpyAccount;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
 using Engines.Engines.GetNewCookiesEngine;
+using Hangfire;
 using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
 using Services.Core;
@@ -92,7 +93,7 @@ namespace Services.Services
             _jobService.RemoveAccountJobs(model);
         }
 
-        public void AddOrUpdateSpyAccount(SpyAccountViewModel model)
+        public void AddOrUpdateSpyAccount(SpyAccountViewModel model, IBackgroundJobService backgroundJobService)
         {
             var accountId = new AddOrUpdateSpyAccountCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateSpyAccountCommand
             {
@@ -115,7 +116,9 @@ namespace Services.Services
                 Proxy = model.Proxy,
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
-            }, forSpy: true);
+            }, 
+            true,
+            backgroundJobService);
             
             var account = new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
             {

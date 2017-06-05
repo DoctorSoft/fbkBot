@@ -3,7 +3,6 @@ using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
 using Jobs.Models;
-using Jobs.Notices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.JobStatusModels;
@@ -33,7 +32,7 @@ namespace Jobs.Jobs.WinksJobs
 
             new JobStatusService().DeleteJobStatus(jobStatusModel);
 
-            var settings = new GroupService(new NoticesProxy()).GetSettings((long) account.GroupSettingsId);
+            var settings = new GroupService(new NoticeService()).GetSettings((long) account.GroupSettingsId);
             var winkFriendsLaunchTime = new TimeSpan(settings.RetryTimeForWinkBackHour, settings.RetryTimeForWinkBackMin, settings.RetryTimeForWinkBackSec);
             
             var model = new CreateBackgroundJobModel

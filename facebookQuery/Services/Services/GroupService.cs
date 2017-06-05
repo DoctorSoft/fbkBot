@@ -15,7 +15,6 @@ using DataBase.QueriesAndCommands.Models;
 using DataBase.QueriesAndCommands.Models.ConditionModels;
 using DataBase.QueriesAndCommands.Models.JsonModels;
 using DataBase.QueriesAndCommands.Queries.Account;
-using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.CommunityStatistics;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsForAddedToGroup;
 using DataBase.QueriesAndCommands.Queries.Groups;
@@ -38,13 +37,13 @@ namespace Services.Services
 {
     public class GroupService
     {
-        private readonly INoticesProxy _notice;
+        private readonly INotices _notice;
         private readonly AccountSettingsManager _accountSettingsManager;
         private readonly SeleniumManager _seleniumManager;
         private readonly SettingsManager _settingsManager;
         private readonly AccountManager _accountManager;
 
-        public GroupService(INoticesProxy notice)
+        public GroupService(INotices notice)
         {
             _notice = notice;
             _accountSettingsManager = new AccountSettingsManager();

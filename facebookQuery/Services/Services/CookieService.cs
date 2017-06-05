@@ -1,10 +1,13 @@
-﻿using DataBase.Context;
+﻿using CommonInterfaces.Interfaces.Services;
+using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Commands.SpyAccounts;
 using Engines.Engines.CheckProxyEngine;
 using Engines.Engines.GetNewCookiesEngine;
+using Hangfire;
 using Services.Interfaces.ServiceTools;
+using Services.Models.Jobs;
 using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 
@@ -18,7 +21,7 @@ namespace Services.Services
         {
             _seleniumManager = new SeleniumManager();
         }
-        public bool RefreshCookies(AccountViewModel account, bool forSpy)
+        public bool RefreshCookies(AccountViewModel account, bool forSpy, IBackgroundJobService backgroundJob)
         {
             if (account.Proxy != null)
             {
@@ -49,6 +52,12 @@ namespace Services.Services
                         });
                     }
                     
+                    backgroundJob.RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+                    {
+                        AccountId = account.Id,
+                        IsForSpy = forSpy,
+                        Login = account.Login
+                    });
                     return false;
                 }
             }
@@ -82,6 +91,13 @@ namespace Services.Services
                     });
                 }
 
+                backgroundJob.RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+                {
+                    AccountId = account.Id,
+                    IsForSpy = forSpy,
+                    Login = account.Login
+                });
+
                 return false;
             }
 
@@ -105,6 +121,13 @@ namespace Services.Services
                         ConformationIsFailed = true
                     });
                 }
+
+                backgroundJob.RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+                {
+                    AccountId = account.Id,
+                    IsForSpy = forSpy,
+                    Login = account.Login
+                });
 
                 return false;
             }
@@ -131,6 +154,7 @@ namespace Services.Services
                     NewCookieString = newCookie
                 });
             }
+
             return true;
         }
     }

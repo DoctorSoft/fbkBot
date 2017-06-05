@@ -25,7 +25,7 @@ namespace Services.ServiceTools
             _accountManager = new AccountManager();
             _noticesService = new NoticeService();
         }
-        public List<AnalysisFriendData> CheckForAnyInDataBase(AccountViewModel account, List<AnalysisFriendData> friends, INoticesProxy notices, string functionName)
+        public List<AnalysisFriendData> CheckForAnyInDataBase(AccountViewModel account, List<AnalysisFriendData> friends, INotices notices, string functionName)
         {
             var friendsInDb = new GetAllFriendByQueryHandler(new DataBaseContext()).Handle(new GetAllFriendByQuery());
             var analisysFriendsInDb = new GetAnalisysFriendsByStatusQueryHandler(new DataBaseContext()).Handle(new GetAnalisysFriendsByStatusQuery

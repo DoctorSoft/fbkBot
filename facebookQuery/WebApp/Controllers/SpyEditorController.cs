@@ -37,7 +37,7 @@ namespace WebApp.Controllers
                 return View("Index", model);
             }
 
-            spyService.AddOrUpdateSpyAccount(model);
+            spyService.AddOrUpdateSpyAccount(model, new BackgroundJobService());
 
             return RedirectToAction("Index", "Spies");
         }

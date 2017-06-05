@@ -24,6 +24,8 @@
 
         public long? GroupSettingsId { get; set; }
 
+        public string GroupSettingsName { get; set; }
+
         public bool ProxyDataIsFailed { get; set; }
 
         public bool AuthorizationDataIsFailed { get; set; }

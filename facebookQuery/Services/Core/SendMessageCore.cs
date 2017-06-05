@@ -22,7 +22,7 @@ namespace Services.Core
 {
     public class SendMessageCore : ISendMessageCore
     {
-        private readonly INoticesProxy _notice;
+        private readonly INotices _notice;
         private readonly IFriendManager _friendManager;
         private readonly IAccountManager _accountManager;
         private readonly IFacebookMessageManager _facebookMessageManager;
@@ -30,7 +30,7 @@ namespace Services.Core
         private readonly IStopWordsManager _stopWordsManager;
         private readonly IFriendsBlackListManager _friendsBlackListManager;
 
-        public SendMessageCore(INoticesProxy noticeProxy)
+        public SendMessageCore(INotices noticeProxy)
         {
             _friendsBlackListManager = new FriendsBlackListManager();
             _friendManager = new FriendManager();

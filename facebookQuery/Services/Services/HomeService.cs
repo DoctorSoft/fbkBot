@@ -2,11 +2,13 @@
 using System.Linq;
 using CommonInterfaces.Interfaces.Services;
 using DataBase.Context;
+using DataBase.Migrations;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.Groups.GroupSettings;
 using DataBase.QueriesAndCommands.Queries.UserAgent.GetRandomUserAgent;
 using DataBase.QueriesAndCommands.Queries.UserAgent.GetUserAgentById;
 using Services.Interfaces.ServiceTools;
@@ -69,13 +71,38 @@ namespace Services.Services
             }).ToList();
         }
 
-        public List<AccountDataViewModel> GetDataAccounts()
+        public List<AccountViewModel> GetAccountsWithErrors()
         {
             var accounts = new GetAccountsQueryHandler(new DataBaseContext()).Handle(new GetAccountsQuery
             {
                 Count = 100,
                 Page = 0
             });
+
+            return accounts.Where(model => model.AuthorizationDataIsFailed || model.ConformationIsFailed || model.ProxyDataIsFailed)
+                .Select(accountModel => new AccountViewModel
+                {
+                    Id = accountModel.Id,
+                    PageUrl = accountModel.PageUrl,
+                    Login = accountModel.Login,
+                    Password = accountModel.Password,
+                    FacebookId = accountModel.FacebookId,
+                    Proxy = accountModel.Proxy,
+                    ProxyLogin = accountModel.ProxyLogin,
+                    ProxyPassword = accountModel.ProxyPassword,
+                    Cookie = accountModel.Cookie.CookieString,
+                    Name = accountModel.Name,
+                    GroupSettingsId = accountModel.GroupSettingsId,
+                    AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
+                    ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
+                    IsDeleted = accountModel.IsDeleted,
+                    ConformationDataIsFailed = accountModel.ConformationIsFailed,
+                    UserAgentId = accountModel.UserAgentId
+                }).ToList();
+        }
+
+        public List<AccountDataViewModel> GetDataAccounts(List<AccountViewModel> accounts)
+        {
             var forSpy = false;
             var result = new List<AccountDataViewModel>();
 
@@ -98,14 +125,15 @@ namespace Services.Services
                             Proxy = accountModel.Proxy,
                             ProxyLogin = accountModel.ProxyLogin,
                             ProxyPassword = accountModel.ProxyPassword,
-                            Cookie = accountModel.Cookie.CookieString,
+                            Cookie = accountModel.Cookie,
                             Name = accountModel.Name,
                             GroupSettingsId = accountModel.GroupSettingsId,
                             AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
                             ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
                             IsDeleted = accountModel.IsDeleted,
-                            ConformationDataIsFailed = accountModel.ConformationIsFailed,
-                            UserAgentId = accountModel.UserAgentId
+                            ConformationDataIsFailed = accountModel.ConformationDataIsFailed,
+                            UserAgentId = accountModel.UserAgentId,
+                            GroupSettingsName = new GetGroupSettingsNameByIdQueryHandler(new DataBaseContext()).Handle(new GetGroupSettingsNameByIdQuery { GroupId = accountModel.GroupSettingsId})
                         },
                         AccountInformation = information,
                         JobStatuses = jobStatuses
@@ -125,14 +153,16 @@ namespace Services.Services
                         Proxy = accountModel.Proxy,
                         ProxyLogin = accountModel.ProxyLogin,
                         ProxyPassword = accountModel.ProxyPassword,
-                        Cookie = accountModel.Cookie.CookieString,
+                        Cookie = accountModel.Cookie,
                         Name = accountModel.Name,
                         GroupSettingsId = accountModel.GroupSettingsId,
                         AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
                         ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
                         IsDeleted = accountModel.IsDeleted,
-                        ConformationDataIsFailed = accountModel.ConformationIsFailed,
-                        UserAgentId = accountModel.UserAgentId
+                        ConformationDataIsFailed = accountModel.ConformationDataIsFailed,
+                        UserAgentId = accountModel.UserAgentId,
+                        GroupSettingsName = new GetGroupSettingsNameByIdQueryHandler(new DataBaseContext()).Handle(new GetGroupSettingsNameByIdQuery { GroupId = accountModel.GroupSettingsId })
+                        
                     }
                 });
             }
@@ -163,7 +193,9 @@ namespace Services.Services
                 ProxyDataIsFailed = model.ProxyDataIsFailed,
                 ConformationDataIsFailed = model.ConformationIsFailed,
                 IsDeleted = model.IsDeleted,
-                UserAgentId = model.UserAgentId
+                UserAgentId = model.UserAgentId,
+                GroupSettingsName = new GetGroupSettingsNameByIdQueryHandler(new DataBaseContext()).Handle(new GetGroupSettingsNameByIdQuery { GroupId = model.GroupSettingsId })
+                        
             }).ToList();
         }
 
@@ -241,7 +273,9 @@ namespace Services.Services
                 ProxyLogin = account.ProxyLogin,
                 ProxyPassword = account.ProxyPassword,
                 UserAgentId = account.UserAgentId
-            }, forSpy: false);
+            }, 
+            forSpy: false, 
+            backgroundJob: backgroundJobService);
 
             if (account.GroupSettingsId == null)
             {
@@ -278,20 +312,6 @@ namespace Services.Services
 
             backgroundJobService.AddOrUpdateAccountJobs(model);
         }
-
-        /*public GetNewNoticesResponseModel GetNewNotices(long accountId)
-        {
-            var account = new GetAccountByFacebookIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByFacebookIdQuery
-            {
-                FacebookUserId = accountId
-            });
-            var statusModel = new GetNewNoticesEngine().Execute(new GetNewNoticesModel()
-            {
-                ResponsePage = RequestsHelper.Get(Urls.HomePage.GetDiscription(), account.Cookie.CookieString, _accountManager.GetAccountProxy(account)) 
-            });
-
-            return statusModel;
-        }*/
 
         public AccountModel GetAccountByUserId(long? userId)
         {
@@ -370,7 +390,7 @@ namespace Services.Services
             };
         }
 
-        public long AddOrUpdateAccount(AccountDraftViewModel model)
+        public long AddOrUpdateAccount(AccountDraftViewModel model, IBackgroundJobService backgroundJobService)
         {
             var userAgentId = new GetRandomUserAgentQueryHandler(new DataBaseContext()).Handle(new GetRandomUserAgentQuery());
             if (userAgentId == null)
@@ -401,7 +421,9 @@ namespace Services.Services
                 ProxyLogin = model.ProxyLogin,
                 ProxyPassword = model.ProxyPassword,
                 UserAgentId = model.UserAgentId
-            }, forSpy: false);
+            }, 
+            false,
+            backgroundJobService);
 
 
             var account = new GetAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetAccountByIdQuery

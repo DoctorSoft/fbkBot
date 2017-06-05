@@ -97,6 +97,37 @@ namespace DataBase.QueriesAndCommands.Commands.Friends.SaveUserFriendsCommand
                         });
                     }
                 }
+
+                var deletedFriends =
+                    context.Friends.Where(model => model.AccountId == command.AccountId && model.DeleteFromFriends).ToList();
+
+                foreach (var deletedFriend in deletedFriends)
+                {
+                    try
+                    {
+                        var isBan = context.FriendsBlackList.Any(model => model.FriendFacebookId == deletedFriend.FacebookId);
+                        var inCurrentFriends = command.Friends.Any(model => model.FacebookId == deletedFriend.FacebookId);
+                        //Если среди удаленных находится друг, которого мы получили в текущем списке
+                        if (deletedFriend.FacebookId == 100006675100751)
+                        {
+                            string s = ";";
+                        }
+                        if (!isBan && inCurrentFriends)
+                        {
+                            var friend = deletedFriend;
+                            var notDeleteFreind = deletedFriends.Where(model => model.Id == friend.Id).FirstOrDefault();
+
+                            notDeleteFreind.DeleteFromFriends = false;
+                            context.SaveChanges();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        
+                        throw;
+                    }
+
+                }
             }
             else
             {

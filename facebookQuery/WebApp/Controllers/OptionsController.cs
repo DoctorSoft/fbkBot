@@ -3,10 +3,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CommonInterfaces.Interfaces.Models;
 using Jobs.JobsService;
-using Jobs.Notices;
 using Services.Models.Jobs;
 using Services.Services;
-using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.OptionsModel;
 using AddOrUpdateAccountModel = Services.Models.BackgroundJobs.AddOrUpdateAccountModel;
@@ -21,7 +19,7 @@ namespace WebApp.Controllers
         public OptionsController()
         {
             _messageSettingService = new MessageSettingService();
-            _friendService = new FriendsService(new NoticesProxy());
+            _friendService = new FriendsService(new NoticeService());
         }
 
         // GET: Option

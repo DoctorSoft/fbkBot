@@ -21,8 +21,6 @@ namespace WebApp
                 EnableJavaScriptProxies = true
             };
 
-            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
             app.MapSignalR("/signalr", hubConfiguration);
         }
     }

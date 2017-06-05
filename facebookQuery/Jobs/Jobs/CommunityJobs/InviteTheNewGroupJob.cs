@@ -3,7 +3,6 @@ using Constants.FunctionEnums;
 using Hangfire;
 using Jobs.JobsService;
 using Jobs.Models;
-using Jobs.Notices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ServiceTools;
@@ -40,7 +39,7 @@ namespace Jobs.Jobs.CommunityJobs
 
             new JobStatusService().DeleteJobStatus(jobStatusModel);
 
-            var settings = new GroupService(new NoticesProxy()).GetSettings((long)account.GroupSettingsId);
+            var settings = new GroupService(new NoticeService()).GetSettings((long)account.GroupSettingsId);
             var inviteTheNewGroupLaunchTime = new TimeSpan(settings.RetryTimeInviteTheGroupsHour, settings.RetryTimeInviteTheGroupsMin, settings.RetryTimeInviteTheGroupsSec);
 
             var model = new CreateBackgroundJobModel

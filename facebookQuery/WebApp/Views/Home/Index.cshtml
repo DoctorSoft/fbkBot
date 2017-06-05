@@ -10,7 +10,7 @@
     <h4>@HomeTexts.HomeWelcomeSubTitle</h4>
 </div>
 <div class="body-content">
-    <a href="@Url.Action("Index", "Users")" class="btn btn-default rectangle-button"> <i class="fa fa-user"></i><br /><h3>@HomeTexts.MenuUsers</h3></a>
+    <a href="@Url.Action("Index", "Users", new { showWorking = true})" class="btn btn-default rectangle-button"> <i class="fa fa-user"></i><br /><h3>@HomeTexts.MenuUsers</h3></a>
     <a href="@Url.Action("Index", "DeletedUsers")" class="btn btn-default rectangle-button"> <i class="fa fa-user-times"></i><br /><h3>@HomeTexts.MenuDeletedUsers</h3></a>
     <a href="@Url.Action("Index", "Options")" class="btn btn-default rectangle-button"> <i class="fa fa-envelope"></i><br/><h3>@HomeTexts.MenuMessageOptions</h3></a>
     <a href="@Url.Action("Index", "ExtraMessages")" class="btn btn-default rectangle-button"> <i class="fa fa-bolt"></i><br /><h3>@HomeTexts.MenuExtraMessages</h3></a>

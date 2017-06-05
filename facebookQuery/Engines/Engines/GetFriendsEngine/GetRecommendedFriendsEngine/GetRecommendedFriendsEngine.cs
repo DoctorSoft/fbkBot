@@ -31,7 +31,7 @@ namespace Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine
             {
                 var pageRequest = ConvertToUTF8(page);
 
-                var friendPattern = new Regex("<h2[^<]*(запросы|Requests){1}[^<]*<[^>]*h2[^>]*>");
+                var friendPattern = new Regex("<h2[^<]*(Рассмотрите запросы|Requests){1}[^<]*<[^>]*h2[^>]*>");
                 var friendsCountElement = friendPattern.Match(pageRequest).ToString();
 
                 var countFriendPattern = new Regex("( |\\()\\d*( |\\))");

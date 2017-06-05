@@ -1,5 +1,4 @@
-﻿using Jobs.Notices;
-using Runner.Interfaces;
+﻿using Runner.Interfaces;
 using Services.Services;
 
 namespace Runner.Runners.Winks
@@ -10,7 +9,7 @@ namespace Runner.Runners.Winks
         {
             var account = model.Account;
 
-            new WinksService(new NoticesProxy()).WinkFriend(account);
+            new WinksService(new NoticeService()).WinkFriend(account);
         }
     }
 }

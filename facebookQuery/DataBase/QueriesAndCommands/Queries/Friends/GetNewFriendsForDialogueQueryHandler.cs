@@ -24,7 +24,8 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
                     _context.Friends.Where(model => model.AccountId == query.AccountId
                         && !_context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.AccountId) 
                         && !model.DeleteFromFriends 
-                        && !model.FriendMessages.Any()).ToList();
+                        && !model.FriendMessages.Any())
+                        .Take(query.CountFriend).ToList();
 
                 var allMessages = _context.FriendMessages.Select(model => model);
 

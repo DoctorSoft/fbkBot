@@ -8,5 +8,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
         public long AccountId { get; set; }
 
         public int DelayTime { get; set; }
+
+        public int CountFriend { get; set; }
     }
 }

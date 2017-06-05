@@ -1,6 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Web.Mvc;
 using Jobs.JobsService;
+using Newtonsoft.Json;
 using Services.Services;
+using Services.ViewModels.HomeModels;
+using Services.ViewModels.NoticeModels;
 
 namespace WebApp.Controllers
 {
@@ -12,18 +17,51 @@ namespace WebApp.Controllers
         {
             this._homeService = new HomeService(new JobService(), new BackgroundJobService());
         }
-
-        // GET: Users
-        public ActionResult Index()
+        
+        public ActionResult Index(bool? showWorking, bool? showWithErrors)
         {
-            var accounts = _homeService.GetDataAccounts();
-            return View(accounts);
+            List<AccountViewModel> accounts;
+            var acountsData = new List<AccountDataViewModel>();
+
+            if (showWorking == null && showWithErrors == null)
+            {
+                accounts = _homeService.GetAccounts();
+                acountsData = _homeService.GetDataAccounts(accounts);
+
+                return View(acountsData);
+            }
+
+            if (showWorking != null && (bool)showWorking)
+            {
+                accounts = _homeService.GetWorkAccounts();
+                acountsData = _homeService.GetDataAccounts(accounts);
+            }
+
+            if (showWithErrors != null && (bool)showWithErrors)
+            {
+                accounts = _homeService.GetAccountsWithErrors();
+                acountsData = _homeService.GetDataAccounts(accounts);
+            }
+
+            return View(acountsData);
         }
 
         public ActionResult RemoveAccount(long accountId)
         {
             _homeService.RemoveAccount(accountId);
             return RedirectToAction("Index", "Users");
-        } 
+        }
+
+        public JsonResult GetPushMessages()
+        {
+            var messages = new NoticeService().GetLastNotices(5);
+
+            var result = JsonConvert.SerializeObject(messages);
+
+            return new JsonResult
+            {
+                Data = result
+            };
+        }
     }
 }

@@ -126,7 +126,7 @@
   <ItemGroup>
     <Compile Include="Core\Interfaces\IAnalyzeFriendCore.cs" />
     <Compile Include="Core\Interfaces\ISendMessageCore.cs" />
-    <Compile Include="Interfaces\Notices\INoticesProxy.cs" />
+    <Compile Include="Interfaces\Notices\INotices.cs" />
     <Compile Include="Interfaces\ServiceTools\ISettingsManager.cs" />
     <Compile Include="Interfaces\ServiceTools\IAnalysisFriendsManager.cs" />
     <Compile Include="Interfaces\ServiceTools\IFriendsBlackListManager.cs" />
@@ -143,7 +143,6 @@
     <Compile Include="Core\AnalizeFriendCore.cs" />
     <Compile Include="Core\Models\AnalyzeModel.cs" />
     <Compile Include="Core\SendMessageCore.cs" />
-    <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="LogWriter\LogWriter.cs" />
     <Compile Include="Models\BackgroundJobs\AddOrUpdateAccountModel.cs">
       <SubType>Code</SubType>
@@ -231,6 +230,7 @@
     <Compile Include="ViewModels\JobStatusModels\JobStatusViewModel.cs" />
     <Compile Include="ViewModels\NewSettingsModels\CommunityOptionsViewModel.cs" />
     <Compile Include="ViewModels\NewSettingsModels\NewSettingsViewModel.cs" />
+    <Compile Include="ViewModels\NoticeModels\NoticeModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\FriendsOptionsModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\GeoOptionsModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\MessageOptionsModel.cs" />
@@ -327,6 +327,7 @@
       <LastGenOutput>FriendServiceTexts.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

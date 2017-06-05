@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Jobs.JobsService;
-using Jobs.Notices;
+
 using Runner.Models;
 using Services.Services;
 using Services.ViewModels.HomeModels;
@@ -114,7 +114,7 @@ namespace Runner
 
             foreach (var queue in queues)
             {
-                var friend = queue.FriendId != null ? new FriendsService(new NoticesProxy()).GetFriendById((long)queue.FriendId) : null;
+                var friend = queue.FriendId != null ? new FriendsService(new NoticeService()).GetFriendById((long)queue.FriendId) : null;
                 runner.RunService(queue.FunctionName, new RunnerModel
                 {
                     Account = account,

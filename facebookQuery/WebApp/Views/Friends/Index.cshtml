@@ -52,7 +52,12 @@
                              <div>@friend.Name (@friend.FacebookId)</div>
                          </div>
                          <div class="col-md-2">
-                             <a href="@Url.Action("Index", "FriendMessages", new {accountId = Model.AccountId, friendId = friend.Id})"><i class="fa fa-envelope"></i></a>
+                             @if (friend.MessageRegime != null)
+                             {
+                                 <a href="@Url.Action("Index", "FriendMessages", new {accountId = Model.AccountId, friendId = friend.Id})">
+                                     <i class="fa fa-envelope"></i>
+                                 </a>
+                             }
                          </div>
                          <div class="col-md-5">
                              <div class="inline-actions">

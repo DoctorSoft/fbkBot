@@ -33,7 +33,7 @@ using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinThePagesBySeleniumEngine;
 using Engines.Engines.WinkEngine;
 using Jobs.Jobs.FriendJobs;
 using Jobs.JobsService;
-using Jobs.Notices;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -81,14 +81,13 @@ namespace FacebookApp
                 {
                     if (accountViewModel.Id == 24)
                     {
-                        var notices = new NoticesProxy();
-                        new WinksService(notices).WinkToBack(accountViewModel);
-                        //new FriendsService(new NoticesProxy()).GetCurrentFriends(accountViewModel);
+                        new FriendsService(new NoticeService()).CheckFriendsAtTheEndTimeConditions(accountViewModel);
+                        //new FriendsService(new NoticeService()).GetCurrentFriends(accountViewModel);
 
 
                         break;
                     }
-                    /*new FacebookMessagesService(new NoticesProxy()).GetUnreadMessages(new AccountModel()
+                    /*new FacebookMessagesService(new NoticeService()).GetUnreadMessages(new AccountModel()
                     {
                         Proxy = accountViewModel.Proxy,
                         ProxyLogin = accountViewModel.ProxyLogin,

@@ -1,5 +1,4 @@
 ﻿using Jobs.JobsService;
-using Jobs.Notices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
@@ -12,7 +11,9 @@ namespace Jobs
         {
             //todo: uncomment it back
             var accountModels = new HomeService(new JobService(), new BackgroundJobService()).GetAccounts();
-            var groupService = new GroupService(new NoticesProxy());
+            var groupService = new GroupService(new NoticeService());
+
+            new JobService().AddOrUpdateGeneralJobs();
 
             foreach (var account in accountModels)
             {

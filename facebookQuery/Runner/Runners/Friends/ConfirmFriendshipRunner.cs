@@ -1,5 +1,4 @@
-﻿using Jobs.Notices;
-using Runner.Interfaces;
+﻿using Runner.Interfaces;
 using Services.Services;
 
 namespace Runner.Runners.Friends
@@ -10,7 +9,7 @@ namespace Runner.Runners.Friends
         {
             var account = model.Account;
 
-            new FriendsService(new NoticesProxy()).ConfirmFriendship(account);
+            new FriendsService(new NoticeService()).ConfirmFriendship(account);
         }
     }
 }
