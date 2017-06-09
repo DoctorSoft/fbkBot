@@ -16,12 +16,12 @@ namespace Services.Services
             return string.Format("<b>[{0}]</b> {1}", functionName, noticeText);
         }
 
-        public void AddNotice(long accountId, string noticeText)
+        public void AddNotice(string functionName, long accountId, string noticeText)
         {
             new AddNoticeCommandHandler(new DataBaseContext()).Handle(new AddNoticeCommand
             {
                 AccountId = accountId,
-                NoticeText = noticeText
+                NoticeText = ConvertNoticeText(functionName, noticeText)
             });
         }
 

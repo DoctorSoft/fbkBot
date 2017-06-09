@@ -49,7 +49,9 @@ namespace Services.Services
 
         public FriendViewModel GetFriendToWink(AccountViewModel account)
         {
-            _notice.AddNotice(account.Id, "Получаем друга для подмигиваний");
+            const string functionName = "Получение друзей для подмигивания";
+
+            _notice.AddNotice(functionName, account.Id, "Получаем друга для подмигиваний");
             var groupId = account.GroupSettingsId;
 
             if (groupId == null)
@@ -67,11 +69,11 @@ namespace Services.Services
 
             if (model == null)
             {
-                _notice.AddNotice(account.Id, string.Format("Нет ниодного подходящего друга."));
+                _notice.AddNotice(functionName, account.Id, string.Format("Нет ниодного подходящего друга."));
                 return null;
             }
 
-            _notice.AddNotice(account.Id, string.Format("Получили {0}({1})", model.FriendName, model.FacebookId));
+            _notice.AddNotice(functionName, account.Id, string.Format("Получили {0}({1})", model.FriendName, model.FacebookId));
 
             var testedFriendsId = new List<long> {model.FacebookId};
 
@@ -96,14 +98,14 @@ namespace Services.Services
             }
 
             var driver = _seleniumManager.RegisterNewDriver(account); // открываем драйвер
-            
-            _notice.AddNotice(account.Id, string.Format("Проверяем гео данные для {0}({1})", model.FriendName, model.FacebookId));
+
+            _notice.AddNotice(functionName, account.Id, string.Format("Проверяем гео данные для {0}({1})", model.FriendName, model.FacebookId));
 
             var isSuccces = new SpyService(null).AnalizeFriend(account, model.FacebookId, settings, driver);
            
             while (!isSuccces && settings.ConsiderGeoForWinkFriends)
             {
-                _notice.AddNotice(account.Id, string.Format("Не прошел провергу по Гео {0}({1}), берем другого", model.FriendName, model.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Не прошел провергу по Гео {0}({1}), берем другого", model.FriendName, model.FacebookId));
                 model = new GetFriendToWinkQueryHandler(new DataBaseContext()).Handle(new GetFriendToWinkQuery
                 {
                     AccountId = account.Id,
@@ -113,7 +115,7 @@ namespace Services.Services
 
                 testedFriendsId.Add(model.FacebookId);
 
-                _notice.AddNotice(account.Id, string.Format("Проверяем гео данные для {0}({1})", model.FriendName, model.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Проверяем гео данные для {0}({1})", model.FriendName, model.FacebookId));
 
                 isSuccces = new SpyService(null).AnalizeFriend(account, model.FacebookId, settings, driver);
 
@@ -122,7 +124,7 @@ namespace Services.Services
 
             driver.Quit(); //Закрываем драйвер
 
-            _notice.AddNotice(account.Id, string.Format("Получили {0}({1})", model.FriendName, model.FacebookId));
+            _notice.AddNotice(functionName, account.Id, string.Format("Получили {0}({1})", model.FriendName, model.FacebookId));
             return new FriendViewModel
             {
                 AddDateTime = model.AddedDateTime,
@@ -155,12 +157,11 @@ namespace Services.Services
 
                 if (friend == null)
                 {
-                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Нет друзей для подмигивания")));
+                    _notice.AddNotice(functionName, account.Id, string.Format("Нет друзей для подмигивания"));
                     return;
                 }
 
-                _notice.AddNotice(account.Id,
-                    _noticesService.ConvertNoticeText(functionName,string.Format("Подмигиваем другу {0}({1})", friend.Name, friend.FacebookId)));
+                _notice.AddNotice(functionName, account.Id, string.Format("Подмигиваем другу {0}({1})", friend.Name, friend.FacebookId));
                 new WinkEngine().Execute(new WinkModel
                 {
                     AccountFacebookId = account.FacebookId,
@@ -174,8 +175,7 @@ namespace Services.Services
                         })
                 });
 
-                _notice.AddNotice(account.Id,
-                    _noticesService.ConvertNoticeText(functionName,string.Format("Делаем отметку о подмигивании другу {0}({1})", friend.Name, friend.FacebookId)));
+                _notice.AddNotice(functionName, account.Id, string.Format("Делаем отметку о подмигивании другу {0}({1})", friend.Name, friend.FacebookId));
                 new MarkWinkedFriendCommandHandler(new DataBaseContext()).Handle(new MarkWinkedFriendCommand
                 {
                     FriendId = friend.Id,
@@ -185,8 +185,7 @@ namespace Services.Services
             }
             catch (Exception ex)
             {
-                _notice.AddNotice(account.Id,
-                    _noticesService.ConvertNoticeText(functionName, string.Format("Произошла оибка - {0}", ex.Message)));
+                _notice.AddNotice(functionName, account.Id, string.Format("Произошла оибка - {0}", ex.Message));
             }
         }
 
@@ -196,9 +195,7 @@ namespace Services.Services
 
             try
             {
-                _notice.AddNotice(account.Id,
-                    _noticesService.ConvertNoticeText(functionName,
-                        string.Format("Начинаем подмигивать друзьям друзей.")));
+                _notice.AddNotice(functionName, account.Id, string.Format("Начинаем подмигивать друзьям друзей."));
                 if (account.GroupSettingsId == null)
                 {
                     return;
@@ -215,14 +212,11 @@ namespace Services.Services
 
                 if (friends == null)
                 {
-                    _notice.AddNotice(account.Id,
-                        _noticesService.ConvertNoticeText(functionName,
-                            string.Format("Друзья для подмигивания не найдены.")));
+                    _notice.AddNotice(functionName, account.Id, string.Format("Друзья для подмигивания не найдены."));
                     return;
                 }
 
-                _notice.AddNotice(account.Id,
-                    _noticesService.ConvertNoticeText(functionName, string.Format("Получаем друзей друзей...")));
+                _notice.AddNotice(functionName, account.Id, string.Format("Получаем друзей друзей..."));
 
                 var friendsFriendsToWink = new GetRandomFriendFriendsEngine().Execute(
                     new GetRandomFriendFriendsModel
@@ -240,15 +234,11 @@ namespace Services.Services
 
                 if (friendsFriendsToWink == null)
                 {
-                    _notice.AddNotice(account.Id,
-                        _noticesService.ConvertNoticeText(functionName,
-                            string.Format("Друзья друзей для подмигивания не найдены.")));
+                    _notice.AddNotice(functionName, account.Id, string.Format("Друзья друзей для подмигивания не найдены."));
                     return;
                 }
 
-                _notice.AddNotice(account.Id,
-                    _noticesService.ConvertNoticeText(functionName,
-                        string.Format("Друзья друзей получены, начинаем подмигивать.")));
+                _notice.AddNotice(functionName, account.Id, string.Format("Друзья друзей получены, начинаем подмигивать."));
 
                 var settings = _accountSettingsManager.GetSettings((long) account.GroupSettingsId);
                 if (settings.ConsiderGeoForWinkFriendsFriends)
@@ -258,9 +248,7 @@ namespace Services.Services
                     {
                         foreach (var friendFacebook in friendsFriendsToWink)
                         {
-                            _notice.AddNotice(account.Id,
-                                _noticesService.ConvertNoticeText(functionName,
-                                    string.Format("Проверяем Гео для ({0})", friendFacebook.FriendFriendFacebookId)));
+                            _notice.AddNotice(functionName, account.Id, string.Format("Проверяем Гео для ({0})", friendFacebook.FriendFriendFacebookId));
 
                             var isSuccces = new SpyService(null).AnalizeFriend(account,
                                 friendFacebook.FriendFriendFacebookId,
@@ -268,10 +256,7 @@ namespace Services.Services
 
                             if (isSuccces)
                             {
-                                _notice.AddNotice(account.Id,
-                                    _noticesService.ConvertNoticeText(functionName,
-                                        string.Format("Подмигиваем другу друга({0})",
-                                            friendFacebook.FriendFriendFacebookId)));
+                                _notice.AddNotice(functionName, account.Id, string.Format("Подмигиваем другу друга({0})", friendFacebook.FriendFriendFacebookId));
 
                                 new WinkEngine().Execute(new WinkModel
                                 {
@@ -296,9 +281,7 @@ namespace Services.Services
                     }
                     catch (Exception ex)
                     {
-                        _notice.AddNotice(account.Id,
-                            _noticesService.ConvertNoticeText(functionName,
-                                string.Format("Произошла оибка - {0}", ex.Message)));
+                        _notice.AddNotice(functionName, account.Id, string.Format("Произошла оибка - {0}", ex.Message));
                     }
                     driver.Quit();
                 }
@@ -306,9 +289,7 @@ namespace Services.Services
                 {
                     foreach (var friendFacebook in friendsFriendsToWink)
                     {
-                        _notice.AddNotice(account.Id,
-                            _noticesService.ConvertNoticeText(functionName,
-                                string.Format("Подмигиваем другу друга({0})", friendFacebook.FriendFriendFacebookId)));
+                        _notice.AddNotice(functionName, account.Id, string.Format("Подмигиваем другу друга({0})", friendFacebook.FriendFriendFacebookId));
                         new WinkEngine().Execute(new WinkModel
                         {
                             AccountFacebookId = account.FacebookId,
@@ -332,8 +313,7 @@ namespace Services.Services
             }
             catch (Exception ex)
             {
-                _notice.AddNotice(account.Id,
-                    _noticesService.ConvertNoticeText(functionName, string.Format("Произошла оибка - {0}", ex.Message)));
+                _notice.AddNotice(functionName, account.Id, string.Format("Произошла оибка - {0}", ex.Message));
             }
         }
 
@@ -343,7 +323,7 @@ namespace Services.Services
 
             try
             {
-                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Начинаем подмигивать в ответ")));
+                _notice.AddNotice(functionName, account.Id, string.Format("Начинаем подмигивать в ответ"));
 
                 var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
                 {
@@ -359,7 +339,7 @@ namespace Services.Services
 
                 if (countPokes != 0)
                 {
-                    _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Подмигнули {0} пользователям в ответ", countPokes)));
+                    _notice.AddNotice(functionName, account.Id, string.Format("Подмигнули {0} пользователям в ответ", countPokes));
 
                     new AddOrUpdateAccountStatisticsCommandHandler(new DataBaseContext()).Handle(
                         new AddOrUpdateAccountStatisticsCommand
@@ -371,11 +351,11 @@ namespace Services.Services
                     return;
                 }
 
-                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Нет подмигиваний.")));
+                _notice.AddNotice(functionName, account.Id, string.Format("Нет подмигиваний."));
             }
             catch (Exception ex)
             {
-                _notice.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName,string.Format("Произошла ошибка - {0}", ex.Message)));
+                _notice.AddNotice(functionName, account.Id, string.Format("Произошла ошибка - {0}", ex.Message));
             }
         }
     }

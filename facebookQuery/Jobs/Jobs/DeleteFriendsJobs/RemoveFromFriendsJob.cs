@@ -25,26 +25,6 @@ namespace Jobs.Jobs.DeleteFriendsJobs
             {
                 return;
             }
-
-            var jobStatusModel = new JobStatusViewModel
-            {
-                AccountId = account.Id,
-                FunctionName = FunctionName.RemoveFromFriends,
-                FriendId = friend.Id,
-                IsForSpy = forSpy
-            };
-
-            new JobStatusService().DeleteJobStatus(jobStatusModel);
-
-            var jobQueueModel = new JobQueueViewModel
-            {
-                AccountId = account.Id,
-                FunctionName = FunctionName.RemoveFromFriends,
-                IsForSpy = forSpy,
-                FriendId = friend.Id
-            };
-
-            new JobQueueService().AddToQueue(jobQueueModel);
         }
     }
 }

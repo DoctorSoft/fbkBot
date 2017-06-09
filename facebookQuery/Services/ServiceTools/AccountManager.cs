@@ -126,6 +126,12 @@ namespace Services.ServiceTools
 
             return !account.AuthorizationDataIsFailed;
         }
+        public bool HasAWorkingAccount(long accountId)
+        {
+            var account = GetAccountById(accountId);
+
+            return !account.AuthorizationDataIsFailed && !account.ProxyDataIsFailed && !account.ConformationDataIsFailed;
+        }
 
         public List<AccountDataViewModel> SortAccountsByWorkStatus(List<AccountDataViewModel> accounts)
         {

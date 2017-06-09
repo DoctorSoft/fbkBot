@@ -185,9 +185,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Services\CookieService.cs" />
+    <Compile Include="Services\JobStateService.cs" />
     <Compile Include="Services\NoticeService.cs" />
     <Compile Include="Services\WinksService.cs" />
-    <Compile Include="Services\JobStatusService.cs" />
     <Compile Include="ServiceTools\AnalysisFriendsManager.cs" />
     <Compile Include="Services\ExtraMessagesService.cs" />
     <Compile Include="Services\FacebookMessagesService.cs" />
@@ -203,7 +203,6 @@
     <Compile Include="Services\SpyService.cs" />
     <Compile Include="ServiceTools\FriendsBlackListManager.cs" />
     <Compile Include="Services\JobQueueService.cs" />
-    <Compile Include="ServiceTools\JobStatusManager.cs" />
     <Compile Include="ServiceTools\JobQueueManager.cs" />
     <Compile Include="ServiceTools\SeleniumManager.cs" />
     <Compile Include="ServiceTools\SettingsManager.cs" />
@@ -234,6 +233,7 @@
     <Compile Include="ViewModels\OptionsModel\JsonModels\FriendsOptionsModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\GeoOptionsModel.cs" />
     <Compile Include="ViewModels\OptionsModel\JsonModels\MessageOptionsModel.cs" />
+    <Compile Include="ViewModels\JobStateViewModels\JobStateViewModel.cs" />
     <Compile Include="ViewModels\QueueViewModels\JobQueueViewModel.cs" />
     <Compile Include="ViewModels\ScheduleDeleteFriendsModels\ScheduleDeleteFriendsModel.cs" />
     <Compile Include="ViewModels\SpySettingsViewModels\DetailedSpyStatisticsModel.cs" />

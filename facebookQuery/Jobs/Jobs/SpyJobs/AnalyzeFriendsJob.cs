@@ -12,21 +12,19 @@ namespace Jobs.Jobs.SpyJobs
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public static void Run(AccountViewModel account)
         {
-           if (!new FunctionPermissionManager().HasPermissionsForSpy(FunctionName.AnalyzeFriends, account.FacebookId))
+            if (!new FunctionPermissionManager().HasPermissionsForSpy(FunctionName.AnalyzeFriends, account.FacebookId))
             {
                 return;
             }
 
-           const bool forSpy = true;
+            var model = new JobQueueViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.AnalyzeFriends,
+                IsForSpy = true
+            };
 
-           var jobQueueModel = new JobQueueViewModel
-           {
-               AccountId = account.Id,
-               FunctionName = FunctionName.AnalyzeFriends,
-               IsForSpy = forSpy
-           };
-
-           new JobQueueService().AddToQueue(jobQueueModel);
+            new JobQueueService().AddToQueue(model);
         }
     }
 }

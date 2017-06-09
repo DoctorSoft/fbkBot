@@ -2,6 +2,8 @@
     ViewBag.Title = "Users";
 }
 
+@using System.Web.WebPages
+@using Hangfire.Common
 @using WebApp.Resources.Views.Users
 @model List<Services.ViewModels.HomeModels.AccountDataViewModel>
 
@@ -92,7 +94,7 @@
         {
             var account = accountData.Account;
             var accountInformation = accountData.AccountInformation;
-            var jobStatuses = accountData.JobStatuses;
+            var jobQueues = accountData.JobQueues;
 
             var divClass = account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.ConformationDataIsFailed ? "alert-danger" : "alert-success";
             var errorText = account.AuthorizationDataIsFailed ? @UsersTexts.CheckAuthorizationData : account.ProxyDataIsFailed ? @UsersTexts.CheckProxyData : account.ConformationDataIsFailed ? @UsersTexts.ConformationError : null;
@@ -174,9 +176,10 @@
                             
                             <br />
                             
-                            if (jobStatuses != null)
+                            if (jobQueues != null)
                             {
-                                var countJobs = jobStatuses.Count - 1;
+                                var emptyJobs = jobQueues.Count(model => StringExtensions.IsEmpty(model.FunctionStringName));
+                                var countJobs = jobQueues.Count - emptyJobs;
                                 var blockId = "jobs" + accountData.Account.Id;
                                 <div class="col-md-4">
                                     <div class="container">
@@ -186,14 +189,23 @@
                                         </a>
                                         <div id="@blockId" class="collapse">
                                             <ul class="list-group">
-                                                @foreach (var jobStatus in jobStatuses)
+                                                @foreach (var jobQueue in jobQueues)
                                                 {
-                                                    if (jobStatus == null)
+                                                    if (jobQueue == null || jobQueue.FunctionStringName.IsEmpty())
                                                     {
                                                         continue;
                                                     }
                                                     <li class="list-group-item" style="padding: 2px;">
-                                                        <small>@jobStatus.FunctioStringnName</small>
+                                                        <small>@jobQueue.FunctionStringName 
+                                                                @if (jobQueue.IsProcessed)
+                                                                {
+                                                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                                }
+                                                        </small >
                                                     </li>
                                                 }
                                             </ul>

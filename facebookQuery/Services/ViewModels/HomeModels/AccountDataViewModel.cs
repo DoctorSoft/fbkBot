@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Services.ViewModels.AccountInformationModels;
-using Services.ViewModels.JobStatusModels;
+using Services.ViewModels.QueueViewModels;
 
 namespace Services.ViewModels.HomeModels
 {
@@ -10,6 +10,6 @@ namespace Services.ViewModels.HomeModels
 
         public AccountInformationViewModel AccountInformation { get; set; }
 
-        public List<JobStatusViewModel> JobStatuses { get; set; }
+        public List<JobQueueViewModel> JobQueues { get; set; }
     }
 }

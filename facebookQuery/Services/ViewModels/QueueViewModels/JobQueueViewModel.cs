@@ -1,4 +1,5 @@
 ﻿using System;
+using CommonModels;
 using Constants.FunctionEnums;
 
 namespace Services.ViewModels.QueueViewModels
@@ -17,6 +18,12 @@ namespace Services.ViewModels.QueueViewModels
 
         public FunctionName FunctionName { get; set; }
 
+        public string FunctionStringName { get; set; }
+
         public DateTime AddedDateTime { get; set; }
+
+        public string JobId { get; set; }
+
+        public TimeModel LaunchDateTime { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Constants.FunctionEnums;
+﻿using CommonModels;
+using Constants.FunctionEnums;
 
 namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
 {
@@ -13,5 +14,9 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
         public FunctionName FunctionName { get; set; }
 
         public bool IsUnique { get; set; }
+        
+        public string JobId { get; set; }
+
+        public TimeModel LaunchDateTime { get; set; }
     }
 }

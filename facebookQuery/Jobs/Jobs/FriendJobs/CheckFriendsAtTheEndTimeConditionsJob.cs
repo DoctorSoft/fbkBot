@@ -2,7 +2,7 @@
 using Hangfire;
 using Jobs.Models;
 using Services.Services;
-using Services.ViewModels.HomeModels;
+using Services.ServiceTools;
 using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.FriendJobs
@@ -20,29 +20,21 @@ namespace Jobs.Jobs.FriendJobs
                 return;
             }
 
-            if(!AccountIsWorking(account))
+            if (!new FunctionPermissionManager().HasPermissions(FunctionName.CheckFriendsAtTheEndTimeConditions, (long)account.GroupSettingsId))
+            {
+                return;
+            }
+            if (!new AccountManager().HasAWorkingAccount(account.FacebookId))
             {
                 return;
             }
 
-            var jobQueueModel = new JobQueueViewModel
+            new JobQueueService().AddToQueue(new JobQueueViewModel
             {
                 AccountId = account.Id,
                 FunctionName = FunctionName.CheckFriendsAtTheEndTimeConditions,
                 IsForSpy = forSpy
-            };
-
-            new JobQueueService().AddToQueue(jobQueueModel);
-        }
-
-        private static bool AccountIsWorking(AccountViewModel account)
-        {
-            if (account.AuthorizationDataIsFailed || account.ProxyDataIsFailed || account.IsDeleted || account.ConformationDataIsFailed)
-            {
-                return false;
-            }
-
-            return true;
+            });
         }
     }
 }

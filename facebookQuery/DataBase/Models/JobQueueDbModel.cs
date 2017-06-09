@@ -18,5 +18,9 @@ namespace DataBase.Models
         public bool IsProcessed { get; set; }
 
         public bool IsForSpy { get; set; }
+
+        public string JobId { get; set; }
+        
+        public string LaunchDateTime { get; set; }
     }
 }

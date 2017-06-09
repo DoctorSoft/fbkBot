@@ -27,7 +27,9 @@ namespace DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetAllQueues
                     FunctionName = model.FunctionName,
                     FriendId = model.FriendId,
                     IsForSpy = model.IsForSpy,
-                    IsProcessed = model.IsProcessed
+                    IsProcessed = model.IsProcessed,
+                    LaunchDateTime = model.LaunchDateTime,
+                    JobId = model.JobId
                 }).ToList();
 
             return queues;

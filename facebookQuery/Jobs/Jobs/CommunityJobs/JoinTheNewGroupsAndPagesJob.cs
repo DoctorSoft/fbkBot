@@ -20,23 +20,6 @@ namespace Jobs.Jobs.CommunityJobs
             {
                 return;
             }
-            var jobStatusModel = new JobStatusViewModel
-            {
-                AccountId = account.Id,
-                FunctionName = FunctionName.JoinTheNewGroupsAndPages,
-                IsForSpy = forSpy
-            };
-
-            var jobQueueModel = new JobQueueViewModel
-            {
-                AccountId = account.Id,
-                FunctionName = FunctionName.JoinTheNewGroupsAndPages,
-                IsForSpy = forSpy
-            };
-
-            new JobStatusService().DeleteJobStatus(jobStatusModel);
-
-            new JobQueueService().AddToQueue(jobQueueModel);
         }
     }
 }

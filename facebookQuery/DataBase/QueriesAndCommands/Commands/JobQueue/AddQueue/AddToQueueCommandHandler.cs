@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web.Script.Serialization;
 using DataBase.Context;
 using DataBase.Models;
 
@@ -16,13 +17,18 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue
 
         public VoidCommandResponse Handle(AddToQueueCommand command)
         {
+            var jsSerializator = new JavaScriptSerializer();
+            var launchTimeJson = jsSerializator.Serialize(command.LaunchDateTime);
+
             var queueModel = new JobQueueDbModel
             {
                 AccountId = command.AccountId,
                 FunctionName = command.FunctionName,
                 AddedDateTime = DateTime.Now,
                 FriendId = command.FriendId,
-                IsForSpy = command.IsForSpy
+                IsForSpy = command.IsForSpy,
+                LaunchDateTime = launchTimeJson,
+                JobId = command.JobId
             };
 
             if (command.IsUnique)

@@ -36,9 +36,7 @@ namespace Runner
                     var overdueQueues = _queueService.RemoveOverdueQueue(OverdueMin);
                     if (overdueQueues != 0)
                     {
-                        Console.WriteLine(
-                            string.Format("Из очереди исключено {0} задач с превышением времени выполнения ({1} min.)",
-                                overdueQueues, OverdueMin));
+                        Console.WriteLine(string.Format("Из очереди исключено {0} задач с превышением времени выполнения ({1} min.)", overdueQueues, OverdueMin));
                     }
 
                     var queues = _queueService.GetGroupedQueue();

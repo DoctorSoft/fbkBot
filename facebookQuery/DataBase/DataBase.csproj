@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\JobStateConfiguration.cs" />
     <Compile Include="Configurations\NoticeConfiguration.cs" />
     <Compile Include="Configurations\AccountInformationConfiguration.cs" />
     <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
@@ -95,7 +96,6 @@
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
     <Compile Include="Configurations\NewSettingsConfiguration.cs" />
     <Compile Include="Configurations\JobQueueConfiguration.cs" />
-    <Compile Include="Configurations\JobStatusConfiguration.cs" />
     <Compile Include="Configurations\SettingsConfiguration.cs" />
     <Compile Include="Configurations\SpyStatisticsConfiguration.cs" />
     <Compile Include="Configurations\AccountStatisticsConfiguration.cs" />
@@ -334,7 +334,28 @@
     <Compile Include="Migrations\201705252040331_AddNoticeTable.Designer.cs">
       <DependentUpon>201705252040331_AddNoticeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706061734537_MergeQueueAndStatusTable.cs" />
+    <Compile Include="Migrations\201706061734537_MergeQueueAndStatusTable.Designer.cs">
+      <DependentUpon>201706061734537_MergeQueueAndStatusTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706061958130_DeleteJobStatusTable.cs" />
+    <Compile Include="Migrations\201706061958130_DeleteJobStatusTable.Designer.cs">
+      <DependentUpon>201706061958130_DeleteJobStatusTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706072113307_AddJobStateTable.cs" />
+    <Compile Include="Migrations\201706072113307_AddJobStateTable.Designer.cs">
+      <DependentUpon>201706072113307_AddJobStateTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706072123187_AddJobStateForSpyField.cs" />
+    <Compile Include="Migrations\201706072123187_AddJobStateForSpyField.Designer.cs">
+      <DependentUpon>201706072123187_AddJobStateForSpyField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706081716160_AddJobIdFiels.cs" />
+    <Compile Include="Migrations\201706081716160_AddJobIdFiels.Designer.cs">
+      <DependentUpon>201706081716160_AddJobIdFiels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
+    <Compile Include="Models\JobStateDbModel.cs" />
     <Compile Include="Models\NoticeDbModel.cs" />
     <Compile Include="Models\AccountInformationDbModel.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
@@ -342,7 +363,6 @@
     <Compile Include="Models\CounterCheckFriendsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
     <Compile Include="Models\JobQueueDbModel.cs" />
-    <Compile Include="Models\JobStatusDbModel.cs" />
     <Compile Include="Models\NewSettingsDbModel.cs" />
     <Compile Include="Models\SettingsDbModel.cs" />
     <Compile Include="Models\AccountStatisticsDbModel.cs" />
@@ -399,6 +419,14 @@
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkAddToGroupFriendCommand\MarkAddToGroupFriendCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Friends\MarkRemovedFriendCommand\MarkRemovedFriendCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\AddState\AddJobStateCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\AddState\AddJobStateCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateByAccounCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateByAccounCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueueByAccountId\DeleteQueueByAccountIdCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueueByAccountId\DeleteQueueByAccountIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteOverdueQueue\DeleteOverdueQueueResponseModel.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteOverdueQueue\DeleteOverdueQueueCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteOverdueQueue\DeleteOverdueQueueCommandHandler.cs" />
@@ -408,12 +436,6 @@
     <Compile Include="QueriesAndCommands\Commands\JobQueue\AddQueue\AddToQueueCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\MarkProcessedStatus\MarkProcessedStatusCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\MarkProcessedStatus\MarkProcessedStatusCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\AddJobStatusCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusesByAccountId\DeleteJobStatusesByAccountIdCommand.cs" />
-    <Compile Include="QueriesAndCommands\Commands\JobStatus\DeleteJobStatusesByAccountId\DeleteJobStatusesByAccountIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Messages\SaveUnreadMessagesCommand\FacebookMessageDbModel.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\DeleteNewSettingsCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\NewSettings\SaveNewSettingsCommand.cs" />
@@ -530,6 +552,10 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsResponseModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\GroupFunctions\GetGroupFunctionsByGroupIdQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\GroupFunctions\GetGroupFunctionsByGroupIdQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionName\GetFunctionNameByNameQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionName\GetFunctionNameByNameQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GroupSettings\GetGroupSettingsNameByIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Groups\GroupSettings\GetGroupSettingsNameByIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\GetQueue\GetAllQueues\GetAllQueuesCommand.cs" />
@@ -566,15 +592,13 @@
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccounAndFunctiontId\GetJobStatusesByAccounAndFunctiontIdCommand.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccounAndFunctiontId\GetJobStatusesByAccounAndFunctiontIdCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccountId\GetJobStatusesByAccountIdCommand.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatuses\GetJobStatusesByAccountId\GetJobStatusesByAccountIdCommandHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\CheckJobStatusQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\GetJobStatusQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\CheckJobStatusQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobStatus\JobStatusModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\JobQueuIsExist\JobQueuIsExistQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\JobQueuIsExist\JobQueuIsExistQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobState\GetState\GetStatesByModel\GetStatesByModelCommand.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobState\GetState\GetStatesByModel\GetStatesByModelCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobState\GetState\JobStateModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobState\JobStateIsExist\JobStateIsExistQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobState\JobStateIsExist\JobStateIsExistQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\GetNewSettingsByAccountAndGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\NewSettings\NewSettingsData.cs" />
@@ -854,6 +878,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705252040331_AddNoticeTable.resx">
       <DependentUpon>201705252040331_AddNoticeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706061734537_MergeQueueAndStatusTable.resx">
+      <DependentUpon>201706061734537_MergeQueueAndStatusTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706061958130_DeleteJobStatusTable.resx">
+      <DependentUpon>201706061958130_DeleteJobStatusTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706072113307_AddJobStateTable.resx">
+      <DependentUpon>201706072113307_AddJobStateTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706072123187_AddJobStateForSpyField.resx">
+      <DependentUpon>201706072123187_AddJobStateForSpyField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706081716160_AddJobIdFiels.resx">
+      <DependentUpon>201706081716160_AddJobIdFiels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

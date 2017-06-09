@@ -18,5 +18,9 @@ namespace DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue
         public DateTime AddedDateTime { get; set; }
         
         public bool IsForSpy { get; set; }
+
+        public string JobId { get; set; }
+
+        public string LaunchDateTime { get; set; }
     }
 }

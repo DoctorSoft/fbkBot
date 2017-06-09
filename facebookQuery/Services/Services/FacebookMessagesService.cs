@@ -50,7 +50,7 @@ namespace Services.Services
         {
             const string functionName = "Ответ на непрочитанные сообщения";
 
-            _notice.AddNotice(accountViewModel.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Начинаем отвечать")));
+            _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Начинаем отвечать"));
 
             var account = _accountManager.GetAccountById(accountViewModel.Id);
 
@@ -58,8 +58,7 @@ namespace Services.Services
             {
                 var unreadMessagesList = GetUnreadMessages(account);
 
-                _notice.AddNotice(accountViewModel.Id,
-                    _noticeService.ConvertNoticeText(functionName, string.Format("Получено {0} непрочитанных сообщений", unreadMessagesList.UnreadMessages.Count)));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Получено {0} непрочитанных сообщений", unreadMessagesList.UnreadMessages.Count));
 
                 ChangeMessageStatus(unreadMessagesList, account);
 
@@ -67,9 +66,7 @@ namespace Services.Services
 
                 foreach (var unreadMessage in unreadMessagesList.UnreadMessages)
                 {
-                    _notice.AddNotice(account.Id,
-                        _noticeService.ConvertNoticeText(functionName, string.Format("Отвечаем на непрочитанные сообщения друзьям {0}/{1}", i,
-                            unreadMessagesList.UnreadMessages.Count)));
+                    _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Отвечаем на непрочитанные сообщения друзьям {0}/{1}", i, unreadMessagesList.UnreadMessages.Count));
 
                     var friend = _friendManager.GetFriendByFacebookId(unreadMessage.FriendFacebookId);
 
@@ -78,11 +75,11 @@ namespace Services.Services
                     Thread.Sleep(3000);
                     i++;
                 }
-                _notice.AddNotice(account.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Успешно завершено")));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Успешно завершено"));
             }
             catch (Exception ex)
             {
-                _notice.AddNotice(account.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Возникла ошибка {0}", ex.Message)));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Возникла ошибка {0}", ex.Message));
             }
         }
 
@@ -90,14 +87,13 @@ namespace Services.Services
         {
             const string functionName = "Ответ на неотвеченные сообщения";
 
-            _notice.AddNotice(accountViewModel.Id,
-                _noticeService.ConvertNoticeText(functionName, _noticeService.ConvertNoticeText(functionName, string.Format("Начинаем отвечать"))));
+            _notice.AddNotice(functionName, accountViewModel.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Начинаем отвечать")));
 
             var account = _accountManager.GetAccountById(accountViewModel.Id);
 
             try
             {
-                _notice.AddNotice(accountViewModel.Id,  _noticeService.ConvertNoticeText(functionName, string.Format("Собираемся посылать экстра-сообщения")));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Собираемся посылать экстра-сообщения"));
 
                 var unreadMessagesList = GetUnreadMessages(account);
 
@@ -131,14 +127,12 @@ namespace Services.Services
                         AccountId = account.Id
                     });
 
-                _notice.AddNotice(accountViewModel.Id,
-                     _noticeService.ConvertNoticeText(functionName, string.Format("Получено {0} неотвеченных сообщений", unansweredMessagesList.Count)));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Получено {0} неотвеченных сообщений", unansweredMessagesList.Count));
 
                 int i = 1;
                 foreach (var unansweredMessage in unansweredMessagesList)
                 {
-                    _notice.AddNotice(account.Id,
-                         _noticeService.ConvertNoticeText(functionName, string.Format("Отправляем экстра-сообщения друзьям {0}/{1}", i, unansweredMessagesList.Count)));
+                    _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Отправляем экстра-сообщения друзьям {0}/{1}", i, unansweredMessagesList.Count));
                     var friend = _friendManager.GetFriendById(unansweredMessage.FriendId);
 
                     new SendMessageCore(_notice).SendMessageToUnanswered(account, friend);
@@ -150,8 +144,7 @@ namespace Services.Services
             }
             catch (Exception ex)
             {
-                _notice.AddNotice(account.Id,
-                     _noticeService.ConvertNoticeText(functionName, _noticeService.ConvertNoticeText(functionName, string.Format("Возникла ошибка {0}", ex.Message))));
+                _notice.AddNotice(functionName, accountViewModel.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Возникла ошибка {0}", ex.Message)));
             }
         }
 
@@ -159,14 +152,13 @@ namespace Services.Services
         {
             const string functionName = "Посылаем сообщения новым друзьям";
 
-            _notice.AddNotice(accountViewModel.Id,
-                _noticeService.ConvertNoticeText(functionName, _noticeService.ConvertNoticeText(functionName, string.Format("Начинаем посылать"))));
+            _notice.AddNotice(functionName, accountViewModel.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Начинаем посылать")));
 
             var account = _accountManager.GetAccountById(accountViewModel.Id);
 
             try
             {
-                _notice.AddNotice(accountViewModel.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Собираемся отправлять сообщения новым друзьям")));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Собираемся отправлять сообщения новым друзьям"));
 
                 GetUnreadMessages(account);
 
@@ -178,13 +170,12 @@ namespace Services.Services
                         AccountId = account.Id
                     });
 
-                _notice.AddNotice(accountViewModel.Id, _noticeService.ConvertNoticeText(functionName, string.Format("Получено {0} новых друзей", newFriends.Count)));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Получено {0} новых друзей", newFriends.Count));
 
                 int i = 1;
                 foreach (var newFriend in newFriends)
                 {
-                    _notice.AddNotice(account.Id,
-                        _noticeService.ConvertNoticeText(functionName, string.Format("Отправляем сообщения новым друзьям {0}/{1}", i, newFriends.Count)));
+                    _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Отправляем сообщения новым друзьям {0}/{1}", i, newFriends.Count));
                     new SendMessageCore(_notice).SendMessageToNewFriend(account, newFriend);
 
                     Thread.Sleep(3000);
@@ -194,8 +185,7 @@ namespace Services.Services
             }
             catch (Exception ex)
             {
-                _notice.AddNotice(account.Id,
-                    _noticeService.ConvertNoticeText(functionName, string.Format("Возникла ошибка {0}", ex.Message)));
+                _notice.AddNotice(functionName, accountViewModel.Id, string.Format("Возникла ошибка {0}", ex.Message));
             }
         }
 

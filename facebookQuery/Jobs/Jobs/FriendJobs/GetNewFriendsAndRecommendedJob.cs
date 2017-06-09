@@ -5,6 +5,7 @@ using Jobs.JobsService;
 using Jobs.Models;
 using Services.Models.BackgroundJobs;
 using Services.Services;
+using Services.ViewModels.JobStateViewModels;
 using Services.ViewModels.JobStatusModels;
 using Services.ViewModels.QueueViewModels;
 
@@ -23,14 +24,6 @@ namespace Jobs.Jobs.FriendJobs
             {
                 return;
             }
-            var jobStatusModel = new JobStatusViewModel
-            {
-                AccountId = account.Id,
-                FunctionName = FunctionName.GetNewFriendsAndRecommended,
-                IsForSpy = forSpy
-            };
-
-            new JobStatusService().DeleteJobStatus(jobStatusModel);
 
             var settings = new GroupService(new NoticeService()).GetSettings((long)account.GroupSettingsId);
             var getNewAndRecommendedFriendsLaunchTime = new TimeSpan(settings.RetryTimeGetNewAndRecommendedFriendsHour, settings.RetryTimeGetNewAndRecommendedFriendsMin, settings.RetryTimeGetNewAndRecommendedFriendsSec);
@@ -44,16 +37,25 @@ namespace Jobs.Jobs.FriendJobs
                 IsForSpy = forSpy
             };
 
-            new BackgroundJobService().CreateBackgroundJob(model);
-           
-            var jobQueueModel = new JobQueueViewModel
+            new JobStateService().DeleteJobState(new JobStateViewModel
             {
                 AccountId = account.Id,
                 FunctionName = FunctionName.GetNewFriendsAndRecommended,
                 IsForSpy = forSpy
-            };
+            });
 
-            new JobQueueService().AddToQueue(jobQueueModel);
+            var jobIsSuccessfullyCreated = new BackgroundJobService().CreateBackgroundJob(model);
+            if (!jobIsSuccessfullyCreated)
+            {
+                return;
+            }
+
+            new JobQueueService().AddToQueue(new JobQueueViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.GetNewFriendsAndRecommended,
+                IsForSpy = forSpy
+            });
         }
     }
 }

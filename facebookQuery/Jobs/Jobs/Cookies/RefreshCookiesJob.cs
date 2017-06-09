@@ -4,7 +4,7 @@ using Jobs.JobsService;
 using Jobs.Models;
 using Services.Models.BackgroundJobs;
 using Services.Services;
-using Services.ViewModels.JobStatusModels;
+using Services.ViewModels.JobStateViewModels;
 using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.Cookies
@@ -14,17 +14,7 @@ namespace Jobs.Jobs.Cookies
         public static void Run(RunJobModel runModel)
         {
             var account = runModel.Account;
-            var isForSpy = runModel.ForSpy;
-            var friend = runModel.Friend;
-
-            var jobStatusModel = new JobStatusViewModel
-            {
-                AccountId = account.Id,
-                FunctionName = FunctionName.RefreshCookies,
-                IsForSpy = isForSpy
-            };
-
-            new JobStatusService().DeleteJobStatus(jobStatusModel);
+            var forSpy = runModel.ForSpy;
 
             var model = new CreateBackgroundJobModel
             {
@@ -32,19 +22,28 @@ namespace Jobs.Jobs.Cookies
                 FunctionName = FunctionName.RefreshCookies,
                 LaunchTime = new TimeSpan(2, 0, 0),
                 CheckPermissions = false,
-                IsForSpy = isForSpy
+                IsForSpy = forSpy
             };
 
-            new BackgroundJobService().CreateBackgroundJob(model);
-
-            var jobQueueModel = new JobQueueViewModel
+            new JobStateService().DeleteJobState(new JobStateViewModel
             {
                 AccountId = account.Id,
                 FunctionName = FunctionName.RefreshCookies,
-                IsForSpy = isForSpy
-            };
+                IsForSpy = forSpy
+            });
 
-            new JobQueueService().AddToQueue(jobQueueModel);
+            var jobIsSuccessfullyCreated = new BackgroundJobService().CreateBackgroundJob(model);
+            if (!jobIsSuccessfullyCreated)
+            {
+                return;
+            }
+
+            new JobQueueService().AddToQueue(new JobQueueViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.RefreshCookies,
+                IsForSpy = forSpy
+            });
         }
     }
 }

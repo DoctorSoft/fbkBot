@@ -102,7 +102,9 @@ namespace Services.Services
 
         public void InviteToGroup(AccountViewModel account)
         {
-            _notice.AddNotice(account.Id, "Отправляем приглашения в группы...");
+            const string functionName = "Пригласить в группу";
+
+            _notice.AddNotice(functionName, account.Id, "Отправляем приглашения в группы...");
 
             if (account.GroupSettingsId == null)
             {
@@ -130,13 +132,13 @@ namespace Services.Services
 
             if (countJoinGroupLastDay >= limitMaxJoinGroupLastDay)
             {
-                _notice.AddNotice(account.Id, "Достигнут лимит максимального количества добавлений в группу в день!");
+                _notice.AddNotice(functionName, account.Id, "Достигнут лимит максимального количества добавлений в группу в день!");
                 return;
             }
 
             if (countJoinGroupLastHour >= limitMaxJoinGroupLastHour)
             {
-                _notice.AddNotice(account.Id, "Достигнут лимит максимального количества добавлений в группу в час!");
+                _notice.AddNotice(functionName, account.Id, "Достигнут лимит максимального количества добавлений в группу в час!");
                 return;
             }
 
@@ -155,17 +157,17 @@ namespace Services.Services
 
             if (friends.Count < limitMinJoinGroupLastHour)
             {
-                _notice.AddNotice(account.Id, string.Format("Недостаточно людей для добавления! Получено {0} людей для добавления! Мин. кол-во - {1}", friends.Count, limitMinJoinGroupLastHour));
+                _notice.AddNotice(functionName, account.Id, string.Format("Недостаточно людей для добавления! Получено {0} людей для добавления! Мин. кол-во - {1}", friends.Count, limitMinJoinGroupLastHour));
                 return;
             }
 
             var groups = ConvertStringToList(settings.FacebookGroups);
 
-            _notice.AddNotice(account.Id, string.Format("Начинаем добавлять {0} друзей в группы", friends.Count));
+            _notice.AddNotice(functionName, account.Id, string.Format("Начинаем добавлять {0} друзей в группы", friends.Count));
 
             if (friends.Count > 50)
             {
-                _notice.AddNotice(account.Id, string.Format("Друзей оказалось больше, берем 50 из них."));
+                _notice.AddNotice(functionName, account.Id, string.Format("Друзей оказалось больше, берем 50 из них."));
                 friends = new List<FriendData>(friends.Take(50));
             }
 
@@ -176,8 +178,8 @@ namespace Services.Services
 
             foreach (var @group in groups)
             {
-                _notice.AddNotice(account.Id,
-                    string.Format("Добавляем {0} друзей в группу - {1}", friends.Count, @group));
+                _notice.AddNotice(functionName, account.Id, string.Format("Добавляем {0} друзей в группу - {1}", friends.Count, @group));
+
                 new AddToGroupEngine().Execute(new AddToGroupModel
                 {
                     Cookie = account.Cookie,
@@ -200,7 +202,7 @@ namespace Services.Services
 
             foreach (var friend in friends)
             {
-                _notice.AddNotice(account.Id, string.Format("Отмечаем друзей как добавленные в группы"));
+                _notice.AddNotice(functionName, account.Id, string.Format("Отмечаем друзей как добавленные в группы"));
                 new MarkAddToGroupFriendCommandHandler(new DataBaseContext()).Handle(new MarkAddToGroupFriendCommand
                 {
                     AccountId = account.Id,
@@ -208,7 +210,7 @@ namespace Services.Services
                 });
             }
             
-            _notice.AddNotice(account.Id, string.Format("Добавлено {0} друзей в группы", friends.Count));
+            _notice.AddNotice(functionName, account.Id, string.Format("Добавлено {0} друзей в группы", friends.Count));
             new AddCommunityStatisticsCommandHandler(new DataBaseContext()).Handle(new AddCommunityStatisticsCommand
             {
                 AccountId = account.Id,
@@ -220,7 +222,9 @@ namespace Services.Services
 
         public void InviteToPage(AccountViewModel account)
         {
-            _notice.AddNotice(account.Id, "Отправляем приглашения в сообщества...");
+            const string functionName = "Пригласить в сообщество";
+
+            _notice.AddNotice(functionName, account.Id, "Отправляем приглашения в сообщества...");
 
             if (account.GroupSettingsId == null)
             {
@@ -248,13 +252,13 @@ namespace Services.Services
 
             if (countJoinPageLastDay >= limitMaxJoinPageLastDay)
             {
-                _notice.AddNotice(account.Id, "Превышен лимит максимального количества добавлений в сообщества в день!");
+                _notice.AddNotice(functionName, account.Id, "Превышен лимит максимального количества добавлений в сообщества в день!");
                 return;
             }
 
             if (countJoinPageLastHour >= limitMaxJoinPageLastHour)
             {
-                _notice.AddNotice(account.Id, "Превышен лимит максимального количества добавлений в сообщества в час!");
+                _notice.AddNotice(functionName, account.Id, "Превышен лимит максимального количества добавлений в сообщества в час!");
                 return;
             }
 
@@ -271,7 +275,7 @@ namespace Services.Services
 
             if (friends.Count < limitMinJoinPageLastHour)
             {
-                _notice.AddNotice(account.Id, string.Format("Недостаточно людей для добавления в сообщество! Получено {0} людей для добавления! Мин. кол-во - {1}", friends.Count, limitMinJoinPageLastHour));
+                _notice.AddNotice(functionName, account.Id, string.Format("Недостаточно людей для добавления в сообщество! Получено {0} людей для добавления! Мин. кол-во - {1}", friends.Count, limitMinJoinPageLastHour));
                 return;
             }
 
@@ -282,12 +286,12 @@ namespace Services.Services
                 UserAgentId = account.UserAgentId
             });
 
-            _notice.AddNotice(account.Id, string.Format("Начинаем добавлять {0} друзей в сообщества", friends.Count));
+            _notice.AddNotice(functionName, account.Id, string.Format("Начинаем добавлять {0} друзей в сообщества", friends.Count));
             foreach (var friendData in friends)
             {
                 foreach (var page in pages)
                 {
-                    _notice.AddNotice(account.Id, string.Format("Добавляем {0} в в сообщество {1}", friendData.FriendName, page));
+                    _notice.AddNotice(functionName, account.Id, string.Format("Добавляем {0} в в сообщество {1}", friendData.FriendName, page));
                     new AddToPageEngine().Execute(new AddToPageModel
                     {
                         Cookie = account.Cookie,
@@ -308,7 +312,7 @@ namespace Services.Services
                     });
                 }
 
-                _notice.AddNotice(account.Id, string.Format("Отмечаем друга {0} как добавленого в сообщества", friendData.FriendName));
+                _notice.AddNotice(functionName, account.Id, string.Format("Отмечаем друга {0} как добавленого в сообщества", friendData.FriendName));
                 new MarkAddToGroupFriendCommandHandler(new DataBaseContext()).Handle(new MarkAddToGroupFriendCommand
                 {
                     AccountId = account.Id,
@@ -316,7 +320,7 @@ namespace Services.Services
                 });
             }
 
-            _notice.AddNotice(account.Id, string.Format("Добавлено {0} друзей в сообщеста", friends.Count));
+            _notice.AddNotice(functionName, account.Id, string.Format("Добавлено {0} друзей в сообщеста", friends.Count));
             new AddCommunityStatisticsCommandHandler(new DataBaseContext()).Handle(new AddCommunityStatisticsCommand
             {
                 AccountId = account.Id,
@@ -327,7 +331,9 @@ namespace Services.Services
 
         public void JoinTheNewGroupsAndPages(AccountViewModel account)
         {
-            _notice.AddNotice(account.Id, "Отправляем запросы на присоединение аккаунта к группам и страницам...");
+            const string functionName = "Присоедениться к новым группам и страницам";
+
+            _notice.AddNotice(functionName, account.Id, "Отправляем запросы на присоединение аккаунта к группам и страницам...");
 
             if (account.GroupSettingsId == null)
             {
@@ -350,9 +356,9 @@ namespace Services.Services
 
             foreach (var newSettingsData in communities)
             {
-                _notice.AddNotice(account.Id, string.Format("В очереди {0} новых групп", newSettingsData.CommunityOptions.Groups.Count));
+                _notice.AddNotice(functionName, account.Id, string.Format("В очереди {0} новых групп", newSettingsData.CommunityOptions.Groups.Count));
 
-                _notice.AddNotice(account.Id, string.Format("Начинаем отправлять запросы на присоединения к группам"));
+                _notice.AddNotice(functionName, account.Id, string.Format("Начинаем отправлять запросы на присоединения к группам"));
 
                 new JoinTheGroupsBySeleniumEngine().Execute(new JoinTheGroupsBySeleniumModel
                 {
@@ -361,9 +367,9 @@ namespace Services.Services
                     Groups = newSettingsData.CommunityOptions.Groups,
                 });
 
-                _notice.AddNotice(account.Id, string.Format("В очереди {0} новых страниц", newSettingsData.CommunityOptions.Pages.Count));
+                _notice.AddNotice(functionName, account.Id, string.Format("В очереди {0} новых страниц", newSettingsData.CommunityOptions.Pages.Count));
 
-                _notice.AddNotice(account.Id, string.Format("Начинаем отправлять запросы на присоединения к страницам"));
+                _notice.AddNotice(functionName, account.Id, string.Format("Начинаем отправлять запросы на присоединения к страницам"));
                
                 new JoinThePagesBySeleniumEngine().Execute(new JoinThePagesBySeleniumModel
                 {
@@ -373,7 +379,7 @@ namespace Services.Services
                 });
             }
 
-            _notice.AddNotice(account.Id, string.Format("Присоединения к группам и страницам успешно завершено"));
+            _notice.AddNotice(functionName, account.Id, string.Format("Присоединения к группам и страницам успешно завершено"));
         }
 
         public List<NewSettingsViewModel> GetNewSettings(long accountId, long groupId)

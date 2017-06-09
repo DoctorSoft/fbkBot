@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommonInterfaces.Interfaces.Services;
+using Constants.FunctionEnums;
 using DataBase.Context;
-using DataBase.Migrations;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
+using DataBase.QueriesAndCommands.Queries.Functions.GetFunctionName;
+using DataBase.QueriesAndCommands.Queries.GroupFunctions;
 using DataBase.QueriesAndCommands.Queries.Groups.GroupSettings;
 using DataBase.QueriesAndCommands.Queries.UserAgent.GetRandomUserAgent;
 using DataBase.QueriesAndCommands.Queries.UserAgent.GetUserAgentById;
@@ -17,6 +19,7 @@ using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.GroupModels;
 using Services.ViewModels.HomeModels;
+using Services.ViewModels.QueueViewModels;
 using AddOrUpdateAccountModel = Services.Models.BackgroundJobs.AddOrUpdateAccountModel;
 
 namespace Services.Services
@@ -24,21 +27,21 @@ namespace Services.Services
     public class HomeService
     {
         private readonly IAccountManager _accountManager;
-        private readonly JobStatusManager _jobStatusManager;
         private readonly IAccountSettingsManager _accountSettingsManager;
         private readonly IStatisticsManager _accountStatisticsManager;
         private readonly IProxyManager _proxyManager;
         private readonly IJobService _jobService;
+        private readonly JobQueueService _jobQueueService;
         private readonly IBackgroundJobService _backgroundJobService;
 
         public HomeService(IJobService jobService, IBackgroundJobService backgroundJobService)
         {
             _accountManager = new AccountManager();
-            _jobStatusManager = new JobStatusManager();
             _accountSettingsManager = new AccountSettingsManager();
             _accountStatisticsManager = new StatisticsManager();
             _proxyManager = new ProxyManager();
             _jobService = jobService;
+            _jobQueueService = new JobQueueService();
             _backgroundJobService = backgroundJobService;
         }
 
@@ -103,7 +106,6 @@ namespace Services.Services
 
         public List<AccountDataViewModel> GetDataAccounts(List<AccountViewModel> accounts)
         {
-            var forSpy = false;
             var result = new List<AccountDataViewModel>();
 
             foreach (var accountModel in accounts)
@@ -111,7 +113,7 @@ namespace Services.Services
                 if (accountModel.GroupSettingsId != null)
                 {
                     var information = _accountManager.GetAccountInformation(accountModel.Id);
-                    var jobStatuses = _jobStatusManager.GetAllJobStatusesByAccountId(accountModel.Id, forSpy);
+                    var jobQueues = GetJbQueues(accountModel);
 
                     result.Add(new AccountDataViewModel
                     {
@@ -136,7 +138,7 @@ namespace Services.Services
                             GroupSettingsName = new GetGroupSettingsNameByIdQueryHandler(new DataBaseContext()).Handle(new GetGroupSettingsNameByIdQuery { GroupId = accountModel.GroupSettingsId})
                         },
                         AccountInformation = information,
-                        JobStatuses = jobStatuses
+                        JobQueues = jobQueues
                     });
 
                     continue;
@@ -162,7 +164,6 @@ namespace Services.Services
                         ConformationDataIsFailed = accountModel.ConformationDataIsFailed,
                         UserAgentId = accountModel.UserAgentId,
                         GroupSettingsName = new GetGroupSettingsNameByIdQueryHandler(new DataBaseContext()).Handle(new GetGroupSettingsNameByIdQuery { GroupId = accountModel.GroupSettingsId })
-                        
                     }
                 });
             }
@@ -170,6 +171,38 @@ namespace Services.Services
             var orderAccounts = _accountManager.SortAccountsByWorkStatus(result);
 
             return orderAccounts;
+        }
+
+        private List<JobQueueViewModel> GetJbQueues(AccountViewModel account)
+        {
+            if (account == null || account.GroupSettingsId == null)
+            {
+                return null;
+            }
+
+            var jobQueues = _jobQueueService.GetQueuesByAccountId(new JobQueueViewModel
+                                                                            {
+                                                                                AccountId = account.Id, 
+                                                                                IsForSpy = false
+                                                                            });
+
+            var enabledGroupFunctions = new GetGroupFunctionsByGroupIdQueryHandler(new DataBaseContext()).Handle(
+                                                                            new GetGroupFunctionsByGroupIdQuery
+                                                                            {
+                                                                                GroupId = (long)account.GroupSettingsId
+                                                                            });
+
+            var result = enabledGroupFunctions.Select(queue => new JobQueueViewModel
+            {
+                FunctionName = queue,
+                FunctionStringName = new GetFunctionNameByNameQueryHandler(new DataBaseContext()).Handle(new GetFunctionNameByNameQuery
+                {
+                    FunctionName = queue
+                }),
+                IsProcessed = jobQueues.Any(model => model.FunctionName == queue && model.IsProcessed)
+            }).ToList();
+
+            return result;
         }
 
         public List<AccountViewModel> GetWorkAccounts()

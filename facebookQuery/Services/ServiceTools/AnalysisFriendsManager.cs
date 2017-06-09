@@ -32,9 +32,9 @@ namespace Services.ServiceTools
             {
                 Status = StatusesFriend.ToAdd
             });
-
+            
             var refreshFriendList = new List<AnalysisFriendData>();
-            notices.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("Друзей для проверки - {0}", friends.Count)));
+            notices.AddNotice(functionName, account.Id, string.Format("Друзей для проверки - {0}", friends.Count));
 
             foreach (var analysisFriendData in friends)
             {
@@ -48,7 +48,7 @@ namespace Services.ServiceTools
                 }
                 if (analysisFriendData.Type == FriendTypes.Incoming)
                 {
-                    notices.AddNotice(account.Id, _noticesService.ConvertNoticeText(functionName, string.Format("С ним мы общались. Отменяем заявку- {0}({1})", analysisFriendData.FriendName, analysisFriendData.FacebookId)));
+                    notices.AddNotice(functionName, account.Id, string.Format("С ним мы общались. Отменяем заявку- {0}({1})", analysisFriendData.FriendName, analysisFriendData.FacebookId));
 
                     new CancelFriendshipRequestEngine().Execute(new CancelFriendshipRequestModel
                     {

@@ -13,6 +13,6 @@ namespace CommonInterfaces.Interfaces.Services
 
         void RemoveAccountBackgroundJobs(IRemoveAccountJobs model);
         
-        void CreateBackgroundJob(ICreateBackgroundJob model);
+        bool CreateBackgroundJob(ICreateBackgroundJob model);
     }
 }

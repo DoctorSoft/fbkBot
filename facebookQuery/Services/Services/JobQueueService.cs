@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using CommonModels;
+using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.JobQueue.AddQueue;
 using DataBase.QueriesAndCommands.Commands.JobQueue.DeleteOverdueQueue;
 using DataBase.QueriesAndCommands.Commands.JobQueue.DeleteQueue;
+using DataBase.QueriesAndCommands.Commands.JobQueue.DeleteQueueByAccountId;
 using DataBase.QueriesAndCommands.Commands.JobQueue.MarkProcessedStatus;
+using DataBase.QueriesAndCommands.Queries.Functions.GetFunctionName;
 using DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetAllQueues;
 using DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetQueuesByAccountId;
+using DataBase.QueriesAndCommands.Queries.JobQueue.JobQueuIsExist;
 using Services.ViewModels.QueueViewModels;
 
 namespace Services.Services
@@ -22,7 +24,9 @@ namespace Services.Services
                 FunctionName = model.FunctionName,
                 IsUnique = true,
                 FriendId = model.FriendId,
-                IsForSpy = model.IsForSpy
+                IsForSpy = model.IsForSpy,
+                JobId = model.JobId,
+                LaunchDateTime = model.LaunchDateTime
             });
         }
         
@@ -33,6 +37,7 @@ namespace Services.Services
                 QueueId = queueId
             });
         }
+
         public long RemoveOverdueQueue(int overdue)
         {
             var removeQueuesModel = new DeleteOverdueQueueCommandHandler().Handle(new DeleteOverdueQueueCommand
@@ -54,7 +59,6 @@ namespace Services.Services
             });
         }
 
-
         public List<JobQueueViewModel> GetQueuesByAccountId(JobQueueViewModel model)
         {
             var queuesDbModels = new GetJobQueuesByAccountIdCommandHandler().Handle(new GetJobQueuesByAccountIdCommand
@@ -70,7 +74,8 @@ namespace Services.Services
                 FunctionName = queueModel.FunctionName,
                 AddedDateTime = queueModel.AddedDateTime,
                 IsForSpy = queueModel.IsForSpy,
-                FriendId = queueModel.FriendId
+                FriendId = queueModel.FriendId,
+                IsProcessed = queueModel.IsProcessed
             }).ToList();
         }
 
@@ -90,7 +95,13 @@ namespace Services.Services
                 FunctionName = queueModel.FunctionName,
                 AddedDateTime = queueModel.AddedDateTime,
                 IsForSpy = queueModel.IsForSpy,
-                FriendId = queueModel.FriendId
+                FriendId = queueModel.FriendId,
+                FunctionStringName = new GetFunctionNameByNameQueryHandler(new DataBaseContext()).Handle(new GetFunctionNameByNameQuery
+                {
+                    FunctionName = queueModel.FunctionName
+                }),
+                JobId = queueModel.JobId,
+                IsProcessed = queueModel.IsProcessed
             }).ToList();
         }
 
@@ -106,7 +117,8 @@ namespace Services.Services
                 AddedDateTime = model.AddedDateTime,
                 FriendId = model.FriendId,
                 IsForSpy = model.IsForSpy,
-                IsProcessed = model.IsProcessed
+                IsProcessed = model.IsProcessed,
+                JobId = model.JobId
             }).ToList();
         }
 
@@ -117,6 +129,31 @@ namespace Services.Services
             var groupedList = queuesDbModels.GroupBy(model => new {model.AccountId, model.IsForSpy}).Select(grp => grp.ToList()).ToList(); 
 
             return groupedList;
+        }
+
+        public List<string> DeleteJobQueuesByAccountId(JobQueueViewModel model)
+        {
+            var jobsId = new DeleteQueueByAccountIdCommandHandler(new DataBaseContext()).Handle(new DeleteQueueByAccountIdCommand
+            {
+                AccountId = model.AccountId,
+                IsForSpy = model.IsForSpy,
+                FunctionName = model.FunctionName
+            });
+
+            return jobsId;
+        }
+
+        public bool JobIsRun(JobQueueViewModel model)
+        {
+            var jobIsExist = new JobQueuIsExistQueryHandler(new DataBaseContext()).Handle(new JobQueuIsExistQuery
+            {
+                AccountId = model.AccountId,
+                FunctionName = model.FunctionName,
+                IsForSpy = model.IsForSpy,
+                FriendId = model.FriendId
+            });
+
+            return jobIsExist;
         }
     }
 }

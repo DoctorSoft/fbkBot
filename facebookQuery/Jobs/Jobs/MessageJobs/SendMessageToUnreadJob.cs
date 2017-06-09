@@ -5,6 +5,7 @@ using Jobs.JobsService;
 using Jobs.Models;
 using Services.Models.BackgroundJobs;
 using Services.Services;
+using Services.ViewModels.JobStateViewModels;
 using Services.ViewModels.JobStatusModels;
 using Services.ViewModels.QueueViewModels;
 
@@ -23,16 +24,7 @@ namespace Jobs.Jobs.MessageJobs
             {
                 return;
             }
-
-            var jobStatusModel = new JobStatusViewModel
-            {
-                AccountId = account.Id,
-                FunctionName = FunctionName.SendMessageToUnread,
-                IsForSpy = forSpy
-            };
-
-            new JobStatusService().DeleteJobStatus(jobStatusModel);
-
+            
             var settings = new GroupService(new NoticeService()).GetSettings((long)account.GroupSettingsId);
             var sendUnreadLaunchTime = new TimeSpan(settings.RetryTimeSendUnreadHour, settings.RetryTimeSendUnreadMin, settings.RetryTimeSendUnreadSec);
 
@@ -45,16 +37,25 @@ namespace Jobs.Jobs.MessageJobs
                 IsForSpy = forSpy
             };
 
-            new BackgroundJobService().CreateBackgroundJob(model);
-
-            var jobQueueModel = new JobQueueViewModel
+            new JobStateService().DeleteJobState(new JobStateViewModel
             {
                 AccountId = account.Id,
                 FunctionName = FunctionName.SendMessageToUnread,
                 IsForSpy = forSpy
-            };
+            });
 
-            new JobQueueService().AddToQueue(jobQueueModel);
+            var jobIsSuccessfullyCreated = new BackgroundJobService().CreateBackgroundJob(model);
+            if (!jobIsSuccessfullyCreated)
+            {
+                return;
+            }
+
+            new JobQueueService().AddToQueue(new JobQueueViewModel
+            {
+                AccountId = account.Id,
+                FunctionName = FunctionName.SendMessageToUnread,
+                IsForSpy = forSpy
+            });
         }
     }
 }

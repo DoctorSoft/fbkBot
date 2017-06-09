@@ -43,22 +43,24 @@ namespace Services.Core
         
         public void SendMessageToUnread(AccountViewModel account, FriendData friend)
         {
+            const string functionName = "Ответ на непрочитанные сообщения";
+
             if (friend.Deleted || friend.DialogIsCompleted)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
                 return;
             }
 
             if (account.GroupSettingsId == null)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Не указана группа настроек."));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Не указана группа настроек."));
                return;
             }
 
             var friendIsBlocked = _friendsBlackListManager.CheckForFriendBlacklist(friend.FacebookId, (long)account.GroupSettingsId);
             if (friendIsBlocked)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
                 return;
             }
 
@@ -68,11 +70,11 @@ namespace Services.Core
             ? _messageManager.GetAllMessagesWhereBotWritesFirst(account.Id)
             : _messageManager.GetAllMessagesWhereUserWritesFirst(account.Id);
 
-            _notice.AddNotice(account.Id, string.Format("Загружаем сообщения для ответа"));
+            _notice.AddNotice(functionName, account.Id, string.Format("Загружаем сообщения для ответа"));
 
             if (messageData.Count == 0)
             {
-                _notice.AddNotice(account.Id, string.Format("У данного пользователя нет сообщений для ответа"));
+                _notice.AddNotice(functionName, account.Id, string.Format("У данного пользователя нет сообщений для ответа"));
                 return;
             }
 
@@ -83,7 +85,7 @@ namespace Services.Core
             var lastFriendMessages = _facebookMessageManager.GetLastFriendMessageModel(account.Id, friend.Id);
             if (lastFriendMessages == null)
             {
-                _notice.AddNotice(account.Id, string.Format("Возникла ошибка при ответе. Сообщение друга не найдено в базе."));
+                _notice.AddNotice(functionName, account.Id, string.Format("Возникла ошибка при ответе. Сообщение друга не найдено в базе."));
                 return;
             }
 
@@ -111,17 +113,17 @@ namespace Services.Core
                 friend.MessageRegime = MessageRegime.UserFirstMessage;
             }
             
-            _notice.AddNotice(account.Id, string.Format("Сверяем сообщение друга со стоп-словами"));
+            _notice.AddNotice(functionName, account.Id, string.Format("Сверяем сообщение друга со стоп-словами"));
 
             var emergencyFactor = _stopWordsManager.CheckMessageOnEmergencyFaktor(lastFriendMessages);
 
-            _notice.AddNotice(account.Id, string.Format("Получаем сообщение для ответа с порядковым номером - {0}. (Стоп-фактор - {1})", orderNumber, emergencyFactor));
+            _notice.AddNotice(functionName, account.Id, string.Format("Получаем сообщение для ответа с порядковым номером - {0}. (Стоп-фактор - {1})", orderNumber, emergencyFactor));
 
             var messageModel = _messageManager.GetRandomMessage(account.Id, orderNumber, emergencyFactor, friend.MessageRegime);
 
             if (messageModel != null)
             {
-                _notice.AddNotice(account.Id, string.Format("Подставляем значения в сообщение бота"));
+                _notice.AddNotice(functionName, account.Id, string.Format("Подставляем значения в сообщение бота"));
 
                 message = new CalculateMessageTextQueryHandler(new DataBaseContext()).Handle(new CalculateMessageTextQuery
                         {
@@ -137,7 +139,7 @@ namespace Services.Core
 
             if (message != String.Empty)
             {
-                _notice.AddNotice(account.Id, string.Format("Отправляем сообщение"));
+                _notice.AddNotice(functionName, account.Id, string.Format("Отправляем сообщение"));
 
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
@@ -163,7 +165,7 @@ namespace Services.Core
                     MessageDateTime = DateTime.Now,
                 });
 
-                _notice.AddNotice(account.Id, string.Format("Сообщение пользователю {0}({1}) отправлено",friend.FriendName,friend.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Сообщение пользователю {0}({1}) отправлено",friend.FriendName,friend.FacebookId));
             }
 
             if (messageData == null || orderNumber < numberLastBotMessage)
@@ -176,7 +178,7 @@ namespace Services.Core
                 return;
             }
 
-            _notice.AddNotice(account.Id, string.Format("Переписка завершена. Блокируем пользователя {0}({1})", friend.FriendName, friend.FacebookId));
+            _notice.AddNotice(functionName, account.Id, string.Format("Переписка завершена. Блокируем пользователя {0}({1})", friend.FriendName, friend.FacebookId));
 
             new MarkAddToEndDialogCommandHandler(new DataBaseContext()).Handle(new MarkAddToEndDialogCommand
             {
@@ -189,22 +191,24 @@ namespace Services.Core
 
         public void SendMessageToUnanswered(AccountViewModel account, FriendData friend)
         {
+            const string functionName = "Ответ на неотвеченные сообщения";
+
             if (friend.DialogIsCompleted || friend.Deleted)
             {
-              _notice.AddNotice(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
+              _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
               return;
             }
 
             if (account.GroupSettingsId == null)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Не указана группа настроек."));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Не указана группа настроек."));
                 return;
             }
 
             var friendIsBlocked = _friendsBlackListManager.CheckForFriendBlacklist(friend.FacebookId, (long)account.GroupSettingsId);
             if (friendIsBlocked)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
                 return;
             }
 
@@ -224,7 +228,7 @@ namespace Services.Core
                 return;
             }
 
-            _notice.AddNotice(account.Id, string.Format("Получаем экстра-сообщение"));
+            _notice.AddNotice(functionName, account.Id, string.Format("Получаем экстра-сообщение"));
               
             var messageModel = _messageManager.GetRandomExtraMessage();
 
@@ -240,7 +244,7 @@ namespace Services.Core
                 FriendId = friend.FacebookId
             });
 
-            _notice.AddNotice(account.Id, string.Format("Отправляем экстра сообщение - '{0}'", message));
+            _notice.AddNotice(functionName, account.Id, string.Format("Отправляем экстра сообщение - '{0}'", message));
             
             var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
             {
@@ -271,27 +275,29 @@ namespace Services.Core
                 MessageDateTime = DateTime.Now,
             });
 
-            _notice.AddNotice(account.Id, string.Format("Отправка экстра сообщения завершена"));
+            _notice.AddNotice(functionName, account.Id, string.Format("Отправка экстра сообщения завершена"));
         }
 
         public void SendMessageToNewFriend(AccountViewModel account, FriendData friend)
         {
+            const string functionName = "Отправка сообщений новым друзьям";
+
             if (friend.DialogIsCompleted || friend.Deleted)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Друг {0}({1}) удален, либо переписка с ним закончилась.", friend.FriendName, friend.FacebookId));
                 return;
             }
 
             if (account.GroupSettingsId == null)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Не указана группа настроек."));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Не указана группа настроек."));
                 return;
             }
 
             var friendIsBlocked = _friendsBlackListManager.CheckForFriendBlacklist(friend.FacebookId, (long)account.GroupSettingsId);
             if (friendIsBlocked)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка! Друг {0}({1}) находится в черном списке.", friend.FriendName, friend.FacebookId));
                 return;
             }
 
@@ -302,18 +308,18 @@ namespace Services.Core
                 UserAgentId = account.UserAgentId
             });
 
-            _notice.AddNotice(account.Id, string.Format("Отправляем сообщения новым друзьям"));
+            _notice.AddNotice(functionName, account.Id, string.Format("Отправляем сообщения новым друзьям"));
 
             var messageModel = _messageManager.GetRandomMessage(account.Id, 1, false, MessageRegime.BotFirstMessage);
             if (messageModel != null)
             {
-                _notice.AddNotice(account.Id, string.Format("Ошибка. Нет сообщений для отправки."));
+                _notice.AddNotice(functionName, account.Id, string.Format("Ошибка. Нет сообщений для отправки."));
                 message = messageModel.Message;
             }
 
             if (!message.Equals(String.Empty))
             {
-                _notice.AddNotice(account.Id, string.Format("Отправляем сообщение {0}({1})", friend.FriendName, friend.FacebookId));
+                _notice.AddNotice(functionName, account.Id, string.Format("Отправляем сообщение {0}({1})", friend.FriendName, friend.FacebookId));
 
                 new SendMessageEngine().Execute(new SendMessageModel
                 {
@@ -349,7 +355,7 @@ namespace Services.Core
                     MessageDateTime = DateTime.Now
                 });
 
-                _notice.AddNotice(account.Id, string.Format("Сообщение отправлено"));
+                _notice.AddNotice(functionName, account.Id, string.Format("Сообщение отправлено"));
             }
         }
     }

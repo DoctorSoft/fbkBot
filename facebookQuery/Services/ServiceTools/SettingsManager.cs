@@ -62,7 +62,10 @@ namespace Services.ServiceTools
                     {
                         GroupSettingsId = groupSettingsId
                     });
-
+            if (groupSettings == null)
+            {
+                return new TimeSpan(0,1,0);
+            }
             switch (functionName)
             {
                 case FunctionName.SendMessageToNewFriends:

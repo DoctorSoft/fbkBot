@@ -32,7 +32,10 @@ namespace DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetQueuesByAccou
                         AddedDateTime = model.AddedDateTime,
                         FunctionName = model.FunctionName,
                         FriendId = model.FriendId,
-                        IsForSpy = model.IsForSpy
+                        IsForSpy = model.IsForSpy,
+                        IsProcessed = model.IsProcessed,
+                        JobId = model.JobId,
+                        LaunchDateTime = model.LaunchDateTime
                     }).ToList();
             }
             else
@@ -45,7 +48,10 @@ namespace DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetQueuesByAccou
                     AddedDateTime = model.AddedDateTime,
                     FunctionName = model.FunctionName,
                     FriendId = model.FriendId,
-                    IsForSpy = model.IsForSpy
+                    IsForSpy = model.IsForSpy,
+                    IsProcessed = model.IsProcessed,
+                    JobId = model.JobId,
+                    LaunchDateTime = model.LaunchDateTime
                 }).ToList();
             }
 

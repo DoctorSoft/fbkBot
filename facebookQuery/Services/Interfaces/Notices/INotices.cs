@@ -4,6 +4,7 @@
     {
         string ConvertNoticeText(string functionName, string noticeText);
 
-        void AddNotice(long accountId, string noticeText);
+
+        void AddNotice(string functionName, long accountId, string noticeText);
     }
 }

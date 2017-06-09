@@ -219,6 +219,12 @@ namespace Services.Services
                 foreach (var analysisFriendData in friendList)
                 {
                     var accountAnalysisFriend = _accountManager.GetAccountById(analysisFriendData.AccountId);
+
+                    if (!new AccountManager().HasAWorkingAccount(accountAnalysisFriend.Id))
+                    {
+                        continue;
+                    }
+
                     var settingsModel = accountAnalysisFriend.GroupSettingsId != null
                         ? _accountSettingsManager.GetSettings((long)accountAnalysisFriend.GroupSettingsId)
                         : new GroupSettingsViewModel();
@@ -254,7 +260,7 @@ namespace Services.Services
             }
             catch (Exception)
             {
-                throw;
+                driver.Quit();
             }
 
             driver.Quit();
@@ -297,8 +303,12 @@ namespace Services.Services
         {
             bool infoIsSuccess;
             bool genderIsSuccess;
+            if (settings == null)
+            {
+                return false;
+            }
 
-            if (!settings.Countries.Equals(string.Empty) || !settings.Cities.Equals(string.Empty))
+            if ((settings.Countries != null && !settings.Countries.Equals(string.Empty)) || (settings.Cities != null && !settings.Cities.Equals(string.Empty)))
             {
                 infoIsSuccess = AnalizeFriendInfo(account, friendFacebookId, settings, driver);
             }

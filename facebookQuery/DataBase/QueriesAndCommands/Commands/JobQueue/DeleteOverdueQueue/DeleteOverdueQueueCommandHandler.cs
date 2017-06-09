@@ -57,7 +57,7 @@ namespace DataBase.QueriesAndCommands.Commands.JobQueue.DeleteOverdueQueue
                 _context.JobsQueue.Remove(customer);
                 _context.SaveChanges();
 
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 counter++;
             }
 
