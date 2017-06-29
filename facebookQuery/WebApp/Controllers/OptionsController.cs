@@ -2,9 +2,12 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CommonInterfaces.Interfaces.Models;
-using Jobs.JobsService;
+using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
+using Jobs.JobsServices.JobServices;
 using Services.Models.Jobs;
 using Services.Services;
+using Services.ServiceTools;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.OptionsModel;
 using AddOrUpdateAccountModel = Services.Models.BackgroundJobs.AddOrUpdateAccountModel;
@@ -15,11 +18,13 @@ namespace WebApp.Controllers
     {
         private readonly MessageSettingService _messageSettingService;
         private readonly FriendsService _friendService;
+        private readonly AccountManager _accountManager;
 
         public OptionsController()
         {
             _messageSettingService = new MessageSettingService();
             _friendService = new FriendsService(new NoticeService());
+            _accountManager = new AccountManager();
         }
 
         // GET: Option
@@ -69,8 +74,8 @@ namespace WebApp.Controllers
             }
 
             DeleteOldJobs(accountId);
+            RefreshJobs(accountId, groupId);
             RefreshFriends(accountId);
-            RefreshJobs(account, groupId);
 
             return RedirectToAction("Index", new { accountId });
         }
@@ -83,15 +88,16 @@ namespace WebApp.Controllers
 
         private static void DeleteOldJobs(long accountId)
         {
-            new BackgroundJobService().RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+            new BackgroundJobService().RemoveAllBackgroundJobs(new RemoveAccountJobsModel
                 {
                     IsForSpy = false,
                     AccountId = accountId
                 });
         }
 
-        private static void RefreshJobs(AccountViewModel account, long groupId)
+        private void RefreshJobs(long accountId, long groupId)
         {
+            var account = _accountManager.GetAccountById(accountId);
             var settings = new GroupService(null).GetSettings(groupId);
             var model = new AddOrUpdateAccountModel
             {
@@ -100,8 +106,7 @@ namespace WebApp.Controllers
                 NewSettings = settings
             };
 
-            var refreshJobsTask = new Task<bool>(() => UpdateSettings(model));
-            refreshJobsTask.Start();
+            UpdateSettings(model);
         }
 
         private static bool UpdateSettings(IAddOrUpdateAccountJobs model)

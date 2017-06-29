@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using CommonInterfaces.Interfaces.Services;
+using CommonInterfaces.Interfaces.Services.BackgroundJobs;
 using CommonModels;
 using Constants.FriendTypesEnum;
+using Constants.MessageEnums;
 using DataBase.Constants;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.AccountInformation;
@@ -28,6 +30,7 @@ using DataBase.QueriesAndCommands.Queries.AnalysisFriends;
 using DataBase.QueriesAndCommands.Queries.CounterCheckFriends.GetCounterCheckFriendsByAccountId;
 using DataBase.QueriesAndCommands.Queries.Friends;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendById;
+using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsByMessageRegime;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToQueueDeletion;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToRemove;
 using DataBase.QueriesAndCommands.Queries.FriendsBlackList.CheckForFriendBlacklisted;
@@ -45,6 +48,7 @@ using Services.Interfaces.ServiceTools;
 using Services.ServiceTools;
 using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
+using Services.ViewModels.PageModels;
 
 namespace Services.Services
 {
@@ -71,17 +75,25 @@ namespace Services.Services
             _analysisFriendsManager = new AnalysisFriendsManager();
         }
 
-        public FriendListViewModel GetFriendsByAccount(long accountFacebokId)
+        public FriendListViewModel GetFriendsByAccountId(long accountId, int pageNumber, int pageSize)
         {
             var friends = new GetFriendsByAccountQueryHandler(new DataBaseContext()).Handle(new GetFriendsByAccountQuery
             {
-                AccountId = accountFacebokId
+                AccountId = accountId,
+                Page = new PageModel { PageNumber = pageNumber, PageSize = pageSize}
             });
+
+            var pageInfo = new PageInfoModel
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = friends.CountAllFriends
+            };
 
             var result = new FriendListViewModel
             {
-                AccountId = accountFacebokId,
-                Friends = friends.Select(model => new FriendViewModel
+                AccountId = accountId,
+                Friends = friends.Friends.Select(model => new FriendViewModel
                 {
                     AddDateTime = model.AddedDateTime,
                     Id = model.Id,
@@ -96,7 +108,51 @@ namespace Services.Services
                     MessageRegime = model.MessageRegime,
                     AddedToRemoveDateTime = model.AddedToRemoveDateTime,
                     CountWinksToFriends = model.CountWinksToFriends
-                }).ToList()
+                }).ToList(),
+                PageInfo = pageInfo
+            };
+
+            return result;
+        }
+        public FriendListViewModel GetFriendsByMessageRegime(long accountId, MessageRegime? messageRegime, int pageNumber, int pageSize)
+        {
+            var account = _accountManager.GetAccountById(accountId);
+
+            var friends = new GetFriendsByMessageRegimeQueryHandler(new DataBaseContext()).Handle(new GetFriendsByMessageRegimeQuery
+            {
+                AccountId = accountId,
+                GroupSettingsId = account.GroupSettingsId,
+                MessageRegime = messageRegime,
+                Page = new PageModel { PageNumber = pageNumber, PageSize = pageSize }
+            });
+
+            var pageInfo = new PageInfoModel
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = friends.CountAllFriends
+            };
+
+            var result = new FriendListViewModel
+            {
+                AccountId = accountId,
+                Friends = friends.Friends.Select(model => new FriendViewModel
+                {
+                    AddDateTime = model.AddedDateTime,
+                    Id = model.Id,
+                    Deleted = model.Deleted,
+                    FacebookId = model.FacebookId,
+                    MessagesEnded = model.DialogIsCompleted,
+                    Name = model.FriendName,
+                    Href = model.Href,
+                    IsAddedToGroups = model.IsAddedToGroups,
+                    IsAddedToPages = model.IsAddedToPages,
+                    IsWinked = model.IsWinked,
+                    MessageRegime = model.MessageRegime,
+                    AddedToRemoveDateTime = model.AddedToRemoveDateTime,
+                    CountWinksToFriends = model.CountWinksToFriends
+                }).ToList(),
+                PageInfo = pageInfo
             };
 
             return result;

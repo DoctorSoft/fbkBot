@@ -123,6 +123,9 @@
   <data name="HomeWelcomeTitle" xml:space="preserve">
     <value>Добро пожаловать в панель управления</value>
   </data>
+  <data name="MenuClientApps" xml:space="preserve">
+    <value>Клиентские приложения</value>
+  </data>
   <data name="MenuDashboard" xml:space="preserve">
     <value>Управление заданиями</value>
   </data>
@@ -140,9 +143,6 @@
   </data>
   <data name="MenuLinks" xml:space="preserve">
     <value>Ссылки</value>
-  </data>
-  <data name="MenuMessageOptions" xml:space="preserve">
-    <value>Редактор сообщений</value>
   </data>
   <data name="MenuSpies" xml:space="preserve">
     <value>Шпионы</value>

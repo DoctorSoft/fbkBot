@@ -32,11 +32,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -73,6 +73,8 @@
     <Compile Include="Engines\AddToGroupEngine\FriendModel.cs" />
     <Compile Include="Engines\CancelFriendshipRequestEngine\CancelFriendshipRequestEngine.cs" />
     <Compile Include="Engines\CancelFriendshipRequestEngine\CancelFriendshipRequestModel.cs" />
+    <Compile Include="Engines\CheckBotPageEngine\BotPageIsWorkEngine.cs" />
+    <Compile Include="Engines\CheckBotPageEngine\BotPageIsWorkModel.cs" />
     <Compile Include="Engines\CheckProxyEngine\CheckProxyEngine.cs" />
     <Compile Include="Engines\CheckProxyEngine\CheckProxyModel.cs" />
     <Compile Include="Engines\GetFriendsCountEngine\GetFriendsCountEngine.cs" />
@@ -87,6 +89,8 @@
     <Compile Include="Engines\GetFriendsEngine\GetRandomFriendFriends\GetRandomFriendModel.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetCorrespondenceRequests\GetCorrespondenceRequestsEndine.cs" />
     <Compile Include="Engines\GetMessagesEngine\GetCorrespondenceRequests\GetCorrespondenceRequestsModel.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetMessangerMessages\GetMessangerMessagesEngine.cs" />
+    <Compile Include="Engines\GetMessagesEngine\GetMessangerMessages\GetMessangerMessagesModel.cs" />
     <Compile Include="Engines\GetNewWinks\GetNewWinksEngine.cs" />
     <Compile Include="Engines\GetNewWinks\GetNewWinksModel.cs" />
     <Compile Include="Engines\JoinTheGroupsAndPagesEngine\JoinThePagesBySeleniumEngine\JoinThePagesBySeleniumEngine.cs" />

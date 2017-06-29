@@ -1,4 +1,5 @@
 ﻿using CommonInterfaces.Interfaces.Services;
+using CommonInterfaces.Interfaces.Services.BackgroundJobs;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
@@ -52,7 +53,7 @@ namespace Services.Services
                         });
                     }
                     
-                    backgroundJob.RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+                    backgroundJob.RemoveAllBackgroundJobs(new RemoveAccountJobsModel
                     {
                         AccountId = account.Id,
                         IsForSpy = forSpy,
@@ -91,7 +92,7 @@ namespace Services.Services
                     });
                 }
 
-                backgroundJob.RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+                backgroundJob.RemoveAllBackgroundJobs(new RemoveAccountJobsModel
                 {
                     AccountId = account.Id,
                     IsForSpy = forSpy,
@@ -122,7 +123,7 @@ namespace Services.Services
                     });
                 }
 
-                backgroundJob.RemoveAccountBackgroundJobs(new RemoveAccountJobsModel
+                backgroundJob.RemoveAllBackgroundJobs(new RemoveAccountJobsModel
                 {
                     AccountId = account.Id,
                     IsForSpy = forSpy,
@@ -154,6 +155,15 @@ namespace Services.Services
                     NewCookieString = newCookie
                 });
             }
+
+            new UpdateFailSpyAccountInformationCommandHandler(new DataBaseContext()).Handle(
+            new UpdateFailSpyAccountInformationCommand
+            {
+                AccountId = account.Id,
+                ProxyDataIsFailed = false,
+                AuthorizationDataIsFailed = false,
+                ConformationIsFailed = false
+            });
 
             return true;
         }

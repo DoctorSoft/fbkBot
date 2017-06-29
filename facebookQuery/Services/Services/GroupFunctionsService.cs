@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CommonInterfaces.Interfaces.Services;
+using CommonInterfaces.Interfaces.Services.BackgroundJobs;
 using Constants.FunctionEnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Groups;
@@ -12,22 +12,35 @@ using Services.ServiceTools;
 using Services.ViewModels.GroupFunctionsModels;
 using Services.ViewModels.HomeModels;
 using Services.ViewModels.JobStateViewModels;
-using Services.ViewModels.JobStatusModels;
-using Services.ViewModels.QueueViewModels;
 
 namespace Services.Services
 {
     public class GroupFunctionsService
     {
         private readonly SettingsManager _settingsManager;
-        private readonly JobQueueService _jobQueueService;
         private readonly JobStateService _jobStateService;
 
         public GroupFunctionsService()
         {
             _settingsManager = new SettingsManager();
-            _jobQueueService = new JobQueueService();
             _jobStateService = new JobStateService();
+        }
+
+        public List<FunctionViewModel> GetEnabledFunctionsByGroupId(long groupId)
+        {
+            var functions = new GetGroupFunctionsByGroupIdQueryHandler(new DataBaseContext()).Handle(new GetGroupFunctionsByGroupIdQuery
+            {
+                GroupId = groupId
+            });
+
+            var result = functions.Select(function => new FunctionViewModel
+            {
+                Name = function.Name,
+                FunctionName = function.FunctionName,
+                FunctionId = function.FunctionId
+            }).ToList();
+
+            return result;
         }
 
         public List<GroupFunctionViewModel> GetGroupFunctions()
@@ -36,6 +49,7 @@ namespace Services.Services
             {
                 ForSpy = false
             });
+
             var groups = new GetGroupsQueryHandler(new DataBaseContext()).Handle(new GetGroupsQuery());
             var groupFunctions = new GroupFunctionsQueryHandler(new DataBaseContext()).Handle(new GroupFunctionsQuery());
 
@@ -137,7 +151,7 @@ namespace Services.Services
                         {
                             _jobStateService.DeleteJobState(state);
 
-                            backgroundJobService.RemoveJobById(state.JobId);
+                            backgroundJobService.RemoveBackgroundJobById(state.JobId);
                         }
                     }
                 }

@@ -228,4 +228,7 @@
   <data name="FriendOptions" xml:space="preserve">
     <value>Friend options</value>
   </data>
+  <data name="GetMessagesFromThoseConnectedToMessenger" xml:space="preserve">
+    <value>Receive messages from those connected to the messenger</value>
+  </data>
 </root>

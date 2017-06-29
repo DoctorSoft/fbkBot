@@ -2,8 +2,11 @@
     ViewBag.Title = "Index";
 }
 
+@using Constants.MessageEnums
+@using WebApp.Helpers
 @using WebApp.Resources.Views.Buttons
 @using WebApp.Resources.Views.Friends
+@using WebApp.Resources.Views.Users
 @model Services.ViewModels.FriendsModels.FriendListViewModel
 
 @section scripts
@@ -22,9 +25,9 @@
 
 <div class="panel panel-default">
     <div class="page-header">
-        <h3 class="alert-info alert">@FriendsTexts.FriendsTitle</h3>
-    </div>
-    <div class="panel-body">
+        <div class="inline-actions">
+            <h3 class="alert-info alert">@FriendsTexts.FriendsTitle</h3>
+        </div>
         <div class="inline-actions">
             <a href="@Url.Action("Index", "FriendsIncomingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">@FriendsTexts.ButtonIncoming</a>
         </div>
@@ -32,87 +35,131 @@
             <a href="@Url.Action("Index", "FriendsOutgoingRequests", new { accountId = Model.AccountId })" class="btn btn-primary">@FriendsTexts.ButtonOutgoing</a>
         </div>
     </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-block btn-info" onclick="location.href='@Url.Action("Index", "Friends", new { accountId = Model.AccountId, regime = MessageRegime.BotFirstMessage, pageNumber = 1 })'">@FriendsTexts.BotWriteFirst</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-block btn-info" onclick="location.href='@Url.Action("Index", "Friends", new { accountId = Model.AccountId, regime = MessageRegime.UserFirstMessage, pageNumber = 1 })'">@FriendsTexts.FriendWriteFirst</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-block btn-info" onclick="location.href='@Url.Action("Index", "Friends", new { accountId = Model.AccountId, regime = MessageRegime.NoMessages, pageNumber = 1 })'">@FriendsTexts.NoMessages</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-block btn-info" onclick="location.href='@Url.Action("Index", "Friends", new { accountId = Model.AccountId, all = 1, pageNumber = 1 })'">@FriendsTexts.AllFriends</button>
+            </div>
+        </div>
+    </div>
     <div class="panel-footer">
-        <div>@FriendsTexts.CurrentFriends (@Model.Friends.Count(model => !model.Deleted))</div>
-        
+        <div>
+             @{
+                      if (ViewBag.Regime == MessageRegime.BotFirstMessage)
+                      {
+                          @FriendsTexts.BotWriteFirst
+                      }
+                      else if (ViewBag.Regime == MessageRegime.UserFirstMessage)
+                      {
+                          @FriendsTexts.FriendWriteFirst
+                      }
+                      else
+                      {
+                          @FriendsTexts.CurrentFriends
+                      }
+
+                  }
+
+            (@FriendsTexts.Show @Model.Friends.Count(model => !model.Deleted) / @Model.PageInfo.TotalItems)
+        </div>
+        <br />
         @{
             if (Model.Friends == null || Model.Friends.Count == 0)
             {
                 @FriendsTexts.NoFriends
-                <br />
+                <br/>
                 <a href="@Url.Action("Index", "GroupFunctions")" class="btn btn-info"> <i class="fa fa-arrow-left"></i>@ButtonsTexts.GoToGroupFunctions </a>
             }
 
             else
             {
-                foreach (var friend in @Model.Friends.Where(model => !model.Deleted))
-                 {
-                     <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info") row">
-                         <div class="col-md-3">
-                             <div>@friend.Name (@friend.FacebookId)</div>
-                         </div>
-                         <div class="col-md-2">
-                             @if (friend.MessageRegime != null)
-                             {
-                                 <a href="@Url.Action("Index", "FriendMessages", new {accountId = Model.AccountId, friendId = friend.Id})">
-                                     <i class="fa fa-envelope"></i>
-                                 </a>
-                             }
-                         </div>
-                         <div class="col-md-5">
-                             <div class="inline-actions">
-
-                                 @if (friend.IsWinked || friend.IsAddedToGroups || friend.IsAddedToPages || friend.CountWinksToFriends != 0)
-                                 {
-                                     @FriendsTexts.CompletedActions
-                                 }
-                                @if (friend.IsWinked)
-                                {
-                                    <img title="@FriendsTexts.Wink" class="fa fa-eye" aria-hidden="true" alt=" "/>
-                                 }
-                                @if (friend.IsAddedToGroups)
-                                {
-                                    <img title="@FriendsTexts.AddToGroup" class="fa fa-users" aria-hidden="true" alt=" " />
-                                 }
-                                @if (friend.IsAddedToPages)
-                                {
-                                    <img title="@FriendsTexts.AddToPage" class="fa fa-clone" aria-hidden="true" alt=" " />
-                                }
-                                 @if (friend.CountWinksToFriends != 0)
-                                 {
-                                    <span class="label label-primary">
-                                        <img title="@FriendsTexts.WinkFriends" class="fa fa-eye" aria-hidden="true" alt=" " />
-                                        @friend.CountWinksToFriends
-                                    </span>
-                                 }
+                <div class="container">
+                    @foreach (var friend in Model.Friends.Where(model => !model.Deleted))
+                    {   
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info") row" style="min-height: 72px;">
+                            <div class="col-md-6">
+                                <div>@friend.Name (@friend.FacebookId)</div>
                             </div>
+                            <div class="col-md-1">
+                                @if (friend.MessageRegime != null)
+                                {
+                                    <a href="@Url.Action("Index", "FriendMessages", new {accountId = Model.AccountId, friendId = friend.Id})">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                }
+                            </div>
+                            <div class="col-md-4">
+                                <div class="inline-actions">
 
-                         </div>
-                         <div class="col-md-2">
-                             <div class="remove-message">
-                                 <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@Model.AccountId" data-fid="@friend.Id" href=""><i class="fa fa-close"></i></a>
-                             </div>
-                         </div>
-                     </div>
-                 }
+                                    @if (friend.IsWinked || friend.IsAddedToGroups || friend.IsAddedToPages || friend.CountWinksToFriends != 0)
+                                    {
+                                        @FriendsTexts.CompletedActions
+                                    }
+                                    @if (friend.IsWinked)
+                                    {
+                                        <img title="@FriendsTexts.Wink" class="fa fa-eye" aria-hidden="true" alt=" "/>
+                                    }
+                                    @if (friend.IsAddedToGroups)
+                                    {
+                                        <img title="@FriendsTexts.AddToGroup" class="fa fa-users" aria-hidden="true" alt=" "/>
+                                    }
+                                    @if (friend.IsAddedToPages)
+                                    {
+                                        <img title="@FriendsTexts.AddToPage" class="fa fa-clone" aria-hidden="true" alt=" "/>
+                                    }
+                                    @if (friend.CountWinksToFriends != 0)
+                                    {
+                                        <span class="label label-primary">
+                                            <img title="@FriendsTexts.WinkFriends" class="fa fa-eye" aria-hidden="true" alt=" "/>
+                                            @friend.CountWinksToFriends
+                                        </span>
+                                    }
+                                </div>
+
+                            </div>
+                            <div class="col-md-1">
+                                <div class="remove-message">
+                                    <a id="deleteItem" class="deleteItem" data-target="#basic" data-toggle="modal" data-id="@Model.AccountId" data-fid="@friend.Id" href=""><i class="fa fa-close"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
             }
         }
     </div>
     <div class="panel-footer">
         <div>@FriendsTexts.DeletedFriends (@Model.Friends.Count(model => model.Deleted))</div>
-        @foreach (var friend in @Model.Friends.Where(model => model.Deleted))
-        {
-            <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info")">
-                <div class="inline-half-text-left">
-                    <div class="message-list-tittle">
-                        <div class="">@friend.Name</div>
-                    </div>
-                    <div class="inline-actions">
-                        <a href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i></a>
+        
+        <div class="container">
+            @foreach (var friend in @Model.Friends.Where(model => model.Deleted))
+            {
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="@(friend.Deleted ? "alert alert-danger" : friend.MessagesEnded ? "alert alert-success" : "alert alert-info") row">
+                        <div class="col-md-6">
+                            <div class="">@friend.Name</div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="@Url.Action("Index", "FriendMessages", new { accountId = Model.AccountId, friendId = friend.Id })"><i class="fa fa-envelope"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
+        <div class="btn-group">
+            @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new {accountId = Model.AccountId, regime = ViewBag.Regime, all= ViewBag.AllFriends, pageNumber = x}))
+        </div>
     </div>
 </div>
 

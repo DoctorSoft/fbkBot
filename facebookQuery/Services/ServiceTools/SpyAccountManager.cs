@@ -12,10 +12,17 @@ namespace Services.ServiceTools
     {
         public SpyAccountModel GetSpyAccountById(long? spyAccountId)
         {
-            return new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
+            var spyAccount =  new GetSpyAccountByIdQueryHandler(new DataBaseContext()).Handle(new GetSpyAccountByIdQuery
             {
                 UserId = spyAccountId
             });
+
+            if (spyAccount == null)
+            {
+                return null;
+            }
+
+            return spyAccount;
         }
 
         public WebProxy GetSpyAccountProxy(SpyAccountModel spyAccount)

@@ -1,20 +1,19 @@
 ﻿using System;
 using Constants.FunctionEnums;
 using Hangfire;
-using Jobs.JobsService;
-using Jobs.Models;
+using Jobs.Interfaces;
+using Jobs.JobsServices.BackgroundJobServices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.JobStateViewModels;
-using Services.ViewModels.JobStatusModels;
 using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.MessageJobs
 {
-    public static class SendMessageToUnreadJob
+    public class SendMessageToUnreadJob : IRunJob
     {
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public static void Run(RunJobModel runModel)
+        public void Run(IRunJobModel runModel)
         {
             var account = runModel.Account;
             var forSpy = runModel.ForSpy;

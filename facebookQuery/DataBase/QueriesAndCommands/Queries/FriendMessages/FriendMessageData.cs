@@ -9,6 +9,8 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
 
         public long FriendId { get; set; }
 
+        public long FriendFacebookId { get; set; }
+
         public string Message { get; set; }
 
         public DateTime MessageDateTime { get; set; }

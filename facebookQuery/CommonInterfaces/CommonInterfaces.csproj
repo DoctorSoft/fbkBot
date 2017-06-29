@@ -45,8 +45,8 @@
     <Compile Include="Interfaces\Models\ICreateBackgroundJobForDeleteFriends.cs" />
     <Compile Include="Interfaces\Models\ICreateBackgroundJob.cs" />
     <Compile Include="Interfaces\Models\IAddOrUpdateAccountJobs.cs" />
-    <Compile Include="Interfaces\Services\IBackgroundJobService.cs" />
-    <Compile Include="Interfaces\Services\IJobService.cs" />
+    <Compile Include="Interfaces\Services\BackgroundJobs\IBackgroundJobService.cs" />
+    <Compile Include="Interfaces\Services\Jobs\IJobService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

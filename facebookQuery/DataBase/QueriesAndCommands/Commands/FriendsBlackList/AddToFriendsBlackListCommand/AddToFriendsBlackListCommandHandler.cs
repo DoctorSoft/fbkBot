@@ -17,7 +17,9 @@ namespace DataBase.QueriesAndCommands.Commands.FriendsBlackList.AddToFriendsBlac
 
         public VoidCommandResponse Handle(AddToFriendsBlackListCommand command)
         {
-            var friendDbModel = _context.FriendsBlackList.FirstOrDefault(model => model.FriendFacebookId == command.FriendFacebookId);
+            var friendDbModel = _context.FriendsBlackList
+                .FirstOrDefault(model => model.FriendFacebookId == command.FriendFacebookId 
+                && model.GroupId == command.GroupSettingsId);
 
             if (friendDbModel!=null)
             {

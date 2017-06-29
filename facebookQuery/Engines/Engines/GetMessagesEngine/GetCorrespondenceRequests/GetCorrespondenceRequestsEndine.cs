@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Constants.FriendTypesEnum;
 using Engines.Engines.Models;
 using OpenQA.Selenium;
@@ -26,9 +27,8 @@ namespace Engines.Engines.GetMessagesEngine.GetCorrespondenceRequests
                 {
                     driver.Manage().Cookies.AddCookie(new Cookie(keyValuePair.Key, keyValuePair.Value, domain, path, null));
                 }
-
-                driver.Navigate()
-                    .GoToUrl(string.Format("https://www.facebook.com/messages/requests/t/{0}", model.AccountFacebookId));
+                
+                driver.Navigate().GoToUrl(string.Format("https://www.facebook.com/messages/requests/t/{0}", model.AccountFacebookId));
 
                 var friends = driver.FindElementsByCssSelector("._5l-3._1ht5").Where(element => element.GetAttribute("id").Contains("row_header_id"));
                 var listId = new List<string>();

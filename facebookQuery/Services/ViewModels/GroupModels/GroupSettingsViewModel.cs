@@ -99,8 +99,10 @@ namespace Services.ViewModels.GroupModels
         public string Countries { get; set; }
 
         public GenderEnum? Gender { get; set; }
-        
+
         // Message options
+
+        public bool GetMessagesFromThoseConnectedToMessenger { get; set; }
 
         public int RetryTimeSendUnreadHour { get; set; }
 

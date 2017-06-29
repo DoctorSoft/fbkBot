@@ -47,6 +47,15 @@ namespace Services.Services
 
             return jobIdList;
         }
+
+        public void DeleteJobStateByJobId(string jobId)
+        {
+            new DeleteJobStateByJobIdCommandHandler().Handle(new DeleteJobStateByJobIdCommand
+            {
+                JobId = jobId
+            });
+        }
+
         public List<string> DeleteJobStateByAccount(long accountId, bool isSpy)
         {
             var jobIdList = new DeleteJobStateByAccounCommandHandler().Handle(new DeleteJobStateByAccounCommand

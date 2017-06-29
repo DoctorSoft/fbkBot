@@ -1,6 +1,9 @@
 ﻿using Constants.FunctionEnums;
 using Hangfire;
+using Jobs.AbstractJobs;
+using Jobs.JobsServices.JobServices;
 using Jobs.Models;
+using Services.Models.Jobs;
 using Services.Services;
 using Services.ServiceTools;
 using Services.ViewModels.QueueViewModels;
@@ -15,16 +18,24 @@ namespace Jobs.Jobs.FriendJobs
             var account = runModel.Account;
             var forSpy = runModel.ForSpy;
 
+
             if (account.GroupSettingsId == null)
             {
                 return;
             }
-
-            if (!new FunctionPermissionManager().HasPermissions(FunctionName.CheckFriendsAtTheEndTimeConditions, (long)account.GroupSettingsId))
+            if (new AccountManager().GetAccountById(account.Id) == null)
             {
+                new JobService().RemoveAccountJobs(new RemoveAccountJobsModel
+                {
+                    AccountId = account.Id,
+                    IsForSpy = forSpy,
+                    Login = account.Login
+                });
+
                 return;
             }
-            if (!new AccountManager().HasAWorkingAccount(account.FacebookId))
+
+            if (!new AccountManager().HasAWorkingAccount(account.Id))
             {
                 return;
             }

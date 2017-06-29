@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Web.Mvc;
-using Jobs.JobsService;
+using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
+using Jobs.JobsServices.JobServices;
 using Newtonsoft.Json;
 using Services.Services;
 using Services.ViewModels.HomeModels;

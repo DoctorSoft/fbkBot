@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using CommonInterfaces.Interfaces.Services;
+using CommonInterfaces.Interfaces.Services.Jobs;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.SpyOptions;
 using DataBase.QueriesAndCommands.Queries.Functions;

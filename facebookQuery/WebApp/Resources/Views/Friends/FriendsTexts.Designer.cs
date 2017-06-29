@@ -79,6 +79,24 @@ namespace WebApp.Resources.Views.Friends {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All friends.
+        /// </summary>
+        public static string AllFriends {
+            get {
+                return ResourceManager.GetString("AllFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bot write first.
+        /// </summary>
+        public static string BotWriteFirst {
+            get {
+                return ResourceManager.GetString("BotWriteFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string ButtonCancel {
@@ -169,11 +187,38 @@ namespace WebApp.Resources.Views.Friends {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Friend write first.
+        /// </summary>
+        public static string FriendWriteFirst {
+            get {
+                return ResourceManager.GetString("FriendWriteFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No friends found. Enable the function of getting current friends..
         /// </summary>
         public static string NoFriends {
             get {
                 return ResourceManager.GetString("NoFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No messages.
+        /// </summary>
+        public static string NoMessages {
+            get {
+                return ResourceManager.GetString("NoMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show.
+        /// </summary>
+        public static string Show {
+            get {
+                return ResourceManager.GetString("Show", resourceCulture);
             }
         }
         

@@ -27,13 +27,19 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     return unansweredMessages;
                 }
 
-                var friendsMessages = context.FriendMessages.GroupBy(models => models.FriendId).Select(models => models.OrderByDescending(model=>model.MessageDateTime).FirstOrDefault()).ToList(); 
+                var friendsMessages = context.FriendMessages.GroupBy(models => models.FriendId)
+                    .Select(models => models.OrderByDescending(model=>model.MessageDateTime)
+                    .FirstOrDefault())
+                    .ToList(); 
+
                 foreach (var friendMessageDbModel in friendsMessages)
                 {
                     var lastBotMessage = context
                         .FriendMessages.Where(
                             model =>
-                                model.Friend.AccountId == query.AccountId && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.Friend.FacebookId && dbModel.GroupId == query.AccountId) &&
+                                model.Friend.AccountId == query.AccountId 
+                                && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.Friend.FacebookId
+                                && dbModel.GroupId == query.AccountId) &&
                                 model.FriendId == friendMessageDbModel.FriendId)
                         .Where(model => model.MessageDirection == MessageDirection.ToFriend)
                         .OrderByDescending(model => model.MessageDateTime)
@@ -49,8 +55,9 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     var lastFriendMessage = context
                         .FriendMessages.Where(
                             model =>
-                                model.Friend.AccountId == query.AccountId && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.Friend.FacebookId && dbModel.GroupId == query.AccountId) &&
-                                model.FriendId == friendMessageDbModel.FriendId)
+                                model.Friend.AccountId == query.AccountId 
+                                && !context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.Friend.FacebookId && dbModel.GroupId == query.AccountId) 
+                                && model.FriendId == friendMessageDbModel.FriendId)
                         .Where(model => model.MessageDirection == MessageDirection.FromFriend)
                         .OrderByDescending(model => model.MessageDateTime).FirstOrDefault();
 
@@ -59,15 +66,19 @@ namespace DataBase.QueriesAndCommands.Queries.FriendMessages
                     {
                         if (CheckDelay(lastBotMessageDateTime, query.DelayTime))
                         {
-                            unansweredMessages.Add(new FriendMessageData
-                            {
-                                Id = lastBotMessage.Id,
-                                FriendId = lastBotMessage.FriendId,
-                                OrderNumber = lastBotMessage.OrderNumber,
-                                Message = lastBotMessage.Message,
-                                MessageDateTime = lastBotMessage.MessageDateTime,
-                                MessageDirection = lastBotMessage.MessageDirection
-                            });
+                            var friend = context.Friends
+                                .FirstOrDefault(model => model.Id == lastBotMessage.FriendId);
+                            if (friend != null)
+                                unansweredMessages.Add(new FriendMessageData
+                                {
+                                    Id = lastBotMessage.Id,
+                                    FriendId = lastBotMessage.FriendId,
+                                    OrderNumber = lastBotMessage.OrderNumber,
+                                    Message = lastBotMessage.Message,
+                                    MessageDateTime = lastBotMessage.MessageDateTime,
+                                    MessageDirection = lastBotMessage.MessageDirection,
+                                    FriendFacebookId = friend.FacebookId
+                                });
                         }
                         continue;
 

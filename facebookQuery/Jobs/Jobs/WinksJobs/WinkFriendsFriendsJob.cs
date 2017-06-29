@@ -1,7 +1,9 @@
 ﻿using System;
 using Constants.FunctionEnums;
 using Hangfire;
-using Jobs.JobsService;
+using Jobs.Interfaces;
+using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
 using Jobs.Models;
 using Services.Models.BackgroundJobs;
 using Services.Services;
@@ -10,10 +12,10 @@ using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.WinksJobs
 {
-    public static class WinkFriendsFriendsJob
+    public class WinkFriendsFriendsJob : IRunJob
     {
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public static void Run(RunJobModel runModel)
+        public void Run(IRunJobModel runModel)
         {
             var account = runModel.Account;
             var friend = runModel.Friend;

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Jobs.JobsService;
+using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
+using Jobs.JobsServices.JobServices;
 using Services.Services;
 using Services.ViewModels.AccountModels;
 
@@ -29,9 +31,16 @@ namespace WebApp.Controllers
             var textList = new[] {model.Login, model.Name, model.Password};
             if (textList.Any(string.IsNullOrWhiteSpace))
             {
+                ViewBag.Errors = "Заполните обязательные поля.";
                 return View("Index", model);
             }
-            
+
+            if (model.Id == null && _homeService.CheckExistLogin(model.Login))
+            {
+                ViewBag.Errors = "Аккаунт с таким логином уже существует.";
+                return View("Index", model);
+            }
+
             var accountId = _homeService.AddOrUpdateAccount(model, new BackgroundJobService());
 
             return RedirectToAction("Index", "Users");

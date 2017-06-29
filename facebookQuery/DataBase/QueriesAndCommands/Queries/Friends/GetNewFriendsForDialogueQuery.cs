@@ -10,5 +10,7 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
         public int DelayTime { get; set; }
 
         public int CountFriend { get; set; }
+
+        public long GroupSettingsId { get; set; }
     }
 }

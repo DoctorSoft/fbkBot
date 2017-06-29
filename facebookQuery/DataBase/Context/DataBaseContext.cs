@@ -69,7 +69,9 @@ namespace DataBase.Context
         public DbSet<CounterCheckFriendsDbModel> CounterCheckFriends { get; set; }
 
         public DbSet<NoticeDbModel> Notices { get; set; }
-        
+
+        public DbSet<RunnerDbModel> Runners { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration());
@@ -101,6 +103,7 @@ namespace DataBase.Context
             modelBuilder.Configurations.Add(new UserAgentConfiguration());
             modelBuilder.Configurations.Add(new NoticeConfiguration());
             modelBuilder.Configurations.Add(new JobStateConfiguration());
+            modelBuilder.Configurations.Add(new RunnerConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

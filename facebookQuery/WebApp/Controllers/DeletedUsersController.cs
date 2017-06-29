@@ -1,5 +1,7 @@
 ﻿using System.Web.Mvc;
-using Jobs.JobsService;
+using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
+using Jobs.JobsServices.JobServices;
 using Services.Services;
 
 namespace WebApp.Controllers

@@ -11,5 +11,7 @@ namespace DataBase.QueriesAndCommands.Models.JsonModels
         public TimeModel RetryTimeSendNewFriend { get; set; }
 
         public int UnansweredDelay { get; set; }
+
+        public bool GetMessagesFromThoseConnectedToMessenger { get; set; }
     }
 }

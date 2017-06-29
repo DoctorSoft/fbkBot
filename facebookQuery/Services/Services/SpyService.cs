@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CommonInterfaces.Interfaces.Services;
+using CommonInterfaces.Interfaces.Services.BackgroundJobs;
+using CommonInterfaces.Interfaces.Services.Jobs;
 using Constants.GendersUnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Cookies;

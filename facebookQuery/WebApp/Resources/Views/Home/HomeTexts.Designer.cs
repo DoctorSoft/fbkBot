@@ -79,6 +79,15 @@ namespace WebApp.Resources.Views.Home {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client apps.
+        /// </summary>
+        public static string MenuClientApps {
+            get {
+                return ResourceManager.GetString("MenuClientApps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jobs control panel.
         /// </summary>
         public static string MenuDashboard {
@@ -129,15 +138,6 @@ namespace WebApp.Resources.Views.Home {
         public static string MenuLinks {
             get {
                 return ResourceManager.GetString("MenuLinks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Message redactor.
-        /// </summary>
-        public static string MenuMessageOptions {
-            get {
-                return ResourceManager.GetString("MenuMessageOptions", resourceCulture);
             }
         }
         

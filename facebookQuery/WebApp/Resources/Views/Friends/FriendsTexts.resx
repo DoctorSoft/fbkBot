@@ -123,6 +123,12 @@
   <data name="AddToPage" xml:space="preserve">
     <value>Add to page</value>
   </data>
+  <data name="AllFriends" xml:space="preserve">
+    <value>All friends</value>
+  </data>
+  <data name="BotWriteFirst" xml:space="preserve">
+    <value>Bot write first</value>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -153,13 +159,22 @@
   <data name="FriendsTitle" xml:space="preserve">
     <value>Friends</value>
   </data>
+  <data name="FriendWriteFirst" xml:space="preserve">
+    <value>Friend write first</value>
+  </data>
   <data name="NoFriends" xml:space="preserve">
     <value>No friends found. Enable the function of getting current friends.</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
   </data>
   <data name="Wink" xml:space="preserve">
     <value>Wink</value>
   </data>
   <data name="WinkFriends" xml:space="preserve">
     <value>WinkFriends</value>
+  </data>
+  <data name="NoMessages" xml:space="preserve">
+    <value>No messages</value>
   </data>
 </root>

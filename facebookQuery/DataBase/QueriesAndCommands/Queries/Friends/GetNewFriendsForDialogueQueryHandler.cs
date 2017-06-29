@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Models;
@@ -18,13 +19,12 @@ namespace DataBase.QueriesAndCommands.Queries.Friends
         public List<FriendData> Handle(GetNewFriendsForDialogueQuery query)
         {
             var newFriends = new List<FriendData>();
-            try
-            {
+            try { 
                 var friends =
-                    _context.Friends.Where(model => model.AccountId == query.AccountId
-                        && !_context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.AccountId) 
+                    _context.Friends.Include(friend => friend.FriendMessages).Where(model => model.AccountId == query.AccountId
+                        && !_context.FriendsBlackList.Any(dbModel => dbModel.FriendFacebookId == model.FacebookId && dbModel.GroupId == query.GroupSettingsId) 
                         && !model.DeleteFromFriends 
-                        && !model.FriendMessages.Any())
+                        && model.FriendMessages.All(message => message.FriendId != model.Id))
                         .Take(query.CountFriend).ToList();
 
                 var allMessages = _context.FriendMessages.Select(model => model);

@@ -5,3 +5,10 @@ D:\Project\fbkBot\facebookQuery\CommonInterfaces\bin\Release\Constants.pdb
 D:\Project\fbkBot\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.csprojResolveAssemblyReference.cache
 D:\Project\fbkBot\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.dll
 D:\Project\fbkBot\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.pdb
+C:\Projects\Facebook\facebookQuery\CommonInterfaces\bin\Release\CommonInterfaces.dll
+C:\Projects\Facebook\facebookQuery\CommonInterfaces\bin\Release\CommonInterfaces.pdb
+C:\Projects\Facebook\facebookQuery\CommonInterfaces\bin\Release\Constants.dll
+C:\Projects\Facebook\facebookQuery\CommonInterfaces\bin\Release\Constants.pdb
+C:\Projects\Facebook\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.csprojResolveAssemblyReference.cache
+C:\Projects\Facebook\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.dll
+C:\Projects\Facebook\facebookQuery\CommonInterfaces\obj\Release\CommonInterfaces.pdb

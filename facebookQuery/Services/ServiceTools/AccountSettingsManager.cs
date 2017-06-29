@@ -67,6 +67,7 @@ namespace Services.ServiceTools
                 AllowedRemovalPercentage = settings.FriendsOptions.AllowedRemovalPercentage,
 
                 //messages options
+                GetMessagesFromThoseConnectedToMessenger = settings.MessageOptions.GetMessagesFromThoseConnectedToMessenger,
                 RetryTimeSendNewFriendHour = settings.MessageOptions.RetryTimeSendNewFriend.Hours,
                 RetryTimeSendNewFriendMin = settings.MessageOptions.RetryTimeSendNewFriend.Minutes,
                 RetryTimeSendNewFriendSec = settings.MessageOptions.RetryTimeSendNewFriend.Seconds,
@@ -186,6 +187,7 @@ namespace Services.ServiceTools
                 },
                 MessageOptions = new MessageOptionsDbModel
                 {
+                    GetMessagesFromThoseConnectedToMessenger = newSettings.GetMessagesFromThoseConnectedToMessenger,
                     RetryTimeSendNewFriend =
                     {
                         Hours = newSettings.RetryTimeSendUnreadHour,

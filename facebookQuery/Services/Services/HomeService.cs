@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommonInterfaces.Interfaces.Services;
+using CommonInterfaces.Interfaces.Services.BackgroundJobs;
+using CommonInterfaces.Interfaces.Services.Jobs;
 using Constants.FunctionEnums;
 using DataBase.Context;
 using DataBase.QueriesAndCommands.Commands.Accounts;
 using DataBase.QueriesAndCommands.Commands.Cookies;
 using DataBase.QueriesAndCommands.Queries.Account;
+using DataBase.QueriesAndCommands.Queries.Account.CheckExistLogin;
 using DataBase.QueriesAndCommands.Queries.Account.GetWorkAccounts;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.Functions.GetFunctionName;
@@ -259,7 +262,15 @@ namespace Services.Services
                 IsDeleted = model.IsDeleted,
                 UserAgentId = model.UserAgentId
             }).ToList();
-        } 
+        }
+
+        public bool CheckExistLogin(string login)
+        {
+            return new CheckExistLoginQueryHandler(new DataBaseContext()).Handle(new CheckExistLoginQuery
+            {
+                Login = login
+            });
+        }
 
         public void RemoveAccount(long accountId)
         {
@@ -282,7 +293,7 @@ namespace Services.Services
             };
 
             _jobService.RemoveAccountJobs(jobModel);
-            _backgroundJobService.RemoveAccountBackgroundJobs(jobModel);
+            _backgroundJobService.RemoveAllBackgroundJobs(jobModel);
         }
 
         public void RecoverAccount(long accountId, IBackgroundJobService backgroundJobService)
@@ -466,8 +477,14 @@ namespace Services.Services
 
             if (model.Id == null || model.PageUrl == null || model.FacebookId == 0)
             {
-                var accountFacebookId = _proxyManager.GetAccountFacebookId(account.Cookie.CookieString);
-                var homePageUrl = _accountManager.CreateHomePageUrl(accountFacebookId);
+                long accountFacebookId = 0;
+                string homePageUrl = null;
+
+                if (account.Cookie != null)
+                {
+                    accountFacebookId = _proxyManager.GetAccountFacebookId(account.Cookie.CookieString);
+                    homePageUrl = _accountManager.CreateHomePageUrl(accountFacebookId);
+                }
 
                 new AddOrUpdateAccountCommandHandler(new DataBaseContext()).Handle(new AddOrUpdateAccountCommand
                 {

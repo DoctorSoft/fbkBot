@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommonInterfaces.Interfaces.Services;
+using CommonInterfaces.Interfaces.Services.BackgroundJobs;
 using CommonModels;
 using DataBase.Constants;
 using DataBase.Context;
@@ -461,8 +462,9 @@ namespace Services.Services
                 RetryTimeRefreshFriendsMin = settings.FriendsOptions.RetryTimeRefreshFriends.Minutes,
                 RetryTimeRefreshFriendsSec = settings.FriendsOptions.RetryTimeRefreshFriends.Seconds,
                 AllowedRemovalPercentage = settings.FriendsOptions.AllowedRemovalPercentage,
-                
+
                 //messages options
+                GetMessagesFromThoseConnectedToMessenger = settings.MessageOptions.GetMessagesFromThoseConnectedToMessenger,
                 RetryTimeSendNewFriendHour = settings.MessageOptions.RetryTimeSendNewFriend.Hours,
                 RetryTimeSendNewFriendMin = settings.MessageOptions.RetryTimeSendNewFriend.Minutes,
                 RetryTimeSendNewFriendSec = settings.MessageOptions.RetryTimeSendNewFriend.Seconds,
@@ -597,6 +599,7 @@ namespace Services.Services
 
             var messageOptions = new MessageOptionsDbModel
             {
+                GetMessagesFromThoseConnectedToMessenger = newSettings.GetMessagesFromThoseConnectedToMessenger,
                 RetryTimeSendNewFriend = new TimeModel
                 {
                     Hours = newSettings.RetryTimeSendNewFriendHour,

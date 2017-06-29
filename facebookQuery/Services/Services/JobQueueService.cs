@@ -9,7 +9,7 @@ using DataBase.QueriesAndCommands.Commands.JobQueue.MarkProcessedStatus;
 using DataBase.QueriesAndCommands.Queries.Functions.GetFunctionName;
 using DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetAllQueues;
 using DataBase.QueriesAndCommands.Queries.JobQueue.GetQueue.GetQueuesByAccountId;
-using DataBase.QueriesAndCommands.Queries.JobQueue.JobQueuIsExist;
+using DataBase.QueriesAndCommands.Queries.JobQueue.JobQueueIsExist;
 using Services.ViewModels.QueueViewModels;
 
 namespace Services.Services
@@ -145,7 +145,7 @@ namespace Services.Services
 
         public bool JobIsRun(JobQueueViewModel model)
         {
-            var jobIsExist = new JobQueuIsExistQueryHandler(new DataBaseContext()).Handle(new JobQueuIsExistQuery
+            var jobIsExist = new JobQueueIsExistQueryHandler(new DataBaseContext()).Handle(new JobQueueIsExistQuery
             {
                 AccountId = model.AccountId,
                 FunctionName = model.FunctionName,

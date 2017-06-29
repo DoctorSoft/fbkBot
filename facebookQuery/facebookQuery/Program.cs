@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -18,6 +17,7 @@ using DataBase.QueriesAndCommands.Queries.Account;
 using DataBase.QueriesAndCommands.Queries.Account.Models;
 using DataBase.QueriesAndCommands.Queries.Friends.GetFriendsToWinkFriendsFriends;
 using DataBase.QueriesAndCommands.Queries.UrlParameters;
+using DataBase.QueriesAndCommands.Queries.UserAgent.GetUserAgentById;
 using Engines.Engines.AddToGroupEngine;
 using Engines.Engines.AddToPageEngine;
 using Engines.Engines.ConfirmFriendshipEngine;
@@ -26,14 +26,16 @@ using Engines.Engines.GetFriendsByCriteriesEngine;
 using Engines.Engines.GetFriendsEngine.CheckFriendInfoBySeleniumEngine;
 using Engines.Engines.GetFriendsEngine.GetRandomFriendFriends;
 using Engines.Engines.GetFriendsEngine.GetRecommendedFriendsEngine;
+using Engines.Engines.GetMessagesEngine.GetMessangerMessages;
 using Engines.Engines.GetMessagesEngine.GetUnreadMessages;
 using Engines.Engines.GetNewCookiesEngine;
 using Engines.Engines.GetNewWinks;
 using Engines.Engines.JoinTheGroupsAndPagesEngine.JoinThePagesBySeleniumEngine;
 using Engines.Engines.WinkEngine;
 using Jobs.Jobs.FriendJobs;
-using Jobs.JobsService;
-
+using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
+using Jobs.JobsServices.JobServices;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -42,6 +44,7 @@ using OpenQA.Selenium.Remote;
 using RequestsHelpers;
 using Services.Interfaces.ServiceTools;
 using Services.Services;
+using Services.Services.FacebookMessagesService;
 using Services.ServiceTools;
 using Services.ViewModels.AccountModels;
 using Services.ViewModels.HomeModels;
@@ -58,7 +61,6 @@ namespace FacebookApp
  
         private static void Main(string[] args)
         {
-
             var homeService = new HomeService(new JobService(), new BackgroundJobService());
 
             var accounts = homeService.GetAccounts();
@@ -79,9 +81,22 @@ namespace FacebookApp
             {
                 if (!accountViewModel.IsDeleted)
                 {
-                    if (accountViewModel.Id == 24)
+                    if (accountViewModel.Id == 24)//31
                     {
-                        new FriendsService(new NoticeService()).CheckFriendsAtTheEndTimeConditions(accountViewModel);
+                        var userAgent = new GetUserAgentQueryHandler(new DataBaseContext()).Handle(new GetUserAgentQuery
+                        {
+                            UserAgentId = accountViewModel.UserAgentId
+                        });
+
+                        new BotPageIsWorkEngine().Execute(new BotPageIsWorkModel
+                        {
+                            Cookie = accountViewModel.Cookie,
+                            FriendFacebookId = 100014710451371,
+                            Proxy = _accountManager.GetAccountProxy(accountViewModel),
+                            UserAgent = userAgent.UserAgentString
+                        });
+
+                        //new FacebookMessagesService(new NoticeService()).SendMessageToUnread(accountViewModel);
                         //new FriendsService(new NoticeService()).GetCurrentFriends(accountViewModel);
 
 

@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
-using Jobs.JobsService;
+using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
 using Services.Services;
 using Services.ViewModels.GroupModels;
 

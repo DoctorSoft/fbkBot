@@ -311,11 +311,14 @@ namespace Services.Core
             _notice.AddNotice(functionName, account.Id, string.Format("Отправляем сообщения новым друзьям"));
 
             var messageModel = _messageManager.GetRandomMessage(account.Id, 1, false, MessageRegime.BotFirstMessage);
-            if (messageModel != null)
+            if (messageModel == null)
             {
                 _notice.AddNotice(functionName, account.Id, string.Format("Ошибка. Нет сообщений для отправки."));
-                message = messageModel.Message;
+
+                return;
             }
+
+            message = messageModel.Message;
 
             if (!message.Equals(String.Empty))
             {

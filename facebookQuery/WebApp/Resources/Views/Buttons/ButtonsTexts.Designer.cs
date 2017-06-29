@@ -70,6 +70,15 @@ namespace WebApp.Resources.Views.Buttons {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow.
+        /// </summary>
+        public static string ButtonAllow {
+            get {
+                return ResourceManager.GetString("ButtonAllow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string ButtonBack {
@@ -102,6 +111,15 @@ namespace WebApp.Resources.Views.Buttons {
         public static string ButtonDelete {
             get {
                 return ResourceManager.GetString("ButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Denied.
+        /// </summary>
+        public static string ButtonDenied {
+            get {
+                return ResourceManager.GetString("ButtonDenied", resourceCulture);
             }
         }
         

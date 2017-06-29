@@ -1,8 +1,8 @@
 ﻿using System;
 using Constants.FunctionEnums;
 using Hangfire;
-using Jobs.JobsService;
-using Jobs.Models;
+using Jobs.Interfaces;
+using Jobs.JobsServices.BackgroundJobServices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ServiceTools;
@@ -11,10 +11,10 @@ using Services.ViewModels.QueueViewModels;
 
 namespace Jobs.Jobs.CommunityJobs
 {
-    public static class InviteTheNewGroupJob
+    public class InviteTheNewGroupJob : IRunJob
     {
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public static void Run(RunJobModel runModel)
+        public void Run(IRunJobModel runModel)
         {
             var account = runModel.Account;
             var forSpy = runModel.ForSpy;

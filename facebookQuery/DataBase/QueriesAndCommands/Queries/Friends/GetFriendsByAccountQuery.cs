@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using CommonModels;
 using DataBase.QueriesAndCommands.Models;
 
 namespace DataBase.QueriesAndCommands.Queries.Friends
 {
-    public class GetFriendsByAccountQuery : IQuery<List<FriendData>>
+    public class GetFriendsByAccountQuery : IQuery<FriendListForPaging>
     {
         public long AccountId { get; set; }
+
+        public PageModel Page { get; set; }
     }
 }

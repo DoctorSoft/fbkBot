@@ -228,4 +228,7 @@
   <data name="FriendOptions" xml:space="preserve">
     <value>Настройки друзей</value>
   </data>
+  <data name="GetMessagesFromThoseConnectedToMessenger" xml:space="preserve">
+    <value>Получать сообщения, недавно присоеденившихся к мессенджеру</value>
+  </data>
 </root>

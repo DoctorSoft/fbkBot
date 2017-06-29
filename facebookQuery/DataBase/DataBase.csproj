@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
@@ -48,7 +48,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Web.PageInspector.Loader, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -91,6 +91,7 @@
     <Compile Include="Configurations\NoticeConfiguration.cs" />
     <Compile Include="Configurations\AccountInformationConfiguration.cs" />
     <Compile Include="Configurations\CommunityStatisticsConfiguration.cs" />
+    <Compile Include="Configurations\RunnerConfiguration.cs" />
     <Compile Include="Configurations\UserAgentConfiguration.cs" />
     <Compile Include="Configurations\CounterCheckFriendsConfiguration.cs" />
     <Compile Include="Configurations\FriendsBlackListConfiguration.cs" />
@@ -354,11 +355,16 @@
     <Compile Include="Migrations\201706081716160_AddJobIdFiels.Designer.cs">
       <DependentUpon>201706081716160_AddJobIdFiels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706112046095_AddRunnersTable.cs" />
+    <Compile Include="Migrations\201706112046095_AddRunnersTable.Designer.cs">
+      <DependentUpon>201706112046095_AddRunnersTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConfiguration.cs" />
     <Compile Include="Models\JobStateDbModel.cs" />
     <Compile Include="Models\NoticeDbModel.cs" />
     <Compile Include="Models\AccountInformationDbModel.cs" />
     <Compile Include="Models\CommunityStatisticsDbModel.cs" />
+    <Compile Include="Models\RunnerDbModel.cs" />
     <Compile Include="Models\UserAgentDbModel.cs" />
     <Compile Include="Models\CounterCheckFriendsDbModel.cs" />
     <Compile Include="Models\FriendsBlackListDbModel.cs" />
@@ -422,8 +428,10 @@
     <Compile Include="QueriesAndCommands\Commands\JobState\AddState\AddJobStateCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobState\AddState\AddJobStateCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateByAccounCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateByJobIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateByAccounCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateByJobIdCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobState\DeleteState\DeleteJobStateCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueueByAccountId\DeleteQueueByAccountIdCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\JobQueue\DeleteQueueByAccountId\DeleteQueueByAccountIdCommandHandler.cs" />
@@ -445,6 +453,14 @@
     <Compile Include="QueriesAndCommands\Commands\Notices\RemoveNotice\RemoveOldNoticesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\Notices\AddNotice\AddNoticeCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\Notices\AddNotice\AddNoticeCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\DeleteRunners\DeleteRunnersCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\DeleteRunners\DeleteRunnersCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\UpdateRunnerCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\UpdateRunnerActivityDateCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\AddRunnerCommand.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\UpdateRunnerCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\UpdateRunnerActivityDateCommandHandler.cs" />
+    <Compile Include="QueriesAndCommands\Commands\Runners\AddRunnerCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyAccounts\UpdateFailSpyAccountInformationCommand.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyAccounts\UpdateFailSpyAccountInformationCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Commands\SpyStatistics\AddOrUpdateSpyStatisticsCommand.cs" />
@@ -531,6 +547,7 @@
     <Compile Include="QueriesAndCommands\Models\ConditionModels\IsWinkModel.cs" />
     <Compile Include="QueriesAndCommands\Models\ConditionModels\IsAddedToGroupsAndPagesModel.cs" />
     <Compile Include="QueriesAndCommands\Models\ConditionModels\DialogIsOverModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\FriendListForPaging.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\AccountInformationModels\AccountInformationDataDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\CommunityOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\DeleteFriendsOptionsDbModel.cs" />
@@ -540,10 +557,13 @@
     <Compile Include="QueriesAndCommands\Models\JsonModels\GeoOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\WinkFriendsOptionsDbModel.cs" />
     <Compile Include="QueriesAndCommands\Models\JsonModels\MessageOptionsDbModel.cs" />
+    <Compile Include="QueriesAndCommands\Models\PageModel.cs" />
     <Compile Include="QueriesAndCommands\Models\ScheduleRemovalOfFriendsModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountInformation\AccountInformation.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountInformation\GetAccountInformationQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\AccountInformation\GetAccountInformationQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\CheckExistLogin\CheckExistLoginQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Account\CheckExistLogin\CheckExistLoginQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Account\GetWorkAccounts\GetWorkAccountsQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\CounterCheckFriends\GetCounterCheckFriendsByAccountId\GetCounterCheckFriendsByAccountIdCommand.cs" />
@@ -552,6 +572,8 @@
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsResponseModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsToWinkFriendsFriends\GetFriendsToWinkFriendsFriendsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByMessageRegime\GetFriendsByMessageRegimeQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Friends\GetFriendsByMessageRegime\GetFriendsByMessageRegimeQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\GroupFunctions\GetGroupFunctionsByGroupIdQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\GroupFunctions\GetGroupFunctionsByGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Functions\GetFunctionName\GetFunctionNameByNameQuery.cs" />
@@ -592,8 +614,8 @@
     <Compile Include="QueriesAndCommands\Queries\Groups\GetGroupFunctionsByGroupIdQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobQueue\CheckJobQueueByAccountIdAndFunctionNameQueryHandler.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobQueue\JobQueuIsExist\JobQueuIsExistQuery.cs" />
-    <Compile Include="QueriesAndCommands\Queries\JobQueue\JobQueuIsExist\JobQueuIsExistQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\JobQueueIsExist\JobQueueIsExistQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\JobQueue\JobQueueIsExist\JobQueueIsExistQueryHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobState\GetState\GetStatesByModel\GetStatesByModelCommand.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobState\GetState\GetStatesByModel\GetStatesByModelCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\JobState\GetState\JobStateModel.cs" />
@@ -605,6 +627,11 @@
     <Compile Include="QueriesAndCommands\Queries\Notices\GetNotices\GetTopNoticesCommand.cs" />
     <Compile Include="QueriesAndCommands\Queries\Notices\GetNotices\GetTopNoticesCommandHandler.cs" />
     <Compile Include="QueriesAndCommands\Queries\Notices\GetNotices\NoticeResponseModel.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Runners\GetRunners\GetRunnersQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Runners\GetRunners\GetRunnersQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Runners\CheckPermissions\CheckRunnerPermissionsQuery.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Runners\CheckPermissions\CheckRunnerPermissionsQueryHandler.cs" />
+    <Compile Include="QueriesAndCommands\Queries\Runners\RunnerModel.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\SpyStatisticsData.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQuery.cs" />
     <Compile Include="QueriesAndCommands\Queries\SpyStatistics\GetSpyStatisticsQueryHandler.cs" />
@@ -893,6 +920,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706081716160_AddJobIdFiels.resx">
       <DependentUpon>201706081716160_AddJobIdFiels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706112046095_AddRunnersTable.resx">
+      <DependentUpon>201706112046095_AddRunnersTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

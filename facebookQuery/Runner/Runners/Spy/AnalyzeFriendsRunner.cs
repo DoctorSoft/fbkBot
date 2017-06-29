@@ -1,4 +1,5 @@
-﻿using Jobs.JobsService;
+﻿using Jobs.JobsServices;
+using Jobs.JobsServices.JobServices;
 using Runner.Interfaces;
 using Services.Services;
 

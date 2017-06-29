@@ -1,4 +1,6 @@
-﻿using Jobs.JobsService;
+﻿using Jobs.JobsServices;
+using Jobs.JobsServices.BackgroundJobServices;
+using Jobs.JobsServices.JobServices;
 using Services.Models.BackgroundJobs;
 using Services.Services;
 using Services.ViewModels.HomeModels;
@@ -10,7 +12,9 @@ namespace Jobs
         public static void SetUpJobs()
         {
             //todo: uncomment it back
-            var accountModels = new HomeService(new JobService(), new BackgroundJobService()).GetAccounts();
+            var homeService = new HomeService(new JobService(), new BackgroundJobService());
+            var accountModels = homeService.GetAccounts();
+
             var groupService = new GroupService(new NoticeService());
 
             new JobService().AddOrUpdateGeneralJobs();
@@ -56,7 +60,7 @@ namespace Jobs
                     IsForSpy = true
                 };
 
-                new BackgroundJobService().AddOrUpdateAccountJobs(model);
+                //new BackgroundJobService().AddOrUpdateAccountJobs(model);
 
                 new JobService().AddOrUpdateSpyAccountJobs(model);
             }

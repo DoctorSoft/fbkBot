@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@using WebApp.Resources.Views.Buttons
+@using WebApp.Resources.Views.Runner
+@model List<Services.ViewModels.RunnerModels.RunnerViewModel>
+
+<div class="panel panel-default">
+    <div class="page-header">
+        <h3>
+            <span class="alert-info alert">
+                <span class="inline-half-text-left">
+                    @RunnerTexts.RunnersListTitle
+                </span>
+                <span class="inline-half-text-right">
+                    <a class="btn btn-success" href="@Url.Action("Index", "Home")"><i class="fa fa-arrow-left"></i>@ButtonsTexts.ButtonBack</a>
+                </span>
+            </span>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="page-header">
+            <h1>@RunnerTexts.RunnersListTitle</h1>
+        </div>
+        <table class="table">
+            <thead>
+            <tr class="active"> 
+                <th>@RunnerTexts.PcName</th>
+                <th>@RunnerTexts.RunDate</th>
+                <th>@RunnerTexts.LastRunDate</th>
+                <th>@RunnerTexts.IsAllowed</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var runner in Model)
+            {
+                var buttonClass = runner.IsAllowed ? "btn btn-danger" : "btn btn-success";
+                var trClass = runner.IsAllowed ? "" : "alert-danger";
+                var buttonName = runner.IsAllowed ? @ButtonsTexts.ButtonDenied: @ButtonsTexts.ButtonAllow;
+
+                <tr class="@trClass">
+                    <td>@Html.LabelForModel(runner.DeviceName)</td>
+                    <td>@runner.CreateDate</td>
+                    <td>@runner.LastAction</td>
+                    <td><a class="@buttonClass" href="@Url.Action("ChangeRunnerStatus", "Runners", new {runnerId = runner.Id, isAllowed = !runner.IsAllowed})">@buttonName</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+</div>
+    <div class="panel-footer">
+    </div>
+</div>
+
+

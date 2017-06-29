@@ -38,8 +38,14 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
             var threads = data["payload"]["threads"];
             var threads2 = data["payload"]["participants"];
 
+            int count = 0;
             foreach (var thread in threads)
             {
+                if (count >= model.NumbersOfDialogues)
+                {
+                    break;
+                }
+
                 var facebookId = thread["thread_fbid"].Value<long>();
                 JObject friendThread2 = null;
 
@@ -65,6 +71,8 @@ namespace Engines.Engines.GetMessagesEngine.GetUnreadMessages
                         GetDateTime(Convert.ToInt64(thread["last_message_timestamp"].Value<string>())),
                     UnreadMessage = thread["unread_count"].Value<int>() != 0
                 });
+
+                count++;
             }
 
             return messagesList;

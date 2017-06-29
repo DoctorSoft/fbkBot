@@ -187,6 +187,15 @@ namespace WebApp.Resources.Views.GroupSettings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Receive messages from those connected to the messenger.
+        /// </summary>
+        public static string GetMessagesFromThoseConnectedToMessenger {
+            get {
+                return ResourceManager.GetString("GetMessagesFromThoseConnectedToMessenger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Groups.
         /// </summary>
         public static string Groups {

@@ -18,5 +18,6 @@
         AddFriendsToGroup = 14,
         AddFriendsToPage = 15,
         GetCorrespondenceRequests = 16,
+        GetMessangerMessages = 17
     }
 }

@@ -123,6 +123,9 @@
   <data name="HomeWelcomeTitle" xml:space="preserve">
     <value>Welcome to control panel</value>
   </data>
+  <data name="MenuClientApps" xml:space="preserve">
+    <value>Client apps</value>
+  </data>
   <data name="MenuDashboard" xml:space="preserve">
     <value>Jobs control panel</value>
   </data>
@@ -140,9 +143,6 @@
   </data>
   <data name="MenuLinks" xml:space="preserve">
     <value>Links</value>
-  </data>
-  <data name="MenuMessageOptions" xml:space="preserve">
-    <value>Message redactor</value>
   </data>
   <data name="MenuSpies" xml:space="preserve">
     <value>Spies</value>

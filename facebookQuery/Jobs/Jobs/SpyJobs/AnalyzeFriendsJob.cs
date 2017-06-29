@@ -10,6 +10,7 @@ namespace Jobs.Jobs.SpyJobs
     public static class AnalyzeFriendsJob
     {
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
+
         public static void Run(AccountViewModel account)
         {
             if (!new FunctionPermissionManager().HasPermissionsForSpy(FunctionName.AnalyzeFriends, account.FacebookId))
@@ -17,14 +18,14 @@ namespace Jobs.Jobs.SpyJobs
                 return;
             }
 
-            var model = new JobQueueViewModel
+            var jobQueue = new JobQueueViewModel
             {
                 AccountId = account.Id,
                 FunctionName = FunctionName.AnalyzeFriends,
                 IsForSpy = true
             };
 
-            new JobQueueService().AddToQueue(model);
+            new JobQueueService().AddToQueue(jobQueue);
         }
     }
 }

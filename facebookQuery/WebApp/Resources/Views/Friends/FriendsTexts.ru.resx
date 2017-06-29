@@ -123,6 +123,12 @@
   <data name="AddToPage" xml:space="preserve">
     <value>Пригласили на страницу</value>
   </data>
+  <data name="AllFriends" xml:space="preserve">
+    <value>Показать всех друзей</value>
+  </data>
+  <data name="BotWriteFirst" xml:space="preserve">
+    <value>Кому бот написал первым</value>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Отменить</value>
   </data>
@@ -153,13 +159,22 @@
   <data name="FriendsTitle" xml:space="preserve">
     <value>Друзья</value>
   </data>
+  <data name="FriendWriteFirst" xml:space="preserve">
+    <value>Кто написал первым</value>
+  </data>
   <data name="NoFriends" xml:space="preserve">
     <value>Друзья не найдены. Включите функцию получения текущих друзей или дождитесь её выполнения.</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Показано</value>
   </data>
   <data name="Wink" xml:space="preserve">
     <value>Подмигнули</value>
   </data>
   <data name="WinkFriends" xml:space="preserve">
     <value>Подмигнули друзьям</value>
+  </data>
+  <data name="NoMessages" xml:space="preserve">
+    <value>Переписка отсутствует</value>
   </data>
 </root>

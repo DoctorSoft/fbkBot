@@ -18,11 +18,13 @@ namespace DataBase.QueriesAndCommands.Queries.GroupFunctions
         {
             var functionsIdList = _context
             .GroupFunctions
-            .Where(model => model.GroupId == query.GroupId).Select(model => model.FunctionId).ToList();
+            .Where(model => model.GroupId == query.GroupId)
+            .Select(model => model.FunctionId).ToList();
+
             var result = functionsIdList.Select(functionId =>
             {
                 var functionDbModel = _context.Functions.FirstOrDefault(model => model.Id == functionId);
-                return functionDbModel != null ? functionDbModel.FunctionName : (FunctionName) 0;
+                return functionDbModel != null ? functionDbModel.FunctionName : 0;
             }).ToList();
             
             return result;

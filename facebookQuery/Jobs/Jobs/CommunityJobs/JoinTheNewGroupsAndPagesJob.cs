@@ -1,16 +1,12 @@
-﻿using Constants.FunctionEnums;
-using Hangfire;
-using Jobs.Models;
-using Services.Services;
-using Services.ViewModels.JobStatusModels;
-using Services.ViewModels.QueueViewModels;
+﻿using Hangfire;
+using Jobs.Interfaces;
 
 namespace Jobs.Jobs.CommunityJobs
 {
-    public static class JoinTheNewGroupsAndPagesJob
+    public class JoinTheNewGroupsAndPagesJob : IRunJob
     {
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
-        public static void Run(RunJobModel runModel)
+        public void Run(IRunJobModel runModel)
         {
             var account = runModel.Account;
             var forSpy = runModel.ForSpy;

@@ -1,9 +1,10 @@
-﻿using Services.ViewModels.FriendsModels;
+﻿using Jobs.Interfaces;
+using Services.ViewModels.FriendsModels;
 using Services.ViewModels.HomeModels;
 
 namespace Jobs.Models
 {
-    public class RunJobModel
+    public class RunJobModel : IRunJobModel
     {
         public AccountViewModel Account { get; set; }
 

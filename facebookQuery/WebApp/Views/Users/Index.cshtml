@@ -108,7 +108,7 @@
                         <a href="@Url.Action("Index", "Account", new {AccountId = account.Id})"><i class="fa fa-cogs"></i></a>
                     </div>
                     <div class="inline-actions">
-                        <a href="@Url.Action("Index", "Friends", new {AccountId = account.Id})"><i class="fa fa-users"></i></a>
+                        <a href="@Url.Action("Index", "Friends", new {AccountId = account.Id, all = 1, pageNumber = 1})"><i class="fa fa-users"></i></a>
                     </div>
                     <div class="inline-actions">
                         <a href="@Url.Action("Index", "Options", new {AccountId = account.Id})"><i class="fa fa-book"></i></a>

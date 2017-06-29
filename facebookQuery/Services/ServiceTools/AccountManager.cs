@@ -21,6 +21,11 @@ namespace Services.ServiceTools
                 UserId = accountId
             });
 
+            if (accountModel == null)
+            {
+                return null;
+            }
+
             var accountViewModel = new AccountViewModel
             {
                 Id = accountModel.Id,
@@ -33,11 +38,11 @@ namespace Services.ServiceTools
                 ConformationDataIsFailed = accountModel.ConformationIsFailed,
                 AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
                 ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
-                Cookie = accountModel.Cookie.CookieString,
+                Cookie = accountModel.Cookie != null ? accountModel.Cookie.CookieString : "",
                 PageUrl = accountModel.PageUrl,
                 Password = accountModel.Password,
                 UserAgentId = accountModel.UserAgentId,
-                GroupSettingsId = accountModel.UserAgentId,
+                GroupSettingsId = accountModel.GroupSettingsId,
                 IsDeleted = accountModel.IsDeleted
             };
 
@@ -92,11 +97,11 @@ namespace Services.ServiceTools
                 ConformationDataIsFailed = accountModel.ConformationIsFailed,
                 AuthorizationDataIsFailed = accountModel.AuthorizationDataIsFailed,
                 ProxyDataIsFailed = accountModel.ProxyDataIsFailed,
-                Cookie = accountModel.Cookie.CookieString,
+                Cookie = accountModel.Cookie != null ? accountModel.Cookie.CookieString : "",
                 PageUrl = accountModel.PageUrl,
                 Password = accountModel.Password,
                 UserAgentId = accountModel.UserAgentId,
-                GroupSettingsId = accountModel.UserAgentId,
+                GroupSettingsId = accountModel.GroupSettingsId,
                 IsDeleted = accountModel.IsDeleted
             };
 

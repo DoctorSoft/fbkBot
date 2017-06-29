@@ -11,7 +11,7 @@
     <div class="page-header">
         <h3 class="alert-info alert">@OutgoingFriendsTexts.OutgoingTitle</h3>
         <div class="inline-actions">
-            <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId})" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
+            <a href="@Url.Action("Index", "Friends", new { accountId = Model.AccountId, all = 1, pageNumber = 1 })" class="btn btn-primary">@ButtonsTexts.ButtonBack</a>
         </div>
     </div>
     <div class="panel-footer">
